@@ -4,5 +4,18 @@
   "createdAt": "2026-11-04T02:56:12.437Z",
   "filename": "67e53128-f182-46b1-9ab2-fd1fa54132c4.json",
   "geminiStarted": false,
-  "messages": []
+  "messages": [
+    {
+      "id": "f32358ac-5f0e-40f2-8da6-358fb7765f4a",
+      "role": "user",
+      "content": "Build a landing page for my business",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-04T02:57:11.835Z",
+      "sender": "ios",
+      "is_cancelled": false
+    }
+  ]
 }
