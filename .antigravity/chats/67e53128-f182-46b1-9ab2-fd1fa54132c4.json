@@ -64,6 +64,18 @@
       "created_at": "2026-11-04T03:37:43.297Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "05586d10-36a4-419e-88f6-10918c27a345",
+      "role": "agent",
+      "content": "Your changes have been made and saved.\n\n👉 **[View Your Updated Website](https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/)** *(updates automatically a few seconds after changes)*\n\n---\n\n### Summary of What Was Done:\n\n1. **Removed the Admin Portal & Management System**\n   - Cleaned out all admin links, the top executive bar admin button, the mobile menu admin link, and the footer link.\n   - Removed the entire `#view-admin` page view (login gate, applicant table, CMS controls, and passcode authentication) from [index.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html).\n   - Removed all dead admin code, routing, and table rendering from [app.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js). All site updates are handled directly by you and me right here in chat.\n\n2. **Updated Official Contact Phone (`+234 903 954 5275`)**\n   - **Header Top Bar**: Direct call link (`tel:+2349039545275`) and WhatsApp advisory link (`https://wa.me/2349039545275`).\n   - **Mobile Drawer**: Quick dial and WhatsApp action buttons.\n   - **Footer Contact**: Direct Line & WhatsApp Advisory set to **+234 903 954 5275**.\n   - **State Manager**: Pre-configured in [app.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js) with auto-migration so previous cached placeholders won't overwrite it.\n\n3. **Multi-Form Google Sheets Connection**\n   - All forms on your website are now wired to submit directly into a Google Spreadsheet, with **each form automatically creating and logging into its own separate sheet (tab)**:\n     - 📋 **Consulting Inquiries** — *Request A Business Consultation* modal\n     - 🎓 **Analyst Applications** — *90-Day Business Consultant/Analyst Programme* modal\n     - 💼 **Internship Applications** — *Internship & Fellowship Programme* modal\n     - 🚀 **Future Forms** — Any new form will automatically generate its own new tab and branded column headers without manual spreadsheet setup.\n   - Built a complete, ready-to-run Google Apps Script in [google-sheets-script.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/google-sheets-script.js) that styles header rows in executive Forest Green (`#06261b`) and Gold (`#f3c74d`), freezes the top row, and records every submission.\n   - Created a quick setup guide in [GOOGLE_SHEETS_SETUP.md](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/GOOGLE_SHEETS_SETUP.md).\n\n---\n\n### How to link your Google Sheet in 60 seconds:\n1. Open [sheets.new](https://sheets.new) in your browser.\n2. Click **Extensions** > **Apps Script**, delete the sample code, and paste the code from [google-sheets-script.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/google-sheets-script.js).\n3. Click **Deploy** > **New deployment** > select type **Web app** > set *Who has access* to **Anyone** > click **Deploy**.\n4. Send the Web App URL here in the chat (or paste it into `GOOGLE_SHEETS_WEBHOOK_URL` at the top of [app.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js)).",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "44a09ad0-30d1-4795-9516-ce9162a93072",
+      "created_at": "2026-11-04T03:44:12.728Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
