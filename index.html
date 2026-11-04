@@ -1555,144 +1555,7 @@
     </section>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- PAGE VIEW 6: ADMINISTRATIVE DASHBOARD & CMS -->
-  <!-- ============================================================== -->
-  <div id="view-admin" class="page-view hidden">
-    
-    <!-- Admin Login Screen -->
-    <div id="admin-login-view" class="py-24 bg-forest-950 text-white min-h-[600px] flex items-center justify-center px-4">
-      <div class="max-w-md w-full bg-forest-900 border border-forest-800 p-8 rounded-3xl shadow-2xl">
-        <div class="text-center mb-6">
-          <div class="w-12 h-12 rounded-xl bg-forest-950 border border-gold-400 text-gold-400 mx-auto flex items-center justify-center font-bold text-lg mb-3">
-            ✦
-          </div>
-          <h2 class="text-xl font-heading font-bold text-white">Administrative Portal</h2>
-          <p class="text-xs text-slate-400 mt-1">Lead management & website content control</p>
-        </div>
 
-        <form id="admin-login-form" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Administrative Passcode</label>
-            <input type="password" id="admin-passcode-input" placeholder="Enter password (affluent2026)" class="w-full px-4 py-3 rounded-xl bg-forest-950 border border-forest-800 text-white text-sm focus:outline-none focus:border-gold-400 font-mono">
-          </div>
-
-          <button type="submit" id="admin-passcode-submit" class="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md">
-            Unlock Management Console
-          </button>
-
-          <div class="pt-2 text-center">
-            <button type="button" id="admin-quick-unlock-btn" class="text-[11px] text-slate-400 hover:text-gold-300 underline">
-              Quick Access Demo Unlock
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Admin Dashboard (Protected View) -->
-    <div id="admin-dashboard-view" class="hidden py-10 bg-[#f8faf8] border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-200 mb-8 gap-4">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3 py-1 rounded-full">Executive Console</span>
-            <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 mt-2">The Affluentaccelerators CRM & CMS</h1>
-          </div>
-          <div class="flex items-center space-x-3">
-            <button id="admin-export-csv-btn" class="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-forest-900 hover:bg-forest-800 flex items-center space-x-1.5 shadow-sm">
-              <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>Export CSV</span>
-            </button>
-            <a href="#home" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50">
-              Exit Admin
-            </a>
-          </div>
-        </div>
-
-        <!-- CRM Category Filters -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <div class="flex flex-wrap items-center gap-2">
-            <button data-filter="all" class="admin-filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors bg-forest-900 text-gold-400">
-              All Applicants (<span id="admin-total-leads-count">3</span>)
-            </button>
-            <button data-filter="consulting" class="admin-filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors bg-slate-100 text-slate-700 hover:bg-slate-200">
-              Business Consulting Leads
-            </button>
-            <button data-filter="analyst-programme" class="admin-filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors bg-slate-100 text-slate-700 hover:bg-slate-200">
-              90-Day Programme Applicants (₦175k)
-            </button>
-            <button data-filter="internship" class="admin-filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors bg-slate-100 text-slate-700 hover:bg-slate-200">
-              Internship & Fellowship
-            </button>
-          </div>
-
-          <div class="w-full sm:w-64">
-            <input type="text" id="admin-search-input" placeholder="Search applicant, email, phone..." class="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800">
-          </div>
-        </div>
-
-        <!-- Leads Table -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-12">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                  <th class="py-3 px-4">Ref ID</th>
-                  <th class="py-3 px-4">Candidate / Lead</th>
-                  <th class="py-3 px-4">Category</th>
-                  <th class="py-3 px-4">Organization / Role</th>
-                  <th class="py-3 px-4">Tracking Status</th>
-                  <th class="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-leads-tbody">
-                <!-- Populated dynamically by app.js -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- CMS Controls: Edit Programme Fee, Date, Contacts -->
-        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-          <div class="mb-6">
-            <h3 class="text-xl font-heading font-bold text-slate-900">Website CMS & Configuration Controls</h3>
-            <p class="text-xs text-slate-500">Update cohort pricing, start dates, and contact details without code.</p>
-          </div>
-
-          <form id="admin-cms-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">90-Day Programme Fee</label>
-              <input type="text" id="admin-cms-fee" value="₦175,000" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-forest-800 font-bold">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Next Cohort Start Date</label>
-              <input type="text" id="admin-cms-date" value="March 15, 2026" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-forest-800">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Official WhatsApp Number</label>
-              <input type="text" id="admin-cms-whatsapp" value="+2348000000000" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-forest-800 font-mono">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Official Advisory Email</label>
-              <input type="email" id="admin-cms-email" value="advisory@affluentaccelerators.com" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:outline-none focus:border-forest-800">
-            </div>
-
-            <div class="sm:col-span-2 lg:col-span-4 flex justify-end">
-              <button type="submit" class="px-6 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md">
-                Save & Update Website Settings
-              </button>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
 
   <!-- ============================================================== -->
   <!-- SECTION 10: OFFICIAL FOOTER -->
@@ -1717,10 +1580,11 @@
             A premium business consulting and accelerator firm helping enterprises unlock growth opportunities, strengthen their operations, and build sustainable systems while developing the next generation of business consultants and strategic thinkers.
           </p>
 
-          <div class="space-y-1 text-xs text-slate-300">
+          <div class="space-y-1.5 text-xs text-slate-300">
             <p><strong>Headquarters:</strong> Victoria Island, Lagos, Nigeria</p>
+            <p><strong>Direct Line:</strong> <a href="tel:+2349039545275" class="text-gold-300 hover:underline" data-cms="contactPhone">+234 903 954 5275</a></p>
+            <p><strong>WhatsApp Advisory:</strong> <a href="https://wa.me/2349039545275" target="_blank" rel="noopener noreferrer" class="text-gold-300 hover:underline" data-cms="whatsappNumber">+234 903 954 5275</a></p>
             <p><strong>Email:</strong> <a href="mailto:advisory@affluentaccelerators.com" class="text-gold-300 hover:underline" data-cms="contactEmail">advisory@affluentaccelerators.com</a></p>
-            <p><strong>WhatsApp Advisory:</strong> <a href="https://wa.me/2348000000000" target="_blank" rel="noopener noreferrer" class="text-gold-300 hover:underline" data-cms="whatsappNumber">+234 800 000 0000</a></p>
           </div>
         </div>
 
@@ -1755,7 +1619,7 @@
             <li><a href="#approach" class="hover:text-gold-400 transition-colors">Methodology (Discover-Accelerate)</a></li>
             <li><a href="#experience" class="hover:text-gold-400 transition-colors">Our Work & Case Studies</a></li>
             <li><a href="#insights" class="hover:text-gold-400 transition-colors">Strategic Insights</a></li>
-            <li><a href="#admin" class="hover:text-gold-400 transition-colors text-gold-300">Admin Management Portal</a></li>
+            <li><a href="tel:+2349039545275" class="hover:text-gold-400 transition-colors text-gold-300">Direct Advisory: +234 903 954 5275</a></li>
           </ul>
         </div>
 

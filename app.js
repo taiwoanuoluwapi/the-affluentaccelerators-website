@@ -1,12 +1,27 @@
 // THE AFFLUENTACCELERATORS - CORE APPLICATION LOGIC
 
-// Default Initial State & CMS Data
+// ============================================================================
+// GOOGLE SHEETS FORM WEBHOOK CONFIGURATION
+// ============================================================================
+// All forms submit directly to your Google Spreadsheet.
+// Each form automatically creates and routes submissions to its own dedicated tab:
+// - "Consulting Inquiries"
+// - "Analyst Applications"
+// - "Internship Applications"
+//
+// To connect to your spreadsheet:
+// 1. Follow the 3-minute steps in GOOGLE_SHEETS_SETUP.md (or copy google-sheets-script.js)
+// 2. Paste your deployed Apps Script Web App URL below:
+const GOOGLE_SHEETS_WEBHOOK_URL = "";
+
+// Default Initial State
 const DEFAULT_STATE = {
   cms: {
     programmeFee: "₦175,000",
     cohortStartDate: "March 15, 2026",
     cohortLocation: "Hybrid (In-Person Consulting Hub & Live Strategic Sessions)",
-    whatsappNumber: "+2348000000000",
+    whatsappNumber: "+234 903 954 5275",
+    contactPhone: "+234 903 954 5275",
     contactEmail: "advisory@affluentaccelerators.com",
     officeLocation: "Victoria Island, Lagos, Nigeria",
   },
@@ -19,50 +34,7 @@ const DEFAULT_STATE = {
     { id: "role-6", title: "Operations & Project Support", type: "Process Optimization", active: true, department: "Internal Operations", commitment: "Full-Time" },
     { id: "role-7", title: "Research & Strategy Fellow", type: "Fellowship (Advanced)", active: true, department: "Executive Research", commitment: "6-Month Fellowship" }
   ],
-  leads: [
-    {
-      id: "LEAD-101",
-      category: "consulting",
-      name: "Tunde Balogun",
-      email: "t.balogun@apexholdings.ng",
-      phone: "+234 803 219 4481",
-      businessName: "Apex Logistics & Haulage Ltd",
-      industry: "Supply Chain & Logistics",
-      location: "Lagos, Nigeria",
-      stage: "Growth ($2M - $5M ARR)",
-      challenge: "Bottlenecks in fleet dispatch operations and margin leakage.",
-      supportType: "Operations & Systems Optimization",
-      status: "In Review",
-      date: "2026-11-02"
-    },
-    {
-      id: "LEAD-102",
-      category: "analyst-programme",
-      name: "Chidinma Okoye",
-      email: "chidinma.okoye@gmail.com",
-      phone: "+234 812 490 1120",
-      location: "Abuja, Nigeria",
-      qualification: "B.Sc. Economics (First Class)",
-      occupation: "Junior Financial Analyst",
-      whyConsulting: "Looking to transition from back-office reporting into hands-on corporate turnaround strategy.",
-      readyToInvest: "Yes - ₦175,000 ready upon acceptance",
-      status: "New",
-      date: "2026-11-03"
-    },
-    {
-      id: "LEAD-103",
-      category: "internship",
-      name: "Emmanuel Adeyemi",
-      email: "e.adeyemi@uni-lag.edu.ng",
-      phone: "+234 905 882 1432",
-      location: "Lagos, Nigeria",
-      role: "Business Research Associate",
-      qualification: "Final Year Student - Business Admin",
-      skills: "Market sizing, competitive benchmarking, financial modeling",
-      status: "Interview Scheduled",
-      date: "2026-11-03"
-    }
-  ],
+  leads: [],
   articles: [
     {
       id: "art-1",
@@ -148,14 +120,20 @@ class AffluentApp {
   constructor() {
     this.state = this.loadState();
     this.currentView = 'home';
-    this.isAdminAuthenticated = false;
   }
 
   loadState() {
     try {
       const stored = localStorage.getItem('affluent_state_v1');
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        // Ensure new phone number is always applied if old placeholder was cached
+        if (!parsed.cms || parsed.cms.whatsappNumber === '+2348000000000' || !parsed.cms.contactPhone) {
+          parsed.cms = parsed.cms || {};
+          parsed.cms.whatsappNumber = "+234 903 954 5275";
+          parsed.cms.contactPhone = "+234 903 954 5275";
+        }
+        return parsed;
       }
     } catch (e) {
       console.warn("Could not parse stored state", e);
@@ -179,7 +157,6 @@ class AffluentApp {
     this.bindCurriculumAccordion();
     this.bindModals();
     this.bindForms();
-    this.bindAdminPortal();
     this.renderDynamicContent();
     this.handleRoute();
   }
@@ -204,7 +181,7 @@ class AffluentApp {
       return;
     }
 
-    if (hash === 'programme-analyst' || hash === 'programme-internship' || hash === 'programme-accelerator' || hash === 'insights-view' || hash === 'admin') {
+    if (hash === 'programme-analyst' || hash === 'programme-internship' || hash === 'programme-accelerator' || hash === 'insights-view') {
       this.switchView(hash);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -232,10 +209,6 @@ class AffluentApp {
         link.classList.remove('text-gold-400', 'font-bold');
       }
     });
-
-    if (viewName === 'admin') {
-      this.renderAdminTable();
-    }
   }
 
   bindNavigation() {
@@ -362,105 +335,181 @@ class AffluentApp {
     document.body.style.overflow = '';
   }
 
+  // ============================================================================
+  // GOOGLE SHEETS FORM SUBMISSION HANDLER
+  // ============================================================================
+  async submitToGoogleSheet(sheetName, submissionData) {
+    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    
+    const payload = {
+      sheetName: sheetName,
+      timestamp: new Date().toLocaleString('en-US', { timeZone: 'Africa/Lagos' }),
+      id: submissionData["Reference ID"] || `LEAD-${Date.now().toString().slice(-4)}`,
+      data: submissionData
+    };
+
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        console.log(`[Google Sheets] Transmitted successfully to sheet: ${sheetName}`);
+      } catch (err) {
+        console.warn("[Google Sheets] Network transmission error, saved locally:", err);
+      }
+    } else {
+      console.info(`[Google Sheets] Form logged for tab: '${sheetName}'. Set your Google Apps Script Web App URL in app.js or localStorage to stream rows live.`);
+    }
+
+    // Resilient Local Backup
+    this.state.leads.unshift({
+      id: payload.id,
+      sheetName: sheetName,
+      date: new Date().toISOString().split('T')[0],
+      ...submissionData
+    });
+    this.saveState();
+  }
+
   // Forms binding (Three distinct funnels)
   bindForms() {
     // Form A: Business Consulting Inquiry Form
     const formA = document.getElementById('form-consulting-inquiry');
     if (formA) {
-      formA.addEventListener('submit', (e) => {
+      formA.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const data = {
-          id: `CS-${Date.now().toString().slice(-4)}`,
-          category: 'consulting',
-          name: formA.querySelector('#consulting-name').value.trim(),
-          businessName: formA.querySelector('#consulting-business').value.trim(),
-          email: formA.querySelector('#consulting-email').value.trim(),
-          phone: formA.querySelector('#consulting-phone').value.trim(),
-          industry: formA.querySelector('#consulting-industry').value.trim(),
-          location: formA.querySelector('#consulting-location').value.trim(),
-          stage: formA.querySelector('#consulting-stage').value,
-          businessDescription: formA.querySelector('#consulting-desc').value.trim(),
-          challenge: formA.querySelector('#consulting-challenge').value.trim(),
-          supportType: formA.querySelector('#consulting-support').value,
-          additionalInfo: formA.querySelector('#consulting-notes')?.value.trim() || '',
-          status: 'New',
-          date: new Date().toISOString().split('T')[0]
+        const submitBtn = formA.querySelector('button[type="submit"]');
+        const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>Transmitting to Advisory Council...</span>`;
+        }
+
+        const leadData = {
+          "Reference ID": `CS-${Date.now().toString().slice(-4)}`,
+          "Full Name": formA.querySelector('#consulting-name').value.trim(),
+          "Business Name": formA.querySelector('#consulting-business').value.trim(),
+          "Work Email": formA.querySelector('#consulting-email').value.trim(),
+          "Phone / WhatsApp": formA.querySelector('#consulting-phone').value.trim(),
+          "Industry": formA.querySelector('#consulting-industry').value.trim(),
+          "Business Location": formA.querySelector('#consulting-location').value.trim(),
+          "Business Stage": formA.querySelector('#consulting-stage').value,
+          "Business Operations": formA.querySelector('#consulting-desc').value.trim(),
+          "Core Challenges": formA.querySelector('#consulting-challenge').value.trim(),
+          "Support Requested": formA.querySelector('#consulting-support').value,
+          "Additional Notes": formA.querySelector('#consulting-notes')?.value.trim() || 'N/A'
         };
 
-        this.handleFormSuccess(formA, data, 'modal-consulting-inquiry', 'Consulting Inquiry Received', 'Thank you. Our senior consulting practice will review your business diagnostic and reach out within 24 business hours.');
+        await this.submitToGoogleSheet('Consulting Inquiries', leadData);
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
+
+        formA.reset();
+        this.closeModal('modal-consulting-inquiry');
+        this.showConfirmationModal(
+          'Consultation Request Received',
+          'Thank you. Your strategic diagnostic inquiry has been recorded. Our senior advisory practice will review your profile and reach out within 24 business hours.'
+        );
       });
     }
 
     // Form B: 90-Day Business Consultant/Analyst Programme Application
     const formB = document.getElementById('form-analyst-application');
     if (formB) {
-      formB.addEventListener('submit', (e) => {
+      formB.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const data = {
-          id: `AP-${Date.now().toString().slice(-4)}`,
-          category: 'analyst-programme',
-          name: formB.querySelector('#analyst-name').value.trim(),
-          email: formB.querySelector('#analyst-email').value.trim(),
-          phone: formB.querySelector('#analyst-phone').value.trim(),
-          location: formB.querySelector('#analyst-location').value.trim(),
-          qualification: formB.querySelector('#analyst-qualification').value.trim(),
-          occupation: formB.querySelector('#analyst-occupation').value.trim(),
-          whyConsulting: formB.querySelector('#analyst-why').value.trim(),
-          interestStrategy: formB.querySelector('#analyst-interest').value.trim(),
-          goals: formB.querySelector('#analyst-goals').value.trim(),
-          commitment: formB.querySelector('#analyst-commitment').value,
-          readyToInvest: formB.querySelector('#analyst-investment').value,
-          source: formB.querySelector('#analyst-source').value,
-          status: 'New',
-          date: new Date().toISOString().split('T')[0]
+        const submitBtn = formB.querySelector('button[type="submit"]');
+        const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>Submitting Application...</span>`;
+        }
+
+        const leadData = {
+          "Reference ID": `AP-${Date.now().toString().slice(-4)}`,
+          "Full Name": formB.querySelector('#analyst-name').value.trim(),
+          "Email Address": formB.querySelector('#analyst-email').value.trim(),
+          "Phone (WhatsApp Active)": formB.querySelector('#analyst-phone').value.trim(),
+          "City of Residence": formB.querySelector('#analyst-location').value.trim(),
+          "Highest Qualification": formB.querySelector('#analyst-qualification').value.trim(),
+          "Current Role": formB.querySelector('#analyst-occupation').value.trim(),
+          "Why Consulting": formB.querySelector('#analyst-why').value.trim(),
+          "Strategy Interest": formB.querySelector('#analyst-interest').value.trim(),
+          "Post-Programme Goals": formB.querySelector('#analyst-goals').value.trim(),
+          "Schedule Commitment": formB.querySelector('#analyst-commitment').value,
+          "Ready to Invest (₦175,000)": formB.querySelector('#analyst-investment').value,
+          "Referral Source": formB.querySelector('#analyst-source').value
         };
 
-        this.handleFormSuccess(formB, data, 'modal-analyst-application', '90-Day Programme Application Submitted', 'Your application for the Business Consultant/Analyst Development Programme has been logged. Our admissions committee will review your profile.');
+        await this.submitToGoogleSheet('Analyst Applications', leadData);
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
+
+        formB.reset();
+        this.closeModal('modal-analyst-application');
+        this.showConfirmationModal(
+          'Application Successfully Submitted',
+          'Your application for the 90-Day Business Consultant/Analyst Development Programme has been logged. Our admissions committee will review your profile and follow up via WhatsApp / email.'
+        );
       });
     }
 
     // Form C: Internship / Fellowship Application
     const formC = document.getElementById('form-internship-application');
     if (formC) {
-      formC.addEventListener('submit', (e) => {
+      formC.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const data = {
-          id: `INT-${Date.now().toString().slice(-4)}`,
-          category: 'internship',
-          name: formC.querySelector('#internship-name').value.trim(),
-          email: formC.querySelector('#internship-email').value.trim(),
-          phone: formC.querySelector('#internship-phone').value.trim(),
-          location: formC.querySelector('#internship-location').value.trim(),
-          qualification: formC.querySelector('#internship-education').value.trim(),
-          occupation: formC.querySelector('#internship-occupation').value.trim(),
-          role: formC.querySelector('#internship-preferred-role').value,
-          skills: formC.querySelector('#internship-skills').value.trim(),
-          experience: formC.querySelector('#internship-experience').value.trim(),
-          interest: formC.querySelector('#internship-why').value.trim(),
-          goals: formC.querySelector('#internship-learn').value.trim(),
-          availability: formC.querySelector('#internship-availability').value,
-          portfolio: formC.querySelector('#internship-portfolio').value.trim(),
-          status: 'New',
-          date: new Date().toISOString().split('T')[0]
+        const submitBtn = formC.querySelector('button[type="submit"]');
+        const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>Submitting Application...</span>`;
+        }
+
+        const leadData = {
+          "Reference ID": `INT-${Date.now().toString().slice(-4)}`,
+          "Full Name": formC.querySelector('#internship-name').value.trim(),
+          "Email Address": formC.querySelector('#internship-email').value.trim(),
+          "Phone / WhatsApp": formC.querySelector('#internship-phone').value.trim(),
+          "Location": formC.querySelector('#internship-location').value.trim(),
+          "Educational Background": formC.querySelector('#internship-education').value.trim(),
+          "Current Occupation": formC.querySelector('#internship-occupation').value.trim(),
+          "Preferred Role": formC.querySelector('#internship-preferred-role').value,
+          "Relevant Skills": formC.querySelector('#internship-skills').value.trim(),
+          "Weekly Commitment": formC.querySelector('#internship-availability').value,
+          "Previous Experience": formC.querySelector('#internship-experience')?.value.trim() || 'N/A',
+          "Motivation": formC.querySelector('#internship-why').value.trim(),
+          "Learning Goals": formC.querySelector('#internship-learn').value.trim(),
+          "CV Document": formC.querySelector('#internship-cv-name')?.value.trim() || 'N/A',
+          "LinkedIn / Portfolio": formC.querySelector('#internship-portfolio').value.trim()
         };
 
-        this.handleFormSuccess(formC, data, 'modal-internship-application', 'Internship Application Received', 'Thank you for your interest in gaining practical business exposure with The Affluentaccelerators team.');
+        await this.submitToGoogleSheet('Internship Applications', leadData);
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
+
+        formC.reset();
+        this.closeModal('modal-internship-application');
+        this.showConfirmationModal(
+          'Internship Application Received',
+          'Thank you for your interest in practical exposure with The Affluentaccelerators team. Our talent council reviews applications on a rolling basis.'
+        );
       });
     }
-  }
-
-  handleFormSuccess(formElement, leadData, modalId, title, message) {
-    // Save to state
-    this.state.leads.unshift(leadData);
-    this.saveState();
-
-    // Reset Form
-    formElement.reset();
-    this.closeModal(modalId);
-
-    // Show luxury feedback toast/modal
-    this.showConfirmationModal(title, message);
-    this.renderAdminTable();
   }
 
   showConfirmationModal(title, message) {
@@ -484,8 +533,14 @@ class AffluentApp {
       el.href = `mailto:${this.state.cms.contactEmail}`;
     });
     document.querySelectorAll('[data-cms="whatsappNumber"]').forEach(el => {
-      el.textContent = this.state.cms.whatsappNumber;
+      el.textContent = `WhatsApp: ${this.state.cms.whatsappNumber}`;
       el.href = `https://wa.me/${this.state.cms.whatsappNumber.replace(/[^0-9]/g, '')}`;
+    });
+    document.querySelectorAll('[data-cms="contactPhone"]').forEach(el => {
+      el.textContent = this.state.cms.contactPhone || "+234 903 954 5275";
+      if (el.tagName === 'A') {
+        el.href = `tel:${(this.state.cms.contactPhone || '2349039545275').replace(/[^0-9+]/g, '')}`;
+      }
     });
 
     this.renderInternshipRoles();
@@ -642,272 +697,6 @@ class AffluentApp {
       `;
       container.appendChild(card);
     });
-  }
-
-  // Admin Portal & Dashboard
-  bindAdminPortal() {
-    const loginForm = document.getElementById('admin-login-form');
-    const passcodeBtn = document.getElementById('admin-passcode-submit');
-    const passcodeInput = document.getElementById('admin-passcode-input');
-    const loginView = document.getElementById('admin-login-view');
-    const dashboardView = document.getElementById('admin-dashboard-view');
-    const quickUnlockBtn = document.getElementById('admin-quick-unlock-btn');
-
-    const unlock = () => {
-      this.isAdminAuthenticated = true;
-      loginView.classList.add('hidden');
-      dashboardView.classList.remove('hidden');
-      this.renderAdminTable();
-      this.populateAdminCMSInputs();
-    };
-
-    if (quickUnlockBtn) {
-      quickUnlockBtn.addEventListener('click', unlock);
-    }
-
-    if (loginForm) {
-      loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (passcodeInput.value === 'affluent2026' || passcodeInput.value === 'admin') {
-          unlock();
-        } else {
-          alert("Invalid administrative password. (Hint: Use 'affluent2026' or tap Quick Access)");
-        }
-      });
-    }
-
-    // Category filter tabs
-    document.querySelectorAll('.admin-filter-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.admin-filter-tab').forEach(t => {
-          t.classList.remove('bg-forest-900', 'text-gold-400');
-          t.classList.add('bg-slate-100', 'text-slate-700');
-        });
-        tab.classList.add('bg-forest-900', 'text-gold-400');
-        tab.classList.remove('bg-slate-100', 'text-slate-700');
-
-        const filter = tab.getAttribute('data-filter');
-        this.renderAdminTable(filter);
-      });
-    });
-
-    // Search input
-    const searchInput = document.getElementById('admin-search-input');
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        this.renderAdminTable(null, query);
-      });
-    }
-
-    // Export CSV
-    const exportBtn = document.getElementById('admin-export-csv-btn');
-    if (exportBtn) {
-      exportBtn.addEventListener('click', () => this.exportLeadsToCSV());
-    }
-
-    // Save CMS Settings Form
-    const cmsForm = document.getElementById('admin-cms-form');
-    if (cmsForm) {
-      cmsForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.state.cms.programmeFee = document.getElementById('admin-cms-fee').value.trim();
-        this.state.cms.cohortStartDate = document.getElementById('admin-cms-date').value.trim();
-        this.state.cms.whatsappNumber = document.getElementById('admin-cms-whatsapp').value.trim();
-        this.state.cms.contactEmail = document.getElementById('admin-cms-email').value.trim();
-        this.saveState();
-        this.renderDynamicContent();
-        alert("Website settings updated successfully!");
-      });
-    }
-  }
-
-  populateAdminCMSInputs() {
-    const feeInput = document.getElementById('admin-cms-fee');
-    const dateInput = document.getElementById('admin-cms-date');
-    const waInput = document.getElementById('admin-cms-whatsapp');
-    const emailInput = document.getElementById('admin-cms-email');
-
-    if (feeInput) feeInput.value = this.state.cms.programmeFee;
-    if (dateInput) dateInput.value = this.state.cms.cohortStartDate;
-    if (waInput) waInput.value = this.state.cms.whatsappNumber;
-    if (emailInput) emailInput.value = this.state.cms.contactEmail;
-  }
-
-  renderAdminTable(categoryFilter = null, searchQuery = '') {
-    const tableBody = document.getElementById('admin-leads-tbody');
-    const countBadge = document.getElementById('admin-total-leads-count');
-    if (!tableBody) return;
-
-    let leads = this.state.leads;
-
-    if (categoryFilter && categoryFilter !== 'all') {
-      leads = leads.filter(l => l.category === categoryFilter);
-    }
-
-    if (searchQuery) {
-      leads = leads.filter(l => 
-        (l.name && l.name.toLowerCase().includes(searchQuery)) ||
-        (l.email && l.email.toLowerCase().includes(searchQuery)) ||
-        (l.businessName && l.businessName.toLowerCase().includes(searchQuery)) ||
-        (l.phone && l.phone.includes(searchQuery))
-      );
-    }
-
-    if (countBadge) countBadge.textContent = `${leads.length} Records`;
-
-    tableBody.innerHTML = '';
-    if (leads.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-sm text-slate-500">No applicant records found in this category.</td></tr>`;
-      return;
-    }
-
-    leads.forEach(lead => {
-      const tr = document.createElement('tr');
-      tr.className = "border-b border-slate-200 hover:bg-slate-50 text-xs";
-
-      let categoryBadge = '';
-      if (lead.category === 'consulting') {
-        categoryBadge = '<span class="px-2 py-0.5 rounded font-bold bg-amber-100 text-amber-800">Business Consulting</span>';
-      } else if (lead.category === 'analyst-programme') {
-        categoryBadge = '<span class="px-2 py-0.5 rounded font-bold bg-emerald-100 text-emerald-800">90-Day Analyst (₦175k)</span>';
-      } else {
-        categoryBadge = '<span class="px-2 py-0.5 rounded font-bold bg-blue-100 text-blue-800">Internship/Fellowship</span>';
-      }
-
-      tr.innerHTML = `
-        <td class="py-3 px-4 font-mono text-slate-500">${lead.id}</td>
-        <td class="py-3 px-4">
-          <p class="font-bold text-slate-900">${lead.name}</p>
-          <p class="text-slate-500 text-[11px]">${lead.email}</p>
-        </td>
-        <td class="py-3 px-4">${categoryBadge}</td>
-        <td class="py-3 px-4">
-          <p class="font-medium text-slate-800">${lead.businessName || lead.role || lead.occupation || 'Candidate'}</p>
-          <p class="text-[11px] text-slate-500">${lead.location || ''} • ${lead.phone || ''}</p>
-        </td>
-        <td class="py-3 px-4">
-          <select class="admin-status-select bg-white border border-slate-300 rounded px-2 py-1 text-xs font-semibold" data-lead-id="${lead.id}">
-            <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
-            <option value="In Review" ${lead.status === 'In Review' ? 'selected' : ''}>In Review</option>
-            <option value="Interview Scheduled" ${lead.status === 'Interview Scheduled' ? 'selected' : ''}>Interview Scheduled</option>
-            <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
-            <option value="Enrolled" ${lead.status === 'Enrolled' ? 'selected' : ''}>Enrolled / Closed</option>
-          </select>
-        </td>
-        <td class="py-3 px-4 text-right">
-          <button class="admin-view-lead-btn text-forest-700 hover:text-gold-600 font-bold px-2 py-1" data-lead-id="${lead.id}">
-            Details
-          </button>
-        </td>
-      `;
-
-      tableBody.appendChild(tr);
-    });
-
-    // Bind status changes
-    tableBody.querySelectorAll('.admin-status-select').forEach(select => {
-      select.addEventListener('change', (e) => {
-        const leadId = select.getAttribute('data-lead-id');
-        const target = this.state.leads.find(l => l.id === leadId);
-        if (target) {
-          target.status = e.target.value;
-          this.saveState();
-        }
-      });
-    });
-
-    // Bind details view
-    tableBody.querySelectorAll('.admin-view-lead-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const leadId = btn.getAttribute('data-lead-id');
-        this.viewLeadDetailsModal(leadId);
-      });
-    });
-  }
-
-  viewLeadDetailsModal(leadId) {
-    const lead = this.state.leads.find(l => l.id === leadId);
-    if (!lead) return;
-
-    let content = `
-      <div class="space-y-3 text-xs text-slate-700">
-        <div class="flex justify-between border-b pb-2">
-          <strong>Application ID:</strong> <span>${lead.id} (${lead.date})</span>
-        </div>
-        <div class="flex justify-between border-b pb-2">
-          <strong>Full Name:</strong> <span>${lead.name}</span>
-        </div>
-        <div class="flex justify-between border-b pb-2">
-          <strong>Email:</strong> <span>${lead.email}</span>
-        </div>
-        <div class="flex justify-between border-b pb-2">
-          <strong>Phone / WhatsApp:</strong> <span>${lead.phone}</span>
-        </div>
-        <div class="flex justify-between border-b pb-2">
-          <strong>Location:</strong> <span>${lead.location || 'N/A'}</span>
-        </div>
-    `;
-
-    if (lead.category === 'consulting') {
-      content += `
-        <div class="border-b pb-2"><strong>Company:</strong> ${lead.businessName} (${lead.industry})</div>
-        <div class="border-b pb-2"><strong>Stage:</strong> ${lead.stage}</div>
-        <div class="border-b pb-2"><strong>Core Challenge:</strong> ${lead.challenge}</div>
-        <div class="border-b pb-2"><strong>Support Needed:</strong> ${lead.supportType}</div>
-      `;
-    } else if (lead.category === 'analyst-programme') {
-      content += `
-        <div class="border-b pb-2"><strong>Education:</strong> ${lead.qualification}</div>
-        <div class="border-b pb-2"><strong>Occupation:</strong> ${lead.occupation}</div>
-        <div class="border-b pb-2"><strong>Why Consulting:</strong> ${lead.whyConsulting}</div>
-        <div class="border-b pb-2"><strong>Investment Commitment:</strong> ${lead.readyToInvest}</div>
-      `;
-    } else {
-      content += `
-        <div class="border-b pb-2"><strong>Preferred Role:</strong> ${lead.role}</div>
-        <div class="border-b pb-2"><strong>Education:</strong> ${lead.qualification}</div>
-        <div class="border-b pb-2"><strong>Relevant Skills:</strong> ${lead.skills}</div>
-        <div class="border-b pb-2"><strong>Availability:</strong> ${lead.availability}</div>
-      `;
-    }
-
-    content += `</div>`;
-
-    document.getElementById('confirmation-title').textContent = `Applicant Details: ${lead.name}`;
-    document.getElementById('confirmation-message').innerHTML = content;
-    const modal = document.getElementById('modal-confirmation');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  }
-
-  exportLeadsToCSV() {
-    if (!this.state.leads.length) {
-      alert("No applicant records to export.");
-      return;
-    }
-
-    const headers = ["ID", "Category", "Date", "Name", "Email", "Phone", "Location", "Organization/Role", "Status"];
-    const rows = this.state.leads.map(l => [
-      l.id,
-      l.category,
-      l.date,
-      `"${(l.name || '').replace(/"/g, '""')}"`,
-      `"${(l.email || '').replace(/"/g, '""')}"`,
-      `"${(l.phone || '').replace(/"/g, '""')}"`,
-      `"${(l.location || '').replace(/"/g, '""')}"`,
-      `"${(l.businessName || l.role || l.occupation || '').replace(/"/g, '""')}"`,
-      l.status
-    ]);
-
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `affluent_accelerators_leads_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 }
 
