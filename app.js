@@ -402,7 +402,7 @@ class AffluentApp {
           "Business Operations": formA.querySelector('#consulting-desc').value.trim(),
           "Core Challenges": formA.querySelector('#consulting-challenge').value.trim(),
           "Support Requested": formA.querySelector('#consulting-support').value,
-          "Additional Notes": formA.querySelector('#consulting-notes')?.value.trim() || 'N/A'
+          "Additional Notes": (formA.querySelector('#consulting-notes') && formA.querySelector('#consulting-notes').value) ? formA.querySelector('#consulting-notes').value.trim() : 'N/A'
         };
 
         await this.submitToGoogleSheet('Consulting Inquiries', leadData);
@@ -488,10 +488,10 @@ class AffluentApp {
           "Preferred Role": formC.querySelector('#internship-preferred-role').value,
           "Relevant Skills": formC.querySelector('#internship-skills').value.trim(),
           "Weekly Commitment": formC.querySelector('#internship-availability').value,
-          "Previous Experience": formC.querySelector('#internship-experience')?.value.trim() || 'N/A',
+          "Previous Experience": (formC.querySelector('#internship-experience') && formC.querySelector('#internship-experience').value) ? formC.querySelector('#internship-experience').value.trim() : 'N/A',
           "Motivation": formC.querySelector('#internship-why').value.trim(),
           "Learning Goals": formC.querySelector('#internship-learn').value.trim(),
-          "CV Document": formC.querySelector('#internship-cv-name')?.value.trim() || 'N/A',
+          "CV Document": (formC.querySelector('#internship-cv-name') && formC.querySelector('#internship-cv-name').value) ? formC.querySelector('#internship-cv-name').value.trim() : 'N/A',
           "LinkedIn / Portfolio": formC.querySelector('#internship-portfolio').value.trim()
         };
 
