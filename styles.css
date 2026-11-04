@@ -1,49 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Cinzel:wght@600;700&display=swap');
 
 :root {
-  --primary-50: #eef2ff;
-  --primary-100: #e0e7ff;
-  --primary-500: #6366f1;
-  --primary-600: #4f46e5;
-  --primary-700: #4338ca;
-  --primary-glow: rgba(99, 102, 241, 0.25);
-}
+  /* Brand Deep Forest Green & Dark Emerald */
+  --color-primary-950: #03150e;
+  --color-primary-900: #06261b;
+  --color-primary-800: #0a3828;
+  --color-primary-700: #0f4f3a;
+  --color-primary-600: #16694e;
+  --color-primary-500: #10b981;
+  --color-primary-100: #d1fae5;
+  --color-primary-50: #f0fdf4;
 
-/* Theme Presets */
-body[data-theme="indigo"] {
-  --primary-50: #eef2ff;
-  --primary-100: #e0e7ff;
-  --primary-500: #6366f1;
-  --primary-600: #4f46e5;
-  --primary-700: #4338ca;
-  --primary-glow: rgba(99, 102, 241, 0.25);
-}
+  /* Brand Warm Gold Accents */
+  --color-gold-600: #b88a1b;
+  --color-gold-500: #d4af37;
+  --color-gold-400: #e5b83b;
+  --color-gold-300: #f3c74d;
+  --color-gold-100: #fef8e7;
+  --color-gold-50: #fffdf5;
 
-body[data-theme="emerald"] {
-  --primary-50: #ecfdf5;
-  --primary-100: #d1fae5;
-  --primary-500: #10b981;
-  --primary-600: #059669;
-  --primary-700: #047857;
-  --primary-glow: rgba(16, 185, 129, 0.25);
-}
+  /* Charcoal / Dark Contrast */
+  --color-dark-950: #080d0b;
+  --color-dark-900: #0f1714;
+  --color-dark-800: #182420;
+  --color-dark-700: #24342f;
 
-body[data-theme="cyan"] {
-  --primary-50: #ecfeff;
-  --primary-100: #cffafe;
-  --primary-500: #06b6d4;
-  --primary-600: #0891b2;
-  --primary-700: #0e7490;
-  --primary-glow: rgba(6, 182, 212, 0.25);
-}
-
-body[data-theme="rose"] {
-  --primary-50: #fff1f2;
-  --primary-100: #ffe4e6;
-  --primary-500: #f43f5e;
-  --primary-600: #e11d48;
-  --primary-700: #be123c;
-  --primary-glow: rgba(244, 63, 94, 0.25);
+  /* Off-White Backgrounds */
+  --color-offwhite: #f8faf8;
+  --color-offwhite-alt: #f1f4f1;
 }
 
 * {
@@ -53,94 +37,120 @@ body[data-theme="rose"] {
 html {
   scroll-behavior: smooth;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1a221f;
+  background-color: #f8faf8;
 }
 
-h1, h2, h3, .font-heading {
+h1, h2, h3, h4, .font-heading {
   font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
 }
 
-/* Background Gradients & Effects */
-.bg-mesh-gradient {
-  background-color: #0b0f19;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
+.font-serif-brand {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
 }
 
-.hero-glow {
-  background: radial-gradient(circle, var(--primary-glow) 0%, rgba(255, 255, 255, 0) 70%);
+/* Custom Forest Green & Gold Utilities */
+.bg-forest-950 { background-color: var(--color-primary-950); }
+.bg-forest-900 { background-color: var(--color-primary-900); }
+.bg-forest-800 { background-color: var(--color-primary-800); }
+.bg-forest-700 { background-color: var(--color-primary-700); }
+.border-forest-800 { border-color: var(--color-primary-800); }
+.border-forest-700 { border-color: var(--color-primary-700); }
+.border-forest-600 { border-color: var(--color-primary-600); }
+
+.text-gold { color: var(--color-gold-400); }
+.text-gold-light { color: var(--color-gold-300); }
+.text-gold-dark { color: var(--color-gold-600); }
+.bg-gold { background-color: var(--color-gold-400); }
+.bg-gold-light { background-color: var(--color-gold-100); }
+.border-gold { border-color: var(--color-gold-400); }
+.border-gold-subtle { border-color: rgba(229, 184, 59, 0.3); }
+
+/* Sophisticated Subtle Accents */
+.gold-glow {
+  box-shadow: 0 4px 20px -2px rgba(229, 184, 59, 0.25);
 }
 
-.glass-nav {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.forest-glow {
+  box-shadow: 0 8px 30px -4px rgba(6, 38, 27, 0.4);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f6d365 0%, #e5b83b 50%, #b88a1b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.dark-glass-card {
-  background: rgba(17, 24, 39, 0.75);
+/* Glassmorphism for Dark Executive Cards */
+.executive-card {
+  background: rgba(15, 23, 20, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(229, 184, 59, 0.15);
+}
+
+.executive-card:hover {
+  border-color: rgba(229, 184, 59, 0.4);
+}
+
+/* Accordion Smooth Transitions */
+.curriculum-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  opacity: 0;
+}
+
+.curriculum-item.active .curriculum-content {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.curriculum-item.active .curriculum-chevron {
+  transform: rotate(180deg);
+}
+
+/* Subtle Hover Transitions */
+.card-hover-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -6px rgba(6, 38, 27, 0.12);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f1f4f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #0f4f3a;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #0a3828;
 }
 
-/* Accordion Animation */
-.accordion-content {
-  transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), opacity 0.25s ease;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-}
-
-.accordion-item.active .accordion-content {
-  max-height: 500px;
-  transition: max-height 0.35s cubic-bezier(1, 0, 1, 0), opacity 0.3s ease;
-  opacity: 1;
-}
-
-.accordion-item.active .accordion-icon {
-  transform: rotate(180deg);
-}
-
-/* Subtle Floating Animation */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-@keyframes pulseSubtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.02); }
-}
-
-.animate-pulse-subtle {
-  animation: pulseSubtle 3s ease-in-out infinite;
+/* Process Timeline Connector */
+@media (min-width: 1024px) {
+  .process-step::after {
+    content: '';
+    position: absolute;
+    top: 36px;
+    right: -24px;
+    width: 48px;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, #d4af37, #d4af37 6px, transparent 6px, transparent 12px);
+    z-index: 1;
+  }
+  .process-step:last-child::after {
+    display: none;
+  }
 }
