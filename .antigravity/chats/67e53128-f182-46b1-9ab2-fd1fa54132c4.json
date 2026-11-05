@@ -160,6 +160,18 @@
       "created_at": "2026-11-05T21:30:45.380Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "dda46a12-0b9c-46d6-a310-05376d525d3e",
+      "role": "user",
+      "content": "I attached images: images/photo-1793915088-cc1c465d.jpg, images/photo-1793915088-4b3a4813.jpg, images/photo-1793915088-c446ac8b.jpg.\n\nremove the top banner, and design a better responsive label for text on Mobile plus don't you think our forms be taken on a different \"forms\" page, where different forms can be embedded or conditioned to show depending on which was clicked or the additional path to the url",
+      "status": "pending",
+      "model": "auto",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-05T21:48:47.057Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
