@@ -129,11 +129,23 @@
       "id": "31fc67e8-cfd0-4dcd-97ce-f4a77bd93646",
       "role": "user",
       "content": "so I want one of the fast CTAs to be to join our WhatsApp channel and to get a customised video/message audit or response from an available consultant for their business.https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q,",
-      "status": "pending",
+      "status": "cancelled",
       "model": "gemini-3.8-flash-low",
       "client_type": "gemini-bridge",
       "parent_message_id": null,
       "created_at": "2026-11-05T21:26:02.673Z",
+      "sender": "ios",
+      "is_cancelled": true
+    },
+    {
+      "id": "62b9ae41-f47b-4c53-9b29-a238e2524479",
+      "role": "user",
+      "content": "so I want one of the fast CTAs to be to join our WhatsApp channel and to get a customised video/message audit or response from an available consultant for their business. this is the whatsapp channel link: https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q, and I want the button for the audit to popup a form to fill in their basic business details and enough information to give the consultant insight to their business, where they're at and what they might be struggling with meaning we're going to be getting their basic contact info too including WhatsApp number",
+      "status": "pending",
+      "model": "gemini-3.8-flash-low",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-05T21:28:06.140Z",
       "sender": "ios",
       "is_cancelled": false
     }

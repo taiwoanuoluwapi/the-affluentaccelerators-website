@@ -21,6 +21,7 @@ const DEFAULT_STATE = {
     cohortStartDate: "March 15, 2026",
     cohortLocation: "Hybrid (In-Person Consulting Hub & Live Strategic Sessions)",
     whatsappNumber: "+234 903 954 5275",
+    whatsappChannel: "https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q",
     contactPhone: "+234 903 954 5275",
     contactEmail: "advisory@affluentaccelerators.com",
     officeLocation: "Victoria Island, Lagos, Nigeria",
