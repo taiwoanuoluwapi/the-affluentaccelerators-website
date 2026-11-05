@@ -12,7 +12,7 @@
 // To connect to your spreadsheet:
 // 1. Follow the 3-minute steps in GOOGLE_SHEETS_SETUP.md (or copy google-sheets-script.js)
 // 2. Paste your deployed Apps Script Web App URL below:
-const GOOGLE_SHEETS_WEBHOOK_URL = "";
+const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMHbeZpnL0OHOmzn8p8-06057uXbnhHmUcEbgkgm5sxeNqLxgVULs0Ar8E7HIXp3Y/exec";
 
 // Default Initial State
 const DEFAULT_STATE = {
