@@ -511,6 +511,48 @@ class AffluentApp {
         );
       });
     }
+
+    // Form D: Custom Business Video & Strategy Audit Request
+    const formAudit = document.getElementById('form-business-audit');
+    if (formAudit) {
+      formAudit.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = formAudit.querySelector('button[type="submit"]');
+        const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span>Assigning Consultant & Preparing Audit...</span>`;
+        }
+
+        const leadData = {
+          "Reference ID": `AUD-${Date.now().toString().slice(-4)}`,
+          "Full Name": formAudit.querySelector('#audit-name').value.trim(),
+          "Business Name": formAudit.querySelector('#audit-business').value.trim(),
+          "WhatsApp Number": formAudit.querySelector('#audit-whatsapp').value.trim(),
+          "Email Address": formAudit.querySelector('#audit-email').value.trim(),
+          "Industry / Sector": formAudit.querySelector('#audit-industry').value.trim(),
+          "Current Stage": formAudit.querySelector('#audit-stage').value,
+          "What the Business Does": formAudit.querySelector('#audit-desc').value.trim(),
+          "Core Struggle / Bottleneck": formAudit.querySelector('#audit-struggles').value.trim(),
+          "Primary Goal": formAudit.querySelector('#audit-goal').value.trim(),
+          "Preferred Response Format": formAudit.querySelector('#audit-format').value
+        };
+
+        await this.submitToGoogleSheet('Custom Business Audits', leadData);
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
+
+        formAudit.reset();
+        this.closeModal('modal-business-audit');
+        this.showConfirmationModal(
+          'Audit Request Dispatched to Consultant',
+          'Thank you! Your business breakdown has been delivered directly to our consulting desk. An available consultant is preparing your personalized video/message audit and will deliver it directly to your WhatsApp number within 24 hours. Be sure to also join our WhatsApp Channel for continuous executive briefings.'
+        );
+      });
+    }
   }
 
   showConfirmationModal(title, message) {
