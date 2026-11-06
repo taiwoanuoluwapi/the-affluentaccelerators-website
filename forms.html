@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply / Forms | The Affluentaccelerators</title>
+  <meta name="description" content="Apply to our programmes, request a business audit, or submit a consulting inquiry with The Affluentaccelerators.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              950: '#03150e',
+              900: '#06261b',
+              800: '#0a3828',
+              700: '#0f4f3a',
+              600: '#16694e',
+              500: '#10b981',
+              100: '#d1fae5',
+              50: '#f0fdf4',
+            },
+            gold: {
+              600: '#b88a1b',
+              500: '#d4af37',
+              400: '#e5b83b',
+              300: '#f3c74d',
+              100: '#fef8e7',
+              50: '#fffdf5',
+            },
+            charcoal: {
+              950: '#080d0b',
+              900: '#0f1714',
+              800: '#182420',
+              700: '#24342f',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .form-tab-btn.active {
+      background-color: #06261b;
+      border-color: #e5b83b;
+      color: #f3c74d;
+    }
+    .form-tab-btn.active .tab-icon {
+      color: #e5b83b;
+    }
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+    .landing-panel { display: block; }
+    .landing-panel.hidden-panel { display: none; }
+    input, select, textarea {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen">
+
+  <!-- Simple Header -->
+  <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shadow-sm group-hover:border-gold-400 transition-colors">
+          <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+            <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+            <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-[10px] text-slate-400 font-light">the</span>
+            <span class="font-heading font-extrabold text-base text-white group-hover:text-gold-300 transition-colors">Affluentaccelerators</span>
+          </div>
+          <p class="text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+        </div>
+      </a>
+      <a href="index.html" class="text-xs font-semibold text-slate-300 hover:text-gold-400 flex items-center gap-1.5 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Home
+      </a>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Page heading -->
+    <div class="mb-8 text-center">
+      <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3 py-1 rounded-full">Applications & Inquiries</span>
+      <h1 class="mt-4 text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight">Apply, Inquire, or Get Started</h1>
+      <p class="mt-3 text-sm text-slate-600 font-light max-w-xl mx-auto">Select the form that fits your purpose. Each submission goes directly to our team.</p>
+    </div>
+
+    <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+
+      <!-- Sidebar / Tab Nav -->
+      <aside class="lg:col-span-3 mb-6 lg:mb-0">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden lg:sticky lg:top-24">
+          <div class="p-4 bg-forest-950 border-b border-forest-800">
+            <p class="text-[10px] uppercase font-bold tracking-widest text-gold-400">Select a Form</p>
+          </div>
+          <nav class="p-3 space-y-1.5">
+            <button onclick="showForm('business-audit')"
+              class="form-tab-btn w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-xl border border-transparent hover:bg-forest-50 hover:border-forest-200 transition-all group"
+              data-form="business-audit">
+              <span class="tab-icon text-xl mt-0.5">📊</span>
+              <div>
+                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Business Audit</span>
+                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Free custom video/audio review</span>
+              </div>
+            </button>
+            <button onclick="showForm('consulting-inquiry')"
+              class="form-tab-btn w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-xl border border-transparent hover:bg-forest-50 hover:border-forest-200 transition-all group"
+              data-form="consulting-inquiry">
+              <span class="tab-icon text-xl mt-0.5">💼</span>
+              <div>
+                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Consulting Inquiry</span>
+                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Request advisory or strategy support</span>
+              </div>
+            </button>
+            <button onclick="showForm('analyst-application')"
+              class="form-tab-btn w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-xl border border-transparent hover:bg-forest-50 hover:border-forest-200 transition-all group"
+              data-form="analyst-application">
+              <span class="tab-icon text-xl mt-0.5">🎓</span>
+              <div>
+                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Analyst Application</span>
+                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">90-Day consultant/analyst programme</span>
+              </div>
+            </button>
+            <button onclick="showForm('internship-application')"
+              class="form-tab-btn w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-xl border border-transparent hover:bg-forest-50 hover:border-forest-200 transition-all group"
+              data-form="internship-application">
+              <span class="tab-icon text-xl mt-0.5">🌱</span>
+              <div>
+                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Internship Application</span>
+                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Fellowship & internship programme</span>
+              </div>
+            </button>
+          </nav>
+          <div class="px-4 pb-4">
+            <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer"
+              class="flex items-center gap-2 w-full py-2.5 px-3 rounded-xl text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 transition-colors">
+              <svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+              Join WhatsApp Channel
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="lg:col-span-9">
+
+        <!-- Landing Selection Cards (shown when no hash) -->
+        <div id="landing-panel" class="landing-panel">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <!-- Card: Business Audit -->
+            <button onclick="showForm('business-audit')"
+              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">📊</div>
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-widest text-gold-600">Free Service</span>
+                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Business Audit</h3>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">Get a customised video or audio audit of your business — delivered via WhatsApp within 24 hours by one of our consultants.</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
+                Fill This Form <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </button>
+
+            <!-- Card: Consulting Inquiry -->
+            <button onclick="showForm('consulting-inquiry')"
+              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">💼</div>
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-widest text-forest-700">Advisory</span>
+                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Consulting Inquiry</h3>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">Request a formal business consultation — strategy, operations, growth, development, or founder acceleration engagements.</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
+                Fill This Form <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </button>
+
+            <!-- Card: Analyst Application -->
+            <button onclick="showForm('analyst-application')"
+              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">🎓</div>
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-widest text-gold-600">₦175,000 · 90 Days</span>
+                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Analyst Application</h3>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">Apply for the flagship 90-Day Business Consultant/Analyst programme — practical immersion to build real consulting skills.</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
+                Apply Now <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </button>
+
+            <!-- Card: Internship Application -->
+            <button onclick="showForm('internship-application')"
+              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">🌱</div>
+                <div>
+                  <span class="block text-[10px] font-bold uppercase tracking-widest text-emerald-700">7 Roles Open</span>
+                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Internship & Fellowship</h3>
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">Apply for a practical internship or fellowship role — learn business by working directly with the Affluentaccelerators team.</p>
+              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
+                Apply Now <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- ============================= -->
+        <!-- FORM 1: BUSINESS AUDIT       -->
+        <!-- ============================= -->
+        <div id="form-panel-business-audit" class="form-panel">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <!-- Form Header -->
+            <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
+              <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">📊</div>
+              <div class="flex-1">
+                <div class="flex flex-wrap gap-2 mb-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-gold-800 bg-gold-100 px-2.5 py-0.5 rounded-full border border-gold-400/40">⚡ Rapid Consultant Response</span>
+                  <span class="text-[10px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Free • Delivered via WhatsApp</span>
+                </div>
+                <h2 class="text-xl font-heading font-extrabold text-slate-900">Get A Customised Video & Strategy Audit</h2>
+                <p class="text-xs text-slate-500 mt-1">Fill in your business details so an available consultant can send back a bespoke video/audio audit within 24h.</p>
+              </div>
+            </div>
+
+            <!-- Success Message (hidden by default) -->
+            <div id="success-business-audit" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+              <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
+              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Audit Request Submitted!</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Our team has received your submission. Expect a personalised video or voice audit within 24 hours on your WhatsApp.</p>
+              <button onclick="showForm('business-audit')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">Submit Another</button>
+            </div>
+
+            <form id="form-business-audit" class="space-y-4 text-xs" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Your Full Name *</label>
+                  <input type="text" id="audit-name" required placeholder="e.g. Adebayo Adeleke" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Business Name *</label>
+                  <input type="text" id="audit-business" required placeholder="e.g. Kora Logistics" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">WhatsApp Number * <span class="text-[10px] font-normal text-emerald-700">(Where we send your audit)</span></label>
+                  <input type="tel" id="audit-whatsapp" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Email Address *</label>
+                  <input type="email" id="audit-email" required placeholder="name@business.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Industry / Sector *</label>
+                  <input type="text" id="audit-industry" required placeholder="e.g. Retail, Tech, Healthcare, Agribusiness" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Current Stage of Business *</label>
+                  <select id="audit-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Idea / Early Pre-Revenue">Idea / Early Pre-Revenue</option>
+                    <option value="Early-Stage Generating First Sales">Early-Stage Generating First Sales</option>
+                    <option value="Consistent Revenue ($10k - $100k/yr)">Consistent Revenue ($10k - $100k/yr)</option>
+                    <option value="Scaling SME ($100k - $1M/yr)">Scaling SME ($100k - $1M/yr)</option>
+                    <option value="Established Enterprise ($1M+ ARR)">Established Enterprise ($1M+ ARR)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What does your business do and how do you make money? *</label>
+                <textarea id="audit-desc" required rows="2" placeholder="Briefly explain your primary product/service, your target customer, and current pricing or delivery model..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Where are you currently stuck or what are you struggling with? *</label>
+                <textarea id="audit-struggles" required rows="3" placeholder="Be open: e.g. Customer acquisition has stalled, unit economics aren't working, operations are chaotic without SOPs, cash flow leakage, team delegation issues..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Your #1 Priority or Growth Goal in Next 90 Days *</label>
+                  <input type="text" id="audit-goal" required placeholder="e.g. Double client retainers, fix delivery bottleneck" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Preferred Response Format</label>
+                  <select id="audit-format" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Custom Video Audit (Loom / Screen &amp; Face)">Custom Video Audit (Loom / Screen & Face)</option>
+                    <option value="Detailed WhatsApp Voice Note Breakdown">Detailed WhatsApp Voice Note Breakdown</option>
+                    <option value="Written Strategic Diagnostic Memo">Written Strategic Diagnostic Memo</option>
+                    <option value="Any Available Format">Any Available Format</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-[11px] text-emerald-900">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+                  <span>Stay ahead with strategic insights on our WhatsApp Channel</span>
+                </div>
+                <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="font-bold underline text-emerald-800 hover:text-emerald-950 flex-shrink-0 ml-2">Join ↗</a>
+              </div>
+
+              <div id="error-business-audit" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+
+              <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all">
+                Submit & Request My Custom Audit
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- =============================== -->
+        <!-- FORM 2: CONSULTING INQUIRY      -->
+        <!-- =============================== -->
+        <div id="form-panel-consulting-inquiry" class="form-panel">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
+              <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">💼</div>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-forest-800 bg-forest-100 px-2.5 py-0.5 rounded-full inline-block mb-1">Strategic Engagement</span>
+                <h2 class="text-xl font-heading font-extrabold text-slate-900">Request A Business Consultation</h2>
+                <p class="text-xs text-slate-500 mt-1">Tell us about your business and the challenges you need help solving.</p>
+              </div>
+            </div>
+
+            <div id="success-consulting-inquiry" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+              <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
+              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Inquiry Received!</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Your consultation request has been successfully submitted. Our advisory team will be in touch within 1–2 business days.</p>
+              <button onclick="showForm('consulting-inquiry')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">Submit Another</button>
+            </div>
+
+            <form id="form-consulting-inquiry" class="space-y-4 text-xs" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Full Name *</label>
+                  <input type="text" id="consulting-name" required placeholder="e.g. Olumide Adeleke" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Business Name *</label>
+                  <input type="text" id="consulting-business" required placeholder="e.g. Apex Industrial Group" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Work Email Address *</label>
+                  <input type="email" id="consulting-email" required placeholder="olumide@company.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Phone / WhatsApp Number *</label>
+                  <input type="tel" id="consulting-phone" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Industry *</label>
+                  <input type="text" id="consulting-industry" required placeholder="e.g. FMCG, Health, Tech" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Business Location *</label>
+                  <input type="text" id="consulting-location" required placeholder="e.g. Lagos, Nigeria" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Business Size or Stage *</label>
+                  <select id="consulting-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Early Traction (1-10 Employees)">Early Traction (1-10 Employees)</option>
+                    <option value="Growing SME (11-50 Employees)">Growing SME (11-50 Employees)</option>
+                    <option value="Mid-Market Enterprise (50-250 Employees)">Mid-Market (50-250 Employees)</option>
+                    <option value="Corporate / Established Organization">Corporate / Established</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What does your business currently do? *</label>
+                <textarea id="consulting-desc" required rows="2" placeholder="Briefly describe your commercial product, service, and primary target market..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What challenges are you looking to solve? *</label>
+                <textarea id="consulting-challenge" required rows="2" placeholder="e.g. Cash flow leakage, stalled customer acquisition, operational bottlenecks..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What kind of support are you interested in? *</label>
+                <select id="consulting-support" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
+                  <option value="Business Strategy &amp; Advisory">Business Strategy & Advisory</option>
+                  <option value="Business Analysis &amp; Research Diagnostic">Business Analysis & Research Diagnostic</option>
+                  <option value="Business Development &amp; Growth">Business Development & Growth</option>
+                  <option value="Operations &amp; Systems Optimization">Operations & Systems Optimization</option>
+                  <option value="Founder Business Acceleration">Founder Business Acceleration</option>
+                  <option value="Comprehensive Enterprise Advisory">Comprehensive Enterprise Advisory</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Additional Information (Optional)</label>
+                <input type="text" id="consulting-notes" placeholder="Any timelines, specific requirements, or background context" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+              </div>
+
+              <div id="error-consulting-inquiry" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
+                Request A Consultation
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- =============================== -->
+        <!-- FORM 3: ANALYST APPLICATION     -->
+        <!-- =============================== -->
+        <div id="form-panel-analyst-application" class="form-panel">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
+              <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">🎓</div>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-forest-900 bg-gold-100 px-2.5 py-0.5 rounded-full inline-block mb-1">Flagship 90-Day Programme</span>
+                <h2 class="text-xl font-heading font-extrabold text-slate-900">Application: Business Consultant/Analyst</h2>
+                <p class="text-[11px] text-slate-500">Duration: 90 Days • Investment: <strong class="text-forest-900">₦175,000</strong></p>
+              </div>
+            </div>
+
+            <div id="success-analyst-application" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+              <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
+              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Application Submitted!</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Your application for the 90-Day Business Consultant/Analyst Programme has been received. Our admissions team will contact you within 2–3 business days.</p>
+              <button onclick="showForm('analyst-application')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">Submit Another</button>
+            </div>
+
+            <form id="form-analyst-application" class="space-y-4 text-xs" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Full Name *</label>
+                  <input type="text" id="analyst-name" required placeholder="e.g. Amina Bello" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Email Address *</label>
+                  <input type="email" id="analyst-email" required placeholder="amina@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Phone Number (WhatsApp Active) *</label>
+                  <input type="tel" id="analyst-phone" required placeholder="+234 812 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Location / City of Residence *</label>
+                  <input type="text" id="analyst-location" required placeholder="e.g. Lagos, Abuja, Port Harcourt" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Highest Educational Qualification *</label>
+                  <select id="analyst-qualification" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Undergraduate (In Progress)">Undergraduate (In Progress)</option>
+                    <option value="Bachelor's Degree (B.Sc / B.A / B.Tech)">Bachelor's Degree (B.Sc / B.A / B.Tech)</option>
+                    <option value="Master's Degree (M.Sc / MBA)">Master's Degree (M.Sc / MBA)</option>
+                    <option value="HND / Polytechnic Diploma">HND / Polytechnic Diploma</option>
+                    <option value="Doctorate or Professional License">Doctorate or Professional License</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Current Occupation / Role *</label>
+                  <input type="text" id="analyst-occupation" required placeholder="e.g. Business Analyst, Accountant, Graduate" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Why do you want to become a business consultant/analyst? *</label>
+                <textarea id="analyst-why" required rows="2" placeholder="Tell us your motivation, transition goals, or career ambitions..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What interests you most about business strategy and analysis? *</label>
+                <textarea id="analyst-interest" required rows="2" placeholder="e.g. Deconstructing financial models, solving operating friction, client consulting..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What do you hope to achieve after completing the 90-day programme? *</label>
+                <input type="text" id="analyst-goals" required placeholder="e.g. Secure a top consulting role, advise business clients, scale my firm" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Available to commit to the 90-day schedule? *</label>
+                  <select id="analyst-commitment" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Yes, fully available">Yes, fully available</option>
+                    <option value="Yes, with flexible evening/weekend sessions">Yes, with flexible evening/weekend sessions</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Ready to make the ₦175,000 investment? *</label>
+                  <select id="analyst-investment" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-bold text-forest-900 text-sm">
+                    <option value="Yes - Ready upon acceptance">Yes - Ready upon acceptance</option>
+                    <option value="Yes - Seeking installment plan">Yes - Seeking installment plan</option>
+                    <option value="Need to discuss details first">Need to discuss details with admissions</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">How did you hear about us? *</label>
+                <select id="analyst-source" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  <option value="Official Poster / Flyer">Official Poster / Flyer</option>
+                  <option value="LinkedIn">LinkedIn</option>
+                  <option value="Referral / Professional Colleague">Referral / Professional Colleague</option>
+                  <option value="Instagram / Social Media">Instagram / Social Media</option>
+                  <option value="Direct Web Search">Direct Web Search</option>
+                </select>
+              </div>
+
+              <div id="error-analyst-application" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
+                Submit Application (₦175,000 Cohort)
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================================== -->
+        <!-- FORM 4: INTERNSHIP APPLICATION     -->
+        <!-- ================================== -->
+        <div id="form-panel-internship-application" class="form-panel">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
+              <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">🌱</div>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-forest-800 bg-forest-100 px-2.5 py-0.5 rounded-full inline-block mb-1">Experiential Learning</span>
+                <h2 class="text-xl font-heading font-extrabold text-slate-900">Application: Internship & Fellowship</h2>
+                <p class="text-xs text-slate-500 mt-1">Apply for a practical internship or fellowship role with The Affluentaccelerators team.</p>
+              </div>
+            </div>
+
+            <div id="success-internship-application" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+              <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
+              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Application Submitted!</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Your internship/fellowship application has been received. Our team will review and reach out within 3–5 business days.</p>
+              <button onclick="showForm('internship-application')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-forest-900 hover:bg-forest-800 transition-colors">Submit Another</button>
+            </div>
+
+            <form id="form-internship-application" class="space-y-4 text-xs" novalidate>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Full Name *</label>
+                  <input type="text" id="internship-name" required placeholder="e.g. David Eze" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Email Address *</label>
+                  <input type="email" id="internship-email" required placeholder="david@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Phone / WhatsApp Number *</label>
+                  <input type="tel" id="internship-phone" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Location *</label>
+                  <input type="text" id="internship-location" required placeholder="e.g. Lagos, Nigeria" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Educational Background *</label>
+                  <input type="text" id="internship-education" required placeholder="e.g. B.Sc Finance / Final Year Law / NYSC" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Current Occupation *</label>
+                  <input type="text" id="internship-occupation" required placeholder="e.g. Student, Corp Member, Early Career" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Preferred Role *</label>
+                <select id="internship-preferred-role" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-slate-900 text-sm">
+                  <option value="Business Research Associate">Business Research Associate</option>
+                  <option value="Business Analyst Intern">Business Analyst Intern</option>
+                  <option value="Consulting Associate">Consulting Associate</option>
+                  <option value="Business Development Intern">Business Development Intern</option>
+                  <option value="Marketing &amp; Growth Associate">Marketing & Growth Associate</option>
+                  <option value="Operations &amp; Project Support">Operations & Project Support</option>
+                  <option value="Research &amp; Strategy Fellow">Research & Strategy Fellow</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Relevant Skills *</label>
+                  <input type="text" id="internship-skills" required placeholder="e.g. Financial modeling, Excel, Writing, Research" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Weekly Availability *</label>
+                  <select id="internship-availability" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                    <option value="Full-Time (40 hrs/wk)">Full-Time (40 hrs/wk)</option>
+                    <option value="Part-Time (20 hrs/wk)">Part-Time (20 hrs/wk)</option>
+                    <option value="Hybrid Project-Based">Hybrid Project-Based</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Previous Experience (Brief Summary)</label>
+                <textarea id="internship-experience" rows="2" placeholder="List any internships, university leadership, projects, or work history..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Why are you interested in joining The Affluentaccelerators? *</label>
+                <textarea id="internship-why" required rows="2" placeholder="What attracts you to our consulting and accelerator approach?..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">What do you hope to learn? *</label>
+                <input type="text" id="internship-learn" required placeholder="e.g. How to diagnose businesses, master market analysis" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">CV / Resume Document Name</label>
+                  <input type="text" id="internship-cv-name" placeholder="e.g. David_Eze_CV_2026.pdf" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-mono text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">LinkedIn or Portfolio Link *</label>
+                  <input type="url" id="internship-portfolio" required placeholder="https://linkedin.com/in/yourprofile" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <div id="error-internship-application" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-white bg-forest-900 hover:bg-forest-800 shadow-md transition-all">
+                Submit Application
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-16 bg-forest-950 text-slate-400 border-t border-forest-900 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs">
+      <p class="text-slate-500">© 2026 The Affluentaccelerators. All rights reserved.</p>
+      <p class="mt-1"><a href="index.html" class="text-gold-400 hover:text-gold-300 font-semibold">← Back to Homepage</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMHbeZpnL0OHOmzn8p8-06057uXbnhHmUcEbgkgm5sxeNqLxgVULs0Ar8E7HIXp3Y/exec';
+
+    const formKeys = ['business-audit', 'consulting-inquiry', 'analyst-application', 'internship-application'];
+
+    // Show/hide panels
+    function showForm(formKey) {
+      // Hide landing
+      document.getElementById('landing-panel').classList.add('hidden-panel');
+      // Hide all form panels
+      formKeys.forEach(function(k) {
+        const panel = document.getElementById('form-panel-' + k);
+        if (panel) panel.classList.remove('active');
+        // Update tab button styles
+        const btn = document.querySelector('.form-tab-btn[data-form="' + k + '"]');
+        if (btn) btn.classList.remove('active');
+      });
+      // Show selected form
+      const target = document.getElementById('form-panel-' + formKey);
+      if (target) target.classList.add('active');
+      const activeBtn = document.querySelector('.form-tab-btn[data-form="' + formKey + '"]');
+      if (activeBtn) activeBtn.classList.add('active');
+      // Update URL hash
+      history.pushState(null, '', '#' + formKey);
+      // Scroll to top of content
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showLanding() {
+      document.getElementById('landing-panel').classList.remove('hidden-panel');
+      formKeys.forEach(function(k) {
+        const panel = document.getElementById('form-panel-' + k);
+        if (panel) panel.classList.remove('active');
+        const btn = document.querySelector('.form-tab-btn[data-form="' + k + '"]');
+        if (btn) btn.classList.remove('active');
+      });
+      history.pushState(null, '', window.location.pathname);
+    }
+
+    // Check URL hash on load
+    function checkHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && formKeys.includes(hash)) {
+        showForm(hash);
+      } else {
+        showLanding();
+      }
+    }
+
+    window.addEventListener('hashchange', checkHash);
+    document.addEventListener('DOMContentLoaded', checkHash);
+
+    // === Form Submission Logic ===
+    async function submitForm(formKey, data) {
+      const errorEl = document.getElementById('error-' + formKey);
+      const successEl = document.getElementById('success-' + formKey);
+      const formEl = document.getElementById('form-' + formKey);
+
+      try {
+        const payload = Object.assign({ formType: formKey, timestamp: new Date().toISOString() }, data);
+        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+
+        // no-cors means we can't read response body, treat as success
+        if (errorEl) errorEl.classList.add('hidden');
+        if (formEl) formEl.classList.add('hidden');
+        if (successEl) successEl.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        if (errorEl) {
+          errorEl.textContent = 'Submission failed. Please try again or contact us directly at +234 903 954 5275.';
+          errorEl.classList.remove('hidden');
+        }
+        console.error('Form submission error:', err);
+      }
+    }
+
+    // Business Audit
+    document.getElementById('form-business-audit').addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitForm('business-audit', {
+        name: document.getElementById('audit-name').value,
+        businessName: document.getElementById('audit-business').value,
+        whatsapp: document.getElementById('audit-whatsapp').value,
+        email: document.getElementById('audit-email').value,
+        industry: document.getElementById('audit-industry').value,
+        stage: document.getElementById('audit-stage').value,
+        description: document.getElementById('audit-desc').value,
+        struggles: document.getElementById('audit-struggles').value,
+        goal: document.getElementById('audit-goal').value,
+        preferredFormat: document.getElementById('audit-format').value,
+      });
+    });
+
+    // Consulting Inquiry
+    document.getElementById('form-consulting-inquiry').addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitForm('consulting-inquiry', {
+        name: document.getElementById('consulting-name').value,
+        businessName: document.getElementById('consulting-business').value,
+        email: document.getElementById('consulting-email').value,
+        phone: document.getElementById('consulting-phone').value,
+        industry: document.getElementById('consulting-industry').value,
+        location: document.getElementById('consulting-location').value,
+        stage: document.getElementById('consulting-stage').value,
+        description: document.getElementById('consulting-desc').value,
+        challenges: document.getElementById('consulting-challenge').value,
+        supportType: document.getElementById('consulting-support').value,
+        notes: document.getElementById('consulting-notes').value,
+      });
+    });
+
+    // Analyst Application
+    document.getElementById('form-analyst-application').addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitForm('analyst-application', {
+        name: document.getElementById('analyst-name').value,
+        email: document.getElementById('analyst-email').value,
+        phone: document.getElementById('analyst-phone').value,
+        location: document.getElementById('analyst-location').value,
+        qualification: document.getElementById('analyst-qualification').value,
+        occupation: document.getElementById('analyst-occupation').value,
+        motivation: document.getElementById('analyst-why').value,
+        interests: document.getElementById('analyst-interest').value,
+        goals: document.getElementById('analyst-goals').value,
+        commitment: document.getElementById('analyst-commitment').value,
+        investmentReady: document.getElementById('analyst-investment').value,
+        source: document.getElementById('analyst-source').value,
+      });
+    });
+
+    // Internship Application
+    document.getElementById('form-internship-application').addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitForm('internship-application', {
+        name: document.getElementById('internship-name').value,
+        email: document.getElementById('internship-email').value,
+        phone: document.getElementById('internship-phone').value,
+        location: document.getElementById('internship-location').value,
+        education: document.getElementById('internship-education').value,
+        occupation: document.getElementById('internship-occupation').value,
+        preferredRole: document.getElementById('internship-preferred-role').value,
+        skills: document.getElementById('internship-skills').value,
+        availability: document.getElementById('internship-availability').value,
+        experience: document.getElementById('internship-experience').value,
+        motivation: document.getElementById('internship-why').value,
+        learningGoals: document.getElementById('internship-learn').value,
+        cvName: document.getElementById('internship-cv-name').value,
+        portfolio: document.getElementById('internship-portfolio').value,
+      });
+    });
+
+    // Reset forms when "Submit Another" is clicked (re-show the form)
+    function resetFormPanel(formKey) {
+      const formEl = document.getElementById('form-' + formKey);
+      const successEl = document.getElementById('success-' + formKey);
+      if (formEl) { formEl.reset(); formEl.classList.remove('hidden'); }
+      if (successEl) successEl.classList.add('hidden');
+    }
+    // Patch showForm to also reset if needed
+    const _origShowForm = showForm;
+    window.showForm = function(formKey) {
+      resetFormPanel(formKey);
+      _origShowForm(formKey);
+    };
+  </script>
+</body>
+</html>
