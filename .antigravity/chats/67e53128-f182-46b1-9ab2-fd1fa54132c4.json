@@ -232,6 +232,18 @@
       "created_at": "2026-11-06T21:03:41.181Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "a54f0065-c0c9-4c66-abd2-78cb34316f33",
+      "role": "agent",
+      "content": "I have added the dedicated **Careers & Hiring Path** section to the website along with direct application links, rich position cards using your attached flyer creatives, and interactive details modals.\n\n### Summary of What Was Implemented:\n\n1. **New Careers Section (`#careers`) on the Homepage**:\n   - **Featured Roles**:\n     - **Business Development Intern**: Includes the attached flyer banner ([`images/photo-1793998991-aa2875b2.jpg`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/images/photo-1793998991-aa2875b2.jpg)), role mission (*\"Learn. Contribute. Build Real Businesses\"*), key responsibilities (identify opportunities, research & initiate, drive results), fit criteria, direct [**Apply on Google Form**](https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform) button, and a **View More & Details** modal trigger.\n     - **Executive Assistant Intern**: Includes the attached flyer banner ([`images/photo-1793998991-8c1bed48.jpg`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/images/photo-1793998991-8c1bed48.jpg)), role mission (*\"Be the right hand in building businesses and impact\"*), schedule tracking, task/project coordination, information organization, stakeholder communication, direct [**Apply on Google Form**](https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform) button, and a **View More & Details** modal trigger.\n   - **Talent Trajectory Highlight**: Explains why candidates should join The Affluentaccelerators (hands-on casework, mentorship, verified portfolio, and direct path to associate roles).\n   - **Talent Pool / General Application**: Connects to the broader internship application pipeline.\n\n2. **Interactive Role Modals**:\n   - Clicking **\"View More & Details\"** opens a modal showcasing the full flyer image, detailed responsibilities, qualifications, learning outcomes, and direct application links.\n\n3. **Navigation & Site Flow**:\n   - Added **Careers & Hiring (2 Openings)** badge to the slide-in drawer navigation menu.\n   - Added direct links in the footer under **Firm & Governance** for swift discovery.\n   - Added an **Actively Hiring Notice** on [`forms.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html) with fast links directly to both Google Forms.\n   - Registered the `#careers` route in [`app.js`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js) with smooth scrolling.\n\n### View the Live Site\nYou can preview the live updates here:\nhttps://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/",
+      "status": "completed",
+      "model": "gemini-3.8-flash-low",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "df1d981d-f1c4-4c5d-957e-bcb0dfdd56d6",
+      "created_at": "2026-11-06T21:12:22.550Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
