@@ -30,7 +30,8 @@ const DEFAULT_STATE = {
     { id: "role-1", title: "Business Research Associate", type: "Research & Strategy", active: true, department: "Strategy & Advisory", commitment: "Full-Time / Part-Time" },
     { id: "role-2", title: "Business Analyst Intern", type: "Analysis & Intelligence", active: true, department: "Consulting Operations", commitment: "Full-Time" },
     { id: "role-3", title: "Consulting Associate", type: "Client Engagements", active: true, department: "Client Advisory", commitment: "Full-Time" },
-    { id: "role-4", title: "Business Development Intern", type: "Growth & Partnerships", active: true, department: "Growth & Expansion", commitment: "Full-Time" },
+    { id: "role-4", title: "Business Development Intern", type: "Growth & Partnerships", active: true, department: "Growth & Expansion", commitment: "Full-Time / Flexible", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform", isHot: true },
+    { id: "role-ea", title: "Executive Assistant Intern", type: "Executive Support & Operations", active: true, department: "Executive Office", commitment: "Full-Time / Flexible", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform", isHot: true },
     { id: "role-5", title: "Marketing & Growth Associate", type: "Brand & Campaigns", active: true, department: "Commercial Growth", commitment: "Full-Time" },
     { id: "role-6", title: "Operations & Project Support", type: "Process Optimization", active: true, department: "Internal Operations", commitment: "Full-Time" },
     { id: "role-7", title: "Research & Strategy Fellow", type: "Fellowship (Advanced)", active: true, department: "Executive Research", commitment: "6-Month Fellowship" }
@@ -171,7 +172,7 @@ class AffluentApp {
     let hash = window.location.hash.replace('#', '') || 'home';
     
     // Check if hash points to an anchor on home page
-    const homeAnchors = ['about', 'services', 'approach', 'programmes', 'why-us', 'experience', 'insights', 'contact'];
+    const homeAnchors = ['about', 'services', 'approach', 'programmes', 'why-us', 'experience', 'careers', 'insights', 'contact'];
     
     if (homeAnchors.includes(hash)) {
       this.switchView('home');
@@ -742,6 +743,26 @@ class AffluentApp {
     });
   }
 }
+
+
+// Global Career Role Modal Helpers
+window.openRoleModal = function(roleId) {
+  const modal = document.getElementById(roleId === 'role-ea-intern' ? 'modal-ea-intern' : 'modal-bd-intern');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeRoleModal = function(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+};
 
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
