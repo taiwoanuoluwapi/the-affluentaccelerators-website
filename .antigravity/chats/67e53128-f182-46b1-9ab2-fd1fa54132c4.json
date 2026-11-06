@@ -208,6 +208,18 @@
       "created_at": "2026-11-06T02:43:27.541Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "83dac8b3-6d32-4ab0-9d62-818285baa2a6",
+      "role": "user",
+      "content": "I attached images: images/photo-1793998876-b7d3703c.jpg, images/photo-1793998876-0b77d1a0.jpg.\n\nI would love to add a career section (path) where we can list our job and hiring opportunities, currently we have a BD intern, an EA intern open.",
+      "status": "cancelled",
+      "model": "gemini-3.8-flash-low",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-06T21:01:30.510Z",
+      "sender": "ios",
+      "is_cancelled": true
     }
   ]
 }
