@@ -633,6 +633,33 @@
                 </select>
               </div>
 
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Upload CV / Professional Profile (PDF) <span class="text-slate-400 font-normal">(Recommended)</span></label>
+                <div class="relative border-2 border-dashed border-slate-300 hover:border-gold-400 rounded-2xl p-4 transition-colors bg-white group cursor-pointer text-center" id="dropzone-analyst-cv">
+                  <input type="file" id="analyst-cv-file" accept=".pdf,application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                  <div id="preview-analyst-cv-default" class="flex flex-col items-center justify-center py-2">
+                    <div class="w-9 h-9 rounded-xl bg-forest-50 text-forest-800 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition-transform">
+                      📄
+                    </div>
+                    <p class="text-xs font-bold text-slate-800"><span class="text-forest-800 underline">Click to upload CV or Profile</span> or drag and drop</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">PDF documents only • Max 10MB • Saved to Drive folder: "The Affluentaccelerators: Hiring"</p>
+                  </div>
+                  <div id="preview-analyst-cv-selected" class="hidden flex items-center justify-between p-2.5 bg-forest-50 rounded-xl border border-forest-200">
+                    <div class="flex items-center gap-2.5 truncate">
+                      <span class="text-lg">📑</span>
+                      <div class="truncate text-left">
+                        <p id="filename-analyst-cv" class="text-xs font-bold text-forest-950 truncate"></p>
+                        <p id="filesize-analyst-cv" class="text-[10px] text-emerald-700 font-medium"></p>
+                      </div>
+                    </div>
+                    <button type="button" id="remove-analyst-cv" class="z-20 text-slate-400 hover:text-red-600 p-1 text-xs font-bold transition-colors">
+                      ✕ Remove
+                    </button>
+                  </div>
+                </div>
+                <div id="error-analyst-cv" class="hidden mt-1 text-[11px] text-red-600 font-medium"></div>
+              </div>
+
               <div id="error-analyst-application" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
 
               <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
@@ -741,15 +768,36 @@
                 <input type="text" id="internship-learn" required placeholder="e.g. How to diagnose businesses, master market analysis" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">CV / Resume Document Name</label>
-                  <input type="text" id="internship-cv-name" placeholder="e.g. David_Eze_CV_2026.pdf" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-mono text-sm">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Upload CV / Resume (PDF) *</label>
+                <div class="relative border-2 border-dashed border-slate-300 hover:border-gold-400 rounded-2xl p-4 transition-colors bg-white group cursor-pointer text-center" id="dropzone-internship-cv">
+                  <input type="file" id="internship-cv-file" accept=".pdf,application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                  <div id="preview-internship-cv-default" class="flex flex-col items-center justify-center py-2">
+                    <div class="w-9 h-9 rounded-xl bg-forest-50 text-forest-800 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition-transform">
+                      📄
+                    </div>
+                    <p class="text-xs font-bold text-slate-800"><span class="text-forest-800 underline">Click to upload your CV (PDF)</span> or drag and drop</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">PDF documents only • Max 10MB • Saved to Drive folder: "The Affluentaccelerators: Hiring"</p>
+                  </div>
+                  <div id="preview-internship-cv-selected" class="hidden flex items-center justify-between p-2.5 bg-forest-50 rounded-xl border border-forest-200">
+                    <div class="flex items-center gap-2.5 truncate">
+                      <span class="text-lg">📑</span>
+                      <div class="truncate text-left">
+                        <p id="filename-internship-cv" class="text-xs font-bold text-forest-950 truncate"></p>
+                        <p id="filesize-internship-cv" class="text-[10px] text-emerald-700 font-medium"></p>
+                      </div>
+                    </div>
+                    <button type="button" id="remove-internship-cv" class="z-20 text-slate-400 hover:text-red-600 p-1 text-xs font-bold transition-colors">
+                      ✕ Remove
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">LinkedIn or Portfolio Link *</label>
-                  <input type="url" id="internship-portfolio" required placeholder="https://linkedin.com/in/yourprofile" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
+                <div id="error-internship-cv" class="hidden mt-1 text-[11px] text-red-600 font-medium"></div>
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">LinkedIn or Portfolio Link <span class="text-slate-400 font-normal">(Optional)</span></label>
+                <input type="url" id="internship-portfolio" placeholder="https://linkedin.com/in/yourprofile" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
               </div>
 
               <div id="error-internship-application" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
@@ -825,20 +873,207 @@
     window.addEventListener('hashchange', checkHash);
     document.addEventListener('DOMContentLoaded', checkHash);
 
+    // === PDF Drag & Drop / File Uploader Helper ===
+    function setupPdfUploader(config) {
+      const dropzone = document.getElementById(config.dropzoneId);
+      const input = document.getElementById(config.inputId);
+      const defaultPreview = document.getElementById(config.defaultPreviewId);
+      const selectedPreview = document.getElementById(config.selectedPreviewId);
+      const filenameEl = document.getElementById(config.filenameId);
+      const filesizeEl = document.getElementById(config.filesizeId);
+      const removeBtn = document.getElementById(config.removeBtnId);
+      const errorEl = document.getElementById(config.errorId);
+
+      if (!input) return null;
+
+      let currentFile = null;
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+        else return (bytes / 1048576).toFixed(2) + ' MB';
+      }
+
+      function setError(msg) {
+        if (errorEl) {
+          if (msg) {
+            errorEl.textContent = msg;
+            errorEl.classList.remove('hidden');
+          } else {
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+          }
+        }
+      }
+
+      function handleFile(file) {
+        setError('');
+        if (!file) return;
+
+        // Check if PDF
+        const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+        if (!isPdf) {
+          setError('Invalid file format: Please select a PDF document (.pdf).');
+          clearFile();
+          return;
+        }
+
+        // Max 10MB
+        const maxSize = 10 * 1024 * 1024;
+        if (file.size > maxSize) {
+          setError('File exceeds 10MB limit (' + formatBytes(file.size) + '). Please choose a smaller PDF.');
+          clearFile();
+          return;
+        }
+
+        // Read file as Base64
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const dataUrl = e.target.result;
+          const base64 = dataUrl.split(',')[1];
+          currentFile = {
+            base64: base64,
+            fileName: file.name,
+            mimeType: 'application/pdf',
+            fileSize: file.size
+          };
+
+          if (filenameEl) filenameEl.textContent = file.name;
+          if (filesizeEl) filesizeEl.textContent = formatBytes(file.size) + ' • Ready to upload to Google Drive';
+          if (defaultPreview) defaultPreview.classList.add('hidden');
+          if (selectedPreview) selectedPreview.classList.remove('hidden');
+          if (dropzone) dropzone.classList.add('border-emerald-500', 'bg-emerald-50/40');
+        };
+        reader.onerror = function() {
+          setError('Error reading file. Please try again.');
+          clearFile();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function clearFile() {
+        currentFile = null;
+        if (input) input.value = '';
+        if (defaultPreview) defaultPreview.classList.remove('hidden');
+        if (selectedPreview) selectedPreview.classList.add('hidden');
+        if (dropzone) dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+      }
+
+      input.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+          handleFile(e.target.files[0]);
+        }
+      });
+
+      if (removeBtn) {
+        removeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          clearFile();
+          setError('');
+        });
+      }
+
+      // Drag and drop events on dropzone
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('border-gold-400', 'bg-gold-50/40');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('border-gold-400', 'bg-gold-50/40');
+          }, false);
+        });
+
+        dropzone.addEventListener('drop', function(e) {
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files[0]) {
+            handleFile(dt.files[0]);
+          }
+        }, false);
+      }
+
+      return {
+        getFile: () => currentFile,
+        clear: clearFile,
+        hasFile: () => currentFile !== null,
+        setError: setError
+      };
+    }
+
+    // Initialize Uploaders
+    const consultingUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-consulting-doc',
+      inputId: 'consulting-doc-file',
+      defaultPreviewId: 'preview-consulting-doc-default',
+      selectedPreviewId: 'preview-consulting-doc-selected',
+      filenameId: 'filename-consulting-doc',
+      filesizeId: 'filesize-consulting-doc',
+      removeBtnId: 'remove-consulting-doc',
+      errorId: 'error-consulting-doc'
+    });
+
+    const analystUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-analyst-cv',
+      inputId: 'analyst-cv-file',
+      defaultPreviewId: 'preview-analyst-cv-default',
+      selectedPreviewId: 'preview-analyst-cv-selected',
+      filenameId: 'filename-analyst-cv',
+      filesizeId: 'filesize-analyst-cv',
+      removeBtnId: 'remove-analyst-cv',
+      errorId: 'error-analyst-cv'
+    });
+
+    const internshipUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-internship-cv',
+      inputId: 'internship-cv-file',
+      defaultPreviewId: 'preview-internship-cv-default',
+      selectedPreviewId: 'preview-internship-cv-selected',
+      filenameId: 'filename-internship-cv',
+      filesizeId: 'filesize-internship-cv',
+      removeBtnId: 'remove-internship-cv',
+      errorId: 'error-internship-cv'
+    });
+
     // === Form Submission Logic ===
-    async function submitForm(formKey, data) {
+    async function submitForm(formKey, data, fileObj) {
       const errorEl = document.getElementById('error-' + formKey);
       const successEl = document.getElementById('success-' + formKey);
       const formEl = document.getElementById('form-' + formKey);
+      const submitBtn = formEl ? formEl.querySelector('button[type="submit"]') : null;
+      const origBtnText = submitBtn ? submitBtn.innerHTML : '';
 
       try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = fileObj 
+            ? `<span>Uploading to Google Drive & Transmitting...</span>` 
+            : `<span>Submitting to Advisory Council...</span>`;
+        }
+
         const payload = Object.assign({ formType: formKey, timestamp: new Date().toISOString() }, data);
-        const response = await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+        if (fileObj && fileObj.base64) {
+          payload.file = fileObj;
+        }
+
+        await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload),
           mode: 'no-cors'
         });
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
 
         // no-cors means we can't read response body, treat as success
         if (errorEl) errorEl.classList.add('hidden');
@@ -846,6 +1081,10 @@
         if (successEl) successEl.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
         if (errorEl) {
           errorEl.textContent = 'Submission failed. Please try again or contact us directly at +234 903 954 5275.';
           errorEl.classList.remove('hidden');
@@ -874,6 +1113,7 @@
     // Consulting Inquiry
     document.getElementById('form-consulting-inquiry').addEventListener('submit', function(e) {
       e.preventDefault();
+      const fileObj = consultingUploader ? consultingUploader.getFile() : null;
       submitForm('consulting-inquiry', {
         name: document.getElementById('consulting-name').value,
         businessName: document.getElementById('consulting-business').value,
@@ -886,12 +1126,13 @@
         challenges: document.getElementById('consulting-challenge').value,
         supportType: document.getElementById('consulting-support').value,
         notes: document.getElementById('consulting-notes').value,
-      });
+      }, fileObj);
     });
 
     // Analyst Application
     document.getElementById('form-analyst-application').addEventListener('submit', function(e) {
       e.preventDefault();
+      const fileObj = analystUploader ? analystUploader.getFile() : null;
       submitForm('analyst-application', {
         name: document.getElementById('analyst-name').value,
         email: document.getElementById('analyst-email').value,
@@ -905,12 +1146,17 @@
         commitment: document.getElementById('analyst-commitment').value,
         investmentReady: document.getElementById('analyst-investment').value,
         source: document.getElementById('analyst-source').value,
-      });
+      }, fileObj);
     });
 
     // Internship Application
     document.getElementById('form-internship-application').addEventListener('submit', function(e) {
       e.preventDefault();
+      const fileObj = internshipUploader ? internshipUploader.getFile() : null;
+      if (!fileObj && !document.getElementById('internship-portfolio').value.trim()) {
+        if (internshipUploader) internshipUploader.setError('Please upload your CV / Resume in PDF format.');
+        return;
+      }
       submitForm('internship-application', {
         name: document.getElementById('internship-name').value,
         email: document.getElementById('internship-email').value,
@@ -924,9 +1170,8 @@
         experience: document.getElementById('internship-experience').value,
         motivation: document.getElementById('internship-why').value,
         learningGoals: document.getElementById('internship-learn').value,
-        cvName: document.getElementById('internship-cv-name').value,
         portfolio: document.getElementById('internship-portfolio').value,
-      });
+      }, fileObj);
     });
 
     // Reset forms when "Submit Another" is clicked (re-show the form)
@@ -935,6 +1180,9 @@
       const successEl = document.getElementById('success-' + formKey);
       if (formEl) { formEl.reset(); formEl.classList.remove('hidden'); }
       if (successEl) successEl.classList.add('hidden');
+      if (formKey === 'consulting-inquiry' && consultingUploader) consultingUploader.clear();
+      if (formKey === 'analyst-application' && analystUploader) analystUploader.clear();
+      if (formKey === 'internship-application' && internshipUploader) internshipUploader.clear();
     }
     // Patch showForm to also reset if needed
     const _origShowForm = showForm;
