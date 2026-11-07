@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers & Growth Pathways | The Affluentaccelerators</title>
+  <meta name="description" content="Explore careers, internships, and strategic growth pathways at The Affluentaccelerators. Build real businesses, receive direct mentorship, and accelerate your commercial consulting career.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              950: '#03150e',
+              900: '#06261b',
+              800: '#0a3828',
+              700: '#0f4f3a',
+              600: '#16694e',
+              500: '#10b981',
+              100: '#d1fae5',
+              50: '#f0fdf4',
+            },
+            gold: {
+              600: '#b88a1b',
+              500: '#d4af37',
+              400: '#e5b83b',
+              300: '#f3c74d',
+              100: '#fef8e7',
+              50: '#fffdf5',
+            },
+            charcoal: {
+              950: '#080d0b',
+              900: '#0f1714',
+              800: '#182420',
+              700: '#24342f',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .pathway-step-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pathway-step-card:hover {
+      transform: translateY(-4px);
+    }
+    .role-filter-btn.active {
+      background-color: #06261b;
+      color: #f3c74d;
+      border-color: #e5b83b;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen">
+
+  <!-- ============================================================== -->
+  <!-- TOP NAVIGATION HEADER -->
+  <!-- ============================================================== -->
+  <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shadow-sm group-hover:border-gold-400 transition-colors">
+          <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+            <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+            <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-[10px] text-slate-400 font-light">the</span>
+            <span class="font-heading font-extrabold text-base sm:text-lg text-white group-hover:text-gold-300 transition-colors">Affluentaccelerators</span>
+          </div>
+          <p class="text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <nav class="hidden lg:flex items-center space-x-6 text-xs font-semibold">
+        <a href="index.html" class="text-slate-300 hover:text-gold-300 transition-colors">Home</a>
+        <a href="index.html#about" class="text-slate-300 hover:text-gold-300 transition-colors">About Us</a>
+        <a href="index.html#services" class="text-slate-300 hover:text-gold-300 transition-colors">Consulting Services</a>
+        <a href="#pathway" class="text-slate-300 hover:text-gold-300 transition-colors">Career Pathway</a>
+        <a href="#open-roles" class="text-gold-300 hover:text-gold-200 transition-colors flex items-center gap-1.5">
+          <span>Active Openings</span>
+          <span class="text-[10px] bg-gold-400 text-forest-950 px-2 py-0.5 rounded-full font-bold">2 Hot</span>
+        </a>
+        <a href="forms.html" class="text-slate-300 hover:text-gold-300 transition-colors">Apply / Forms</a>
+      </nav>
+
+      <!-- Desktop Action CTAs -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-forest-950 hover:bg-forest-800 border border-gold-400/30 transition-all">
+          <svg class="w-3.5 h-3.5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+          <span>Hiring Channel</span>
+        </a>
+        <a href="#open-roles" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
+          <span>Apply Now ↓</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-xl bg-forest-950 text-gold-400 border border-gold-400/30 text-xl focus:outline-none" aria-label="Toggle Navigation">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-forest-950 border-b border-forest-800 text-white px-6 py-5 space-y-3">
+    <a href="index.html" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Home</a>
+    <a href="index.html#about" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">About Us</a>
+    <a href="index.html#services" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Consulting Services</a>
+    <a href="#pathway" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Career Pathway</a>
+    <a href="#open-roles" class="block text-sm font-semibold text-gold-300 py-1 flex items-center justify-between">
+      <span>Active Openings</span>
+      <span class="text-[10px] bg-gold-400 text-forest-950 px-2 py-0.5 rounded-full font-bold">2 Openings</span>
+    </a>
+    <a href="#culture" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Why Join Us</a>
+    <a href="#process" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Recruitment Process</a>
+    <a href="forms.html" class="block text-sm font-semibold text-slate-200 hover:text-gold-300 py-1">Apply / Forms ↗</a>
+    <div class="pt-3 border-t border-forest-800 flex flex-col gap-2">
+      <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold text-slate-200 bg-forest-900 border border-gold-400/40">
+        <svg class="w-4 h-4 text-gold-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+        Join WhatsApp Hiring Channel
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- HERO SECTION: CAREER PATHWAYS & PROFESSIONAL ACCELERATION -->
+  <!-- ============================================================== -->
+  <section class="relative bg-[#06261b] text-white pt-14 pb-24 lg:pt-20 lg:pb-32 overflow-hidden border-b border-forest-800">
+    <!-- Ambient ambient glow -->
+    <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-10 w-[400px] h-[400px] bg-forest-700/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Eyebrow Badge -->
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-gold-400/20 text-gold-300 border border-gold-400/40 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>We Are Hiring • 2026 Cohort &amp; Immediate Openings</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-forest-950/80 border border-forest-800 text-slate-300">
+          <span>💼</span> Strategy • Operations • Commercial Growth
+        </span>
+      </div>
+
+      <!-- Main Title -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-8">
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.15] text-white">
+            Build Real Businesses. <br class="hidden sm:inline"/>
+            <span class="text-gold-300">Accelerate Your Career Trajectory.</span>
+          </h1>
+          <p class="mt-6 text-base sm:text-lg text-slate-300 font-light leading-relaxed max-w-2xl">
+            We don’t believe in spectator internships or repetitive errand tasks. At <strong>The Affluentaccelerators</strong>, our career pathway is an intensive launchpad designed to build world-class strategic thinkers, operational operators, and business consultants through direct immersion in high-stakes corporate client work.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            <a href="#open-roles" class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all hover:-translate-y-0.5">
+              <span>View Active Openings (2 Roles)</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+
+            <a href="#pathway" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider text-white bg-forest-950 hover:bg-forest-900 border border-gold-400/40 transition-all hover:-translate-y-0.5">
+              <span>Explore 4-Stage Pathway</span>
+              <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+
+            <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-gold-300 transition-colors">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+              <span>Hiring Updates Channel ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Quick Card Summary -->
+        <div class="lg:col-span-4">
+          <div class="bg-forest-950/90 border border-gold-400/40 rounded-3xl p-6 sm:p-7 shadow-2xl relative">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-gold-400 block mb-2">Talent Snapshot</span>
+            <h3 class="text-xl font-heading font-extrabold text-white mb-4">Why Launch Here?</h3>
+            
+            <div class="space-y-4 text-xs text-slate-300">
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-forest-900 text-gold-400 flex items-center justify-center shrink-0 font-bold">01</span>
+                <div>
+                  <h4 class="font-bold text-white">Live Client Accounts</h4>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Diagnose real bottlenecks, analyze company P&amp;Ls, and formulate executive recommendations.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-forest-900 text-gold-400 flex items-center justify-center shrink-0 font-bold">02</span>
+                <div>
+                  <h4 class="font-bold text-white">Direct Founder Mentorship</h4>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Learn side-by-side with senior advisory leadership and seasoned venture builders.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-forest-900 text-gold-400 flex items-center justify-center shrink-0 font-bold">03</span>
+                <div>
+                  <h4 class="font-bold text-white">Verified Portfolio Asset</h4>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Graduate with concrete advisory case studies and executive reference letters.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-lg bg-forest-900 text-gold-400 flex items-center justify-center shrink-0 font-bold">04</span>
+                <div>
+                  <h4 class="font-bold text-white">Merit-Based Progression</h4>
+                  <p class="text-slate-400 text-[11px] mt-0.5">Direct transition pathways into Associate Consultant, Lead Analyst, and Partner tracks.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-forest-800 flex items-center justify-between text-[11px]">
+              <span class="text-gold-300 font-semibold">Cohort Admissions:</span>
+              <span class="bg-emerald-950 text-emerald-300 border border-emerald-600/40 px-2 py-0.5 rounded-full font-bold">Rolling Reviews</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Highlights Bar -->
+      <div class="mt-14 pt-8 border-t border-forest-800/80 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div>
+          <span class="text-2xl sm:text-3xl font-heading font-extrabold text-gold-400 block">100%</span>
+          <span class="text-xs text-slate-300 font-medium">Practical Commercial Immersion</span>
+        </div>
+        <div>
+          <span class="text-2xl sm:text-3xl font-heading font-extrabold text-gold-400 block">1-on-1</span>
+          <span class="text-xs text-slate-300 font-medium">Leadership Coaching &amp; Feedback</span>
+        </div>
+        <div>
+          <span class="text-2xl sm:text-3xl font-heading font-extrabold text-gold-400 block">4 Stages</span>
+          <span class="text-xs text-slate-300 font-medium">Structured Professional Ladder</span>
+        </div>
+        <div>
+          <span class="text-2xl sm:text-3xl font-heading font-extrabold text-gold-400 block">2 Openings</span>
+          <span class="text-xs text-slate-300 font-medium">Actively Accepting Candidates Now</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: THE 4-STAGE CAREER GROWTH PATHWAY (THE CORE ROADMAP) -->
+  <!-- ============================================================== -->
+  <section id="pathway" class="py-20 lg:py-28 bg-[#f8faf8] border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3.5 py-1.5 rounded-full border border-forest-200">
+          Career Architecture &amp; Ladder
+        </span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-slate-900 tracking-tight mt-4">
+          The 4-Stage Career Progression
+        </h2>
+        <p class="mt-4 text-base text-slate-600 font-light">
+          We provide a transparent, merit-driven trajectory. You enter with raw intellect, high hunger, and curiosity; you develop into an authoritative business strategist and corporate problem-solver.
+        </p>
+      </div>
+
+      <!-- 4 Stages Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+
+        <!-- STAGE 1: Intern & Analyst Fellow -->
+        <div class="pathway-step-card bg-white rounded-3xl p-6 sm:p-7 border-2 border-forest-800 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-forest-900 text-gold-300 font-mono text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-forest-800">
+            STAGE 01
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-forest-900 text-gold-400 flex items-center justify-center font-bold text-xl mb-4 shadow">
+              🌱
+            </div>
+            <div class="mb-1">
+              <span class="text-[10px] uppercase font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full">Level 1 • 0 – 6 Months</span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-slate-900 mt-2">Intern &amp; Analyst Fellow</h3>
+            <p class="text-xs text-gold-600 font-semibold italic mt-0.5">Foundations &amp; Discovery</p>
+            
+            <p class="text-xs text-slate-600 font-light leading-relaxed mt-4 mb-5">
+              Immerse yourself in firm operations, foundational market research, executive coordination, and diagnostic data gathering.
+            </p>
+
+            <div class="space-y-3 border-t border-slate-100 pt-4 text-xs">
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">Entry Positions:</h4>
+                <p class="text-slate-600 text-[11px]">Business Development Intern, Executive Assistant Intern, Research Analyst Fellow.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">What You Master:</h4>
+                <ul class="space-y-1 text-[11px] text-slate-600">
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Market scanning &amp; lead qualification</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Executive scheduling &amp; project cadence</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Diagnostic tools &amp; consulting presentations</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Advancement Milestone</span>
+            <p class="text-[11px] font-medium text-forest-900">Delivery of verified client diagnostic or commercial outreach pipeline.</p>
+          </div>
+        </div>
+
+        <!-- STAGE 2: Associate Consultant & Specialist -->
+        <div class="pathway-step-card bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-slate-100 text-slate-700 font-mono text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-slate-200">
+            STAGE 02
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-forest-950 text-gold-400 flex items-center justify-center font-bold text-xl mb-4 shadow">
+              📈
+            </div>
+            <div class="mb-1">
+              <span class="text-[10px] uppercase font-bold text-forest-800 bg-forest-50 px-2 py-0.5 rounded-full">Level 2 • 6 – 18 Months</span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-slate-900 mt-2">Associate Consultant</h3>
+            <p class="text-xs text-gold-600 font-semibold italic mt-0.5">Execution &amp; Delivery</p>
+            
+            <p class="text-xs text-slate-600 font-light leading-relaxed mt-4 mb-5">
+              Own specific client workstreams, conduct stakeholder audits, build operational playbooks, and model financial unit economics.
+            </p>
+
+            <div class="space-y-3 border-t border-slate-100 pt-4 text-xs">
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">Role Scope:</h4>
+                <p class="text-slate-600 text-[11px]">Consulting Associate, Growth Specialist, Operations &amp; Systems Analyst.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">What You Master:</h4>
+                <ul class="space-y-1 text-[11px] text-slate-600">
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> End-to-end client diagnostic audits</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Standard Operating Procedure (SOP) design</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> KPI telemetry &amp; dashboard governance</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Advancement Milestone</span>
+            <p class="text-[11px] font-medium text-forest-900">Independent delivery of full corporate advisory sprint with measurable client ROI.</p>
+          </div>
+        </div>
+
+        <!-- STAGE 3: Senior Consultant & Engagement Lead -->
+        <div class="pathway-step-card bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-slate-100 text-slate-700 font-mono text-[10px] font-bold px-3 py-1 rounded-bl-xl border-l border-b border-slate-200">
+            STAGE 03
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-forest-950 text-gold-400 flex items-center justify-center font-bold text-xl mb-4 shadow">
+              ⚡
+            </div>
+            <div class="mb-1">
+              <span class="text-[10px] uppercase font-bold text-forest-800 bg-forest-50 px-2 py-0.5 rounded-full">Level 3 • 18 – 36 Months</span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-slate-900 mt-2">Senior Engagement Lead</h3>
+            <p class="text-xs text-gold-600 font-semibold italic mt-0.5">Strategy &amp; Client Leadership</p>
+            
+            <p class="text-xs text-slate-600 font-light leading-relaxed mt-4 mb-5">
+              Direct complex advisory engagements, manage cross-functional analyst teams, and deliver strategic counsel directly to Founders and C-suite.
+            </p>
+
+            <div class="space-y-3 border-t border-slate-100 pt-4 text-xs">
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">Role Scope:</h4>
+                <p class="text-slate-600 text-[11px]">Senior Strategy Consultant, Engagement Manager, Practice Lead.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-slate-900 text-[11px] uppercase tracking-wider mb-1">What You Master:</h4>
+                <ul class="space-y-1 text-[11px] text-slate-600">
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Strategic board &amp; executive presentations</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Commercial model restructuring &amp; M&amp;A</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-500 font-bold">✦</span> Junior fellow coaching &amp; talent development</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Advancement Milestone</span>
+            <p class="text-[11px] font-medium text-forest-900">Sustained portfolio retention and successful origination of advisory mandates.</p>
+          </div>
+        </div>
+
+        <!-- STAGE 4: Practice Director & Venture Partner -->
+        <div class="pathway-step-card bg-forest-950 text-white rounded-3xl p-6 sm:p-7 border-2 border-gold-400/70 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-gold-400 text-forest-950 font-mono text-[10px] font-bold px-3 py-1 rounded-bl-xl">
+            STAGE 04
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-forest-900 text-gold-400 border border-gold-400/40 flex items-center justify-center font-bold text-xl mb-4 shadow">
+              👑
+            </div>
+            <div class="mb-1">
+              <span class="text-[10px] uppercase font-bold text-gold-300 bg-gold-400/20 px-2 py-0.5 rounded-full border border-gold-400/30">Level 4 • 36+ Months</span>
+            </div>
+            <h3 class="text-xl font-heading font-bold text-white mt-2">Practice Director &amp; Partner</h3>
+            <p class="text-xs text-gold-300 font-semibold italic mt-0.5">Firm Equity &amp; Venture Building</p>
+            
+            <p class="text-xs text-slate-300 font-light leading-relaxed mt-4 mb-5">
+              Head specialized practice areas, drive strategic firm expansion, co-build accelerated venture portfolios, and participate in profit sharing.
+            </p>
+
+            <div class="space-y-3 border-t border-forest-800 pt-4 text-xs">
+              <div>
+                <h4 class="font-bold text-gold-400 text-[11px] uppercase tracking-wider mb-1">Role Scope:</h4>
+                <p class="text-slate-300 text-[11px]">Practice Director, Advisory Partner, Accelerator Venture Principal.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-gold-400 text-[11px] uppercase tracking-wider mb-1">What You Master:</h4>
+                <ul class="space-y-1 text-[11px] text-slate-300">
+                  <li class="flex items-center gap-1.5"><span class="text-gold-400 font-bold">✦</span> Enterprise governance &amp; capital allocation</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-400 font-bold">✦</span> Firm equity &amp; venture investment appraisal</li>
+                  <li class="flex items-center gap-1.5"><span class="text-gold-400 font-bold">✦</span> Thought leadership &amp; industry influence</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-forest-800">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-gold-400/70 block mb-1">Advancement Rewards</span>
+            <p class="text-[11px] font-semibold text-gold-300">Practice P&amp;L ownership, accelerator equity stake, and partnership rights.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Supporting Note on Advancement -->
+      <div class="mt-12 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 flex items-center justify-center shrink-0 font-bold text-lg">
+            ⚡
+          </div>
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm">Velocity Depends On Performance, Not Tenure</h4>
+            <p class="text-xs text-slate-600 font-light">We do not believe in artificial time gates. Exceptional fellows with relentless drive, clarity, and output can accelerate through stages ahead of schedule.</p>
+          </div>
+        </div>
+        <a href="#open-roles" class="shrink-0 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+          Start At Level 1 ↓
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: ACTIVE FEATURED OPENINGS (THE 2 HOT FLYER ROLES) -->
+  <!-- ============================================================== -->
+  <section id="open-roles" class="py-20 lg:py-28 bg-[#06261b] text-white border-b border-forest-800 relative overflow-hidden">
+    <!-- Ambient decorative glow -->
+    <div class="absolute top-0 right-1/4 w-96 h-96 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-10 w-80 h-80 bg-forest-700/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-6">
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-gold-400/20 text-gold-300 border border-gold-400/40 mb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Immediate Openings • Accepting Applications</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
+            Active Strategic Roles. <br class="hidden sm:inline"/>
+            <span class="text-gold-300">Launch Your Trajectory Today.</span>
+          </h2>
+          <p class="mt-4 text-sm sm:text-base text-slate-300 font-light leading-relaxed">
+            We are actively recruiting for two cornerstone operational and commercial roles. Review the mission profiles below and submit your application directly.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="forms.html#internship-application" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-all shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>General Talent Pool Form</span>
+          </a>
+          <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-forest-950 hover:bg-forest-900 border border-gold-400/30 transition-all">
+            <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+            <span>WhatsApp Announcements</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Two Featured Active Positions (BD Intern & EA Intern) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+
+        <!-- ROLE 1: Business Development Intern -->
+        <div class="bg-forest-950/90 rounded-3xl border-2 border-gold-400/60 shadow-2xl overflow-hidden flex flex-col justify-between hover:border-gold-300 transition-all group">
+          <div>
+            <!-- Flyer Image Header -->
+            <div class="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-forest-900">
+              <img src="images/photo-1793998991-aa2875b2.jpg" alt="Business Development Intern Hiring Banner - The Affluentaccelerators" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/30 to-transparent"></div>
+              <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gold-400 text-forest-950 shadow-md">
+                  🔥 Active Hiring
+                </span>
+                <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-forest-900/90 text-gold-300 border border-gold-400/40 backdrop-blur-sm">
+                  Growth &amp; Partnerships
+                </span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-slate-300">
+                <span class="font-mono text-gold-300 font-semibold">Duration: Flexible / Practical Track</span>
+                <span class="text-[11px] bg-emerald-950/80 text-emerald-300 border border-emerald-600/40 px-2.5 py-0.5 rounded-full">Rolling Admissions</span>
+              </div>
+            </div>
+
+            <!-- Body Copy -->
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-2xl font-bold font-heading text-white group-hover:text-gold-300 transition-colors">
+                  Business Development Intern
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-gold-200 font-medium italic mb-4">
+                "Learn. Contribute. Build Real Businesses."
+              </p>
+              <p class="text-xs text-slate-300 leading-relaxed font-light mb-6">
+                Curious about business and love to help develop businesses? Join our team at The Affluentaccelerators to identify commercial opportunities, research markets, initiate partnerships, and build tangible growth systems.
+              </p>
+
+              <!-- What the role includes -->
+              <div class="bg-forest-900/60 rounded-2xl p-4 border border-forest-800 mb-6">
+                <h4 class="text-[11px] font-bold uppercase tracking-wider text-gold-400 mb-3 flex items-center gap-2">
+                  <span>🎯</span> Your Role Includes:
+                </h4>
+                <ul class="space-y-2 text-xs text-slate-200">
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Identify business opportunities:</strong> Scan emerging sectors, map corporate prospects, and uncover unmet client needs.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Research &amp; initiate opportunities:</strong> Conduct market intelligence, qualify leads, and craft structured introductory outreach.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Drive results and create value:</strong> Support deal pipeline management, commercial proposals, and partnership execution.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Who It's A Good Fit For -->
+              <div class="space-y-2 text-xs text-slate-300 border-t border-forest-800/80 pt-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Ambitious self-starters curious about sales, commercial strategy &amp; dealmaking</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Strong verbal &amp; written communicators with high intellectual curiosity</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Direct mentorship from senior business consultants &amp; strategists</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="p-6 sm:p-8 pt-0 border-t border-forest-800/60 mt-4 flex flex-col sm:flex-row gap-3">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all hover:-translate-y-0.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm3-4a1 1 0 10-2 0v7a1 1 0 102 0V8zm3 2a1 1 0 10-2 0v5a1 1 0 102 0v-5z" clip-rule="evenodd"/></svg>
+              <span>Apply on Google Form ↗</span>
+            </a>
+            <button type="button" onclick="openRoleModal('role-bd-intern')" class="sm:w-auto inline-flex items-center justify-center gap-1.5 py-3.5 px-5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-forest-900 hover:bg-forest-800 border border-gold-400/30 transition-all">
+              <span>View Full Details</span>
+              <svg class="w-3.5 h-3.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ROLE 2: Executive Assistant Intern -->
+        <div class="bg-forest-950/90 rounded-3xl border-2 border-gold-400/60 shadow-2xl overflow-hidden flex flex-col justify-between hover:border-gold-300 transition-all group">
+          <div>
+            <!-- Flyer Image Header -->
+            <div class="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-forest-900">
+              <img src="images/photo-1793998991-8c1bed48.jpg" alt="Executive Assistant Intern Hiring Banner - The Affluentaccelerators" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/30 to-transparent"></div>
+              <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gold-400 text-forest-950 shadow-md">
+                  🔥 Active Hiring
+                </span>
+                <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-forest-900/90 text-gold-300 border border-gold-400/40 backdrop-blur-sm">
+                  Executive Support &amp; Operations
+                </span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-slate-300">
+                <span class="font-mono text-gold-300 font-semibold">Duration: Flexible / Practical Track</span>
+                <span class="text-[11px] bg-emerald-950/80 text-emerald-300 border border-emerald-600/40 px-2.5 py-0.5 rounded-full">Rolling Admissions</span>
+              </div>
+            </div>
+
+            <!-- Body Copy -->
+            <div class="p-6 sm:p-8">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-2xl font-bold font-heading text-white group-hover:text-gold-300 transition-colors">
+                  Executive Assistant Intern
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-gold-200 font-medium italic mb-4">
+                "Be the right hand in building businesses and impact."
+              </p>
+              <p class="text-xs text-slate-300 leading-relaxed font-light mb-6">
+                Support the Founder and team at The Affluentaccelerators to stay organized, focused, and execute efficiently across high-value client initiatives, programmes, and daily firm operations.
+              </p>
+
+              <!-- What the role includes -->
+              <div class="bg-forest-900/60 rounded-2xl p-4 border border-forest-800 mb-6">
+                <h4 class="text-[11px] font-bold uppercase tracking-wider text-gold-400 mb-3 flex items-center gap-2">
+                  <span>🎯</span> Your Role Includes:
+                </h4>
+                <ul class="space-y-2 text-xs text-slate-200">
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Keep schedules &amp; priorities on track:</strong> Manage calendar cadences, executive briefings, and meeting agendas.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Coordinate tasks, projects &amp; follow-ups:</strong> Ensure milestone deadlines are met across internal and external teams.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Organize information &amp; key documents:</strong> Maintain records, presentations, research folders, and advisory archives.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="text-gold-400 font-bold shrink-0">✦</span>
+                    <span><strong>Support stakeholder engagement &amp; drive execution:</strong> Draft client correspondence and help track deliverables to completion.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Who It's A Good Fit For -->
+              <div class="space-y-2 text-xs text-slate-300 border-t border-forest-800/80 pt-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Are organized, proactive, and exceptionally reliable</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Communicate clearly, write well, and take decisive initiative</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">✓</span>
+                  <span>Curious about business architecture, productivity systems &amp; executive leadership</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="p-6 sm:p-8 pt-0 border-t border-forest-800/60 mt-4 flex flex-col sm:flex-row gap-3">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all hover:-translate-y-0.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm3-4a1 1 0 10-2 0v7a1 1 0 102 0V8zm3 2a1 1 0 10-2 0v5a1 1 0 102 0v-5z" clip-rule="evenodd"/></svg>
+              <span>Apply on Google Form ↗</span>
+            </a>
+            <button type="button" onclick="openRoleModal('role-ea-intern')" class="sm:w-auto inline-flex items-center justify-center gap-1.5 py-3.5 px-5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-forest-900 hover:bg-forest-800 border border-gold-400/30 transition-all">
+              <span>View Full Details</span>
+              <svg class="w-3.5 h-3.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: BROADER TALENT POOL & SPECIALIZED TRACKS -->
+  <!-- ============================================================== -->
+  <section class="py-20 lg:py-24 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3 py-1 rounded-full">
+            Broader Practice Ecosystem
+          </span>
+          <h2 class="text-3xl font-heading font-extrabold text-slate-900 tracking-tight mt-3">
+            Specialized Practice Tracks
+          </h2>
+          <p class="mt-2 text-sm text-slate-600 font-light">
+            Beyond our two active spotlight roles, we regularly review applications for specialized analytical and advisory functions.
+          </p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <button class="role-filter-btn active px-4 py-2 rounded-xl border border-slate-300 hover:border-forest-800 transition-colors" data-filter="all">All Tracks</button>
+          <button class="role-filter-btn px-4 py-2 rounded-xl border border-slate-300 hover:border-forest-800 transition-colors" data-filter="Strategy">Strategy &amp; Advisory</button>
+          <button class="role-filter-btn px-4 py-2 rounded-xl border border-slate-300 hover:border-forest-800 transition-colors" data-filter="Operations">Operations &amp; Research</button>
+          <button class="role-filter-btn px-4 py-2 rounded-xl border border-slate-300 hover:border-forest-800 transition-colors" data-filter="Growth">Commercial Growth</button>
+        </div>
+      </div>
+
+      <!-- Grid of specialized roles -->
+      <div id="general-roles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Track 1 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Strategy">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Strategy &amp; Advisory</span>
+            <span class="text-xs font-semibold text-emerald-700">● Accepting CVs</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Business Research Associate</h4>
+          <p class="text-xs text-slate-500 mb-3">Research &amp; Strategy • Full-Time / Part-Time</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Conduct industry benchmarking, market sizing, competitive intelligence, and strategic analysis for corporate advisory mandates.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Operations">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Consulting Operations</span>
+            <span class="text-xs font-semibold text-emerald-700">● Accepting CVs</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Business Analyst Intern</h4>
+          <p class="text-xs text-slate-500 mb-3">Analysis &amp; Intelligence • Full-Time</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Audit client cash flows, model operational unit economics, identify operational leaks, and assist in designing corporate SOPs.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Strategy">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Client Advisory</span>
+            <span class="text-xs font-semibold text-emerald-700">● Accepting CVs</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Consulting Associate</h4>
+          <p class="text-xs text-slate-500 mb-3">Client Engagements • Full-Time</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Interface directly with client project teams to structure strategic roadmaps, coordinate deliverables, and ensure advisory milestones are achieved.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+        <!-- Track 4 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Growth">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Commercial Growth</span>
+            <span class="text-xs font-semibold text-emerald-700">● Accepting CVs</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Marketing &amp; Growth Associate</h4>
+          <p class="text-xs text-slate-500 mb-3">Brand &amp; Campaigns • Full-Time</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Drive corporate thought leadership distribution, craft strategic content frameworks, and manage B2B commercial outreach channels.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+        <!-- Track 5 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Operations">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Internal Operations</span>
+            <span class="text-xs font-semibold text-emerald-700">● Accepting CVs</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Operations &amp; Systems Support</h4>
+          <p class="text-xs text-slate-500 mb-3">Process Optimization • Full-Time</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Coordinate digital tooling, CRM pipelines, administrative workflows, and client engagement telemetry across all active practice lines.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+        <!-- Track 6 -->
+        <div class="general-role-card p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all" data-category="Strategy">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-forest-900/10 text-forest-800">Executive Research</span>
+            <span class="text-xs font-semibold text-emerald-700">● 6-Month Track</span>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 font-heading mb-1">Research &amp; Strategy Fellow</h4>
+          <p class="text-xs text-slate-500 mb-3">Fellowship (Advanced) • 6-Month Track</p>
+          <p class="text-xs text-slate-600 font-light leading-relaxed mb-5">
+            Author deep-dive sector whitepapers, formulate macro-economic forecasts, and lead case study documentation for the firm’s publication channels.
+          </p>
+          <a href="forms.html#internship-application" class="inline-flex items-center justify-center w-full py-2.5 px-4 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+            Apply via Talent Portal ↗
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: WHY ACCELERATE WITH US (CULTURE & DIFFERENCE) -->
+  <!-- ============================================================== -->
+  <section id="culture" class="py-20 lg:py-28 bg-[#f8faf8] border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3 py-1 rounded-full">
+            Our Culture &amp; Standard
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight mt-4">
+            How The Affluentaccelerators Is Fundamentally Different.
+          </h2>
+          <p class="mt-4 text-base text-slate-600 font-light leading-relaxed">
+            Many traditional corporate internships hide junior talent in silos or assign mundane clerical routines. We treat every fellow as a future business principal, investing heavy mentorship in exchange for high agency and uncompromising output.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3.5">
+              <span class="text-gold-500 text-lg font-bold shrink-0">✦</span>
+              <div>
+                <h4 class="font-bold text-sm text-slate-900">Direct Contact With Business Realities</h4>
+                <p class="text-xs text-slate-600 font-light mt-0.5">You will review actual corporate balance sheets, sit in strategic advisory sessions, and listen to real founders navigate bottleneck dilemmas.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3.5">
+              <span class="text-gold-500 text-lg font-bold shrink-0">✦</span>
+              <div>
+                <h4 class="font-bold text-sm text-slate-900">High Agency &amp; Decisive Ownership</h4>
+                <p class="text-xs text-slate-600 font-light mt-0.5">We don't micromanage. You are given strategic briefs, clear targets, and autonomy to formulate solutions and take responsibility for results.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-start gap-3.5">
+              <span class="text-gold-500 text-lg font-bold shrink-0">✦</span>
+              <div>
+                <h4 class="font-bold text-sm text-slate-900">Accelerated Executive Pedigree</h4>
+                <p class="text-xs text-slate-600 font-light mt-0.5">By the time you complete your fellowship, you possess the analytical vocabulary, diagnostic frameworks, and confidence of a seasoned management consultant.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparative Comparison Box -->
+        <div class="lg:col-span-6">
+          <div class="bg-forest-950 text-white rounded-3xl p-6 sm:p-8 border-2 border-gold-400/50 shadow-2xl relative">
+            <h3 class="text-xl font-heading font-extrabold text-white mb-6 flex items-center justify-between">
+              <span>The Experience Comparison</span>
+              <span class="text-xs font-mono text-gold-400">BENCHMARK</span>
+            </h3>
+
+            <div class="space-y-4 text-xs">
+              <!-- Item 1 -->
+              <div class="grid grid-cols-2 gap-4 pb-4 border-b border-forest-800">
+                <div class="text-slate-400">
+                  <span class="font-bold text-slate-300 block mb-1">Traditional Internships</span>
+                  Hypothetical classroom case studies and disconnected administrative paperwork.
+                </div>
+                <div class="text-gold-200">
+                  <span class="font-bold text-gold-300 block mb-1">Affluentaccelerators</span>
+                  Real client mandates, active commercial pipelines, and live market testing.
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="grid grid-cols-2 gap-4 pb-4 border-b border-forest-800">
+                <div class="text-slate-400">
+                  <span class="font-bold text-slate-300 block mb-1">Supervision</span>
+                  Layers of detached middle managers with slow or minimal personal feedback.
+                </div>
+                <div class="text-gold-200">
+                  <span class="font-bold text-gold-300 block mb-1">Direct Apprenticeship</span>
+                  1-on-1 coaching directly from founding partners and strategic leaders.
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="grid grid-cols-2 gap-4 pb-4 border-b border-forest-800">
+                <div class="text-slate-400">
+                  <span class="font-bold text-slate-300 block mb-1">Advancement</span>
+                  Rigid, slow annual review cycles governed by corporate bureaucracy.
+                </div>
+                <div class="text-gold-200">
+                  <span class="font-bold text-gold-300 block mb-1">Meritocracy</span>
+                  Promotions and project leadership granted immediately when earned by output.
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="text-slate-400">
+                  <span class="font-bold text-slate-300 block mb-1">Portfolio Output</span>
+                  Generic line items on a resume without tangible proof of work.
+                </div>
+                <div class="text-gold-200">
+                  <span class="font-bold text-gold-300 block mb-1">Verifiable Credentials</span>
+                  Authored strategic decks, verified client recommendations, and reference letters.
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-forest-800 text-center">
+              <a href="#open-roles" class="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+                Apply for Active Roles Today ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: THE 5-STEP APPLICATION & SELECTION PROCESS -->
+  <!-- ============================================================== -->
+  <section id="process" class="py-20 lg:py-28 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3.5 py-1.5 rounded-full border border-forest-200">
+          Selection Roadmap
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 tracking-tight mt-4">
+          How To Join The Firm
+        </h2>
+        <p class="mt-4 text-base text-slate-600 font-light">
+          We maintain a rigorous yet efficient five-step recruitment flow. We respect your time and provide clear feedback at every checkpoint.
+        </p>
+      </div>
+
+      <!-- 5-Step Process Timeline -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-left">
+        
+        <!-- Step 1 -->
+        <div class="p-6 rounded-3xl bg-[#f8faf8] border border-slate-200 relative">
+          <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-mono font-bold flex items-center justify-center text-sm mb-4">
+            01
+          </div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2">Submit Application</h4>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Fill in the dedicated Google Form for the open role, or submit via our online portal with your CV and personal statement.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-6 rounded-3xl bg-[#f8faf8] border border-slate-200 relative">
+          <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-mono font-bold flex items-center justify-center text-sm mb-4">
+            02
+          </div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2">Profile Assessment</h4>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Our talent council reviews your background, written communication skills, intellectual curiosity, and role alignment.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-6 rounded-3xl bg-[#f8faf8] border border-slate-200 relative">
+          <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-mono font-bold flex items-center justify-center text-sm mb-4">
+            03
+          </div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2">Practical Scenario</h4>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Short diagnostic task or scenario-based case prompt to test your business logic, problem structuring, and execution speed.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="p-6 rounded-3xl bg-[#f8faf8] border border-slate-200 relative">
+          <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-mono font-bold flex items-center justify-center text-sm mb-4">
+            04
+          </div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2">Leadership Dialogue</h4>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Structured conversation with the Founder or Practice Director to discuss mutual values, ambitions, and learning goals.
+          </p>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="p-6 rounded-3xl bg-forest-950 text-white border border-gold-400/40 relative shadow-lg">
+          <div class="w-10 h-10 rounded-xl bg-gold-400 text-forest-950 font-mono font-bold flex items-center justify-center text-sm mb-4">
+            05
+          </div>
+          <h4 class="font-heading font-bold text-sm text-white mb-2">Project Onboarding</h4>
+          <p class="text-xs text-slate-300 font-light leading-relaxed">
+            Placement letter issued, orientation kit delivered, and immediate integration into active client sprints and firm initiatives.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: CANDIDATE FREQUENTLY ASKED QUESTIONS -->
+  <!-- ============================================================== -->
+  <section class="py-20 lg:py-24 bg-[#f8faf8] border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-widest text-forest-800 bg-forest-100 px-3 py-1 rounded-full">
+          Got Questions?
+        </span>
+        <h2 class="text-3xl font-heading font-extrabold text-slate-900 tracking-tight mt-3">
+          Candidate Frequently Asked Questions
+        </h2>
+        <p class="mt-2 text-sm text-slate-600 font-light">
+          Everything you need to know about our recruitment, commitment, and career growth model.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- FAQ 1 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-900 mb-2">Who is eligible to apply for the Intern and Fellowship roles?</h3>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            We welcome motivated students in their final years, active NYSC corp members, fresh university graduates, and early-career professionals looking to pivot into strategic business consulting, executive operations, and commercial development. What matters most is intellectual curiosity, proactive initiative, and coachability.
+          </p>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-900 mb-2">Is the internship remote, in-person, or hybrid?</h3>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            We operate a flexible hybrid model. Key strategic review sessions, partner briefings, and client presentations take place through our hub and strategic sessions in Lagos, combined with remote operational sprints that allow flexible, high-focus contribution.
+          </p>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-900 mb-2">What is the duration of the internship track?</h3>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Our practical internship and fellowship tracks range from 3 to 6 months depending on the specific role and agreement. High-performing interns who exhibit consistent ownership and analytical rigor are offered accelerated transitions into full-time Associate Consultant positions.
+          </p>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-900 mb-2">How do I submit my application for the active openings?</h3>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            You can apply directly through our official Google Forms for either the <strong>Business Development Intern</strong> or <strong>Executive Assistant Intern</strong> role linked on this page. Alternatively, you can use our <a href="forms.html#internship-application" class="text-forest-800 font-semibold underline">Internship Application Form</a> on the website.
+          </p>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-bold text-sm text-slate-900 mb-2">What makes a candidate stand out during selection?</h3>
+          <p class="text-xs text-slate-600 font-light leading-relaxed">
+            Candidates who stand out articulate their motivation clearly, show evidence of self-driven curiosity about business models, write persuasively, and demonstrate an eagerness to contribute actively rather than simply waiting for instructions.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- SECTION: FINAL CTA & COMMUNITY JOIN -->
+  <!-- ============================================================== -->
+  <section class="py-20 lg:py-28 bg-forest-900 text-white relative overflow-hidden">
+    <!-- Ambient light -->
+    <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <span class="text-xs font-bold uppercase tracking-widest text-gold-400 bg-forest-950 px-3.5 py-1.5 rounded-full border border-gold-400/30">
+        Take The Next Step
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-heading font-extrabold tracking-tight mt-6 leading-tight">
+        Ready To Accelerate Your Professional Trajectory?
+      </h2>
+
+      <p class="mt-6 text-base sm:text-lg text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+        Whether you are eager to initiate commercial partnerships as a Business Development Intern or coordinate executive operations as an Executive Assistant Intern, your journey begins now.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#open-roles" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+          <span>Apply For Open Roles</span>
+          <svg class="w-4 h-4 text-forest-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+
+        <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-forest-950 hover:bg-forest-800 border border-gold-400/40 transition-all hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+          <span>Join WhatsApp Hiring Updates</span>
+        </a>
+
+        <a href="forms.html#internship-application" class="w-full sm:w-auto px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-all">
+          General Talent Form →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================== -->
+  <!-- FOOTER -->
+  <!-- ============================================================== -->
+  <footer class="bg-forest-950 text-slate-400 text-xs border-t border-forest-800 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
+        
+        <!-- Brand Info -->
+        <div class="lg:col-span-2">
+          <a href="index.html" class="flex items-center gap-3 mb-4 group">
+            <div class="w-9 h-9 rounded-xl bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5 shadow-sm">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+                <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+                <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-0.5">
+                <span class="text-[10px] text-slate-400 font-light">the</span>
+                <span class="font-heading font-extrabold text-base text-white">Affluentaccelerators</span>
+              </div>
+              <p class="text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+            </div>
+          </a>
+          <p class="text-xs text-slate-400 font-light leading-relaxed max-w-sm mb-6">
+            A specialized business consulting, development, and accelerator firm dedicated to unlocking enterprise scale, structuring robust operational models, and preparing top-tier commercial consultants.
+          </p>
+          <div class="flex items-center space-x-3 text-slate-400">
+            <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="hover:text-gold-400 transition-colors flex items-center gap-1.5 text-xs">
+              <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+              <span>WhatsApp Channel</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Consulting Services -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 font-heading">Consulting Services</h4>
+          <ul class="space-y-2.5">
+            <li><a href="index.html#services" class="hover:text-gold-400 transition-colors">Business Strategy &amp; Advisory</a></li>
+            <li><a href="index.html#services" class="hover:text-gold-400 transition-colors">Business Analysis &amp; Research</a></li>
+            <li><a href="index.html#services" class="hover:text-gold-400 transition-colors">Business Development &amp; Growth</a></li>
+            <li><a href="index.html#services" class="hover:text-gold-400 transition-colors">Operations &amp; Systems Optimization</a></li>
+            <li><a href="index.html#services" class="hover:text-gold-400 transition-colors">Business Acceleration</a></li>
+          </ul>
+        </div>
+
+        <!-- Programmes -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 font-heading">Programmes</h4>
+          <ul class="space-y-2.5">
+            <li><a href="index.html#programme-analyst" class="hover:text-gold-400 transition-colors">Business Consultant/Analyst (90 Days)</a></li>
+            <li><a href="index.html#programme-internship" class="hover:text-gold-400 transition-colors">Internship &amp; Fellowship Programme</a></li>
+            <li><a href="index.html#programme-accelerator" class="hover:text-gold-400 transition-colors">The Affluent &amp; Audacious Accelerator</a></li>
+            <li><a href="forms.html#consulting-inquiry" class="hover:text-gold-400 transition-colors">Corporate Cohort Requests</a></li>
+          </ul>
+        </div>
+
+        <!-- Careers & Governance -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 font-heading">Careers &amp; Firm</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#pathway" class="hover:text-gold-400 transition-colors text-gold-300 font-semibold">4-Stage Career Pathway</a></li>
+            <li><a href="#open-roles" class="hover:text-gold-400 transition-colors text-gold-300">Active Openings (2 Roles)</a></li>
+            <li><a href="index.html#about" class="hover:text-gold-400 transition-colors">About Our Advisory</a></li>
+            <li><a href="index.html#experience" class="hover:text-gold-400 transition-colors">Client Case Studies</a></li>
+            <li><a href="forms.html" class="hover:text-gold-400 transition-colors">Applications &amp; Forms</a></li>
+            <li><a href="tel:+2349039545275" class="hover:text-gold-400 transition-colors text-gold-300">Direct Advisory: +234 903 954 5275</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Statement & Copyright -->
+      <div class="border-t border-forest-800/80 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+        <p class="font-medium text-slate-300">
+          The Affluentaccelerators – Accelerating Businesses. Developing People. Creating Opportunities.
+        </p>
+        <div class="flex items-center space-x-4">
+          <a href="#" class="hover:text-slate-200">Privacy Policy</a>
+          <span>•</span>
+          <a href="#" class="hover:text-slate-200">Terms and Conditions</a>
+          <span>•</span>
+          <span>© 2026 The Affluentaccelerators. All rights reserved.</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ============================================================== -->
+  <!-- MODAL: BUSINESS DEVELOPMENT INTERN DETAILS -->
+  <!-- ============================================================== -->
+  <div id="modal-bd-intern" class="modal-backdrop fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center font-bold text-lg">
+            📈
+          </div>
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">Growth &amp; Partnerships • Open Role</span>
+            <h3 class="text-xl font-heading font-extrabold text-slate-900 mt-1">Business Development Intern</h3>
+          </div>
+        </div>
+        <button onclick="closeRoleModal('modal-bd-intern')" class="text-slate-400 hover:text-slate-700 p-2 text-2xl leading-none">&times;</button>
+      </div>
+
+      <div class="space-y-6 text-xs text-slate-600 leading-relaxed">
+        <!-- Flyer Image Banner -->
+        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+          <img src="images/photo-1793998991-aa2875b2.jpg" alt="Business Development Intern Role Overview" class="w-full max-h-80 object-cover object-top">
+        </div>
+
+        <div class="p-4 rounded-xl bg-gold-50/70 border border-gold-200/80 text-forest-950">
+          <p class="font-medium italic text-xs">
+            "Curious about business and love to help develop businesses? Join our team at The Affluentaccelerators to learn, contribute, and build real businesses."
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">About The Role</h4>
+          <p class="font-light text-slate-700">
+            As a Business Development Intern at The Affluentaccelerators, you will sit at the frontlines of our market expansion and commercial growth. You will collaborate directly with our consulting leadership to identify new client engagements, map business sectors, build partnership outreach, and develop practical commercial solutions.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">Your Core Responsibilities</h4>
+          <ul class="space-y-2 list-disc list-inside text-slate-700 font-light">
+            <li><strong>Identify business opportunities:</strong> Proactively research emerging market dynamics, growing businesses, and untapped commercial advisory opportunities.</li>
+            <li><strong>Research &amp; initiate outreach:</strong> Map key decision-makers, craft structured proposals, and initiate introductory communications.</li>
+            <li><strong>Drive results and create value:</strong> Support client discovery calls, draft presentation decks, and contribute to commercial campaigns.</li>
+            <li><strong>Maintain growth systems:</strong> Track prospect interactions, lead conversion metrics, and partner databases.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">Who We Are Looking For</h4>
+          <ul class="space-y-2 list-disc list-inside text-slate-700 font-light">
+            <li>Curious, ambitious self-starters passionate about business strategy, sales, and entrepreneurship.</li>
+            <li>Strong verbal and written communication skills with a confident, polished demeanor.</li>
+            <li>Comfortable with outreach, relationship building, and strategic research.</li>
+            <li>Students, NYSC corp members, recent graduates, or early-career professionals eager for practical corporate acceleration.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">What You Will Gain</h4>
+          <p class="font-light text-slate-700">
+            Hands-on exposure to active corporate consulting engagements, direct mentorship from seasoned business advisors, practical portfolio assets, and an inside track to advanced associate opportunities within our firm.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all">
+            <span>Open Application Form ↗</span>
+          </a>
+          <button type="button" onclick="closeRoleModal('modal-bd-intern')" class="px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: EXECUTIVE ASSISTANT INTERN DETAILS -->
+  <!-- ============================================================== -->
+  <div id="modal-ea-intern" class="modal-backdrop fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center font-bold text-lg">
+            ⚡
+          </div>
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">Executive Office • Open Role</span>
+            <h3 class="text-xl font-heading font-extrabold text-slate-900 mt-1">Executive Assistant Intern</h3>
+          </div>
+        </div>
+        <button onclick="closeRoleModal('modal-ea-intern')" class="text-slate-400 hover:text-slate-700 p-2 text-2xl leading-none">&times;</button>
+      </div>
+
+      <div class="space-y-6 text-xs text-slate-600 leading-relaxed">
+        <!-- Flyer Image Banner -->
+        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+          <img src="images/photo-1793998991-8c1bed48.jpg" alt="Executive Assistant Intern Role Overview" class="w-full max-h-80 object-cover object-top">
+        </div>
+
+        <div class="p-4 rounded-xl bg-gold-50/70 border border-gold-200/80 text-forest-950">
+          <p class="font-medium italic text-xs">
+            "Be the right hand in building businesses and impact. Support the Founder and leadership team at The Affluentaccelerators to stay organized, focused, and execute efficiently."
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">About The Role</h4>
+          <p class="font-light text-slate-700">
+            As an Executive Assistant Intern, you will work closely with the Founder and senior executives at The Affluentaccelerators. You will be the operational backbone that keeps leadership schedules on point, tracks deliverables across client initiatives, and ensures flawless day-to-day administrative and strategic execution.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">Your Core Responsibilities</h4>
+          <ul class="space-y-2 list-disc list-inside text-slate-700 font-light">
+            <li><strong>Keep schedules &amp; priorities on track:</strong> Manage calendar cadence, prioritize urgent inbound requests, and prepare executive briefings.</li>
+            <li><strong>Coordinate tasks, projects &amp; follow-ups:</strong> Act as liaison between the Founder and internal/external stakeholders to keep sprint deadlines moving.</li>
+            <li><strong>Organize information &amp; key documents:</strong> Systematically file client decks, meeting minutes, contracts, and advisory documents.</li>
+            <li><strong>Support communication &amp; stakeholder engagement:</strong> Draft crisp professional emails, prepare presentation summaries, and manage correspondence.</li>
+            <li><strong>Help drive execution across initiatives:</strong> Follow up on open action items, organize workshops, and ensure strategic commitments are met.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">A Good Fit If You...</h4>
+          <ul class="space-y-2 list-disc list-inside text-slate-700 font-light">
+            <li>Are organized, highly proactive, and exceptionally reliable.</li>
+            <li>Communicate well, write clearly, and take initiative before being asked.</li>
+            <li>Enjoy supporting business, operational coordination, and project execution.</li>
+            <li>Are curious about business systems, high-level productivity, and executive leadership.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-slate-900 mb-2 uppercase tracking-wide">What You Will Gain</h4>
+          <p class="font-light text-slate-700">
+            An unprecedented front-row seat to high-level strategic decision-making, executive operations, firm building, and direct personal mentorship from the Founder.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all">
+            <span>Open Application Form ↗</span>
+          </a>
+          <button type="button" onclick="closeRoleModal('modal-ea-intern')" class="px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Interactivity Scripts -->
+  <script>
+    // Modal Helpers
+    window.openRoleModal = function(roleId) {
+      const modal = document.getElementById(roleId === 'role-ea-intern' ? 'modal-ea-intern' : 'modal-bd-intern');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closeRoleModal = function(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    };
+
+    // Close on backdrop click
+    document.querySelectorAll('.modal-backdrop').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Mobile Menu Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Role Filtering
+    const filterBtns = document.querySelectorAll('.role-filter-btn');
+    const roleCards = document.querySelectorAll('.general-role-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+        roleCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
