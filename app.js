@@ -335,12 +335,16 @@ class AffluentApp {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
     document.body.style.overflow = '';
+
+    if (modalId === 'modal-consulting-inquiry' && this.consultingUploader) this.consultingUploader.clear();
+    if (modalId === 'modal-analyst-application' && this.analystUploader) this.analystUploader.clear();
+    if (modalId === 'modal-internship-application' && this.internshipUploader) this.internshipUploader.clear();
   }
 
   // ============================================================================
   // GOOGLE SHEETS FORM SUBMISSION HANDLER
   // ============================================================================
-  async submitToGoogleSheet(sheetName, submissionData) {
+  async submitToGoogleSheet(sheetName, submissionData, fileObj = null) {
     const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
     
     const payload = {
@@ -349,6 +353,10 @@ class AffluentApp {
       id: submissionData["Reference ID"] || `LEAD-${Date.now().toString().slice(-4)}`,
       data: submissionData
     };
+
+    if (fileObj && fileObj.base64) {
+      payload.file = fileObj;
+    }
 
     if (webhookUrl && webhookUrl.startsWith('http')) {
       try {
@@ -368,28 +376,69 @@ class AffluentApp {
       console.info(`[Google Sheets] Form logged for tab: '${sheetName}'. Set your Google Apps Script Web App URL in app.js or localStorage to stream rows live.`);
     }
 
-    // Resilient Local Backup
+    // Resilient Local Backup (store file metadata only, avoiding localStorage overflow)
+    const backupData = Object.assign({}, submissionData);
+    if (fileObj) {
+      backupData["Uploaded File"] = `${fileObj.fileName} (${(fileObj.fileSize / 1024).toFixed(1)} KB)`;
+    }
     this.state.leads.unshift({
       id: payload.id,
       sheetName: sheetName,
       date: new Date().toISOString().split('T')[0],
-      ...submissionData
+      ...backupData
     });
     this.saveState();
   }
 
   // Forms binding (Three distinct funnels)
   bindForms() {
+    // Initialize PDF Drag & Drop Uploaders for modal forms
+    this.consultingUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-consulting-doc',
+      inputId: 'consulting-doc-file',
+      defaultPreviewId: 'preview-consulting-doc-default',
+      selectedPreviewId: 'preview-consulting-doc-selected',
+      filenameId: 'filename-consulting-doc',
+      filesizeId: 'filesize-consulting-doc',
+      removeBtnId: 'remove-consulting-doc',
+      errorId: 'error-consulting-doc'
+    });
+
+    this.analystUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-analyst-cv',
+      inputId: 'analyst-cv-file',
+      defaultPreviewId: 'preview-analyst-cv-default',
+      selectedPreviewId: 'preview-analyst-cv-selected',
+      filenameId: 'filename-analyst-cv',
+      filesizeId: 'filesize-analyst-cv',
+      removeBtnId: 'remove-analyst-cv',
+      errorId: 'error-analyst-cv'
+    });
+
+    this.internshipUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-internship-cv',
+      inputId: 'internship-cv-file',
+      defaultPreviewId: 'preview-internship-cv-default',
+      selectedPreviewId: 'preview-internship-cv-selected',
+      filenameId: 'filename-internship-cv',
+      filesizeId: 'filesize-internship-cv',
+      removeBtnId: 'remove-internship-cv',
+      errorId: 'error-internship-cv'
+    });
+
     // Form A: Business Consulting Inquiry Form
     const formA = document.getElementById('form-consulting-inquiry');
     if (formA) {
       formA.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const fileObj = this.consultingUploader ? this.consultingUploader.getFile() : null;
         const submitBtn = formA.querySelector('button[type="submit"]');
         const origBtnText = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>Transmitting to Advisory Council...</span>`;
+          submitBtn.innerHTML = fileObj 
+            ? `<span>Uploading to Google Drive & Transmitting...</span>` 
+            : `<span>Transmitting to Advisory Council...</span>`;
         }
 
         const leadData = {
@@ -407,7 +456,7 @@ class AffluentApp {
           "Additional Notes": (formA.querySelector('#consulting-notes') && formA.querySelector('#consulting-notes').value) ? formA.querySelector('#consulting-notes').value.trim() : 'N/A'
         };
 
-        await this.submitToGoogleSheet('Consulting Inquiries', leadData);
+        await this.submitToGoogleSheet('Consulting Inquiries', leadData, fileObj);
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -415,6 +464,7 @@ class AffluentApp {
         }
 
         formA.reset();
+        if (this.consultingUploader) this.consultingUploader.clear();
         this.closeModal('modal-consulting-inquiry');
         this.showConfirmationModal(
           'Consultation Request Received',
@@ -428,11 +478,14 @@ class AffluentApp {
     if (formB) {
       formB.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const fileObj = this.analystUploader ? this.analystUploader.getFile() : null;
         const submitBtn = formB.querySelector('button[type="submit"]');
         const origBtnText = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>Submitting Application...</span>`;
+          submitBtn.innerHTML = fileObj 
+            ? `<span>Uploading to Google Drive & Submitting...</span>` 
+            : `<span>Submitting Application...</span>`;
         }
 
         const leadData = {
@@ -451,7 +504,7 @@ class AffluentApp {
           "Referral Source": formB.querySelector('#analyst-source').value
         };
 
-        await this.submitToGoogleSheet('Analyst Applications', leadData);
+        await this.submitToGoogleSheet('Analyst Applications', leadData, fileObj);
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -459,6 +512,7 @@ class AffluentApp {
         }
 
         formB.reset();
+        if (this.analystUploader) this.analystUploader.clear();
         this.closeModal('modal-analyst-application');
         this.showConfirmationModal(
           'Application Successfully Submitted',
@@ -472,11 +526,23 @@ class AffluentApp {
     if (formC) {
       formC.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const fileObj = this.internshipUploader ? this.internshipUploader.getFile() : null;
+        const portfolioVal = formC.querySelector('#internship-portfolio') ? formC.querySelector('#internship-portfolio').value.trim() : '';
+
+        if (!fileObj && !portfolioVal) {
+          if (this.internshipUploader) {
+            this.internshipUploader.setError('Please upload your CV / Resume in PDF format.');
+          }
+          return;
+        }
+
         const submitBtn = formC.querySelector('button[type="submit"]');
         const origBtnText = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>Submitting Application...</span>`;
+          submitBtn.innerHTML = fileObj 
+            ? `<span>Uploading to Google Drive & Submitting...</span>` 
+            : `<span>Submitting Application...</span>`;
         }
 
         const leadData = {
@@ -493,11 +559,10 @@ class AffluentApp {
           "Previous Experience": (formC.querySelector('#internship-experience') && formC.querySelector('#internship-experience').value) ? formC.querySelector('#internship-experience').value.trim() : 'N/A',
           "Motivation": formC.querySelector('#internship-why').value.trim(),
           "Learning Goals": formC.querySelector('#internship-learn').value.trim(),
-          "CV Document": (formC.querySelector('#internship-cv-name') && formC.querySelector('#internship-cv-name').value) ? formC.querySelector('#internship-cv-name').value.trim() : 'N/A',
-          "LinkedIn / Portfolio": formC.querySelector('#internship-portfolio').value.trim()
+          "LinkedIn / Portfolio": portfolioVal || 'N/A'
         };
 
-        await this.submitToGoogleSheet('Internship Applications', leadData);
+        await this.submitToGoogleSheet('Internship Applications', leadData, fileObj);
 
         if (submitBtn) {
           submitBtn.disabled = false;
@@ -505,6 +570,7 @@ class AffluentApp {
         }
 
         formC.reset();
+        if (this.internshipUploader) this.internshipUploader.clear();
         this.closeModal('modal-internship-application');
         this.showConfirmationModal(
           'Internship Application Received',
@@ -744,6 +810,140 @@ class AffluentApp {
   }
 }
 
+// PDF Drag & Drop / File Uploader Helper for Modal Forms
+function setupPdfUploader(config) {
+  const dropzone = document.getElementById(config.dropzoneId);
+  const input = document.getElementById(config.inputId);
+  const defaultPreview = document.getElementById(config.defaultPreviewId);
+  const selectedPreview = document.getElementById(config.selectedPreviewId);
+  const filenameEl = document.getElementById(config.filenameId);
+  const filesizeEl = document.getElementById(config.filesizeId);
+  const removeBtn = document.getElementById(config.removeBtnId);
+  const errorEl = document.getElementById(config.errorId);
+
+  if (!input) return null;
+
+  let currentFile = null;
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    else return (bytes / 1048576).toFixed(2) + ' MB';
+  }
+
+  function setError(msg) {
+    if (errorEl) {
+      if (msg) {
+        errorEl.textContent = msg;
+        errorEl.classList.remove('hidden');
+      } else {
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+      }
+    }
+  }
+
+  function handleFile(file) {
+    setError('');
+    if (!file) return;
+
+    // Check if PDF
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    if (!isPdf) {
+      setError('Invalid file format: Please select a PDF document (.pdf).');
+      clearFile();
+      return;
+    }
+
+    // Max 10MB
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      setError('File exceeds 10MB limit (' + formatBytes(file.size) + '). Please choose a smaller PDF.');
+      clearFile();
+      return;
+    }
+
+    // Read file as Base64
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const dataUrl = e.target.result;
+      const base64 = dataUrl.split(',')[1];
+      currentFile = {
+        base64: base64,
+        fileName: file.name,
+        mimeType: 'application/pdf',
+        fileSize: file.size
+      };
+
+      if (filenameEl) filenameEl.textContent = file.name;
+      if (filesizeEl) filesizeEl.textContent = formatBytes(file.size) + ' • Ready to upload to Google Drive';
+      if (defaultPreview) defaultPreview.classList.add('hidden');
+      if (selectedPreview) selectedPreview.classList.remove('hidden');
+      if (dropzone) dropzone.classList.add('border-emerald-500', 'bg-emerald-50/40');
+    };
+    reader.onerror = function() {
+      setError('Error reading file. Please try again.');
+      clearFile();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearFile() {
+    currentFile = null;
+    if (input) input.value = '';
+    if (defaultPreview) defaultPreview.classList.remove('hidden');
+    if (selectedPreview) selectedPreview.classList.add('hidden');
+    if (dropzone) dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+  }
+
+  input.addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  });
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      clearFile();
+      setError('');
+    });
+  }
+
+  // Drag and drop events on dropzone
+  if (dropzone) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('border-gold-400', 'bg-gold-50/40');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('border-gold-400', 'bg-gold-50/40');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', function(e) {
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files[0]) {
+        handleFile(dt.files[0]);
+      }
+    }, false);
+  }
+
+  return {
+    getFile: () => currentFile,
+    clear: clearFile,
+    hasFile: () => currentFile !== null,
+    setError: setError
+  };
+}
 
 // Global Career Role Modal Helpers
 window.openRoleModal = function(roleId) {
