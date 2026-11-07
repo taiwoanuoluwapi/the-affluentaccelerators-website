@@ -1,51 +1,56 @@
-# Google Sheets Integration Guide for The Affluentaccelerators
+# Google Sheets & Google Drive Integration Guide
 
-All forms on the website submit directly into your Google Spreadsheet, with **each form automatically creating and saving into its own separate tab (sheet)**:
-1. **Consulting Inquiries** — Submissions from the *"Request A Business Consultation"* modal.
-2. **Analyst Applications** — Applications for the *90-Day Business Consultant/Analyst Programme* (₦175,000 cohort).
-3. **Internship Applications** — Applications for the *Internship & Fellowship Programme*.
-4. **Any Future Forms** — Any new form added in the future automatically generates a new sheet tab and formatted headers with zero manual spreadsheet configuration!
+All forms on the website submit directly into your Google Spreadsheet, and **uploaded PDF resumes/documents are automatically stored in your Google Drive**!
+
+### Core Capabilities:
+1. **Automatic Google Drive Storage**:
+   - Files are automatically saved into your Google Drive inside the dedicated folder:
+     📁 **`The Affluentaccelerators: Hiring`**
+   - The script creates this folder automatically if it doesn't already exist.
+   - Files are renamed clearly: `[Applicant Name] - [Role] - [Original File Name].pdf`
+2. **Direct Google Sheet Link**:
+   - The direct Google Drive URL is recorded in the spreadsheet under the column **`CV / Resume (Drive Link)`**.
+   - Anyone reviewing the sheet can click the link to view or download the candidate's PDF immediately.
+3. **Automatic Sheet Tab Routing**:
+   - **`Internship Applications`** — Fellowship & internship candidates with CVs attached.
+   - **`Analyst Applications`** — 90-Day Programme applicants with CVs / credentials attached.
+   - **`Consulting Inquiries`** — Advisory requests (with optional company brief / deck).
+   - **`Business Audits`** — Free video/audio audit requests.
 
 ---
 
-## Quick Setup Instructions
+## How to Update Your Apps Script Deployment
 
-### Step 1: Create Your Google Sheet
-1. Go to [sheets.new](https://sheets.new) in your web browser.
-2. Name the spreadsheet (e.g. `The Affluentaccelerators - Submissions & Leads`).
+If you have already set up Google Apps Script:
 
-### Step 2: Paste the Automation Script
-1. In the Google Sheets top menu, click **Extensions** > **Apps Script**.
-2. Erase everything inside `Code.gs` and copy-paste the code from [`google-sheets-script.js`](file:///home/agent/workspace/google-sheets-script.js).
-3. Click the **Save** icon (diskette).
+### Step 1: Update the Code in Apps Script
+1. Open your Google Sheet ([sheets.google.com](https://sheets.google.com)).
+2. In the top menu, click **Extensions** > **Apps Script**.
+3. Replace all existing code in `Code.gs` with the updated script in [`google-sheets-script.js`](file:///home/agent/workspace/google-sheets-script.js).
+4. Click the **Save** icon (diskette).
 
-### Step 3 (Optional): Verify with "Run"
-1. In the top toolbar next to "Debug", choose **testSubmission** in the function dropdown.
+### Step 2: Grant Google Drive Permissions (One-Time)
+1. In the toolbar at the top (next to "Debug"), choose **`testFileUploadSubmission`** from the dropdown.
 2. Click **Run**.
-3. Google will ask for permission the first time:
+3. Google will request permission to access Google Drive:
    - Click **Review permissions**
-   - Choose your Google account
+   - Select your Google account
    - Click **Advanced** > **Go to Untitled project (unsafe)**
    - Click **Allow**
-4. Check your Google Sheet tab — you will see a new tab *"Consulting Inquiries"* with the header row styled in executive Forest Green (`#06261b`) and Gold (`#f3c74d`) with a test lead inserted!
+4. Check your Google Drive: you will see the new folder **`The Affluentaccelerators: Hiring`** with a test PDF!
+5. Check your Google Sheet: you will see a new row in **`Internship Applications`** with the Drive link!
 
-### Step 4: Deploy as a Web App
-1. Click the blue **Deploy** button (top right) > **New deployment**.
-2. Click the gear icon ⚙️ next to *Select type* and choose **Web app**.
-3. Configure:
-   - **Description**: `Affluent Accelerators Forms Webhook`
-   - **Execute as**: `Me (your email)`
-   - **Who has access**: `Anyone` *(Crucial: allows website submissions to reach your sheet)*
+### Step 3: Deploy New Version
+1. Click the blue **Deploy** button (top right) > **Manage deployments**.
+2. Click the **Pencil icon** (Edit) on your active deployment.
+3. In the **Version** dropdown, select **New version**.
 4. Click **Deploy**.
-5. Copy the **Web app URL** (looks like `https://script.google.com/macros/s/.../exec`).
-
-### Step 5: Connect to Your Website
-- **Send the Web app URL in this chat**, and I will immediately plug it into the code!
-- Or paste it into `GOOGLE_SHEETS_WEBHOOK_URL` at the top of [`app.js`](file:///home/agent/workspace/app.js).
+5. Your existing Web App URL remains the same! Submissions from the website will now automatically upload candidate PDFs to your Drive folder.
 
 ---
 
-## What Happens When a Visitor Submits?
-- **Automatic Tab Routing**: The script checks which form was used and locates or creates that tab.
-- **Header Formatting**: Automatically styles the header row in deep forest green with gold bold text and freezes the row.
-- **Zero Data Loss**: Data is saved locally and transmitted to your spreadsheet immediately.
+## File Upload Technical Specs
+- **Accepted Formats**: PDF (`.pdf`, `application/pdf`)
+- **Maximum File Size**: 10 MB
+- **Drive Folder**: `The Affluentaccelerators: Hiring`
+- **Link Sharing**: Anyone with the link can view
