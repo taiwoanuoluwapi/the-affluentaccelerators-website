@@ -349,37 +349,6 @@ class AffluentApp {
     }
   }
 
-  // Interactive filter for Skilled Trades & Studios showcase
-  bindTradeFilters() {
-    const filterBtns = document.querySelectorAll('.trade-filter-btn');
-    const cards = document.querySelectorAll('.trade-card');
-    if (!filterBtns.length || !cards.length) return;
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetCategory = btn.getAttribute('data-filter');
-        
-        // Update active button styles
-        filterBtns.forEach(b => {
-          b.classList.remove('bg-forest-900', 'text-gold-300', 'border-gold-400/40', 'shadow-md');
-          b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-        });
-        btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-        btn.classList.add('bg-forest-900', 'text-gold-300', 'border-gold-400/40', 'shadow-md');
-
-        // Filter cards
-        cards.forEach(card => {
-          const cardCategory = card.getAttribute('data-category');
-          if (targetCategory === 'all' || cardCategory === targetCategory) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-      });
-    });
-  }
-
   closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (!modal) return;
