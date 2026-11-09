@@ -364,6 +364,18 @@
       "created_at": "2026-11-09T13:43:49.604Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "e7c4d720-1aae-4126-8113-66cd295bb0b6",
+      "role": "agent",
+      "content": "The dedicated section has been removed while retaining all the skilled trade and artisan categories in the form dropdowns.\n\n### Summary of Changes:\n1. **Removed the Dedicated Section**:\n   - Deleted the standalone **Trades & Creative Studios** showcase section (`#trades-studios`) from [`index.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html).\n   - Removed the shortcut badge in the Hero section, the mobile slide-out drawer link, and the footer navigation link.\n   - Cleaned up related filters and router logic in [`app.js`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js).\n\n2. **Retained on Form Industry Dropdowns**:\n   The **Industry / Sector** select fields across both the Rapid Video Audit and Strategic Consulting forms on [`index.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html) and [`forms.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html) continue to include:\n   - `Automotive & Mechanics (Garages, Diagnostics, Fleet Maintenance)`\n   - `Beauty, Hairdressing & Makeup (Salons, Spas, MUAs, Barbers)`\n   - `Electrical, Energy & Skilled Trades (Electricians, Solar, Inverters, Plumbers)`\n   - `Photography, Videography & Creative Studios`\n   - `Technical Services & Appliance Repair (Technicians, HVAC, Electronics)`\n\nYou can preview the live site here:\n**https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/**",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "d0eca904-123b-4f3b-91a6-fb85025098e6",
+      "created_at": "2026-11-09T13:48:39.800Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
