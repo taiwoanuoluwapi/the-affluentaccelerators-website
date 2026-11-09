@@ -188,6 +188,7 @@ class AffluentApp {
     this.bindMobileMenu();
     this.bindCurriculumAccordion();
     this.bindModals();
+    this.bindTradeFilters();
     this.bindForms();
     this.renderDynamicContent();
     this.handleRoute();
@@ -202,7 +203,7 @@ class AffluentApp {
     let hash = window.location.hash.replace('#', '') || 'home';
     
     // Check if hash points to an anchor on home page
-    const homeAnchors = ['about', 'services', 'approach', 'programmes', 'why-us', 'experience', 'careers', 'insights', 'contact'];
+    const homeAnchors = ['about', 'services', 'trades-studios', 'skilled-trades', 'trades', 'approach', 'programmes', 'why-us', 'experience', 'careers', 'insights', 'contact'];
     
     if (homeAnchors.includes(hash)) {
       this.switchView('home');
@@ -252,12 +253,13 @@ class AffluentApp {
       });
     });
 
-    // Dedicated CTA openers
+    // Dedicated CTA openers with optional prefill
     document.querySelectorAll('[data-open-modal]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const modalId = btn.getAttribute('data-open-modal');
-        this.openModal(modalId);
+        const industry = btn.getAttribute('data-industry');
+        this.openModal(modalId, { industry });
       });
     });
   }
@@ -357,6 +359,45 @@ class AffluentApp {
       const select = modal.querySelector('#internship-preferred-role');
       if (select) select.value = prefillData.role;
     }
+
+    // If industry prefill
+    if (prefillData.industry) {
+      const selectAudit = modal.querySelector('#audit-industry');
+      if (selectAudit) selectAudit.value = prefillData.industry;
+      const selectConsulting = modal.querySelector('#consulting-industry');
+      if (selectConsulting) selectConsulting.value = prefillData.industry;
+    }
+  }
+
+  // Interactive filter for Skilled Trades & Studios showcase
+  bindTradeFilters() {
+    const filterBtns = document.querySelectorAll('.trade-filter-btn');
+    const cards = document.querySelectorAll('.trade-card');
+    if (!filterBtns.length || !cards.length) return;
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetCategory = btn.getAttribute('data-filter');
+        
+        // Update active button styles
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-forest-900', 'text-gold-300', 'border-gold-400/40', 'shadow-md');
+          b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+        });
+        btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+        btn.classList.add('bg-forest-900', 'text-gold-300', 'border-gold-400/40', 'shadow-md');
+
+        // Filter cards
+        cards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (targetCategory === 'all' || cardCategory === targetCategory) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
   }
 
   closeModal(modalId) {
