@@ -59,12 +59,33 @@
 
   <style>
     .form-tab-btn.active {
-      background-color: #06261b;
-      border-color: #e5b83b;
-      color: #f3c74d;
+      background-color: #06261b !important;
+      border-color: #e5b83b !important;
+      box-shadow: 0 4px 14px rgba(6, 38, 27, 0.35);
+    }
+    .form-tab-btn.active .tab-title,
+    .form-tab-btn.active span.text-slate-800,
+    .form-tab-btn.active div > span:first-child {
+      color: #ffffff !important;
+    }
+    .form-tab-btn.active .tab-desc,
+    .form-tab-btn.active span.text-slate-500,
+    .form-tab-btn.active div > span:last-child {
+      color: #e2e8f0 !important;
     }
     .form-tab-btn.active .tab-icon {
-      color: #e5b83b;
+      color: #e5b83b !important;
+      filter: drop-shadow(0 0 2px rgba(229, 184, 59, 0.4));
+    }
+    .form-tab-btn.active:hover {
+      background-color: #06261b !important;
+      border-color: #f3c74d !important;
+    }
+    .form-tab-btn.active:hover div > span:first-child {
+      color: #ffffff !important;
+    }
+    .form-tab-btn.active:hover div > span:last-child {
+      color: #e2e8f0 !important;
     }
     .form-panel { display: none; }
     .form-panel.active { display: block; }
@@ -126,8 +147,8 @@
               data-form="business-audit">
               <span class="tab-icon text-xl mt-0.5">📊</span>
               <div>
-                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Business Audit</span>
-                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Free custom video/audio review</span>
+                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Business Audit</span>
+                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">Free custom video/audio review</span>
               </div>
             </button>
             <button onclick="showForm('consulting-inquiry')"
@@ -135,8 +156,8 @@
               data-form="consulting-inquiry">
               <span class="tab-icon text-xl mt-0.5">💼</span>
               <div>
-                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Consulting Inquiry</span>
-                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Request advisory or strategy support</span>
+                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Consulting Inquiry</span>
+                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">Request advisory or strategy support</span>
               </div>
             </button>
             <button onclick="showForm('analyst-application')"
@@ -144,8 +165,8 @@
               data-form="analyst-application">
               <span class="tab-icon text-xl mt-0.5">🎓</span>
               <div>
-                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Analyst Application</span>
-                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">90-Day consultant/analyst programme</span>
+                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Analyst Application</span>
+                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">90-Day consultant/analyst programme</span>
               </div>
             </button>
             <button onclick="showForm('internship-application')"
@@ -153,8 +174,8 @@
               data-form="internship-application">
               <span class="tab-icon text-xl mt-0.5">🌱</span>
               <div>
-                <span class="block text-xs font-bold text-slate-800 group-hover:text-forest-900">Internship Application</span>
-                <span class="block text-[10px] text-slate-500 leading-snug mt-0.5">Fellowship & internship programme</span>
+                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Internship Application</span>
+                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">Fellowship & internship programme</span>
               </div>
             </button>
             <a href="careers.html"
