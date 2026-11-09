@@ -328,6 +328,18 @@
       "created_at": "2026-11-09T11:08:34.081Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "7be71a53-3f9d-4ef9-89a3-8eb9d1b2fd92",
+      "role": "user",
+      "content": "what of businesses like technicians, electricians, mechanics, hairdressers, makeup artists, photography. maybe there's a proper section for them",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-09T11:37:43.582Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
