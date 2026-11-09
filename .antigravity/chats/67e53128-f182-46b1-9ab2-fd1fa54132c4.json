@@ -304,6 +304,18 @@
       "created_at": "2026-11-09T10:45:54.469Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "63e22722-c465-4082-9a3a-49177735f873",
+      "role": "agent",
+      "content": "Replacing the entire script code with the updated version was actually the right thing to do! Creating a new deployment simply gives Google Apps Script a fresh Web App URL, which is completely fine.\n\nI tested your new link directly, and your script responded immediately:\n```json\n{\n  \"status\": \"online\",\n  \"service\": \"The Affluentaccelerators Form & Drive Webhook\",\n  \"folder\": \"The Affluentaccelerators: Hiring\",\n  \"message\": \"Ready to accept form submissions with PDF upload to Google Drive and Google Sheets.\"\n}\n```\n\n### What Has Been Updated:\nThe new URL (`https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec`) is now linked in:\n- [`app.js`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js#L15)\n- [`forms.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html#L825)\n\nEvery form submission (including resume and document uploads directly to your **The Affluentaccelerators: Hiring** Google Drive folder) will now seamlessly pipe into your Google Sheet.\n\nThe changes are saved. You can test and view the site here:\n👉 **[View Your Live Website](https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/)**",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "5bdf1b5a-495e-429c-b947-58af7aaddc35",
+      "created_at": "2026-11-09T10:47:31.790Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
