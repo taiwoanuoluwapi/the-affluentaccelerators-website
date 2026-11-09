@@ -113,26 +113,6 @@ By fusing rigorous classroom learning with immediate in-field exposure to real c
       strategy: "Formulated institutional sales playbooks, negotiated strategic off-taker partnerships, and built a dedicated commercial business development team.",
       outcome: "Diversified buyer base across 4 international corporate buyers and secured multi-year forward supply agreements.",
       badge: "Market Expansion"
-    },
-    {
-      id: "cs-4",
-      title: "Workshop Workflow Standardization & Fleet Retainer Acquisition",
-      clientType: "Automotive Diagnostics & Heavy Mechanical Hub",
-      industry: "Automotive & Mechanical Services",
-      challenge: "Garage operated as an informal walk-in shop with untracked spare parts, diagnostic fee disputes, and heavy technician turnover.",
-      strategy: "Installed computerized vehicle intake job sheets, standardized diagnostic rate cards, and negotiated quarterly fleet maintenance contracts with regional logistics firms.",
-      outcome: "Secured 5 corporate fleet retainers, increased spare parts gross margin by 38%, and eliminated diagnostic payment disputes.",
-      badge: "Trades Acceleration"
-    },
-    {
-      id: "cs-5",
-      title: "Automated Booking Infrastructure & Premium Package Architecture",
-      clientType: "Creative Visual Studio & Beauty Salon Group",
-      industry: "Creative Studios & Beauty",
-      challenge: "Struggled with 25% client no-show rate via WhatsApp DMs, low-margin freelance rates, and severe editing turnaround bottlenecks.",
-      strategy: "Launched online booking engine with mandatory 50% deposit lock, created tiered corporate visual retainers, and outsourced color grading to a dedicated post-production workflow.",
-      outcome: "Reduced no-show rate to zero, signed 6 monthly brand retainers, and lifted founder billable rate by 2.4x.",
-      badge: "Studio Optimization"
     }
   ]
 };
@@ -157,6 +137,7 @@ class AffluentApp {
         }
         // Ensure latest case studies are merged
         if (parsed.caseStudies && Array.isArray(parsed.caseStudies)) {
+          parsed.caseStudies = parsed.caseStudies.filter(c => c.id !== 'cs-4' && c.id !== 'cs-5');
           DEFAULT_STATE.caseStudies.forEach(defaultCs => {
             if (!parsed.caseStudies.some(c => c.id === defaultCs.id)) {
               parsed.caseStudies.push(defaultCs);
@@ -188,7 +169,6 @@ class AffluentApp {
     this.bindMobileMenu();
     this.bindCurriculumAccordion();
     this.bindModals();
-    this.bindTradeFilters();
     this.bindForms();
     this.renderDynamicContent();
     this.handleRoute();
@@ -203,7 +183,7 @@ class AffluentApp {
     let hash = window.location.hash.replace('#', '') || 'home';
     
     // Check if hash points to an anchor on home page
-    const homeAnchors = ['about', 'services', 'trades-studios', 'skilled-trades', 'trades', 'approach', 'programmes', 'why-us', 'experience', 'careers', 'insights', 'contact'];
+    const homeAnchors = ['about', 'services', 'approach', 'programmes', 'why-us', 'experience', 'careers', 'insights', 'contact'];
     
     if (homeAnchors.includes(hash)) {
       this.switchView('home');
