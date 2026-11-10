@@ -737,17 +737,16 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
   }
 
   var formData = payload.data || payload.formData || payload;
-  var rawType = payload.sheetName || payload.formName || payload.formType || "business-audit";
+  var rawType = payload.sheetName || payload.formName || payload.formType || "audit-inquiry";
 
-  var targetTab = TAB_AUDITS;
-  if (rawType === "consulting-inquiry" || rawType === TAB_INQUIRIES) {
-    targetTab = TAB_INQUIRIES;
-  } else if (rawType === "analyst-application" || rawType === TAB_ANALYST) {
+  var targetTab = TAB_AUDITS_INQUIRIES;
+  if (rawType === "analyst-application" || rawType === TAB_ANALYST) {
     targetTab = TAB_ANALYST;
   } else if (rawType === "internship-application" || rawType === TAB_INTERNSHIP) {
     targetTab = TAB_INTERNSHIP;
-  } else if (rawType === "business-audit" || rawType === TAB_AUDITS) {
-    targetTab = TAB_AUDITS;
+  } else {
+    // Both audits and inquiries (plus BDR leads) now stream to the single consolidated tab
+    targetTab = TAB_AUDITS_INQUIRIES;
   }
 
   // File Upload Handling (PDF Resumes / Documents saved to Google Drive)
@@ -770,43 +769,71 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
   var sheet = null;
   var rowValues = [];
 
-  if (targetTab === TAB_AUDITS) {
-    sheet = ensureBusinessAuditsSheet(spreadsheet);
+  if (targetTab === TAB_AUDITS_INQUIRIES) {
+    sheet = ensureAuditInquirySheet(spreadsheet);
+
+    // Resolve submission track
+    var trackVal = formData["track"] || payload.track || "";
+    if (!trackVal) {
+      if (rawType === "business-audit") {
+        trackVal = "Free Business Audit (Video / Audio Diagnostic)";
+      } else if (rawType === "bdr-lead" || formData["bdrNotes"]) {
+        trackVal = "BDR / Agent In-Field Lead";
+      } else {
+        trackVal = "In-Depth Consulting Inquiry (Advisory & Strategy)";
+      }
+    }
+
+    // Resolve lead source
+    var sourceVal = formData["source"] || payload.source || "";
+    if (!sourceVal) {
+      if (formData["bdrNotes"] || trackVal.indexOf("BDR") !== -1) {
+        sourceVal = "BDR / Agent App";
+      } else if (trackVal.indexOf("Free") !== -1) {
+        sourceVal = "Website - Free Audit Track";
+      } else {
+        sourceVal = "Website - In-Depth Inquiry Track";
+      }
+    }
+
+    var goalVal = formData["goal"] || formData["Primary Goal / 90-Day Priority"] || formData["90-Day Goal"] || "";
+    var supportVal = formData["supportType"] || formData["Consulting Support Needed"] || formData["Consulting Support Required"] || "";
+    var formatVal = formData["preferredFormat"] || formData["Preferred Format"] || formData["Preferred Audit Format"] || "";
+    if (!formatVal && trackVal.indexOf("Free") !== -1) {
+      formatVal = "Custom Video Audit (Loom / Screen & Face)";
+    }
+
+    var notesVal = formData["notes"] || formData["Additional Notes"] || "";
+    var bdrNotesVal = formData["bdrNotes"] || "";
+    var combinedNotes = notesVal;
+    if (bdrNotesVal) {
+      combinedNotes = combinedNotes ? (combinedNotes + " | [BDR Notes: " + bdrNotesVal + "]") : ("[BDR Notes: " + bdrNotesVal + "]");
+    }
+
     rowValues = [
       refId,
       timeStr,
+      trackVal,
+      sourceVal,
       formData["name"] || formData["Full Name"] || "",
       formData["businessName"] || formData["Business Name"] || "",
-      formData["whatsapp"] || formData["WhatsApp Number"] || "",
-      formData["email"] || formData["Email Address"] || "",
-      formData["industry"] || formData["Industry / Sector"] || "",
-      formData["stage"] || formData["Current Business Stage"] || "",
-      formData["description"] || formData["Business Description"] || "",
-      formData["struggles"] || formData["Biggest Bottleneck"] || "",
-      formData["goal"] || formData["90-Day Goal"] || "",
-      formData["preferredFormat"] || formData["Preferred Format"] || "Video Audit",
-      "New Request",
-      ""
-    ];
-  } else if (targetTab === TAB_INQUIRIES) {
-    sheet = ensureConsultingInquiriesSheet(spreadsheet);
-    rowValues = [
-      refId,
-      timeStr,
-      formData["name"] || formData["Full Name"] || "",
-      formData["businessName"] || formData["Business Name"] || "",
-      formData["email"] || formData["Email Address"] || "",
-      formData["phone"] || formData["Phone Number"] || "",
-      formData["industry"] || formData["Industry"] || "",
-      formData["location"] || formData["Location"] || "",
-      formData["stage"] || formData["Business Stage"] || "",
-      formData["supportType"] || formData["Consulting Support Needed"] || "",
-      formData["challenges"] || formData["Key Challenges"] || "",
-      formData["description"] || formData["Business Overview"] || "",
+      formData["whatsapp"] || formData["WhatsApp Number"] || formData["phone"] || formData["Phone Number"] || "",
+      formData["email"] || formData["Work Email Address"] || formData["Email Address"] || "",
+      formData["industry"] || formData["Industry / Sector"] || formData["Industry"] || "",
+      formData["location"] || formData["Business Location"] || formData["City / State"] || "",
+      formData["teamSize"] || formData["Team Size"] || formData["Team Size / Employees"] || "",
+      formData["website"] || formData["Website or Social URL"] || formData["Web or Social URL"] || formData["Website / Social Link"] || "",
+      formData["stage"] || formData["Current Business Stage"] || formData["Business Stage"] || "",
+      formData["description"] || formData["Business Description"] || formData["What Business Does & Revenue Model"] || "",
+      formData["struggles"] || formData["challenges"] || formData["Biggest Bottleneck"] || formData["Key Challenges"] || "",
+      goalVal,
+      supportVal,
+      formatVal,
       driveFileUrl,
-      formData["notes"] || formData["Additional Notes"] || "",
+      combinedNotes,
       "New Lead",
-      ""
+      "",
+      getFormattedTimestamp()
     ];
   } else if (targetTab === TAB_ANALYST) {
     sheet = ensureAnalystApplicationsSheet(spreadsheet);
@@ -912,24 +939,22 @@ function ensureEventRegistrationsSheet(spreadsheet) {
   return sheet;
 }
 
-function ensureBusinessAuditsSheet(spreadsheet) {
-  var sheet = spreadsheet.getSheetByName(TAB_AUDITS);
+function ensureAuditInquirySheet(spreadsheet) {
+  var sheet = spreadsheet.getSheetByName(TAB_AUDITS_INQUIRIES);
   if (!sheet) {
-    sheet = spreadsheet.insertSheet(TAB_AUDITS);
-    sheet.appendRow(BUSINESS_AUDITS_HEADERS);
-    styleExecutiveHeader(sheet, BUSINESS_AUDITS_HEADERS.length);
+    sheet = spreadsheet.insertSheet(TAB_AUDITS_INQUIRIES);
+    sheet.appendRow(AUDIT_INQUIRY_HEADERS);
+    styleExecutiveHeader(sheet, AUDIT_INQUIRY_HEADERS.length);
   }
   return sheet;
 }
 
+function ensureBusinessAuditsSheet(spreadsheet) {
+  return ensureAuditInquirySheet(spreadsheet);
+}
+
 function ensureConsultingInquiriesSheet(spreadsheet) {
-  var sheet = spreadsheet.getSheetByName(TAB_INQUIRIES);
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet(TAB_INQUIRIES);
-    sheet.appendRow(CONSULTING_INQUIRIES_HEADERS);
-    styleExecutiveHeader(sheet, CONSULTING_INQUIRIES_HEADERS.length);
-  }
-  return sheet;
+  return ensureAuditInquirySheet(spreadsheet);
 }
 
 function ensureAnalystApplicationsSheet(spreadsheet) {
@@ -957,10 +982,9 @@ function ensureInternshipApplicationsSheet(spreadsheet) {
  */
 function ensureOverviewDashboardSheet(spreadsheet) {
   try {
-    // Guarantee all 5 underlying data sheets exist first so formula references never throw #REF!
+    // Guarantee all 4 underlying data sheets exist first so formula references never throw #REF!
     ensureEventRegistrationsSheet(spreadsheet);
-    ensureBusinessAuditsSheet(spreadsheet);
-    ensureConsultingInquiriesSheet(spreadsheet);
+    ensureAuditInquirySheet(spreadsheet);
     ensureAnalystApplicationsSheet(spreadsheet);
     ensureInternshipApplicationsSheet(spreadsheet);
 
@@ -990,7 +1014,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // Row 2: Subtitle
     sheet.getRange("A2:H2").merge();
     var sub = sheet.getRange("A2");
-    sub.setValue("Real-time telemetry across all Event Registrations, Consulting Inquiries, Business Audits & Career Applications");
+    sub.setValue("Real-time telemetry across all Event Registrations, Business Audits, Inquiries, BDR Leads & Career Applications");
     sub.setBackground(COLOR_FOREST_MED);
     sub.setFontColor("#ffffff");
     sub.setFontSize(9);
@@ -1000,8 +1024,8 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // KPI Cards in Rows 4-6
     var kpis = [
       { label: "TOTAL EVENT REGISTRANTS", formula: "=COUNTA('" + TAB_EVENTS + "'!C2:C)", col: "A" },
-      { label: "BUSINESS AUDIT REQUESTS", formula: "=COUNTA('" + TAB_AUDITS + "'!A2:A)", col: "C" },
-      { label: "CONSULTING INQUIRIES",    formula: "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)", col: "E" },
+      { label: "TOTAL AUDITS & INQUIRIES", formula: "=COUNTA('" + TAB_AUDITS_INQUIRIES + "'!A2:A)", col: "C" },
+      { label: "FREE AUDITS vs IN-DEPTH", formula: "=COUNTIF('" + TAB_AUDITS_INQUIRIES + "'!C2:C, \"*Free*\") & \" / \" & COUNTIF('" + TAB_AUDITS_INQUIRIES + "'!C2:C, \"*Consulting*\")", col: "E" },
       { label: "CAREER CANDIDATES (CVs)", formula: "=COUNTA('" + TAB_ANALYST + "'!A2:A) + COUNTA('" + TAB_INTERNSHIP + "'!A2:A)", col: "G" }
     ];
 
@@ -1024,7 +1048,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // Row 8: Event Registration Breakdown Header
     sheet.getRange("A8:H8").merge();
     var brk = sheet.getRange("A8");
-    brk.setValue("UNIFIED DATABASE TABS SUMMARY & RECURRING BOTTLENECK ANALYSIS");
+    brk.setValue("UNIFIED DATABASE TABS SUMMARY & LEAD TELEMETRY");
     brk.setBackground(COLOR_FOREST_MED);
     brk.setFontColor(COLOR_GOLD_LIGHT);
     brk.setFontWeight("bold");
@@ -1040,8 +1064,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
 
     var summaryRows = [
       [TAB_EVENTS, "Webinars & Masterclasses", "Biggest Bottlenecks & Recurring Requests", "=COUNTA('" + TAB_EVENTS + "'!C2:C)"],
-      [TAB_AUDITS, "24h Custom Video/Voice Audits", "Current Bottleneck & 90-Day Priority", "=COUNTA('" + TAB_AUDITS + "'!A2:A)"],
-      [TAB_INQUIRIES, "Strategic Advisory & Consulting", "Consulting Support & Challenges", "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)"],
+      [TAB_AUDITS_INQUIRIES, "Free Audits, Inquiries & BDR Leads", "Track, Source, Struggles & Location", "=COUNTA('" + TAB_AUDITS_INQUIRIES + "'!A2:A)"],
       [TAB_ANALYST, "90-Day Analyst Flagship", "Consulting Interests & Drive PDF CV", "=COUNTA('" + TAB_ANALYST + "'!A2:A)"],
       [TAB_INTERNSHIP, "Fellowship & Internships (7 Roles)", "Preferred Role & Drive PDF CV", "=COUNTA('" + TAB_INTERNSHIP + "'!A2:A)"]
     ];
@@ -1070,6 +1093,148 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     Logger.log("ensureOverviewDashboardSheet notice: " + err.toString());
     return null;
   }
+}
+
+/**
+ * ============================================================================
+ * ONE-CLICK TAB CONSOLIDATION & OBSOLETE SHEETS CLEANUP
+ * ============================================================================
+ * Migrates existing data from old 'Business Audits' and 'Consulting Inquiries' tabs
+ * into the unified 'Business Audits & Inquiries' tab, then permanently removes:
+ * 1. 'Business Audits'
+ * 2. 'Consulting Inquiries' (if separate from the new tab)
+ * 3. 'General Submissions' (or 'General Submission' / 'Submissions')
+ */
+function consolidateAuditAndInquiryTabs(spreadsheet) {
+  if (!spreadsheet) spreadsheet = getMasterSpreadsheet();
+  
+  // 1. Ensure target unified tab exists
+  var targetSheet = ensureAuditInquirySheet(spreadsheet);
+  var migratedAuditCount = 0;
+  var migratedInquiryCount = 0;
+  var deletedSheets = [];
+  
+  // 2. Check for old "Business Audits" sheet to migrate data if any
+  var oldAuditSheet = spreadsheet.getSheetByName("Business Audits");
+  if (oldAuditSheet && oldAuditSheet.getName() !== TAB_AUDITS_INQUIRIES) {
+    var lastRow = oldAuditSheet.getLastRow();
+    if (lastRow > 1) {
+      var data = oldAuditSheet.getRange(2, 1, lastRow - 1, oldAuditSheet.getLastColumn()).getValues();
+      for (var i = 0; i < data.length; i++) {
+        var row = data[i];
+        var newRow = [
+          row[0] || ("AUD-" + Math.floor(1000 + Math.random() * 9000)),
+          row[1] || getFormattedTimestamp(),
+          "Free Business Audit (Video / Audio Diagnostic)",
+          "Website - Free Audit (Migrated)",
+          row[2] || "",
+          row[3] || "",
+          row[4] || "",
+          row[5] || "",
+          row[6] || "",
+          "Not Specified (Legacy)",
+          "Not Specified (Legacy)",
+          "N/A",
+          row[7] || "",
+          row[8] || "",
+          row[9] || "",
+          row[10] || "",
+          "General Audit Review",
+          row[11] || "Custom Video Audit",
+          "",
+          row[13] || "",
+          row[12] || "New Lead",
+          "",
+          getFormattedTimestamp()
+        ];
+        targetSheet.appendRow(newRow);
+        applyZebraToLastRow(targetSheet);
+        migratedAuditCount++;
+      }
+    }
+    try {
+      spreadsheet.deleteSheet(oldAuditSheet);
+      deletedSheets.push("Business Audits");
+      Logger.log("Deleted obsolete 'Business Audits' sheet.");
+    } catch (delErr) {
+      Logger.log("Notice deleting 'Business Audits': " + delErr.toString());
+    }
+  }
+
+  // 3. Check for old "Consulting Inquiries" sheet to migrate data
+  var oldInqSheet = spreadsheet.getSheetByName("Consulting Inquiries");
+  if (oldInqSheet && oldInqSheet.getName() !== TAB_AUDITS_INQUIRIES) {
+    var lastInqRow = oldInqSheet.getLastRow();
+    if (lastInqRow > 1) {
+      var inqData = oldInqSheet.getRange(2, 1, lastInqRow - 1, oldInqSheet.getLastColumn()).getValues();
+      for (var j = 0; j < inqData.length; j++) {
+        var inqRow = inqData[j];
+        var newInqRow = [
+          inqRow[0] || ("INQ-" + Math.floor(1000 + Math.random() * 9000)),
+          inqRow[1] || getFormattedTimestamp(),
+          "In-Depth Consulting Inquiry (Advisory & Strategy)",
+          "Website - In-Depth Inquiry (Migrated)",
+          inqRow[2] || "",
+          inqRow[3] || "",
+          inqRow[5] || "", // WhatsApp / Phone
+          inqRow[4] || "", // Email
+          inqRow[6] || "", // Industry
+          inqRow[7] || "", // Location
+          "Not Specified (Legacy)",
+          "N/A",
+          inqRow[8] || "",
+          inqRow[11] || "",
+          inqRow[10] || "",
+          "Consulting Advisory Engagement",
+          inqRow[9] || "",
+          "Consulting Engagement",
+          inqRow[12] || "",
+          inqRow[13] || "",
+          inqRow[14] || "New Lead",
+          inqRow[15] || "",
+          getFormattedTimestamp()
+        ];
+        targetSheet.appendRow(newInqRow);
+        applyZebraToLastRow(targetSheet);
+        migratedInquiryCount++;
+      }
+    }
+    try {
+      spreadsheet.deleteSheet(oldInqSheet);
+      deletedSheets.push("Consulting Inquiries");
+      Logger.log("Deleted obsolete 'Consulting Inquiries' sheet.");
+    } catch (delInqErr) {
+      Logger.log("Notice deleting 'Consulting Inquiries': " + delInqErr.toString());
+    }
+  }
+
+  // 4. Delete obsolete General Submissions tab if present
+  var obsoleteGeneralNames = ["General Submissions", "General Submission", "Submissions", "General"];
+  for (var g = 0; g < obsoleteGeneralNames.length; g++) {
+    var genSheet = spreadsheet.getSheetByName(obsoleteGeneralNames[g]);
+    if (genSheet) {
+      try {
+        spreadsheet.deleteSheet(genSheet);
+        deletedSheets.push(obsoleteGeneralNames[g]);
+        Logger.log("Deleted obsolete sheet: " + obsoleteGeneralNames[g]);
+      } catch (genErr) {
+        Logger.log("Could not delete sheet " + obsoleteGeneralNames[g] + ": " + genErr.toString());
+      }
+    }
+  }
+
+  // 5. Refresh Dashboard
+  try {
+    ensureOverviewDashboardSheet(spreadsheet);
+  } catch (dashErr) {}
+
+  return {
+    status: "success",
+    message: "Consolidation complete. Active tab: '" + TAB_AUDITS_INQUIRIES + "'.",
+    migratedAudits: migratedAuditCount,
+    migratedInquiries: migratedInquiryCount,
+    deletedSheets: deletedSheets
+  };
 }
 
 // ============================================================================

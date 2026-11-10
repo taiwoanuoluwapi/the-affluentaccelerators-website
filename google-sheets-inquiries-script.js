@@ -49,12 +49,15 @@ var COLOR_CARD_BG     = "#f0fdf4";    // Soft Mint KPI Card Background
 var COLOR_ZEBRA_ROW   = "#f8faf8";    // Subtle alternating row tint
 
 // TAB NAMES CONSTANTS
-var TAB_OVERVIEW      = "OVERVIEW DASHBOARD";
-var TAB_EVENTS        = "Event Registrations";
-var TAB_AUDITS        = "Business Audits";
-var TAB_INQUIRIES     = "Consulting Inquiries";
-var TAB_ANALYST       = "Analyst Applications";
-var TAB_INTERNSHIP    = "Internship Applications";
+var TAB_OVERVIEW          = "OVERVIEW DASHBOARD";
+var TAB_EVENTS            = "Event Registrations";
+var TAB_AUDITS_INQUIRIES  = "Business Audits & Inquiries"; // Consolidated single tab
+var TAB_ANALYST           = "Analyst Applications";
+var TAB_INTERNSHIP        = "Internship Applications";
+
+// Legacy aliases for backward compatibility
+var TAB_AUDITS            = TAB_AUDITS_INQUIRIES;
+var TAB_INQUIRIES         = TAB_AUDITS_INQUIRIES;
 
 /**
  * Standardized Unified Headers for EVENT REGISTRATIONS (One Tab for All Events)
@@ -96,46 +99,38 @@ var EVENT_REGISTRATIONS_HEADERS = [
 ];
 
 /**
- * Headers for BUSINESS AUDITS
+ * Standardized Headers for CONSOLIDATED BUSINESS AUDITS & INQUIRIES
+ * (Tracks Free Strategy Audits, In-Depth Advisory Inquiries, and BDR In-Field Leads)
  */
-var BUSINESS_AUDITS_HEADERS = [
+var AUDIT_INQUIRY_HEADERS = [
   "Reference ID",
   "Submission Time",
+  "Submission Track",            // "Free Business Audit", "In-Depth Consulting Inquiry", "BDR / Agent In-Field Lead"
+  "Lead Source",                // "Website - Free Audit Track", "Website - In-Depth Inquiry", "BDR App", "Agent Filed Lead", etc.
   "Full Name",
   "Business Name",
   "WhatsApp Number",
-  "Email Address",
+  "Work Email Address",
   "Industry / Sector",
+  "Business Location",          // Requested: City, Country / State
+  "Team Size",                  // Requested: Number of employees / team size
+  "Website or Social URL",      // Requested: Website or social media profile
   "Current Business Stage",
-  "Business Description & Revenue Model",
-  "Current Bottleneck / Where Stuck",
-  "90-Day Growth Goal / Priority",
+  "What Business Does & Revenue Model",
+  "Core Bottleneck / Current Struggles",
+  "Primary Goal / 90-Day Priority",
+  "Consulting Support Required",
   "Preferred Audit Format",
-  "Status",
-  "Assigned Consultant / Notes"
+  "Uploaded Document (Drive Link)",
+  "Additional / BDR Notes",
+  "Lead Status",                // "New Lead", "Audit Dispatched", "Under Review", "Closed - Won"
+  "Assigned Consultant / BDR",
+  "Sync Timestamp"
 ];
 
-/**
- * Headers for CONSULTING INQUIRIES
- */
-var CONSULTING_INQUIRIES_HEADERS = [
-  "Reference ID",
-  "Submission Time",
-  "Full Name",
-  "Business Name",
-  "Email Address",
-  "Phone / WhatsApp Number",
-  "Industry / Sector",
-  "Location (City, Country)",
-  "Business Stage",
-  "Consulting Support Required",
-  "Specific Challenges & Objectives",
-  "Business Overview & Model",
-  "Uploaded Document (Drive Link)",
-  "Additional Notes",
-  "Status",
-  "Assigned Lead Consultant"
-];
+// Backward-compatible alias arrays
+var BUSINESS_AUDITS_HEADERS = AUDIT_INQUIRY_HEADERS;
+var CONSULTING_INQUIRIES_HEADERS = AUDIT_INQUIRY_HEADERS;
 
 /**
  * Headers for ANALYST APPLICATIONS
@@ -239,14 +234,16 @@ function testEventRegistration() {
 }
 
 /**
- * 2. Execute & Test Business Audit Form
+ * 2. Execute & Test Business Audit Track (In Unified Tab)
  */
 function testBusinessAuditForm() {
-  Logger.log("Executing Business Audit Form function...");
+  Logger.log("Executing Business Audit Form test in unified Business Audits & Inquiries tab...");
   var spreadsheet = getMasterSpreadsheet();
   var sampleAuditPayload = {
-    formType: "business-audit",
-    id: "AUDIT-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    formType: "audit-inquiry",
+    track: "Free Business Audit (Video / Audio Diagnostic)",
+    source: "Website - Free Audit Track",
+    id: "AUD-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
       name: "Chidinma Nwosu",
@@ -254,11 +251,14 @@ function testBusinessAuditForm() {
       whatsapp: "+234 812 987 6543",
       email: "chidinma@luxeflora.ng",
       industry: "Beauty, Hairdressing & Makeup (Salons, Spas, MUAs, Barbers)",
+      location: "Lagos, Nigeria",
+      teamSize: "2 – 5 Employees (Micro Enterprise)",
+      website: "https://instagram.com/luxefloraskin",
       stage: "Early-Stage Generating First Sales",
       description: "Direct-to-consumer organic skincare formulated for African skin tones.",
       struggles: "Bottleneck: Customer acquisition costs on Instagram ads keep rising, low repeat purchase rate.",
       goal: "Achieve ₦5,000,000 monthly recurring revenue within 90 days.",
-      preferredFormat: "Video Audit"
+      preferredFormat: "Custom Video Audit (Loom / Screen & Face)"
     }
   };
   var result = handleGeneralFormSubmission(spreadsheet, sampleAuditPayload);
@@ -267,31 +267,87 @@ function testBusinessAuditForm() {
 }
 
 /**
- * 3. Execute & Test Consulting Inquiry Form
+ * 3. Execute & Test Consulting Inquiry Track (In Unified Tab)
  */
 function testConsultingInquiryForm() {
-  Logger.log("Executing Consulting Inquiry Form function...");
+  Logger.log("Executing Consulting Inquiry Form test in unified Business Audits & Inquiries tab...");
   var spreadsheet = getMasterSpreadsheet();
   var sampleInquiryPayload = {
-    formType: "consulting-inquiry",
+    formType: "audit-inquiry",
+    track: "In-Depth Consulting Inquiry (Advisory & Strategy)",
+    source: "Website - In-Depth Inquiry Track",
     id: "INQ-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
       name: "Tunde Bakare",
-      businessName: "AgroPulse Technologies",
+      businessName: "AgroPulse Technologies Ltd",
       email: "tunde@agropulse.io",
-      phone: "+234 809 555 4321",
+      whatsapp: "+234 809 555 4321",
       industry: "Agriculture & Agribusiness",
       location: "Abuja, Nigeria",
+      teamSize: "21 – 50 Employees (Established SME)",
+      website: "https://agropulse.io",
       stage: "Consistent Revenue ($10k - $100k/yr)",
-      supportType: "Commercial Strategy & Operational Structuring",
-      challenges: "Bottleneck: Scaling from 1 state to 5 states requires standardized field ops SOPs and distributor agreements.",
+      supportType: "Operations & Systems Optimization",
+      struggles: "Bottleneck: Scaling from 1 state to 5 states requires standardized field ops SOPs and distributor agreements.",
       description: "Digital outgrower network connecting smallholders to industrial grain millers.",
       notes: "Looking to engage Affluentaccelerators for a 90-day advisory sprint."
     }
   };
   var result = handleGeneralFormSubmission(spreadsheet, sampleInquiryPayload);
   Logger.log("Consulting Inquiry Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 3b. Execute & Test BDR / Agent In-Field Lead Intake
+ */
+function testBdrInFieldLeadSubmission() {
+  Logger.log("Executing BDR In-Field Lead Intake test in unified Business Audits & Inquiries tab...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleBdrPayload = {
+    formType: "audit-inquiry",
+    track: "BDR / Agent In-Field Lead",
+    source: "BDR App: Agent Adeola",
+    id: "BDR-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Ibrahim Dantata",
+      businessName: "Savannah Cold Chain Logistics",
+      whatsapp: "+234 802 777 8899",
+      email: "i.dantata@savannahlogistics.com",
+      industry: "Logistics, Supply Chain, Freight & Transport",
+      location: "Kano & Lagos, Nigeria",
+      teamSize: "51 – 200 Employees (Mid-Market)",
+      website: "https://savannahcoldchain.com",
+      stage: "Scaling SME ($100k - $1M/yr)",
+      description: "Temperature-controlled freight logistics for pharmaceutical distributors and perishables.",
+      struggles: "Cash flow gap due to 60-day client credit terms, fleet diesel overheads.",
+      supportType: "Business Strategy & Advisory",
+      bdrNotes: "Met MD at Northern Agro Summit. Requested urgent consultation on invoice discounting and operational audit."
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleBdrPayload);
+  Logger.log("BDR Lead Intake Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 3c. One-Click Tab Consolidation & Cleanup:
+ * Run this function in Apps Script to migrate old tabs into 'Business Audits & Inquiries'
+ * and permanently delete the obsolete 'Business Audits', 'Consulting Inquiries' and 'General Submissions' tabs!
+ */
+function testAuditAndInquiryConsolidation() {
+  Logger.log("Running Tab Consolidation and Obsolete Sheet Cleanup...");
+  var spreadsheet = getMasterSpreadsheet();
+  var result = consolidateAuditAndInquiryTabs(spreadsheet);
+  Logger.log("Consolidation Result: " + JSON.stringify(result));
+  
+  // Submit sample test records across tracks to verify operation
+  testBusinessAuditForm();
+  testConsultingInquiryForm();
+  testBdrInFieldLeadSubmission();
+  
   return result;
 }
 
@@ -449,6 +505,12 @@ function doPost(e) {
         targetSheet: TAB_EVENTS,
         spreadsheetUrl: spreadsheet.getUrl()
       });
+    }
+
+    // 3b. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
+    if (action === "consolidate_tabs" || action === "cleanup_sheets") {
+      var cleanupResult = consolidateAuditAndInquiryTabs(spreadsheet);
+      return createJsonResponse(cleanupResult);
     }
 
     // 4. ROUTE: Event Registration (Centralized in single 'Event Registrations' tab)
@@ -675,17 +737,16 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
   }
 
   var formData = payload.data || payload.formData || payload;
-  var rawType = payload.sheetName || payload.formName || payload.formType || "business-audit";
+  var rawType = payload.sheetName || payload.formName || payload.formType || "audit-inquiry";
 
-  var targetTab = TAB_AUDITS;
-  if (rawType === "consulting-inquiry" || rawType === TAB_INQUIRIES) {
-    targetTab = TAB_INQUIRIES;
-  } else if (rawType === "analyst-application" || rawType === TAB_ANALYST) {
+  var targetTab = TAB_AUDITS_INQUIRIES;
+  if (rawType === "analyst-application" || rawType === TAB_ANALYST) {
     targetTab = TAB_ANALYST;
   } else if (rawType === "internship-application" || rawType === TAB_INTERNSHIP) {
     targetTab = TAB_INTERNSHIP;
-  } else if (rawType === "business-audit" || rawType === TAB_AUDITS) {
-    targetTab = TAB_AUDITS;
+  } else {
+    // Both audits and inquiries (plus BDR leads) now stream to the single consolidated tab
+    targetTab = TAB_AUDITS_INQUIRIES;
   }
 
   // File Upload Handling (PDF Resumes / Documents saved to Google Drive)
@@ -708,43 +769,71 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
   var sheet = null;
   var rowValues = [];
 
-  if (targetTab === TAB_AUDITS) {
-    sheet = ensureBusinessAuditsSheet(spreadsheet);
+  if (targetTab === TAB_AUDITS_INQUIRIES) {
+    sheet = ensureAuditInquirySheet(spreadsheet);
+
+    // Resolve submission track
+    var trackVal = formData["track"] || payload.track || "";
+    if (!trackVal) {
+      if (rawType === "business-audit") {
+        trackVal = "Free Business Audit (Video / Audio Diagnostic)";
+      } else if (rawType === "bdr-lead" || formData["bdrNotes"]) {
+        trackVal = "BDR / Agent In-Field Lead";
+      } else {
+        trackVal = "In-Depth Consulting Inquiry (Advisory & Strategy)";
+      }
+    }
+
+    // Resolve lead source
+    var sourceVal = formData["source"] || payload.source || "";
+    if (!sourceVal) {
+      if (formData["bdrNotes"] || trackVal.indexOf("BDR") !== -1) {
+        sourceVal = "BDR / Agent App";
+      } else if (trackVal.indexOf("Free") !== -1) {
+        sourceVal = "Website - Free Audit Track";
+      } else {
+        sourceVal = "Website - In-Depth Inquiry Track";
+      }
+    }
+
+    var goalVal = formData["goal"] || formData["Primary Goal / 90-Day Priority"] || formData["90-Day Goal"] || "";
+    var supportVal = formData["supportType"] || formData["Consulting Support Needed"] || formData["Consulting Support Required"] || "";
+    var formatVal = formData["preferredFormat"] || formData["Preferred Format"] || formData["Preferred Audit Format"] || "";
+    if (!formatVal && trackVal.indexOf("Free") !== -1) {
+      formatVal = "Custom Video Audit (Loom / Screen & Face)";
+    }
+
+    var notesVal = formData["notes"] || formData["Additional Notes"] || "";
+    var bdrNotesVal = formData["bdrNotes"] || "";
+    var combinedNotes = notesVal;
+    if (bdrNotesVal) {
+      combinedNotes = combinedNotes ? (combinedNotes + " | [BDR Notes: " + bdrNotesVal + "]") : ("[BDR Notes: " + bdrNotesVal + "]");
+    }
+
     rowValues = [
       refId,
       timeStr,
+      trackVal,
+      sourceVal,
       formData["name"] || formData["Full Name"] || "",
       formData["businessName"] || formData["Business Name"] || "",
-      formData["whatsapp"] || formData["WhatsApp Number"] || "",
-      formData["email"] || formData["Email Address"] || "",
-      formData["industry"] || formData["Industry / Sector"] || "",
-      formData["stage"] || formData["Current Business Stage"] || "",
-      formData["description"] || formData["Business Description"] || "",
-      formData["struggles"] || formData["Biggest Bottleneck"] || "",
-      formData["goal"] || formData["90-Day Goal"] || "",
-      formData["preferredFormat"] || formData["Preferred Format"] || "Video Audit",
-      "New Request",
-      ""
-    ];
-  } else if (targetTab === TAB_INQUIRIES) {
-    sheet = ensureConsultingInquiriesSheet(spreadsheet);
-    rowValues = [
-      refId,
-      timeStr,
-      formData["name"] || formData["Full Name"] || "",
-      formData["businessName"] || formData["Business Name"] || "",
-      formData["email"] || formData["Email Address"] || "",
-      formData["phone"] || formData["Phone Number"] || "",
-      formData["industry"] || formData["Industry"] || "",
-      formData["location"] || formData["Location"] || "",
-      formData["stage"] || formData["Business Stage"] || "",
-      formData["supportType"] || formData["Consulting Support Needed"] || "",
-      formData["challenges"] || formData["Key Challenges"] || "",
-      formData["description"] || formData["Business Overview"] || "",
+      formData["whatsapp"] || formData["WhatsApp Number"] || formData["phone"] || formData["Phone Number"] || "",
+      formData["email"] || formData["Work Email Address"] || formData["Email Address"] || "",
+      formData["industry"] || formData["Industry / Sector"] || formData["Industry"] || "",
+      formData["location"] || formData["Business Location"] || formData["City / State"] || "",
+      formData["teamSize"] || formData["Team Size"] || formData["Team Size / Employees"] || "",
+      formData["website"] || formData["Website or Social URL"] || formData["Web or Social URL"] || formData["Website / Social Link"] || "",
+      formData["stage"] || formData["Current Business Stage"] || formData["Business Stage"] || "",
+      formData["description"] || formData["Business Description"] || formData["What Business Does & Revenue Model"] || "",
+      formData["struggles"] || formData["challenges"] || formData["Biggest Bottleneck"] || formData["Key Challenges"] || "",
+      goalVal,
+      supportVal,
+      formatVal,
       driveFileUrl,
-      formData["notes"] || formData["Additional Notes"] || "",
+      combinedNotes,
       "New Lead",
-      ""
+      "",
+      getFormattedTimestamp()
     ];
   } else if (targetTab === TAB_ANALYST) {
     sheet = ensureAnalystApplicationsSheet(spreadsheet);
@@ -850,24 +939,22 @@ function ensureEventRegistrationsSheet(spreadsheet) {
   return sheet;
 }
 
-function ensureBusinessAuditsSheet(spreadsheet) {
-  var sheet = spreadsheet.getSheetByName(TAB_AUDITS);
+function ensureAuditInquirySheet(spreadsheet) {
+  var sheet = spreadsheet.getSheetByName(TAB_AUDITS_INQUIRIES);
   if (!sheet) {
-    sheet = spreadsheet.insertSheet(TAB_AUDITS);
-    sheet.appendRow(BUSINESS_AUDITS_HEADERS);
-    styleExecutiveHeader(sheet, BUSINESS_AUDITS_HEADERS.length);
+    sheet = spreadsheet.insertSheet(TAB_AUDITS_INQUIRIES);
+    sheet.appendRow(AUDIT_INQUIRY_HEADERS);
+    styleExecutiveHeader(sheet, AUDIT_INQUIRY_HEADERS.length);
   }
   return sheet;
 }
 
+function ensureBusinessAuditsSheet(spreadsheet) {
+  return ensureAuditInquirySheet(spreadsheet);
+}
+
 function ensureConsultingInquiriesSheet(spreadsheet) {
-  var sheet = spreadsheet.getSheetByName(TAB_INQUIRIES);
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet(TAB_INQUIRIES);
-    sheet.appendRow(CONSULTING_INQUIRIES_HEADERS);
-    styleExecutiveHeader(sheet, CONSULTING_INQUIRIES_HEADERS.length);
-  }
-  return sheet;
+  return ensureAuditInquirySheet(spreadsheet);
 }
 
 function ensureAnalystApplicationsSheet(spreadsheet) {
@@ -895,10 +982,9 @@ function ensureInternshipApplicationsSheet(spreadsheet) {
  */
 function ensureOverviewDashboardSheet(spreadsheet) {
   try {
-    // Guarantee all 5 underlying data sheets exist first so formula references never throw #REF!
+    // Guarantee all 4 underlying data sheets exist first so formula references never throw #REF!
     ensureEventRegistrationsSheet(spreadsheet);
-    ensureBusinessAuditsSheet(spreadsheet);
-    ensureConsultingInquiriesSheet(spreadsheet);
+    ensureAuditInquirySheet(spreadsheet);
     ensureAnalystApplicationsSheet(spreadsheet);
     ensureInternshipApplicationsSheet(spreadsheet);
 
@@ -928,7 +1014,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // Row 2: Subtitle
     sheet.getRange("A2:H2").merge();
     var sub = sheet.getRange("A2");
-    sub.setValue("Real-time telemetry across all Event Registrations, Consulting Inquiries, Business Audits & Career Applications");
+    sub.setValue("Real-time telemetry across all Event Registrations, Business Audits, Inquiries, BDR Leads & Career Applications");
     sub.setBackground(COLOR_FOREST_MED);
     sub.setFontColor("#ffffff");
     sub.setFontSize(9);
@@ -938,8 +1024,8 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // KPI Cards in Rows 4-6
     var kpis = [
       { label: "TOTAL EVENT REGISTRANTS", formula: "=COUNTA('" + TAB_EVENTS + "'!C2:C)", col: "A" },
-      { label: "BUSINESS AUDIT REQUESTS", formula: "=COUNTA('" + TAB_AUDITS + "'!A2:A)", col: "C" },
-      { label: "CONSULTING INQUIRIES",    formula: "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)", col: "E" },
+      { label: "TOTAL AUDITS & INQUIRIES", formula: "=COUNTA('" + TAB_AUDITS_INQUIRIES + "'!A2:A)", col: "C" },
+      { label: "FREE AUDITS vs IN-DEPTH", formula: "=COUNTIF('" + TAB_AUDITS_INQUIRIES + "'!C2:C, \"*Free*\") & \" / \" & COUNTIF('" + TAB_AUDITS_INQUIRIES + "'!C2:C, \"*Consulting*\")", col: "E" },
       { label: "CAREER CANDIDATES (CVs)", formula: "=COUNTA('" + TAB_ANALYST + "'!A2:A) + COUNTA('" + TAB_INTERNSHIP + "'!A2:A)", col: "G" }
     ];
 
@@ -962,7 +1048,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     // Row 8: Event Registration Breakdown Header
     sheet.getRange("A8:H8").merge();
     var brk = sheet.getRange("A8");
-    brk.setValue("UNIFIED DATABASE TABS SUMMARY & RECURRING BOTTLENECK ANALYSIS");
+    brk.setValue("UNIFIED DATABASE TABS SUMMARY & LEAD TELEMETRY");
     brk.setBackground(COLOR_FOREST_MED);
     brk.setFontColor(COLOR_GOLD_LIGHT);
     brk.setFontWeight("bold");
@@ -978,8 +1064,7 @@ function ensureOverviewDashboardSheet(spreadsheet) {
 
     var summaryRows = [
       [TAB_EVENTS, "Webinars & Masterclasses", "Biggest Bottlenecks & Recurring Requests", "=COUNTA('" + TAB_EVENTS + "'!C2:C)"],
-      [TAB_AUDITS, "24h Custom Video/Voice Audits", "Current Bottleneck & 90-Day Priority", "=COUNTA('" + TAB_AUDITS + "'!A2:A)"],
-      [TAB_INQUIRIES, "Strategic Advisory & Consulting", "Consulting Support & Challenges", "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)"],
+      [TAB_AUDITS_INQUIRIES, "Free Audits, Inquiries & BDR Leads", "Track, Source, Struggles & Location", "=COUNTA('" + TAB_AUDITS_INQUIRIES + "'!A2:A)"],
       [TAB_ANALYST, "90-Day Analyst Flagship", "Consulting Interests & Drive PDF CV", "=COUNTA('" + TAB_ANALYST + "'!A2:A)"],
       [TAB_INTERNSHIP, "Fellowship & Internships (7 Roles)", "Preferred Role & Drive PDF CV", "=COUNTA('" + TAB_INTERNSHIP + "'!A2:A)"]
     ];
@@ -1008,6 +1093,148 @@ function ensureOverviewDashboardSheet(spreadsheet) {
     Logger.log("ensureOverviewDashboardSheet notice: " + err.toString());
     return null;
   }
+}
+
+/**
+ * ============================================================================
+ * ONE-CLICK TAB CONSOLIDATION & OBSOLETE SHEETS CLEANUP
+ * ============================================================================
+ * Migrates existing data from old 'Business Audits' and 'Consulting Inquiries' tabs
+ * into the unified 'Business Audits & Inquiries' tab, then permanently removes:
+ * 1. 'Business Audits'
+ * 2. 'Consulting Inquiries' (if separate from the new tab)
+ * 3. 'General Submissions' (or 'General Submission' / 'Submissions')
+ */
+function consolidateAuditAndInquiryTabs(spreadsheet) {
+  if (!spreadsheet) spreadsheet = getMasterSpreadsheet();
+  
+  // 1. Ensure target unified tab exists
+  var targetSheet = ensureAuditInquirySheet(spreadsheet);
+  var migratedAuditCount = 0;
+  var migratedInquiryCount = 0;
+  var deletedSheets = [];
+  
+  // 2. Check for old "Business Audits" sheet to migrate data if any
+  var oldAuditSheet = spreadsheet.getSheetByName("Business Audits");
+  if (oldAuditSheet && oldAuditSheet.getName() !== TAB_AUDITS_INQUIRIES) {
+    var lastRow = oldAuditSheet.getLastRow();
+    if (lastRow > 1) {
+      var data = oldAuditSheet.getRange(2, 1, lastRow - 1, oldAuditSheet.getLastColumn()).getValues();
+      for (var i = 0; i < data.length; i++) {
+        var row = data[i];
+        var newRow = [
+          row[0] || ("AUD-" + Math.floor(1000 + Math.random() * 9000)),
+          row[1] || getFormattedTimestamp(),
+          "Free Business Audit (Video / Audio Diagnostic)",
+          "Website - Free Audit (Migrated)",
+          row[2] || "",
+          row[3] || "",
+          row[4] || "",
+          row[5] || "",
+          row[6] || "",
+          "Not Specified (Legacy)",
+          "Not Specified (Legacy)",
+          "N/A",
+          row[7] || "",
+          row[8] || "",
+          row[9] || "",
+          row[10] || "",
+          "General Audit Review",
+          row[11] || "Custom Video Audit",
+          "",
+          row[13] || "",
+          row[12] || "New Lead",
+          "",
+          getFormattedTimestamp()
+        ];
+        targetSheet.appendRow(newRow);
+        applyZebraToLastRow(targetSheet);
+        migratedAuditCount++;
+      }
+    }
+    try {
+      spreadsheet.deleteSheet(oldAuditSheet);
+      deletedSheets.push("Business Audits");
+      Logger.log("Deleted obsolete 'Business Audits' sheet.");
+    } catch (delErr) {
+      Logger.log("Notice deleting 'Business Audits': " + delErr.toString());
+    }
+  }
+
+  // 3. Check for old "Consulting Inquiries" sheet to migrate data
+  var oldInqSheet = spreadsheet.getSheetByName("Consulting Inquiries");
+  if (oldInqSheet && oldInqSheet.getName() !== TAB_AUDITS_INQUIRIES) {
+    var lastInqRow = oldInqSheet.getLastRow();
+    if (lastInqRow > 1) {
+      var inqData = oldInqSheet.getRange(2, 1, lastInqRow - 1, oldInqSheet.getLastColumn()).getValues();
+      for (var j = 0; j < inqData.length; j++) {
+        var inqRow = inqData[j];
+        var newInqRow = [
+          inqRow[0] || ("INQ-" + Math.floor(1000 + Math.random() * 9000)),
+          inqRow[1] || getFormattedTimestamp(),
+          "In-Depth Consulting Inquiry (Advisory & Strategy)",
+          "Website - In-Depth Inquiry (Migrated)",
+          inqRow[2] || "",
+          inqRow[3] || "",
+          inqRow[5] || "", // WhatsApp / Phone
+          inqRow[4] || "", // Email
+          inqRow[6] || "", // Industry
+          inqRow[7] || "", // Location
+          "Not Specified (Legacy)",
+          "N/A",
+          inqRow[8] || "",
+          inqRow[11] || "",
+          inqRow[10] || "",
+          "Consulting Advisory Engagement",
+          inqRow[9] || "",
+          "Consulting Engagement",
+          inqRow[12] || "",
+          inqRow[13] || "",
+          inqRow[14] || "New Lead",
+          inqRow[15] || "",
+          getFormattedTimestamp()
+        ];
+        targetSheet.appendRow(newInqRow);
+        applyZebraToLastRow(targetSheet);
+        migratedInquiryCount++;
+      }
+    }
+    try {
+      spreadsheet.deleteSheet(oldInqSheet);
+      deletedSheets.push("Consulting Inquiries");
+      Logger.log("Deleted obsolete 'Consulting Inquiries' sheet.");
+    } catch (delInqErr) {
+      Logger.log("Notice deleting 'Consulting Inquiries': " + delInqErr.toString());
+    }
+  }
+
+  // 4. Delete obsolete General Submissions tab if present
+  var obsoleteGeneralNames = ["General Submissions", "General Submission", "Submissions", "General"];
+  for (var g = 0; g < obsoleteGeneralNames.length; g++) {
+    var genSheet = spreadsheet.getSheetByName(obsoleteGeneralNames[g]);
+    if (genSheet) {
+      try {
+        spreadsheet.deleteSheet(genSheet);
+        deletedSheets.push(obsoleteGeneralNames[g]);
+        Logger.log("Deleted obsolete sheet: " + obsoleteGeneralNames[g]);
+      } catch (genErr) {
+        Logger.log("Could not delete sheet " + obsoleteGeneralNames[g] + ": " + genErr.toString());
+      }
+    }
+  }
+
+  // 5. Refresh Dashboard
+  try {
+    ensureOverviewDashboardSheet(spreadsheet);
+  } catch (dashErr) {}
+
+  return {
+    status: "success",
+    message: "Consolidation complete. Active tab: '" + TAB_AUDITS_INQUIRIES + "'.",
+    migratedAudits: migratedAuditCount,
+    migratedInquiries: migratedInquiryCount,
+    deletedSheets: deletedSheets
+  };
 }
 
 // ============================================================================
