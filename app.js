@@ -191,7 +191,12 @@ class AffluentApp {
       return;
     }
 
-    if (hash === 'programme-analyst' || hash === 'programme-internship' || hash === 'programme-accelerator' || hash === 'insights-view') {
+    if (hash === 'programme-analyst' || hash === 'programme-internship' || hash === 'programme-accelerator') {
+      window.location.href = 'careers.html';
+      return;
+    }
+
+    if (hash === 'insights-view') {
       this.switchView(hash);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
