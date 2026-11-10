@@ -88,6 +88,18 @@
       "created_at": "2026-11-10T18:49:48.126Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "20cd7506-460b-4b5a-b009-adae5a261a04",
+      "role": "user",
+      "content": "now on the thank you/submit/or confirmation pop that happens for all these different forms I'd want to add action buttons leading to our WhatsApp channel or community (group), so for every business enquiry form submission I want you to add a button to join our WhatsApp channel, while for event registrations and talent applications I want you to put an actionbfor them to join our community for more updates https://chat.whatsapp.com/CoW7p5gFPZOG9E5culFdD4?s=cl&p=a&mlu=4&iam=2, so the channel for business enquiries and as it is on the home page but for talent applications and event registration they should be sent to our WhatsApp group",
+      "status": "cancelled",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T20:24:47.160Z",
+      "sender": "ios",
+      "is_cancelled": true
     }
   ]
 }
