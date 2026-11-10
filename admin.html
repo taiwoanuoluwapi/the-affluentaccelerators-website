@@ -168,13 +168,27 @@
           </div>
         </a>
 
-        <!-- Controls: PIN, View Events, Lock -->
+        <!-- Controls: Master Sheet, PIN, View Events, Lock -->
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           
-          <!-- Live Sheets Pulse Status (Desktop/Tablet) -->
-          <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-forest-950 border border-forest-700 text-xs">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" id="admin-status-pulse"></span>
-            <span class="text-[11px] font-semibold text-slate-300" id="admin-status-label">Sheets Active</span>
+          <!-- Master Spreadsheet Direct Action -->
+          <a 
+            id="open-master-sheet-btn" 
+            href="https://docs.google.com/spreadsheets/d/1B7nNssq52qgZkXwHq7YJ_mQn_sample" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-gold-300 hover:text-white bg-forest-950 hover:bg-forest-800 border border-gold-400/40 transition-colors flex items-center gap-1.5 shadow-sm" 
+            title="Open Master Google Spreadsheet"
+          >
+            <span>📊</span>
+            <span class="hidden md:inline">Open Master Sheet</span>
+            <span class="text-xs">↗</span>
+          </a>
+
+          <!-- Live Database Status Indicator (Desktop/Tablet) -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-forest-950 border border-forest-700 text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[11px] font-semibold text-slate-300">Central Hub Online</span>
           </div>
 
           <!-- Change PIN Button -->
@@ -185,7 +199,7 @@
 
           <!-- View Events Page -->
           <a href="events.html" target="_blank" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:text-white bg-forest-950 hover:bg-forest-800 border border-forest-700 transition-colors flex items-center gap-1" title="Open Public Events Page">
-            <span class="hidden sm:inline">Events</span>
+            <span class="hidden sm:inline">Events Page</span>
             <span class="text-xs">↗</span>
           </a>
 
@@ -204,14 +218,15 @@
       
       <!-- Top Navigation Tabs (Horizontally Scrollable on Mobile) -->
       <div class="flex overflow-x-auto no-scrollbar gap-2 border-b border-slate-300/80 pb-3 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
-        <button class="admin-tab-btn active shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-transparent flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-sheets">
-          <span>📊 Sheets Integration</span>
-        </button>
-        <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-events">
+        <button class="admin-tab-btn active shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-transparent flex items-center gap-1.5 whitespace-nowrap bg-forest-900 text-gold-300" data-tab="tab-events">
           <span>📅 Event Studio</span>
         </button>
+        <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-leads">
+          <span>💼 Business Inquiring Leads</span>
+          <span class="px-2 py-0.5 text-[10px] rounded-full bg-gold-200 text-forest-950 font-bold" id="badge-total-leads">3</span>
+        </button>
         <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-registrations">
-          <span>👥 Central Database</span>
+          <span>👥 Event Registrations</span>
           <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 font-bold" id="badge-total-regs">1</span>
         </button>
         <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-analytics">

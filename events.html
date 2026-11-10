@@ -695,7 +695,7 @@
           <h3 id="modal-event-title" class="text-xl sm:text-2xl font-heading font-extrabold text-white">
             The Investable Business Playbook
           </h3>
-          <p class="text-xs text-gold-300/90 mt-0.5">
+          <p id="modal-event-datetime" class="text-xs text-gold-300/90 mt-0.5">
             Wednesday, Nov 19, 2026 • 6:00 PM WAT • Google Meet
           </p>
         </div>
@@ -1273,33 +1273,274 @@
       });
     });
 
-    // Countdown Timer to Nov 19, 2026, 18:00 WAT
-    function startCountdown() {
-      const targetDate = new Date("November 19, 2026 18:00:00 GMT+0100").getTime();
+    // ----------------------------------------------------------------
+    // DYNAMIC EVENTS SYSTEM (HERO SPOTLIGHT, COUNTDOWN & EVENTS GRID)
+    // ----------------------------------------------------------------
+    let countdownTimerInterval = null;
+
+    function formatTime12H(time24) {
+      if (!time24) return "6:00 PM";
+      const parts = time24.split(':');
+      const h = parseInt(parts[0], 10);
+      const m = parts[1] || "00";
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      return `${h12}:${m} ${ampm}`;
+    }
+
+    function startDynamicCountdown(evt) {
+      if (countdownTimerInterval) {
+        clearInterval(countdownTimerInterval);
+        countdownTimerInterval = null;
+      }
+
+      const cdDays = document.getElementById('cd-days');
+      const cdHours = document.getElementById('cd-hours');
+      const cdMins = document.getElementById('cd-mins');
+      const cdSecs = document.getElementById('cd-secs');
+      const cdLabel = document.getElementById('countdown-label');
+      const cdNotice = document.getElementById('countdown-seat-notice');
+      const ribbonBadge = document.getElementById('hero-ribbon-badge');
+      const ribbonText = document.getElementById('hero-ribbon-text');
+
+      if (!evt) {
+        if (cdDays) cdDays.textContent = '00';
+        if (cdHours) cdHours.textContent = '00';
+        if (cdMins) cdMins.textContent = '00';
+        if (cdSecs) cdSecs.textContent = '00';
+        return;
+      }
+
+      // Parse target date
+      let targetTimestamp = null;
+      if (window.affluentEvents && typeof window.affluentEvents.parseEventDate === 'function') {
+        const parsed = window.affluentEvents.parseEventDate(evt);
+        if (parsed) targetTimestamp = parsed.getTime();
+      }
+      if (!targetTimestamp) {
+        targetTimestamp = new Date("November 19, 2026 18:00:00 GMT+0100").getTime();
+      }
+
       function update() {
-        const now = new Date().getTime();
-        const diff = targetDate - now;
+        const now = Date.now();
+        const diff = targetTimestamp - now;
+
         if (diff <= 0) {
-          document.getElementById('cd-days').textContent = '00';
-          document.getElementById('cd-hours').textContent = '00';
-          document.getElementById('cd-mins').textContent = '00';
-          document.getElementById('cd-secs').textContent = '00';
+          if (cdDays) cdDays.textContent = '00';
+          if (cdHours) cdHours.textContent = '00';
+          if (cdMins) cdMins.textContent = '00';
+          if (cdSecs) cdSecs.textContent = '00';
+          if (cdLabel) cdLabel.textContent = 'Session Concluded / On-Demand Access:';
+          if (cdNotice) cdNotice.textContent = 'Replay & materials available to verified registrants';
+          if (ribbonText) ribbonText.textContent = 'Executive Masterclass • On-Demand Session';
           return;
         }
+
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-        document.getElementById('cd-days').textContent = d < 10 ? '0' + d : d;
-        document.getElementById('cd-hours').textContent = h < 10 ? '0' + h : h;
-        document.getElementById('cd-mins').textContent = m < 10 ? '0' + m : m;
-        document.getElementById('cd-secs').textContent = s < 10 ? '0' + s : s;
+        if (cdDays) cdDays.textContent = d < 10 ? '0' + d : d;
+        if (cdHours) cdHours.textContent = h < 10 ? '0' + h : h;
+        if (cdMins) cdMins.textContent = m < 10 ? '0' + m : m;
+        if (cdSecs) cdSecs.textContent = s < 10 ? '0' + s : s;
+        if (cdLabel) cdLabel.textContent = 'Countdown to Live Session:';
+        if (cdNotice) cdNotice.textContent = 'Seats limited to 250 verified participants';
+        if (ribbonText) ribbonText.textContent = 'Featured Live Webinar • Free Executive Masterclass';
       }
+
       update();
-      setInterval(update, 1000);
+      countdownTimerInterval = setInterval(update, 1000);
     }
-    startCountdown();
+
+    function renderHeroSpotlight(evt) {
+      if (!evt) return;
+
+      // Event ID & Date header
+      const idDateEl = document.getElementById('hero-event-id-date');
+      if (idDateEl) {
+        const dateStr = evt.dateFormatted || evt.date || 'Upcoming';
+        idDateEl.textContent = `${evt.id} • ${dateStr.toUpperCase()}`;
+      }
+
+      // Title & Subtitle
+      const titleEl = document.getElementById('hero-event-title');
+      if (titleEl) {
+        titleEl.innerHTML = evt.title;
+      }
+      const subtitleEl = document.getElementById('hero-event-subtitle');
+      if (subtitleEl) {
+        subtitleEl.textContent = evt.category ? `${evt.category}: Practical Executive Masterclass` : 'How to Build Businesses That Attract Investors.';
+      }
+
+      // Description
+      const descEl = document.getElementById('hero-event-desc');
+      if (descEl) {
+        descEl.textContent = evt.description || 'Comprehensive strategic masterclass covering execution systems, cash flow diagnostics, and investor due-diligence criteria.';
+      }
+
+      // Date, Time, Venue, Host
+      const dateVal = document.getElementById('hero-event-date-val');
+      if (dateVal) {
+        const dStr = evt.dateFormatted ? evt.dateFormatted.split('•')[0].trim() : (evt.date || 'Upcoming');
+        dateVal.innerHTML = `<span class="text-gold-400">📅</span> ${dStr}`;
+      }
+      const timeVal = document.getElementById('hero-event-time-val');
+      if (timeVal) {
+        const tStr = evt.time ? `${formatTime12H(evt.time)} ${evt.timezone || 'WAT'}` : (evt.dateFormatted && evt.dateFormatted.includes('•') ? evt.dateFormatted.split('•')[1].trim() : '6:00 PM WAT');
+        timeVal.textContent = tStr;
+      }
+      const venueVal = document.getElementById('hero-event-venue-val');
+      if (venueVal) {
+        venueVal.innerHTML = `<span class="text-emerald-400">📹</span> ${evt.venue || 'Live on Google Meet'}`;
+      }
+      const hostVal = document.getElementById('hero-event-host-val');
+      if (hostVal) {
+        hostVal.innerHTML = `<span class="text-gold-400">🎙️</span> ${evt.host || 'Fulfilment Taiwo'}`;
+      }
+      const flyerHost = document.getElementById('hero-flyer-speaker-name');
+      if (flyerHost) {
+        flyerHost.textContent = evt.host || 'Fulfilment Taiwo';
+      }
+
+      // Hero Flyer Image
+      const flyerImg = document.getElementById('hero-event-flyer-img');
+      if (flyerImg) {
+        flyerImg.src = evt.flyer || 'images/photo-1794301616-c3edd84b.jpg';
+        flyerImg.alt = `${evt.title} - The Affluentaccelerators`;
+      }
+
+      // CTA Buttons target this event
+      const heroBtn = document.getElementById('hero-event-register-btn');
+      if (heroBtn) {
+        heroBtn.setAttribute('onclick', `openRegistrationModal('${evt.id}')`);
+      }
+      const flyerBtn = document.getElementById('hero-flyer-reserve-btn');
+      if (flyerBtn) {
+        flyerBtn.setAttribute('onclick', `openRegistrationModal('${evt.id}')`);
+      }
+
+      // Launch countdown
+      startDynamicCountdown(evt);
+    }
+
+    // Dynamically render upcoming events catalogue grid
+    function renderEventsGrid(events, featuredEvt) {
+      const grid = document.getElementById('events-grid');
+      if (!grid || !Array.isArray(events) || events.length === 0) return;
+
+      const featuredId = featuredEvt ? featuredEvt.id : (events[0] ? events[0].id : '');
+      const now = Date.now();
+
+      grid.innerHTML = '';
+      events.forEach(evt => {
+        let isUpcoming = true;
+        if (window.affluentEvents && typeof window.affluentEvents.parseEventDate === 'function') {
+          const parsed = window.affluentEvents.parseEventDate(evt);
+          if (parsed && (parsed.getTime() + 2 * 3600 * 1000) < now) {
+            isUpcoming = false;
+          }
+        }
+
+        const isFeatured = (evt.id === featuredId);
+        const card = document.createElement('div');
+        card.className = `event-item bg-white rounded-3xl p-6 border transition-all flex flex-col justify-between ${isFeatured ? 'border-gold-400 shadow-md ring-2 ring-gold-400/20' : 'border-slate-200 hover:border-gold-400 shadow-sm hover:shadow-lg'}`;
+        card.setAttribute('data-category', (evt.category || 'masterclass').toLowerCase().includes('webinar') ? 'webinar' : 'masterclass');
+
+        const badgeHtml = isFeatured
+          ? `<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-forest-900 text-gold-400">${evt.id} • NEXT UPCOMING</span>`
+          : `<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">${evt.id}</span>`;
+
+        const statusHtml = isUpcoming
+          ? `<span class="text-[11px] font-bold text-red-600 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Upcoming</span>`
+          : `<span class="text-[11px] font-semibold text-slate-400">Completed Session</span>`;
+
+        const flyerThumbnailHtml = (evt.flyer && evt.flyer.startsWith('data:image'))
+          ? `<div class="mb-3 rounded-xl overflow-hidden border border-slate-200 h-28 w-full bg-forest-950"><img src="${evt.flyer}" class="w-full h-full object-cover" alt="${evt.title}"></div>`
+          : '';
+
+        const buttonHtml = isUpcoming
+          ? `<button onclick="openRegistrationModal('${evt.id}')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all text-center">
+              Register Free For ${evt.id} ↗
+             </button>`
+          : `<button onclick="openRegistrationModal('${evt.id}')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-900 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+              Request Recording &amp; Notes
+             </button>`;
+
+        card.innerHTML = `
+          <div>
+            ${flyerThumbnailHtml}
+            <div class="flex items-center justify-between mb-4">
+              ${badgeHtml}
+              ${statusHtml}
+            </div>
+
+            <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">
+              ${evt.title}
+            </h3>
+            <p class="text-xs text-forest-800 font-semibold mb-3">
+              ${evt.category || 'Executive Masterclass'} • ${evt.host || 'Advisory Desk'}
+            </p>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              ${evt.description || 'Comprehensive strategic session covering execution systems, cash flow diagnostics, and investor due-diligence criteria.'}
+            </p>
+
+            <div class="space-y-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3 mb-6">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-700">Date:</span>
+                <span>${evt.dateFormatted ? evt.dateFormatted.split('•')[0].trim() : (evt.date || 'TBA')}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-700">Time:</span>
+                <span>${evt.time ? formatTime12H(evt.time) + ' ' + (evt.timezone || 'WAT') : (evt.dateFormatted && evt.dateFormatted.includes('•') ? evt.dateFormatted.split('•')[1].trim() : '6:00 PM WAT')}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-700">Venue:</span>
+                <span class="text-emerald-700 font-semibold">${evt.venue || 'Live on Google Meet'}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-700">Speaker:</span>
+                <span>${evt.host || 'Fulfilment Taiwo'}</span>
+              </div>
+            </div>
+          </div>
+
+          ${buttonHtml}
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Initialize Dynamic Events Page on load & background sync with Google Sheet
+    async function initDynamicEventsPage() {
+      let events = [];
+      if (window.affluentEvents) {
+        events = window.affluentEvents.getAllEvents();
+        // Background sync with Google Sheet 'Events' tab
+        window.affluentEvents.syncEventsFromSheet().then(syncedEvents => {
+          if (syncedEvents && syncedEvents.length > 0) {
+            const nextUpcoming = window.affluentEvents.getNextUpcomingEvent();
+            renderHeroSpotlight(nextUpcoming);
+            renderEventsGrid(syncedEvents, nextUpcoming);
+          }
+        }).catch(err => {
+          console.log('[Events] Sync offline or fallback to cache');
+        });
+      }
+
+      const nextEvt = window.affluentEvents ? window.affluentEvents.getNextUpcomingEvent() : null;
+      renderHeroSpotlight(nextEvt);
+      renderEventsGrid(events, nextEvt);
+    }
+
+    // Run dynamic event initialization on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initDynamicEventsPage);
+    } else {
+      initDynamicEventsPage();
+    }
 
     // Multi-Step Registration Form Controller
     let currentStep = 1;
@@ -1378,7 +1619,7 @@
       if (errBox) errBox.classList.add('hidden');
     }
 
-    // Modal Control Functions
+    // Dynamic Modal Control Functions for ANY Event ID
     function openRegistrationModal(eventId) {
       const modal = document.getElementById('modal-event-registration');
       const form = document.getElementById('form-event-registration');
@@ -1387,28 +1628,23 @@
       form.classList.remove('hidden');
       successPanel.classList.add('hidden');
 
-      // Update event metadata
-      if (eventId === 'EVENT 001' || !eventId) {
-        document.getElementById('modal-event-badge').textContent = 'EVENT 001';
-        document.getElementById('modal-event-title').textContent = 'The Investable Business Playbook';
-        document.getElementById('reg-event-id').value = 'EVENT 001';
-        document.getElementById('reg-event-title').value = 'The Investable Business Playbook';
-      } else if (eventId === 'EVENT 002') {
-        document.getElementById('modal-event-badge').textContent = 'EVENT 002';
-        document.getElementById('modal-event-title').textContent = 'Business Growth & Revenue Scaling Masterclass';
-        document.getElementById('reg-event-id').value = 'EVENT 002';
-        document.getElementById('reg-event-title').value = 'Business Growth & Revenue Scaling Masterclass';
-      } else if (eventId === 'EVENT 003') {
-        document.getElementById('modal-event-badge').textContent = 'EVENT 003';
-        document.getElementById('modal-event-title').textContent = 'Business Finance & Cashflow Restructuring';
-        document.getElementById('reg-event-id').value = 'EVENT 003';
-        document.getElementById('reg-event-title').value = 'Business Finance & Cashflow Restructuring';
-      } else if (eventId === 'EVENT 004') {
-        document.getElementById('modal-event-badge').textContent = 'EVENT 004';
-        document.getElementById('modal-event-title').textContent = 'African Founder Roundtable & Deal Clinic';
-        document.getElementById('reg-event-id').value = 'EVENT 004';
-        document.getElementById('reg-event-title').value = 'African Founder Roundtable & Deal Clinic';
+      // Look up target event in database
+      const allEvents = window.affluentEvents ? window.affluentEvents.getAllEvents() : [];
+      const targetEvt = allEvents.find(e => e.id === eventId) || allEvents[0] || {
+        id: eventId || 'EVENT 001',
+        title: 'The Investable Business Playbook',
+        dateFormatted: 'Wednesday, Nov 19, 2026 • 6:00 PM WAT • Google Meet',
+        venue: 'Live on Google Meet'
+      };
+
+      document.getElementById('modal-event-badge').textContent = targetEvt.id;
+      document.getElementById('modal-event-title').textContent = targetEvt.title;
+      const modalDate = document.getElementById('modal-event-datetime');
+      if (modalDate) {
+        modalDate.textContent = targetEvt.dateFormatted || `${targetEvt.date || 'Live Session'} • ${targetEvt.venue || 'Google Meet'}`;
       }
+      document.getElementById('reg-event-id').value = targetEvt.id;
+      document.getElementById('reg-event-title').value = targetEvt.title;
 
       goToStep(1);
       modal.classList.remove('hidden');
@@ -1513,16 +1749,32 @@
       }
     });
 
-    // Calendar Link Generation
+    // Dynamic Calendar Link Generation
     function setupCalendarActionButtons(regId, title, name) {
       const gcalBtn = document.getElementById('add-google-calendar-btn');
       const icsBtn = document.getElementById('download-ics-btn');
 
-      // Nov 19, 2026, 18:00 WAT = 17:00 UTC (WAT is UTC+1)
-      const startDate = "20261119T170000Z";
-      const endDate = "20261119T183000Z";
-      const eventDetails = encodeURIComponent(`Live Webinar: ${title}\nHost: Fulfilment Taiwo (Lead Consultant)\nYour Registration ID: ${regId}\n\nAccess Google Meet room via link sent to your registered email & WhatsApp.\nOfficial WhatsApp Channel: https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q`);
-      const eventLoc = encodeURIComponent("Google Meet (Private Link)");
+      const allEvents = window.affluentEvents ? window.affluentEvents.getAllEvents() : [];
+      const currentEvtId = document.getElementById('reg-event-id').value;
+      const evt = allEvents.find(e => e.id === currentEvtId) || allEvents[0];
+
+      let startDate = "20261119T170000Z";
+      let endDate = "20261119T183000Z";
+
+      if (evt && window.affluentEvents && typeof window.affluentEvents.parseEventDate === 'function') {
+        const d = window.affluentEvents.parseEventDate(evt);
+        if (d) {
+          const pad = (n) => (n < 10 ? '0' + n : n);
+          const startUtc = new Date(d.getTime());
+          const endUtc = new Date(d.getTime() + (90 * 60 * 1000));
+          startDate = `${startUtc.getUTCFullYear()}${pad(startUtc.getUTCMonth() + 1)}${pad(startUtc.getUTCDate())}T${pad(startUtc.getUTCHours())}${pad(startUtc.getUTCMinutes())}00Z`;
+          endDate = `${endUtc.getUTCFullYear()}${pad(endUtc.getUTCMonth() + 1)}${pad(endUtc.getUTCDate())}T${pad(endUtc.getUTCHours())}${pad(endUtc.getUTCMinutes())}00Z`;
+        }
+      }
+
+      const eventHost = (evt && evt.host) ? evt.host : "Fulfilment Taiwo (Lead Consultant)";
+      const eventDetails = encodeURIComponent(`Live Webinar: ${title}\nHost: ${eventHost}\nYour Registration ID: ${regId}\n\nAccess Google Meet room via link sent to your registered email & WhatsApp.\nOfficial WhatsApp Channel: https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q`);
+      const eventLoc = encodeURIComponent((evt && evt.venue) ? evt.venue : "Google Meet (Private Link)");
       const eventSummary = encodeURIComponent(`${title} - The AffluentAccelerators`);
 
       const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventSummary}&dates=${startDate}/${endDate}&details=${eventDetails}&location=${eventLoc}`;
@@ -1544,10 +1796,10 @@
             "BEGIN:VEVENT",
             "UID:" + regId + "@affluentaccelerators.com",
             "DTSTAMP:20261110T090000Z",
-            "DTSTART:20261119T170000Z",
-            "DTEND:20261119T183000Z",
+            "DTSTART:" + startDate,
+            "DTEND:" + endDate,
             "SUMMARY:" + title + " - The Affluentaccelerators",
-            "DESCRIPTION:Host: Fulfilment Taiwo\\nYour Reg ID: " + regId + "\\nLive on Google Meet.\\nWhatsApp Channel: https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q",
+            "DESCRIPTION:Host: " + eventHost + "\\nYour Reg ID: " + regId + "\\nLive on Google Meet.\\nWhatsApp Channel: https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q",
             "LOCATION:Google Meet",
             "STATUS:CONFIRMED",
             "END:VEVENT",
@@ -1557,7 +1809,7 @@
           const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
-          link.setAttribute('download', 'AffluentAccelerators_Investable_Business_Playbook.ics');
+          link.setAttribute('download', `AffluentAccelerators_${(currentEvtId || 'Event').replace(/\s+/g, '_')}.ics`);
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
