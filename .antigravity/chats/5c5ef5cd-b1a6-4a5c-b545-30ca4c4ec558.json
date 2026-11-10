@@ -208,6 +208,18 @@
       "created_at": "2026-11-10T13:34:58.683Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "3982bee9-34a2-4cb8-bcd8-a6c1307cb754",
+      "role": "user",
+      "content": "Go ahead with the plan.",
+      "status": "cancelled",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T14:13:08.273Z",
+      "sender": "ios",
+      "is_cancelled": true
     }
   ]
 }
