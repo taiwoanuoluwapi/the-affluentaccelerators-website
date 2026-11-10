@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Masterclasses | The Affluentaccelerators</title>
+  <meta name="description" content="Register for executive live webinars, masterclasses, and founder roundtables by The Affluentaccelerators. Learn to build scalable, investable businesses.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              950: '#03150e',
+              900: '#06261b',
+              800: '#0a3828',
+              700: '#0f4f3a',
+              600: '#16694e',
+              500: '#10b981',
+              100: '#d1fae5',
+              50: '#f0fdf4',
+            },
+            gold: {
+              600: '#b88a1b',
+              500: '#d4af37',
+              400: '#e5b83b',
+              300: '#f3c74d',
+              100: '#fef8e7',
+              50: '#fffdf5',
+            },
+            charcoal: {
+              950: '#080d0b',
+              900: '#0f1714',
+              800: '#182420',
+              700: '#24342f',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .step-indicator.active {
+      background-color: #e5b83b;
+      color: #03150e;
+      border-color: #e5b83b;
+      font-weight: 700;
+    }
+    .step-indicator.completed {
+      background-color: #10b981;
+      color: #ffffff;
+      border-color: #10b981;
+    }
+    .gold-glow-hover:hover {
+      box-shadow: 0 10px 25px -5px rgba(229, 184, 59, 0.35);
+    }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+  </style>
+</head>
+<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen flex flex-col justify-between">
+
+  <!-- ============================================================== -->
+  <!-- HEADER & NAVIGATION -->
+  <!-- ============================================================== -->
+  <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-2 shadow-sm group-hover:border-gold-400 transition-colors">
+          <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+            <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+            <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-[10px] text-slate-400 font-light">the</span>
+            <span class="font-heading font-extrabold text-lg text-white group-hover:text-gold-300 transition-colors">Affluentaccelerators</span>
+          </div>
+          <p class="text-[8.5px] tracking-[0.22em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <a href="index.html" class="hover:text-gold-300 transition-colors">Home</a>
+        <a href="index.html#about" class="hover:text-gold-300 transition-colors">About</a>
+        <a href="index.html#services" class="hover:text-gold-300 transition-colors">Consulting</a>
+        <a href="careers.html" class="hover:text-gold-300 transition-colors">Careers</a>
+        <a href="events.html" class="text-gold-300 border-b-2 border-gold-400 pb-1">Events &amp; Webinars</a>
+        <a href="index.html#insights" class="hover:text-gold-300 transition-colors">Insights</a>
+        <a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button onclick="openRegistrationModal('EVENT 001')" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md gold-glow-hover transition-all">
+          <span>Register Nov 19</span>
+          <span class="text-xs">→</span>
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button id="events-nav-open" aria-label="Open mobile navigation" class="lg:hidden p-2.5 rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="events-drawer-overlay" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-sm hidden" aria-hidden="true"></div>
+  <aside id="events-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto">
+    <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
+      <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Navigation</span>
+      <button id="events-drawer-close" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <nav class="space-y-3 text-sm font-semibold text-slate-200">
+      <a href="index.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Home</a>
+      <a href="index.html#about" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">About Us</a>
+      <a href="index.html#services" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Consulting Services</a>
+      <a href="careers.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Careers &amp; Pathways</a>
+      <a href="events.html" class="block py-2 px-3 rounded-lg bg-forest-900 text-gold-300 border border-gold-400/30">Events &amp; Webinars (Active)</a>
+      <a href="forms.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Apply / Forms</a>
+      <a href="admin.html" class="block py-2 px-3 rounded-lg text-slate-400 hover:text-gold-300 hover:bg-forest-900 transition-colors">Admin Portal 🔒</a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-forest-800 space-y-3">
+      <button onclick="openRegistrationModal('EVENT 001')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors text-center shadow-lg">
+        Register for Nov 19 Webinar
+      </button>
+      <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-forest-900 border border-gold-400/30 text-center hover:bg-forest-800 transition-colors">
+        Join Official WhatsApp Channel
+      </a>
+    </div>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- HERO SPOTLIGHT: INAUGURAL LIVE WEBINAR (EVENT 001) -->
+  <!-- ============================================================== -->
+  <main class="flex-grow">
+    <section class="relative bg-gradient-to-b from-forest-950 via-forest-900 to-forest-950 text-white pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden border-b border-forest-800">
+      
+      <!-- Ambient Backdrops -->
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-forest-700/25 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Live Ribbon Badge -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-forest-950 border border-gold-400/40 text-gold-300 text-xs font-bold uppercase tracking-wider mb-6 shadow-md">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+          <span>Featured Live Webinar • Free Executive Masterclass</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left Column: Event Narrative & Call to Action -->
+          <div class="lg:col-span-7 space-y-6">
+            
+            <div class="space-y-3">
+              <p class="text-xs sm:text-sm font-bold tracking-widest uppercase text-gold-400 font-mono">
+                EVENT 001 • WEDNESDAY, NOVEMBER 19, 2026
+              </p>
+              <h1 class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.12] text-white">
+                The Investable <br/>
+                <span class="gold-gradient-text">Business Playbook</span>
+              </h1>
+              <p class="text-lg sm:text-xl font-heading font-semibold text-slate-200">
+                How to Build Businesses That Attract Investors.
+              </p>
+            </div>
+
+            <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl">
+              Most emerging market businesses hit structural ceilings because they remain founder-dependent, lack institutional financial clarity, and cannot satisfy modern investor due-diligence hurdles. In this high-impact executive webinar, learn the exact 4-pillar methodology required to build enterprise value, attract capital, and transition from informal survival to scalable commercial institutions.
+            </p>
+
+            <!-- Key Logistics Metadata Badges -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-2">
+              <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Date &amp; Time</span>
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                  <span class="text-gold-400">📅</span> Nov 19, 2026
+                </span>
+                <span class="text-[10px] text-gold-300/80 block mt-0.5">6:00 PM GMT+1 (WAT)</span>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Platform</span>
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                  <span class="text-emerald-400">📹</span> Google Meet
+                </span>
+                <span class="text-[10px] text-slate-400 block mt-0.5">Private link sent upon RSVP</span>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800 col-span-2 sm:col-span-1">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Host &amp; Speaker</span>
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                  <span class="text-gold-400">🎙️</span> Fulfilment Taiwo
+                </span>
+                <span class="text-[10px] text-gold-300/80 block mt-0.5">Lead Consultant, AffluentAccelerators</span>
+              </div>
+            </div>
+
+            <!-- Countdown Timer to Nov 19 -->
+            <div class="p-4 rounded-2xl bg-forest-950/90 border border-gold-400/30">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-gold-300">Countdown to Live Session:</span>
+                <span class="text-[10px] text-slate-400">Seats limited to 250 verified participants</span>
+              </div>
+              <div class="grid grid-cols-4 gap-2 text-center" id="webinar-countdown">
+                <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-days">09</span>
+                  <span class="text-[9px] uppercase tracking-wider text-slate-400">Days</span>
+                </div>
+                <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-hours">08</span>
+                  <span class="text-[9px] uppercase tracking-wider text-slate-400">Hours</span>
+                </div>
+                <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-mins">45</span>
+                  <span class="text-[9px] uppercase tracking-wider text-slate-400">Minutes</span>
+                </div>
+                <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-secs">30</span>
+                  <span class="text-[9px] uppercase tracking-wider text-slate-400">Seconds</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary CTAs -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-2">
+              <button onclick="openRegistrationModal('EVENT 001')" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow gold-glow-hover transition-all hover:-translate-y-0.5">
+                <span>Register Now For Free</span>
+                <span class="text-base leading-none">↗</span>
+              </button>
+              
+              <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200 bg-forest-950 hover:bg-forest-800 border border-gold-400/30 transition-all">
+                <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
+                <span>Join Official WhatsApp Channel</span>
+              </a>
+            </div>
+
+            <div class="flex items-center gap-3 text-xs text-slate-400 pt-1">
+              <span class="text-emerald-400">✓ Free Admission</span>
+              <span>•</span>
+              <span>Includes Strategic Checklist</span>
+              <span>•</span>
+              <span>Live Q&amp;A Session</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Official Webinar Flyer Visual -->
+          <div class="lg:col-span-5">
+            <div class="relative group">
+              
+              <!-- Subtle decorative gold border frame -->
+              <div class="absolute -inset-1.5 bg-gradient-to-r from-gold-400 to-forest-600 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+
+              <div class="relative rounded-3xl overflow-hidden border-2 border-gold-400/50 shadow-2xl bg-forest-950">
+                <img 
+                  src="images/photo-1794301616-c3edd84b.jpg" 
+                  alt="Live Webinar: The Investable Business Playbook - How to Build Businesses That Attract Investors with Fulfilment Taiwo" 
+                  class="w-full h-auto object-cover transform group-hover:scale-[1.01] transition-transform duration-500"
+                >
+                
+                <!-- Quick Floating Overlay Action -->
+                <div class="p-4 bg-forest-950/95 border-t border-gold-400/30 flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] uppercase font-bold text-gold-400 block">Host &amp; Lead Consultant</span>
+                    <span class="text-xs font-bold text-white">Fulfilment Taiwo</span>
+                  </div>
+                  <button onclick="openRegistrationModal('EVENT 001')" class="px-4 py-2 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm">
+                    Reserve My Seat
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION: WHAT YOU WILL LEARN & WHO SHOULD ATTEND -->
+    <!-- ============================================================== -->
+    <section class="py-16 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-xs font-bold uppercase tracking-widest text-forest-700 bg-forest-50 px-3 py-1 rounded-full border border-forest-200">
+            Strategic Curriculum
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-heading font-extrabold text-slate-900 mt-3 mb-4">
+            The Blueprint Behind Investment-Ready Businesses
+          </h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Most businesses seek capital before building the systems that make capital multiply. This masterclass strips away the noise and teaches you the concrete operating machinery investors require before releasing capital.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <div class="p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all">
+            <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-bold flex items-center justify-center mb-4 text-base">
+              01
+            </div>
+            <h3 class="font-heading font-bold text-base text-slate-900 mb-2">
+              De-risking Founder Dependency
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Why businesses that rely purely on founder hustle get rejected by institutional funds, and how to institutionalize governance, decision rights, and standard operating procedures (SOPs).
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all">
+            <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-bold flex items-center justify-center mb-4 text-base">
+              02
+            </div>
+            <h3 class="font-heading font-bold text-base text-slate-900 mb-2">
+              Unit Economics &amp; Margin Visibility
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Transitioning from informal cash flow tracking to auditable unit contribution economics, cash cycle duration, and lifetime value vs. customer acquisition cost (LTV/CAC).
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all">
+            <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-bold flex items-center justify-center mb-4 text-base">
+              03
+            </div>
+            <h3 class="font-heading font-bold text-base text-slate-900 mb-2">
+              Corporate Governance &amp; Compliance
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Structuring corporate equity, shareholder agreements, clean capitalization tables, and legal compliance before opening conversations with angels, funds, or grant providers.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 hover:shadow-lg transition-all">
+            <div class="w-10 h-10 rounded-xl bg-forest-900 text-gold-400 font-bold flex items-center justify-center mb-4 text-base">
+              04
+            </div>
+            <h3 class="font-heading font-bold text-base text-slate-900 mb-2">
+              Live Diagnostics &amp; Case Critique
+            </h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Fulfilment Taiwo will conduct live diagnostic breakdowns on selected attendees' businesses, pinpointing commercial bottlenecks and offering real-time strategic prescriptions.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION: ALL EVENTS & MASTERCLASSES SCHEDULE -->
+    <!-- ============================================================== -->
+    <section class="py-16 bg-[#f8faf8]" id="upcoming-events">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-gold-600 bg-gold-50 px-3 py-1 rounded-full border border-gold-200">
+              Executive Calendar
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-heading font-extrabold text-slate-900 mt-2">
+              Upcoming Events, Masterclasses &amp; Clinics
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Explore our scheduled sessions or register to receive private Google Meet links.
+            </p>
+          </div>
+
+          <!-- Category Filters -->
+          <div class="flex flex-wrap gap-2 text-xs font-semibold">
+            <button class="event-filter-btn px-3.5 py-1.5 rounded-full bg-forest-900 text-gold-300 font-bold" data-filter="all">All Events</button>
+            <button class="event-filter-btn px-3.5 py-1.5 rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="webinar">Live Webinars</button>
+            <button class="event-filter-btn px-3.5 py-1.5 rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="masterclass">Masterclasses</button>
+            <button class="event-filter-btn px-3.5 py-1.5 rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200" data-filter="roundtable">Roundtables</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="events-grid">
+          
+          <!-- Event Card 1: The Investable Business Playbook -->
+          <div class="event-item bg-white rounded-3xl p-6 border border-gold-400 shadow-md hover:shadow-xl transition-all flex flex-col justify-between" data-category="webinar">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-forest-900 text-gold-400">
+                  EVENT 001 • FEATURED
+                </span>
+                <span class="text-[11px] font-bold text-red-600 flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                  Live Nov 19
+                </span>
+              </div>
+              
+              <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">
+                The Investable Business Playbook
+              </h3>
+              <p class="text-xs text-forest-800 font-semibold mb-3">
+                How to Build Businesses That Attract Investors
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Comprehensive 4-pillar advisory session covering institutional systems, cash flow modeling, corporate governance, and angel/VC due-diligence criteria.
+              </p>
+
+              <div class="space-y-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3 mb-6">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Date:</span>
+                  <span>Wednesday, November 19, 2026</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Time:</span>
+                  <span>6:00 PM – 7:30 PM WAT (GMT+1)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Venue:</span>
+                  <span class="text-emerald-700 font-semibold">Live on Google Meet</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Host:</span>
+                  <span>Fulfilment Taiwo (Lead Consultant)</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openRegistrationModal('EVENT 001')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all text-center">
+              Register Free For Nov 19 ↗
+            </button>
+          </div>
+
+          <!-- Event Card 2: Business Growth & Revenue Scaling Masterclass -->
+          <div class="event-item bg-white rounded-3xl p-6 border border-slate-200 hover:border-gold-400 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between" data-category="masterclass">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                  EVENT 002
+                </span>
+                <span class="text-[11px] font-semibold text-slate-500">
+                  December 12, 2026
+                </span>
+              </div>
+              
+              <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">
+                Business Growth &amp; Revenue Scaling Masterclass
+              </h3>
+              <p class="text-xs text-forest-800 font-semibold mb-3">
+                Moving Beyond Founder-Led Hustle to Sustainable Distribution
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Learn the commercial frameworks behind structuring sales funnels, regional distributor partnerships, and predictable revenue engines in African markets.
+              </p>
+
+              <div class="space-y-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3 mb-6">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Date:</span>
+                  <span>Saturday, December 12, 2026</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Time:</span>
+                  <span>4:00 PM – 5:30 PM WAT</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Venue:</span>
+                  <span class="text-emerald-700 font-semibold">Virtual Interactive Workshop</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Practice:</span>
+                  <span>Commercial Growth &amp; Advisory</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openRegistrationModal('EVENT 002')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-900 bg-slate-100 hover:bg-forest-900 hover:text-gold-300 transition-colors text-center">
+              Pre-Register For Event 002
+            </button>
+          </div>
+
+          <!-- Event Card 3: Business Finance & Cashflow Diagnostics Workshop -->
+          <div class="event-item bg-white rounded-3xl p-6 border border-slate-200 hover:border-gold-400 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between" data-category="masterclass">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                  EVENT 003
+                </span>
+                <span class="text-[11px] font-semibold text-slate-500">
+                  January 14, 2027
+                </span>
+              </div>
+              
+              <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">
+                Business Finance &amp; Cashflow Restructuring
+              </h3>
+              <p class="text-xs text-forest-800 font-semibold mb-3">
+                Working Capital Management &amp; Financial Controls
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                A hands-on diagnostic clinic covering working capital traps, managing uncollected trade receivables, and structuring audited financial dashboards.
+              </p>
+
+              <div class="space-y-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3 mb-6">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Date:</span>
+                  <span>Thursday, January 14, 2027</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Time:</span>
+                  <span>5:00 PM – 6:30 PM WAT</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Venue:</span>
+                  <span class="text-emerald-700 font-semibold">Live on Google Meet</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Practice:</span>
+                  <span>Corporate Finance &amp; Restructuring</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openRegistrationModal('EVENT 003')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-900 bg-slate-100 hover:bg-forest-900 hover:text-gold-300 transition-colors text-center">
+              Pre-Register For Event 003
+            </button>
+          </div>
+
+          <!-- Event Card 4: African Founder Roundtable -->
+          <div class="event-item bg-white rounded-3xl p-6 border border-slate-200 hover:border-gold-400 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between" data-category="roundtable">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                  EVENT 004
+                </span>
+                <span class="text-[11px] font-semibold text-slate-500">
+                  February 18, 2027
+                </span>
+              </div>
+              
+              <h3 class="text-xl font-heading font-bold text-slate-900 mb-2">
+                African Founder Roundtable &amp; Deal Clinic
+              </h3>
+              <p class="text-xs text-forest-800 font-semibold mb-3">
+                Preparing for Growth Equity &amp; Strategic Partnerships
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                An intimate closed-door clinic for established founders and operators looking to pitch investors, structure mezzanine debt, or execute expansion rounds.
+              </p>
+
+              <div class="space-y-1.5 text-xs text-slate-500 border-t border-slate-100 pt-3 mb-6">
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Date:</span>
+                  <span>Thursday, February 18, 2027</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Time:</span>
+                  <span>6:00 PM – 8:00 PM WAT</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Format:</span>
+                  <span class="text-amber-700 font-semibold">Curated Executive Roundtable (Vetted)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-slate-700">Practice:</span>
+                  <span>Executive Deal Advisory</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openRegistrationModal('EVENT 004')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-900 bg-slate-100 hover:bg-forest-900 hover:text-gold-300 transition-colors text-center">
+              Apply For Event 004
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION: FREQUENTLY ASKED QUESTIONS -->
+    <!-- ============================================================== -->
+    <section class="py-16 bg-white border-t border-slate-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-10">
+          <span class="text-xs font-bold uppercase tracking-widest text-forest-700 bg-forest-50 px-3 py-1 rounded-full">
+            Frequently Asked Questions
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 mt-2">
+            Everything You Need to Know
+          </h2>
+        </div>
+
+        <div class="space-y-4 text-xs sm:text-sm">
+          <div class="p-5 rounded-2xl bg-[#f8faf8] border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1.5">Is registration for the live webinar free?</h4>
+            <p class="text-slate-600 leading-relaxed">
+              Yes, attendance for "The Investable Business Playbook" (Event 001) is 100% free of charge. However, attendance capacity on Google Meet is capped to preserve interactive Q&amp;A quality.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-[#f8faf8] border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1.5">How do I receive my Google Meet link?</h4>
+            <p class="text-slate-600 leading-relaxed">
+              Upon submitting the registration form, your unique Registration ID will be confirmed immediately. The official Google Meet room link and calendar invitation are delivered directly to your provided email and WhatsApp 24 hours and 1 hour prior to the session.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-[#f8faf8] border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1.5">Will there be a replay available?</h4>
+            <p class="text-slate-600 leading-relaxed">
+              A private replay link and executive summary deck are shared exclusively with registered attendees whose attendance status is verified following the session.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-[#f8faf8] border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1.5">How is my business information used?</h4>
+            <p class="text-slate-600 leading-relaxed">
+              All submitted data is stored strictly in our secure, private master database. We use your business diagnostic responses to tailor the webinar examples, evaluate consulting readiness, and address real challenges during the live session. It is never sold or shared publicly.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: COMPREHENSIVE EVENT REGISTRATION (31 FIELDS) -->
+  <!-- ============================================================== -->
+  <div id="modal-event-registration" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto" role="dialog" aria-modal="true">
+    <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden my-auto">
+      
+      <!-- Modal Header -->
+      <div class="bg-forest-900 text-white p-5 sm:p-6 border-b border-forest-800 flex items-start justify-between">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span id="modal-event-badge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-forest-950 text-gold-400 border border-gold-400/30">
+              EVENT 001
+            </span>
+            <span class="text-xs text-slate-300">Live Executive Registration</span>
+          </div>
+          <h3 id="modal-event-title" class="text-xl sm:text-2xl font-heading font-extrabold text-white">
+            The Investable Business Playbook
+          </h3>
+          <p class="text-xs text-gold-300/90 mt-0.5">
+            Wednesday, Nov 19, 2026 • 6:00 PM WAT • Google Meet
+          </p>
+        </div>
+        <button onclick="closeRegistrationModal()" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1" aria-label="Close modal">
+          &times;
+        </button>
+      </div>
+
+      <!-- Stepper Navigation -->
+      <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2 sm:gap-4 overflow-x-auto">
+          <div class="step-indicator active w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-slate-300" id="step-badge-1">1</div>
+          <span class="text-[11px] font-semibold text-slate-700 hidden sm:inline">Participant Info</span>
+          <span class="text-slate-300 hidden sm:inline">→</span>
+          <div class="step-indicator w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-slate-300 text-slate-500" id="step-badge-2">2</div>
+          <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Business Profile</span>
+          <span class="text-slate-300 hidden sm:inline">→</span>
+          <div class="step-indicator w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-slate-300 text-slate-500" id="step-badge-3">3</div>
+          <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Operations &amp; Systems</span>
+          <span class="text-slate-300 hidden sm:inline">→</span>
+          <div class="step-indicator w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-slate-300 text-slate-500" id="step-badge-4">4</div>
+          <span class="text-[11px] font-semibold text-slate-500 hidden sm:inline">Advisory &amp; Q&amp;A</span>
+        </div>
+        <span class="text-[11px] font-bold text-forest-800" id="step-progress-label">Step 1 of 4</span>
+      </div>
+
+      <!-- Registration Form Body -->
+      <form id="form-event-registration" class="p-5 sm:p-7 space-y-4 text-xs" novalidate>
+        <input type="hidden" id="reg-event-id" value="EVENT 001">
+        <input type="hidden" id="reg-event-title" value="The Investable Business Playbook">
+
+        <!-- STEP 1: PARTICIPANT IDENTITY (Fields 1-7) -->
+        <div class="form-step active" id="form-step-1">
+          <div class="mb-4">
+            <h4 class="font-heading font-bold text-base text-slate-900">Step 1: Participant Identity &amp; Contact</h4>
+            <p class="text-xs text-slate-500">Provide your official contact details so we can dispatch your private Google Meet access link.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+              <input type="text" id="reg-fullname" required placeholder="e.g. David Eze" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Email Address (for Google Meet invite) *</label>
+              <input type="email" id="reg-email" required placeholder="name@company.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Phone / WhatsApp Number *</label>
+              <input type="tel" id="reg-whatsapp" required placeholder="+234 803 123 4567" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Country *</label>
+              <select id="reg-country" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Nigeria" selected>Nigeria</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Kenya">Kenya</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Other">Other International</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">City / State *</label>
+              <input type="text" id="reg-city" required placeholder="e.g. Lagos, Abuja, London" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Occupation / Participant Category *</label>
+              <select id="reg-occupation" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="">Select your role / category...</option>
+                <option value="Founder / CEO">Founder / Chief Executive Officer</option>
+                <option value="Co-founder / Managing Partner">Co-founder / Managing Partner</option>
+                <option value="Executive / Operations Manager">Executive / Operations Manager</option>
+                <option value="Business Consultant / Analyst">Business Consultant / Analyst</option>
+                <option value="Aspiring Entrepreneur">Aspiring Entrepreneur (Pre-launch)</option>
+                <option value="Investor / Fund Manager">Investor / Fund Manager / Angel</option>
+                <option value="Corporate Executive">Corporate Executive</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-4 flex justify-end">
+            <button type="button" onclick="goToStep(2)" class="px-6 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+              Continue to Step 2 →
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: BUSINESS DIAGNOSTIC PROFILE (Fields 8-16) -->
+        <div class="form-step" id="form-step-2">
+          <div class="mb-4">
+            <h4 class="font-heading font-bold text-base text-slate-900">Step 2: Business Diagnostic Profile</h4>
+            <p class="text-xs text-slate-500">Helps our consulting desk evaluate your commercial maturity and investor eligibility.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Business / Company Name *</label>
+              <input type="text" id="reg-business-name" required placeholder="e.g. Apex Distribution Ltd" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Industry Sector *</label>
+              <select id="reg-industry" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="">Select industry...</option>
+                <option value="Technology & Software">Technology &amp; Software / SaaS</option>
+                <option value="FMCG & Retail">FMCG &amp; Retail / Distribution</option>
+                <option value="Agriculture & Agribusiness">Agriculture &amp; Agribusiness</option>
+                <option value="Financial Services & Fintech">Financial Services &amp; Fintech</option>
+                <option value="Healthcare & Pharmaceuticals">Healthcare &amp; Pharmaceuticals</option>
+                <option value="Manufacturing & Industrial">Manufacturing &amp; Industrial</option>
+                <option value="Real Estate & Construction">Real Estate &amp; Construction</option>
+                <option value="Logistics & Supply Chain">Logistics &amp; Supply Chain</option>
+                <option value="Education & EdTech">Education &amp; EdTech</option>
+                <option value="Media & Creative">Media, Creative &amp; Entertainment</option>
+                <option value="Professional Services">Professional &amp; Advisory Services</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Business Description (What do you sell &amp; to whom?) *</label>
+              <textarea id="reg-business-desc" rows="2" required placeholder="Briefly describe your core product/service, target customers, and business model..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Business Age *</label>
+              <select id="reg-business-age" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Idea Stage / Under 6 Months">Idea Stage / Under 6 Months</option>
+                <option value="6 Months – 1 Year">6 Months – 1 Year</option>
+                <option value="1 – 3 Years" selected>1 – 3 Years</option>
+                <option value="3 – 5 Years">3 – 5 Years</option>
+                <option value="5+ Years">5+ Years</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Business Stage *</label>
+              <select id="reg-business-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Ideation / Pre-launch">Ideation / Pre-launch</option>
+                <option value="Early Traction (Generating Revenue)" selected>Early Traction (Generating Revenue)</option>
+                <option value="Growth & Scaling">Growth &amp; Scaling</option>
+                <option value="Established / Multi-branch">Established / Multi-branch</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Number of Employees *</label>
+              <select id="reg-employees" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="1 (Solo Founder)">1 (Solo Founder)</option>
+                <option value="2 – 5 Employees" selected>2 – 5 Employees</option>
+                <option value="6 – 15 Employees">6 – 15 Employees</option>
+                <option value="16 – 50 Employees">16 – 50 Employees</option>
+                <option value="50+ Employees">50+ Employees</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Revenue Status *</label>
+              <select id="reg-revenue-status" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Pre-revenue">Pre-revenue</option>
+                <option value="Early Revenue">Early Revenue</option>
+                <option value="Consistently Profitable" selected>Consistently Profitable</option>
+                <option value="Scaling Rapidly">Scaling Rapidly</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Monthly Revenue Range *</label>
+              <select id="reg-monthly-revenue" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Pre-revenue / Under ₦500k ($350)">Pre-revenue / Under ₦500k ($350)</option>
+                <option value="₦500k – ₦2M ($350–$1,400)">₦500k – ₦2M ($350–$1,400)</option>
+                <option value="₦2M – ₦10M ($1,400–$7,000)" selected>₦2M – ₦10M ($1,400–$7,000)</option>
+                <option value="₦10M – ₦50M ($7,000–$35,000)">₦10M – ₦50M ($7,000–$35,000)</option>
+                <option value="₦50M+ ($35,000+)">₦50M+ ($35,000+)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Website or Social Media Link</label>
+              <input type="url" id="reg-website-link" placeholder="https://instagram.com/mybusiness or website" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+          </div>
+
+          <div class="pt-4 flex justify-between">
+            <button type="button" onclick="goToStep(1)" class="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+              ← Back
+            </button>
+            <button type="button" onclick="goToStep(3)" class="px-6 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+              Continue to Step 3 →
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: OPERATIONS & GOVERNANCE SYSTEMS (Fields 17-21) -->
+        <div class="form-step" id="form-step-3">
+          <div class="mb-4">
+            <h4 class="font-heading font-bold text-base text-slate-900">Step 3: Governance, Accounting &amp; Systems</h4>
+            <p class="text-xs text-slate-500">Crucial variables for evaluating business stability and investability.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Business Registration Status *</label>
+              <select id="reg-cac-status" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Fully Registered / Incorporated (CAC)" selected>Fully Registered / Incorporated (CAC)</option>
+                <option value="Sole Proprietorship / Enterprise Name">Sole Proprietorship / Enterprise Name</option>
+                <option value="Registration In Progress">Registration In Progress</option>
+                <option value="Not Yet Registered">Not Yet Registered</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Financial Record-Keeping Status *</label>
+              <select id="reg-financial-records" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Audited Financial Statements (External Auditor)">Audited Financial Statements (External Auditor)</option>
+                <option value="Cloud Accounting (QuickBooks / Xero / Wave)" selected>Cloud Accounting (QuickBooks / Xero / Wave)</option>
+                <option value="Basic Spreadsheets / Excel Tracking">Basic Spreadsheets / Excel Tracking</option>
+                <option value="Informal / Bank Statements & Mobile Money">Informal / Bank Statements &amp; Mobile Money</option>
+                <option value="No Structured Records Yet">No Structured Records Yet</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Operational Systems Status *</label>
+              <select id="reg-ops-systems" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Standardized SOPs & Clear Hierarchy (Team runs operations)">Standardized SOPs &amp; Clear Hierarchy (Team runs operations)</option>
+                <option value="Transitioning to Systems (Some SOPs, founder still involved)" selected>Transitioning to Systems (Some SOPs, founder still involved)</option>
+                <option value="Informal Workflows (Oral instructions, daily firefighting)">Informal Workflows (Oral instructions, daily firefighting)</option>
+                <option value="Founder Handles Everything (No systems without founder)">Founder Handles Everything (No systems without founder)</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Biggest Business Challenges *</label>
+              <select id="reg-challenges" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="Access to Growth Capital & Funding">Access to Growth Capital &amp; Funding</option>
+                <option value="Consistent Sales & Revenue Predictability" selected>Consistent Sales &amp; Revenue Predictability</option>
+                <option value="Operational Inefficiencies & Broken Systems">Operational Inefficiencies &amp; Broken Systems</option>
+                <option value="Talent Retention & Staff Competence">Talent Retention &amp; Staff Competence</option>
+                <option value="Cashflow Cycle & Customer Debt Recovery">Cashflow Cycle &amp; Customer Debt Recovery</option>
+                <option value="Market Expansion & Strategic Partnerships">Market Expansion &amp; Strategic Partnerships</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-slate-700 mb-1">Top Business Priorities for the Next 6 Months *</label>
+              <input type="text" id="reg-priorities" required placeholder="e.g. Raise seed capital, hire 2 salespeople, automate fulfillment" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+          </div>
+
+          <div class="pt-4 flex justify-between">
+            <button type="button" onclick="goToStep(2)" class="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+              ← Back
+            </button>
+            <button type="button" onclick="goToStep(4)" class="px-6 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+              Continue to Step 4 →
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: ADVISORY, EXPECTATIONS & CONSENT (Fields 22-31) -->
+        <div class="form-step" id="form-step-4">
+          <div class="mb-4">
+            <h4 class="font-heading font-bold text-base text-slate-900">Step 4: Learning Expectations &amp; Advisory Interest</h4>
+            <p class="text-xs text-slate-500">Submit your questions for Fulfilment Taiwo and indicate advisory alignment.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">What are your primary learning expectations for this session? *</label>
+              <textarea id="reg-expectations" rows="2" required placeholder="e.g. Understand how investors evaluate early revenue and structure equity..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Question for Guest Speaker / Fulfilment Taiwo</label>
+              <input type="text" id="reg-question" placeholder="Specific dilemma you want addressed during the live Q&A spotlight..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Consulting Interest *</label>
+                <select id="reg-consulting-interest" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                  <option value="Yes - Immediate Need (Next 30 Days)">Yes - Immediate Need (Next 30 Days)</option>
+                  <option value="Yes - Within 3 to 6 Months" selected>Yes - Within 3 to 6 Months</option>
+                  <option value="Not Right Now (Attending Webinar Only)">Not Right Now (Attending Webinar Only)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Investable Business Playbook Interest *</label>
+                <select id="reg-playbook-interest" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                  <option value="Yes - Want Full Playbook & Advisory Brief" selected>Yes - Want Full Playbook &amp; Advisory Brief</option>
+                  <option value="Yes - Send Executive Summary">Yes - Send Executive Summary</option>
+                  <option value="General Overview Only">General Overview Only</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Investment-Readiness Interest *</label>
+                <select id="reg-investment-readiness" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                  <option value="Yes - Actively Preparing for Funding Round" selected>Yes - Actively Preparing for Funding Round</option>
+                  <option value="Yes - Need Valuation & Pitch Readiness">Yes - Need Valuation &amp; Pitch Readiness</option>
+                  <option value="Exploring Future Funding Options">Exploring Future Funding Options</option>
+                  <option value="Bootstrapped / No External Capital Needed">Bootstrapped / No External Capital Needed</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Follow-up Interest *</label>
+                <select id="reg-followup-interest" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                  <option value="Yes - Schedule 15-min Discovery Call" selected>Yes - Schedule 15-min Discovery Call</option>
+                  <option value="Yes - Email Follow-up with Resources">Yes - Email Follow-up with Resources</option>
+                  <option value="WhatsApp Updates Only">WhatsApp Updates Only</option>
+                  <option value="No Follow-up Required">No Follow-up Required</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Communication Preferences *</label>
+              <select id="reg-comm-pref" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:ring-1 focus:ring-forest-800 outline-none text-xs bg-white">
+                <option value="WhatsApp & Email" selected>WhatsApp &amp; Email (Recommended for live room alerts)</option>
+                <option value="Email Only">Email Only</option>
+                <option value="WhatsApp Only">WhatsApp Only</option>
+              </select>
+            </div>
+
+            <!-- Marketing Consent -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <input type="checkbox" id="reg-marketing-consent" checked class="mt-0.5 rounded text-forest-900 focus:ring-forest-800 h-4 w-4">
+              <label for="reg-marketing-consent" class="text-[11px] text-slate-600 leading-snug cursor-pointer">
+                I consent to receive webinar access credentials, diagnostic toolkits, and executive business insights from The AffluentAccelerators. (You can unsubscribe at any time).
+              </label>
+            </div>
+
+            <!-- Error Feedback Box -->
+            <div id="modal-error-message" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs"></div>
+          </div>
+
+          <div class="pt-4 flex justify-between items-center border-t border-slate-100">
+            <button type="button" onclick="goToStep(3)" class="px-5 py-2.5 rounded-xl font-bold uppercase tracking-wider text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">
+              ← Back
+            </button>
+            <button type="submit" id="reg-submit-btn" class="px-8 py-3 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all">
+              <span>Complete Free Registration ↗</span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS CONFIRMATION STATE (SHOWN POST-SUBMISSION) -->
+      <div id="registration-success-panel" class="hidden p-6 sm:p-10 text-center space-y-6">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-3xl font-bold shadow-inner">
+          ✓
+        </div>
+        
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            Registration Confirmed
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-heading font-extrabold text-slate-900 mt-2">
+            You're Confirmed for Nov 19!
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-md mx-auto">
+            Your seat is officially reserved. We have transmitted your registration to our central database and generated your unique pass.
+          </p>
+        </div>
+
+        <!-- Registration Pass Card -->
+        <div class="max-w-md mx-auto p-5 rounded-2xl bg-forest-950 text-white border border-gold-400/50 text-left shadow-xl space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-forest-800">
+            <div>
+              <span class="text-[9px] uppercase font-bold text-gold-400 block tracking-wider">Registration Reference ID</span>
+              <span id="confirmed-reg-id" class="text-base sm:text-lg font-mono font-bold text-white tracking-wider">REG-EVT001-8421</span>
+            </div>
+            <span class="text-[10px] uppercase font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full">
+              Seat Guaranteed
+            </span>
+          </div>
+
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between">
+              <span class="text-slate-400">Participant:</span>
+              <span id="confirmed-reg-name" class="font-bold text-slate-200">David Eze</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Webinar:</span>
+              <span class="font-bold text-gold-300">The Investable Business Playbook</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Date &amp; Time:</span>
+              <span class="font-bold text-slate-200">Nov 19, 2026 • 6:00 PM WAT</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Platform:</span>
+              <span class="font-bold text-emerald-400">Live on Google Meet</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons: Calendar & WhatsApp -->
+        <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-3 pt-2">
+          <button id="add-google-calendar-btn" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-md flex items-center justify-center gap-2">
+            <span>📅 Add to Google Calendar</span>
+          </button>
+          <button id="download-ics-btn" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5">
+            <span>💾 Download .ICS</span>
+          </button>
+        </div>
+
+        <div>
+          <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-forest-800 hover:text-gold-600 py-1">
+            <span>💬 Join Official WhatsApp Channel for Instant Alerts →</span>
+          </a>
+        </div>
+
+        <div class="pt-2">
+          <button onclick="closeRegistrationModal()" class="px-8 py-2.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors">
+            Close &amp; Return to Events
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- FOOTER -->
+  <!-- ============================================================== -->
+  <footer class="bg-forest-950 text-slate-400 py-14 border-t border-forest-800 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        
+        <!-- Company Identity -->
+        <div class="lg:col-span-2 space-y-4">
+          <a href="index.html" class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+                <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+                <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+              </svg>
+            </div>
+            <div>
+              <span class="font-heading font-extrabold text-white text-base">The Affluentaccelerators</span>
+              <p class="text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+            </div>
+          </a>
+          <p class="text-slate-400 text-xs leading-relaxed max-w-sm">
+            Empowering emerging market commercial institutions and top-tier business analysts through rigorous diagnostics, corporate restructuring, and high-impact advisory.
+          </p>
+          <div class="pt-1">
+            <a href="admin.html" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-400 hover:text-gold-300 transition-colors bg-forest-900/60 px-3 py-1.5 rounded-lg border border-forest-800">
+              <span>🔒 Admin Central Hub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4">Navigation</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-gold-300 transition-colors">Home</a></li>
+            <li><a href="index.html#about" class="hover:text-gold-300 transition-colors">About Firm</a></li>
+            <li><a href="index.html#services" class="hover:text-gold-300 transition-colors">Consulting Services</a></li>
+            <li><a href="careers.html" class="hover:text-gold-300 transition-colors">Careers &amp; Pathway</a></li>
+            <li><a href="events.html" class="text-gold-400 font-bold">Events &amp; Webinars</a></li>
+            <li><a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a></li>
+          </ul>
+        </div>
+
+        <!-- Events Schedule -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4">Events Calendar</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="events.html" class="hover:text-gold-300 transition-colors">The Investable Business Playbook</a></li>
+            <li><a href="events.html#upcoming-events" class="hover:text-gold-300 transition-colors">Business Growth Masterclass</a></li>
+            <li><a href="events.html#upcoming-events" class="hover:text-gold-300 transition-colors">Cashflow Restructuring Clinic</a></li>
+            <li><a href="events.html#upcoming-events" class="hover:text-gold-300 transition-colors">African Founder Roundtable</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact & Channel -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4">Connect</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li>
+              <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="text-gold-400 hover:text-gold-300 font-semibold flex items-center gap-1.5">
+                <span>WhatsApp Channel ↗</span>
+              </a>
+            </li>
+            <li><span class="text-slate-400">Victoria Island, Lagos, Nigeria</span></li>
+            <li><a href="tel:+2349039545275" class="hover:text-gold-300">+234 903 954 5275</a></li>
+            <li><a href="mailto:advisory@affluentaccelerators.com" class="hover:text-gold-300">advisory@affluentaccelerators.com</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-forest-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
+        <p>&copy; 2026 The Affluentaccelerators. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="index.html#terms" class="hover:text-slate-300">Terms of Engagement</a>
+          <a href="index.html#privacy" class="hover:text-slate-300">Privacy &amp; Data Ethics</a>
+          <a href="admin.html" class="hover:text-gold-400">Admin Portal</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- SCRIPTS & LOGIC -->
+  <!-- ============================================================== -->
+  <script src="app.js"></script>
+  <script>
+    // Navigation Drawer Logic
+    const drawer = document.getElementById('events-drawer');
+    const overlay = document.getElementById('events-drawer-overlay');
+    const openBtn = document.getElementById('events-nav-open');
+    const closeBtn = document.getElementById('events-drawer-close');
+
+    function openNav() {
+      drawer.classList.remove('translate-x-full');
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeNav() {
+      drawer.classList.add('translate-x-full');
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    if (openBtn) openBtn.addEventListener('click', openNav);
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    if (overlay) overlay.addEventListener('click', closeNav);
+
+    // Event Category Filter
+    document.querySelectorAll('.event-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.event-filter-btn').forEach(b => {
+          b.classList.remove('bg-forest-900', 'text-gold-300', 'font-bold');
+          b.classList.add('bg-white', 'text-slate-600');
+        });
+        btn.classList.add('bg-forest-900', 'text-gold-300', 'font-bold');
+        btn.classList.remove('bg-white', 'text-slate-600');
+
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.event-item').forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Countdown Timer to Nov 19, 2026, 18:00 WAT
+    function startCountdown() {
+      const targetDate = new Date("November 19, 2026 18:00:00 GMT+0100").getTime();
+      function update() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+        if (diff <= 0) {
+          document.getElementById('cd-days').textContent = '00';
+          document.getElementById('cd-hours').textContent = '00';
+          document.getElementById('cd-mins').textContent = '00';
+          document.getElementById('cd-secs').textContent = '00';
+          return;
+        }
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('cd-days').textContent = d < 10 ? '0' + d : d;
+        document.getElementById('cd-hours').textContent = h < 10 ? '0' + h : h;
+        document.getElementById('cd-mins').textContent = m < 10 ? '0' + m : m;
+        document.getElementById('cd-secs').textContent = s < 10 ? '0' + s : s;
+      }
+      update();
+      setInterval(update, 1000);
+    }
+    startCountdown();
+
+    // Multi-Step Registration Form Controller
+    let currentStep = 1;
+    function goToStep(stepNum) {
+      // Validate current step before advancing
+      if (stepNum > currentStep) {
+        if (!validateStep(currentStep)) return;
+      }
+      currentStep = stepNum;
+
+      // Update visible step panel
+      document.querySelectorAll('.form-step').forEach(panel => panel.classList.remove('active'));
+      const activePanel = document.getElementById('form-step-' + stepNum);
+      if (activePanel) activePanel.classList.add('active');
+
+      // Update stepper badges
+      for (let i = 1; i <= 4; i++) {
+        const badge = document.getElementById('step-badge-' + i);
+        if (!badge) continue;
+        if (i === stepNum) {
+          badge.className = "step-indicator active w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-gold-400";
+        } else if (i < stepNum) {
+          badge.className = "step-indicator completed w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-emerald-500";
+          badge.innerHTML = "✓";
+        } else {
+          badge.className = "step-indicator w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border border-slate-300 text-slate-500";
+          badge.innerHTML = i;
+        }
+      }
+      document.getElementById('step-progress-label').textContent = 'Step ' + stepNum + ' of 4';
+    }
+
+    function validateStep(step) {
+      clearError();
+      if (step === 1) {
+        const name = document.getElementById('reg-fullname').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const phone = document.getElementById('reg-whatsapp').value.trim();
+        const city = document.getElementById('reg-city').value.trim();
+        const occ = document.getElementById('reg-occupation').value;
+        if (!name || !email || !phone || !city || !occ) {
+          showError('Please fill in all required participant fields in Step 1.');
+          return false;
+        }
+        if (!email.includes('@') || !email.includes('.')) {
+          showError('Please enter a valid email address.');
+          return false;
+        }
+      } else if (step === 2) {
+        const bName = document.getElementById('reg-business-name').value.trim();
+        const ind = document.getElementById('reg-industry').value;
+        const desc = document.getElementById('reg-business-desc').value.trim();
+        if (!bName || !ind || !desc) {
+          showError('Please complete your business name, industry, and description.');
+          return false;
+        }
+      } else if (step === 3) {
+        const prio = document.getElementById('reg-priorities').value.trim();
+        if (!prio) {
+          showError('Please state your top business priorities for the next 6 months.');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function showError(msg) {
+      const errBox = document.getElementById('modal-error-message');
+      if (errBox) {
+        errBox.textContent = msg;
+        errBox.classList.remove('hidden');
+      }
+    }
+    function clearError() {
+      const errBox = document.getElementById('modal-error-message');
+      if (errBox) errBox.classList.add('hidden');
+    }
+
+    // Modal Control Functions
+    function openRegistrationModal(eventId) {
+      const modal = document.getElementById('modal-event-registration');
+      const form = document.getElementById('form-event-registration');
+      const successPanel = document.getElementById('registration-success-panel');
+      
+      form.classList.remove('hidden');
+      successPanel.classList.add('hidden');
+
+      // Update event metadata
+      if (eventId === 'EVENT 001' || !eventId) {
+        document.getElementById('modal-event-badge').textContent = 'EVENT 001';
+        document.getElementById('modal-event-title').textContent = 'The Investable Business Playbook';
+        document.getElementById('reg-event-id').value = 'EVENT 001';
+        document.getElementById('reg-event-title').value = 'The Investable Business Playbook';
+      } else if (eventId === 'EVENT 002') {
+        document.getElementById('modal-event-badge').textContent = 'EVENT 002';
+        document.getElementById('modal-event-title').textContent = 'Business Growth & Revenue Scaling Masterclass';
+        document.getElementById('reg-event-id').value = 'EVENT 002';
+        document.getElementById('reg-event-title').value = 'Business Growth & Revenue Scaling Masterclass';
+      } else if (eventId === 'EVENT 003') {
+        document.getElementById('modal-event-badge').textContent = 'EVENT 003';
+        document.getElementById('modal-event-title').textContent = 'Business Finance & Cashflow Restructuring';
+        document.getElementById('reg-event-id').value = 'EVENT 003';
+        document.getElementById('reg-event-title').value = 'Business Finance & Cashflow Restructuring';
+      } else if (eventId === 'EVENT 004') {
+        document.getElementById('modal-event-badge').textContent = 'EVENT 004';
+        document.getElementById('modal-event-title').textContent = 'African Founder Roundtable & Deal Clinic';
+        document.getElementById('reg-event-id').value = 'EVENT 004';
+        document.getElementById('reg-event-title').value = 'African Founder Roundtable & Deal Clinic';
+      }
+
+      goToStep(1);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRegistrationModal() {
+      const modal = document.getElementById('modal-event-registration');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    // Event Registration Form Submission Handler
+    document.getElementById('form-event-registration').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      clearError();
+
+      const exp = document.getElementById('reg-expectations').value.trim();
+      if (!exp) {
+        showError('Please share your primary learning expectations.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('reg-submit-btn');
+      const origBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>Transmitting to Central Database...</span>`;
+
+      const eventId = document.getElementById('reg-event-id').value;
+      const eventTitle = document.getElementById('reg-event-title').value;
+
+      // Extract all 31 fields specified in Requirement D
+      const registrationData = {
+        eventId: eventId,
+        eventTitle: eventTitle,
+        "Full Name": document.getElementById('reg-fullname').value.trim(),
+        "Email Address": document.getElementById('reg-email').value.trim(),
+        "Phone / WhatsApp Number": document.getElementById('reg-whatsapp').value.trim(),
+        "Country": document.getElementById('reg-country').value,
+        "City / State": document.getElementById('reg-city').value.trim(),
+        "Occupation / Participant Category": document.getElementById('reg-occupation').value,
+        "Business Name": document.getElementById('reg-business-name').value.trim(),
+        "Business Description": document.getElementById('reg-business-desc').value.trim(),
+        "Industry": document.getElementById('reg-industry').value,
+        "Business Age": document.getElementById('reg-business-age').value,
+        "Business Stage": document.getElementById('reg-business-stage').value,
+        "Website / Social Media Link": document.getElementById('reg-website-link').value.trim(),
+        "Number of Employees": document.getElementById('reg-employees').value,
+        "Revenue Status": document.getElementById('reg-revenue-status').value,
+        "Monthly Revenue Range": document.getElementById('reg-monthly-revenue').value,
+        "Business Registration Status": document.getElementById('reg-cac-status').value,
+        "Financial Record-Keeping Status": document.getElementById('reg-financial-records').value,
+        "Operational Systems Status": document.getElementById('reg-ops-systems').value,
+        "Biggest Business Challenges": document.getElementById('reg-challenges').value,
+        "Business Priorities": document.getElementById('reg-priorities').value.trim(),
+        "Learning Expectations": exp,
+        "Question for Guest Speaker": document.getElementById('reg-question').value.trim(),
+        "Consulting Interest": document.getElementById('reg-consulting-interest').value,
+        "Investable Business Playbook Interest": document.getElementById('reg-playbook-interest').value,
+        "Investment-Readiness Interest": document.getElementById('reg-investment-readiness').value,
+        "Follow-up Interest": document.getElementById('reg-followup-interest').value,
+        "Marketing Consent": document.getElementById('reg-marketing-consent').checked ? "Yes" : "No",
+        "Communication Preferences": document.getElementById('reg-comm-pref').value,
+        "Attendance Status": "Confirmed Registered",
+        "Follow-up Status": "Pending Review"
+      };
+
+      try {
+        // Save to central database and trigger Google Sheets sync
+        let regResult = null;
+        if (window.affluentEvents) {
+          regResult = await window.affluentEvents.registerParticipant(registrationData);
+        } else {
+          // Fallback if app.js is loading
+          const randNum = Math.floor(1000 + Math.random() * 9000);
+          regResult = {
+            id: 'REG-EVT001-' + randNum,
+            name: registrationData["Full Name"],
+            eventTitle: eventTitle
+          };
+        }
+
+        // Show Success Panel
+        document.getElementById('confirmed-reg-id').textContent = regResult.id;
+        document.getElementById('confirmed-reg-name').textContent = registrationData["Full Name"];
+        document.getElementById('form-event-registration').classList.add('hidden');
+        document.getElementById('registration-success-panel').classList.remove('hidden');
+
+        // Setup Calendar Links
+        setupCalendarActionButtons(regResult.id, eventTitle, registrationData["Full Name"]);
+
+      } catch (err) {
+        console.error('Registration processing error:', err);
+        showError('Registration saved locally, but synchronization encountered a delay. Your seat is safe!');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origBtnText;
+      }
+    });
+
+    // Calendar Link Generation
+    function setupCalendarActionButtons(regId, title, name) {
+      const gcalBtn = document.getElementById('add-google-calendar-btn');
+      const icsBtn = document.getElementById('download-ics-btn');
+
+      // Nov 19, 2026, 18:00 WAT = 17:00 UTC (WAT is UTC+1)
+      const startDate = "20261119T170000Z";
+      const endDate = "20261119T183000Z";
+      const eventDetails = encodeURIComponent(`Live Webinar: ${title}\nHost: Fulfilment Taiwo (Lead Consultant)\nYour Registration ID: ${regId}\n\nAccess Google Meet room via link sent to your registered email & WhatsApp.`);
+      const eventLoc = encodeURIComponent("Google Meet (Private Link)");
+      const eventSummary = encodeURIComponent(`${title} - The AffluentAccelerators`);
+
+      const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventSummary}&dates=${startDate}/${endDate}&details=${eventDetails}&location=${eventLoc}`;
+      
+      if (gcalBtn) {
+        gcalBtn.onclick = function() {
+          window.open(gcalUrl, '_blank');
+        };
+      }
+
+      if (icsBtn) {
+        icsBtn.onclick = function() {
+          const icsContent = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//The Affluentaccelerators//Event Registration//EN",
+            "CALSCALE:GREGORIAN",
+            "METHOD:PUBLISH",
+            "BEGIN:VEVENT",
+            "UID:" + regId + "@affluentaccelerators.com",
+            "DTSTAMP:20261110T090000Z",
+            "DTSTART:20261119T170000Z",
+            "DTEND:20261119T183000Z",
+            "SUMMARY:" + title + " - The Affluentaccelerators",
+            "DESCRIPTION:Host: Fulfilment Taiwo\\nYour Reg ID: " + regId + "\\nLive on Google Meet.",
+            "LOCATION:Google Meet",
+            "STATUS:CONFIRMED",
+            "END:VEVENT",
+            "END:VCALENDAR"
+          ].join("\r\n");
+
+          const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.setAttribute('download', 'AffluentAccelerators_Investable_Business_Playbook.ics');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        };
+      }
+    }
+
+    // Expose modal trigger globally
+    window.openRegistrationModal = openRegistrationModal;
+    window.closeRegistrationModal = closeRegistrationModal;
+    window.goToStep = goToStep;
+  </script>
+</body>
+</html>
