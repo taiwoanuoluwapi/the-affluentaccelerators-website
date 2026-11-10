@@ -220,6 +220,18 @@
       "created_at": "2026-11-10T14:13:08.273Z",
       "sender": "ios",
       "is_cancelled": true
+    },
+    {
+      "id": "d60f76c0-a585-45a8-bd75-d729284acdf9",
+      "role": "user",
+      "content": "now I would love to collapse the audit and inquiry for together, since they have similar questions, let's make it one form for both track but a drop down select that changes if it's a free audit they're looking for or an indepth enquiry, I think they're quite the same, so we definitely might need to delete one of those tabs on the Google sheets and also the general submission tab, because we also have another input source from our app where BDR can also submit forms in these enquiries, so we want to just be able to track the source, either from our free audit track, the consult/inquiry, or an agent filed it in as a new lead, so let unique form include their business location, team size and web or social URL if it doesn't already include them",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T14:37:20.226Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
