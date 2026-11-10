@@ -915,6 +915,82 @@ function ensureEventRegistrationsSheet(spreadsheet) {
   return sheet;
 }
 
+function ensurePublishedEventsSheet(spreadsheet) {
+  var sheet = spreadsheet.getSheetByName(TAB_PUBLISHED_EVENTS);
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(TAB_PUBLISHED_EVENTS);
+    sheet.appendRow(PUBLISHED_EVENTS_HEADERS);
+    styleExecutiveHeader(sheet, PUBLISHED_EVENTS_HEADERS.length);
+  }
+  return sheet;
+}
+
+function handlePublishEvent(spreadsheet, payload) {
+  var sheet = ensurePublishedEventsSheet(spreadsheet);
+  var eventData = payload.event || payload;
+
+  var eventId = (eventData.eventId || eventData.id || "EVENT").toString().trim();
+  var title = (eventData.eventTitle || eventData.title || "").toString().trim();
+  var category = eventData.category || "Executive Masterclass";
+  var date = eventData.date || "";
+  var time = eventData.time || "";
+  var timezone = eventData.timezone || "WAT";
+  var dateFormatted = eventData.dateFormatted || (date + " • " + time + " " + timezone);
+  var venue = eventData.venue || "Live on Google Meet";
+  var host = eventData.host || "Fulfilment Taiwo (Lead Consultant)";
+  var description = eventData.description || "";
+  var flyer = eventData.flyer || "";
+  var tabName = eventData.tabName || (eventId + " – " + title);
+  var status = eventData.status || "Upcoming";
+  var publishedAt = eventData.publishedAt || new Date().toISOString();
+
+  // If flyer image file Base64 is uploaded, save to Google Drive
+  if (eventData.flyerFile && eventData.flyerFile.base64) {
+    try {
+      var uploadResult = saveFileToDrive(eventData.flyerFile, "AffluentAccelerators_Event_Flyers", eventId, "Flyer");
+      flyer = uploadResult.fileUrl;
+    } catch (e) {
+      Logger.log("Flyer upload note: " + e.toString());
+    }
+  }
+
+  // Pre-create/verify the centralized event registrations sheet as well
+  ensureEventRegistrationsSheet(spreadsheet);
+
+  // Check if event already exists in sheet to update or append
+  var lastRow = sheet.getLastRow();
+  var updated = false;
+  if (lastRow > 1) {
+    var range = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var r = 0; r < range.length; r++) {
+      if (range[r][0] && range[r][0].toString().trim().toUpperCase() === eventId.toUpperCase()) {
+        var rowNum = r + 2;
+        sheet.getRange(rowNum, 1, 1, PUBLISHED_EVENTS_HEADERS.length).setValues([[
+          eventId, title, category, date, time, timezone, dateFormatted, venue, host, description, flyer, tabName, status, publishedAt
+        ]]);
+        updated = true;
+        break;
+      }
+    }
+  }
+
+  if (!updated) {
+    sheet.appendRow([
+      eventId, title, category, date, time, timezone, dateFormatted, venue, host, description, flyer, tabName, status, publishedAt
+    ]);
+  }
+
+  return {
+    status: "success",
+    message: "Event published and recorded in 'Events' sheet tab.",
+    eventId: eventId,
+    eventTitle: title,
+    targetSheet: TAB_PUBLISHED_EVENTS,
+    flyerUrl: flyer,
+    spreadsheetUrl: spreadsheet.getUrl()
+  };
+}
+
 function ensureBusinessAuditsSheet(spreadsheet) {
   var sheet = spreadsheet.getSheetByName(TAB_AUDITS);
   if (!sheet) {
