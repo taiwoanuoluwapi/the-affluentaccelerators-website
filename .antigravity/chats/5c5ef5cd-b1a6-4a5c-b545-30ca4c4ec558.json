@@ -244,6 +244,18 @@
       "created_at": "2026-11-10T14:54:03.468Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "c8138406-4201-4d8e-8c70-9a6834693598",
+      "role": "user",
+      "content": "by the way, change all the dropdown options, especially the indepth and BDR/agent option, we would attend to all inquires eitherway free but I want the dropdown to rather say, Are they either looking for a one-time free audit or a paid indepth strategy & review",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T15:35:23.582Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
