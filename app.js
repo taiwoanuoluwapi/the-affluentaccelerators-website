@@ -1157,9 +1157,13 @@ class CentralEventManager {
     const record = this.state.registrations.find(r => r.id === regId);
     if (!record) return false;
 
-    const webhookUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || EVENTS_GOOGLE_SHEETS_WEBHOOK_URL;
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       localStorage.getItem('AA_EVENTS_SHEETS_URL') ||
+                       localStorage.getItem('AA_INQUIRIES_SHEETS_URL') ||
+                       EVENTS_GOOGLE_SHEETS_WEBHOOK_URL ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
     if (!webhookUrl || !webhookUrl.startsWith('http')) {
-      console.warn("[Events Sync] Dedicated Events Webhook URL not configured yet. Registration is securely saved in local database.");
+      console.warn("[Events Sync] Unified Events Webhook URL not configured yet. Registration is securely saved in local database.");
       return false;
     }
 
