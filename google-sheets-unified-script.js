@@ -234,14 +234,16 @@ function testEventRegistration() {
 }
 
 /**
- * 2. Execute & Test Business Audit Form
+ * 2. Execute & Test Business Audit Track (In Unified Tab)
  */
 function testBusinessAuditForm() {
-  Logger.log("Executing Business Audit Form function...");
+  Logger.log("Executing Business Audit Form test in unified Business Audits & Inquiries tab...");
   var spreadsheet = getMasterSpreadsheet();
   var sampleAuditPayload = {
-    formType: "business-audit",
-    id: "AUDIT-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    formType: "audit-inquiry",
+    track: "Free Business Audit (Video / Audio Diagnostic)",
+    source: "Website - Free Audit Track",
+    id: "AUD-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
       name: "Chidinma Nwosu",
@@ -249,11 +251,14 @@ function testBusinessAuditForm() {
       whatsapp: "+234 812 987 6543",
       email: "chidinma@luxeflora.ng",
       industry: "Beauty, Hairdressing & Makeup (Salons, Spas, MUAs, Barbers)",
+      location: "Lagos, Nigeria",
+      teamSize: "2 – 5 Employees (Micro Enterprise)",
+      website: "https://instagram.com/luxefloraskin",
       stage: "Early-Stage Generating First Sales",
       description: "Direct-to-consumer organic skincare formulated for African skin tones.",
       struggles: "Bottleneck: Customer acquisition costs on Instagram ads keep rising, low repeat purchase rate.",
       goal: "Achieve ₦5,000,000 monthly recurring revenue within 90 days.",
-      preferredFormat: "Video Audit"
+      preferredFormat: "Custom Video Audit (Loom / Screen & Face)"
     }
   };
   var result = handleGeneralFormSubmission(spreadsheet, sampleAuditPayload);
@@ -262,31 +267,87 @@ function testBusinessAuditForm() {
 }
 
 /**
- * 3. Execute & Test Consulting Inquiry Form
+ * 3. Execute & Test Consulting Inquiry Track (In Unified Tab)
  */
 function testConsultingInquiryForm() {
-  Logger.log("Executing Consulting Inquiry Form function...");
+  Logger.log("Executing Consulting Inquiry Form test in unified Business Audits & Inquiries tab...");
   var spreadsheet = getMasterSpreadsheet();
   var sampleInquiryPayload = {
-    formType: "consulting-inquiry",
+    formType: "audit-inquiry",
+    track: "In-Depth Consulting Inquiry (Advisory & Strategy)",
+    source: "Website - In-Depth Inquiry Track",
     id: "INQ-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
       name: "Tunde Bakare",
-      businessName: "AgroPulse Technologies",
+      businessName: "AgroPulse Technologies Ltd",
       email: "tunde@agropulse.io",
-      phone: "+234 809 555 4321",
+      whatsapp: "+234 809 555 4321",
       industry: "Agriculture & Agribusiness",
       location: "Abuja, Nigeria",
+      teamSize: "21 – 50 Employees (Established SME)",
+      website: "https://agropulse.io",
       stage: "Consistent Revenue ($10k - $100k/yr)",
-      supportType: "Commercial Strategy & Operational Structuring",
-      challenges: "Bottleneck: Scaling from 1 state to 5 states requires standardized field ops SOPs and distributor agreements.",
+      supportType: "Operations & Systems Optimization",
+      struggles: "Bottleneck: Scaling from 1 state to 5 states requires standardized field ops SOPs and distributor agreements.",
       description: "Digital outgrower network connecting smallholders to industrial grain millers.",
       notes: "Looking to engage Affluentaccelerators for a 90-day advisory sprint."
     }
   };
   var result = handleGeneralFormSubmission(spreadsheet, sampleInquiryPayload);
   Logger.log("Consulting Inquiry Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 3b. Execute & Test BDR / Agent In-Field Lead Intake
+ */
+function testBdrInFieldLeadSubmission() {
+  Logger.log("Executing BDR In-Field Lead Intake test in unified Business Audits & Inquiries tab...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleBdrPayload = {
+    formType: "audit-inquiry",
+    track: "BDR / Agent In-Field Lead",
+    source: "BDR App: Agent Adeola",
+    id: "BDR-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Ibrahim Dantata",
+      businessName: "Savannah Cold Chain Logistics",
+      whatsapp: "+234 802 777 8899",
+      email: "i.dantata@savannahlogistics.com",
+      industry: "Logistics, Supply Chain, Freight & Transport",
+      location: "Kano & Lagos, Nigeria",
+      teamSize: "51 – 200 Employees (Mid-Market)",
+      website: "https://savannahcoldchain.com",
+      stage: "Scaling SME ($100k - $1M/yr)",
+      description: "Temperature-controlled freight logistics for pharmaceutical distributors and perishables.",
+      struggles: "Cash flow gap due to 60-day client credit terms, fleet diesel overheads.",
+      supportType: "Business Strategy & Advisory",
+      bdrNotes: "Met MD at Northern Agro Summit. Requested urgent consultation on invoice discounting and operational audit."
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleBdrPayload);
+  Logger.log("BDR Lead Intake Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 3c. One-Click Tab Consolidation & Cleanup:
+ * Run this function in Apps Script to migrate old tabs into 'Business Audits & Inquiries'
+ * and permanently delete the obsolete 'Business Audits', 'Consulting Inquiries' and 'General Submissions' tabs!
+ */
+function testAuditAndInquiryConsolidation() {
+  Logger.log("Running Tab Consolidation and Obsolete Sheet Cleanup...");
+  var spreadsheet = getMasterSpreadsheet();
+  var result = consolidateAuditAndInquiryTabs(spreadsheet);
+  Logger.log("Consolidation Result: " + JSON.stringify(result));
+  
+  // Submit sample test records across tracks to verify operation
+  testBusinessAuditForm();
+  testConsultingInquiryForm();
+  testBdrInFieldLeadSubmission();
+  
   return result;
 }
 
