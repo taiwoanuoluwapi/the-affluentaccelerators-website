@@ -88,6 +88,18 @@
       "created_at": "2026-11-10T10:00:09.388Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "95b74b2e-c349-481c-928f-afc54ec6c93c",
+      "role": "user",
+      "content": "I attached an image: images/photo-1794307101-96675ab0.jpg.\n\ni like the way you asked general business discovery questions on the form, but for this 4th section with webinar specific questions like getting the playbook, would it have to be repeated for all events? I think you can can put it as would you like to get the playbook or work materials for this event if there are, I also want this 4th part of the form to not necessarily call out my name Fulfilment, let it be: do have a question for our guest? or particularly for this conversation? also on the final confirmation page where they get the link to add to their calendar, I also want the channel invite to be a visible bold button like the add to calendars, so attendee can easily join in",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T10:45:29.860Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
