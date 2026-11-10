@@ -509,7 +509,12 @@ class AffluentApp {
         this.closeModal('modal-consulting-inquiry');
         this.showConfirmationModal(
           'Consultation Request Received',
-          'Thank you. Your strategic diagnostic inquiry has been recorded. Our senior advisory practice will review your profile and reach out within 24 business hours.'
+          'Thank you. Your strategic diagnostic inquiry has been recorded. Our senior advisory practice will review your profile and reach out within 24 business hours.',
+          {
+            type: 'channel',
+            buttonText: 'Join Our WhatsApp Channel',
+            subtext: 'Stay ahead with executive insights, strategy frameworks, and business advisory drops.'
+          }
         );
       });
     }
@@ -562,7 +567,12 @@ class AffluentApp {
         this.closeModal('modal-analyst-application');
         this.showConfirmationModal(
           'Application Successfully Submitted',
-          'Your application for the 90-Day Business Consultant/Analyst Development Programme has been logged. Our admissions committee will review your profile and follow up via WhatsApp / email.'
+          'Your application for the 90-Day Business Consultant/Analyst Development Programme has been logged. Our admissions committee will review your profile and follow up via WhatsApp / email.',
+          {
+            type: 'community',
+            buttonText: 'Join Our Community for More Updates',
+            subtext: 'Join our WhatsApp group for cohort alerts, applicant updates, and interactive sessions.'
+          }
         );
       });
     }
@@ -625,7 +635,12 @@ class AffluentApp {
         this.closeModal('modal-internship-application');
         this.showConfirmationModal(
           'Internship Application Received',
-          'Thank you for your interest in practical exposure with The Affluentaccelerators team. Our talent council reviews applications on a rolling basis.'
+          'Thank you for your interest in practical exposure with The Affluentaccelerators team. Our talent council reviews applications on a rolling basis.',
+          {
+            type: 'community',
+            buttonText: 'Join Our Community for More Updates',
+            subtext: 'Join our WhatsApp community group to receive candidate updates and announcements.'
+          }
         );
       });
     }
@@ -689,17 +704,50 @@ class AffluentApp {
         this.closeModal('modal-business-audit');
         this.showConfirmationModal(
           'Free Business Audit Request Received',
-          'Thank you! Your business breakdown has been delivered directly to our team. An available consultant will review your diagnostics and deliver a personalized audit directly to your WhatsApp number within 24 hours. Be sure to also join our WhatsApp Channel for continuous executive briefings.'
+          'Thank you! Your business breakdown has been delivered directly to our team. An available consultant will review your diagnostics and deliver a personalized audit directly to your WhatsApp number within 24 hours.',
+          {
+            type: 'channel',
+            buttonText: 'Join Our WhatsApp Channel',
+            subtext: 'Join our official WhatsApp channel for executive breakdowns and continuous advisory briefings.'
+          }
         );
       });
     }
   }
 
-  showConfirmationModal(title, message) {
+  showConfirmationModal(title, message, options = {}) {
     const modal = document.getElementById('modal-confirmation');
     if (!modal) return;
-    document.getElementById('confirmation-title').textContent = title;
-    document.getElementById('confirmation-message').textContent = message;
+    const titleEl = document.getElementById('confirmation-title');
+    const msgEl = document.getElementById('confirmation-message');
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = message;
+
+    const actionBtn = document.getElementById('confirmation-action-btn');
+    const actionText = document.getElementById('confirmation-action-text');
+    const actionSubtext = document.getElementById('confirmation-action-subtext');
+
+    const CHANNEL_URL = "https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q";
+    const COMMUNITY_URL = "https://chat.whatsapp.com/CoW7p5gFPZOG9E5culFdD4?s=cl&p=a&mlu=4&iam=2";
+
+    const type = options.type || 'channel'; // 'channel' or 'community'
+
+    if (actionBtn && actionText) {
+      if (type === 'community') {
+        actionBtn.href = options.url || (this.state.cms && this.state.cms.whatsappCommunity) || COMMUNITY_URL;
+        actionText.textContent = options.buttonText || 'Join Our Community for More Updates';
+        if (actionSubtext) {
+          actionSubtext.textContent = options.subtext || 'Join our WhatsApp group for cohort alerts, applicant updates, and interactive sessions.';
+        }
+      } else {
+        actionBtn.href = options.url || (this.state.cms && this.state.cms.whatsappChannel) || CHANNEL_URL;
+        actionText.textContent = options.buttonText || 'Join Our WhatsApp Channel';
+        if (actionSubtext) {
+          actionSubtext.textContent = options.subtext || 'Stay ahead with executive insights, strategy frameworks, and business advisory drops.';
+        }
+      }
+    }
+
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
