@@ -1177,11 +1177,11 @@
       });
     });
 
-    // Mobile Sidebar Drawer Controls
+    // Sidebar Drawer & Toggle Controls (Mobile & Desktop)
     const adminSidebar = document.getElementById('admin-sidebar');
     const sidebarBackdrop = document.getElementById('sidebar-backdrop');
     const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
-    const mobileSidebarToggleInline = document.getElementById('mobile-sidebar-toggle-inline');
+    const desktopSidebarToggle = document.getElementById('desktop-sidebar-toggle');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
 
     function openMobileSidebar() {
@@ -1201,9 +1201,14 @@
     }
 
     if (mobileSidebarToggle) mobileSidebarToggle.addEventListener('click', openMobileSidebar);
-    if (mobileSidebarToggleInline) mobileSidebarToggleInline.addEventListener('click', openMobileSidebar);
     if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMobileSidebar);
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
+
+    if (desktopSidebarToggle && adminSidebar) {
+      desktopSidebarToggle.addEventListener('click', function() {
+        adminSidebar.classList.toggle('md:hidden');
+      });
+    }
 
     // Sidebar Reset PIN Handler
     const sidebarResetPinBtn = document.getElementById('btn-sidebar-reset-pin');
