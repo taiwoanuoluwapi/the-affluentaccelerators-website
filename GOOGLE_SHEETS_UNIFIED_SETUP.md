@@ -47,8 +47,8 @@ graph TD
 3. **`Business Audits & Inquiries`** *(NEW Consolidated Lead Tab)*:
    - **`Reference ID`** (e.g. `INQ-4821`, `AUD-1042`, `BDR-9302`)
    - **`Submission Time`**
-   - **`Submission Track`** (`Free Business Audit`, `In-Depth Consulting Inquiry`, `BDR / Agent In-Field Lead`)
-   - **`Lead Source`** (`Website - Free Audit Track`, `Website - In-Depth Inquiry`, `BDR App: Agent Name`, `Trade Expo`, etc.)
+   - **`Submission Track`** (`One-Time Free Audit`, `Paid In-Depth Strategy & Review`, `BDR / Agent In-Field Lead`)
+   - **`Lead Source`** (`Website - One-Time Free Audit Track`, `Website - Paid In-Depth Strategy Track`, `BDR App: Agent Name`, `Trade Expo`, etc.)
    - **`Full Name`**
    - **`Business Name`**
    - **`WhatsApp Number`**
