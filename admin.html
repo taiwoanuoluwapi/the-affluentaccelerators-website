@@ -353,19 +353,45 @@
 
         </div>
 
-        <!-- Setup Instructions Quick Box -->
-        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-sm space-y-2">
-          <div class="flex items-center justify-between">
+        <!-- Setup Instructions Quick Box (Clearly Separated Scripts) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Events Script Card -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                1. Events Database Script
+              </span>
+              <a href="GOOGLE_SHEETS_EVENTS_SETUP.md" target="_blank" class="text-xs text-forest-800 hover:text-gold-600 font-bold">
+                Events Guide ↗
+              </a>
+            </div>
             <h4 class="font-heading font-bold text-sm text-slate-900">
-              Apps Script Guide &amp; Master Template
+              google-sheets-events-script.js
             </h4>
-            <a href="GOOGLE_SHEETS_SETUP.md" target="_blank" class="text-xs text-forest-800 hover:text-gold-600 font-bold">
-              View Guide ↗
-            </a>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Dedicated script for <strong>THE AFFLUENTACCELERATORS – EVENTS &amp; REGISTRATION DATABASE</strong>. Auto-creates event tabs, calculates KPI formulas on the Overview Dashboard, and logs all event attendees.
+            </p>
           </div>
-          <p class="text-xs text-slate-600">
-            Need to update or re-deploy? Copy the updated code from <code class="bg-slate-100 px-1 py-0.5 rounded text-forest-900 font-mono">google-sheets-script.js</code> and paste it into Extensions &gt; Apps Script in your spreadsheet.
-          </p>
+
+          <!-- Inquiries Script Card -->
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                2. Inquiries &amp; Hiring Script
+              </span>
+              <a href="GOOGLE_SHEETS_INQUIRIES_SETUP.md" target="_blank" class="text-xs text-forest-800 hover:text-gold-600 font-bold">
+                Inquiries Guide ↗
+              </a>
+            </div>
+            <h4 class="font-heading font-bold text-sm text-slate-900">
+              google-sheets-inquiries-script.js
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Dedicated script for <strong>The Affluentaccelerators - Submissions &amp; Leads</strong>. Handles General Inquiries, Diagnostic Audits, and Internship/Analyst job applications with Google Drive CV uploads.
+            </p>
+          </div>
+
         </div>
 
       </div>
