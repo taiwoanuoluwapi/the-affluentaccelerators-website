@@ -105,8 +105,8 @@ var EVENT_REGISTRATIONS_HEADERS = [
 var AUDIT_INQUIRY_HEADERS = [
   "Reference ID",
   "Submission Time",
-  "Submission Track",            // "Free Business Audit", "In-Depth Consulting Inquiry", "BDR / Agent In-Field Lead"
-  "Lead Source",                // "Website - Free Audit Track", "Website - In-Depth Inquiry", "BDR App", "Agent Filed Lead", etc.
+  "Submission Track",            // "One-Time Free Audit", "Paid In-Depth Strategy & Review", "BDR / Agent In-Field Lead"
+  "Lead Source",                // "Website - One-Time Free Audit Track", "Website - Paid In-Depth Strategy Track", "BDR App", etc.
   "Full Name",
   "Business Name",
   "WhatsApp Number",
@@ -241,8 +241,8 @@ function testBusinessAuditForm() {
   var spreadsheet = getMasterSpreadsheet();
   var sampleAuditPayload = {
     formType: "audit-inquiry",
-    track: "Free Business Audit (Video / Audio Diagnostic)",
-    source: "Website - Free Audit Track",
+    track: "One-Time Free Audit",
+    source: "Website - One-Time Free Audit Track",
     id: "AUD-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
@@ -274,8 +274,8 @@ function testConsultingInquiryForm() {
   var spreadsheet = getMasterSpreadsheet();
   var sampleInquiryPayload = {
     formType: "audit-inquiry",
-    track: "In-Depth Consulting Inquiry (Advisory & Strategy)",
-    source: "Website - In-Depth Inquiry Track",
+    track: "Paid In-Depth Strategy & Review",
+    source: "Website - Paid In-Depth Strategy Track",
     id: "INQ-TEST-" + Math.floor(1000 + Math.random() * 9000),
     timestamp: getFormattedTimestamp(),
     data: {
