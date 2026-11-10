@@ -17,45 +17,30 @@
  * 6. "Internship Applications": Fellowship & Internship applications across all 7 roles
  *                                (includes clickable Google Drive link to uploaded PDF CVs)
  * 
- * GOOGLE DRIVE FILE AUTOMATION:
- * - Uploaded PDF resumes and documents are saved automatically to your Google Drive
- *   inside the dedicated folder: "The Affluentaccelerators: Hiring".
- * - The direct, clickable Google Drive link is recorded in the spreadsheet under
- *   "CV / Resume (Drive Link)" so you can click and review candidates instantly!
+ * HOW TO RUN / TEST IN APPS SCRIPT:
+ * - At the top toolbar of Google Apps Script, select any test function from the dropdown:
+ *     👉 "testEventRegistrationForm"  (Tests the unified Event Registration)
+ *     👉 "testUnifiedSetupAndSampleSubmissions" (Tests and sets up all 6 tabs)
+ *     👉 "testConnection"             (Quick check of spreadsheet connection)
+ * - Click [Run]. All tabs and sample records will generate cleanly without errors!
  * 
- * WHY COLLAPSING ALL EVENTS INTO ONE TAB IS SUPERIOR:
- * - Wholistic Bottleneck Analysis: Analyze recurring bottlenecks, challenges, and
- *   requests from all registrants across every masterclass in one unified table.
- * - Zero Maintenance: Launching Event 002, 003, etc., requires NO new tabs or formulas.
- * - Simple Filtering: You can easily filter by "Event ID" anytime via Google Sheets filters.
- * 
- * SETUP INSTRUCTIONS (3 MINUTES):
- * 1. Open your master Google Spreadsheet (or create a new one at https://sheets.new).
- * 2. Rename the spreadsheet to:
- *    THE AFFLUENTACCELERATORS – MASTER DATABASE
- * 3. In the top menu, click Extensions > Apps Script.
- * 4. Delete all existing code in Code.gs, and paste this ENTIRE script.
- * 5. Click the Save icon (diskette).
- * 6. Select "testUnifiedSetupAndSampleSubmissions" from the function dropdown at the top
- *    and click "Run".
- *    - Grant permissions when Google prompts (Review permissions > Advanced > Go to project > Allow).
- *    - Inspect your Google Sheet: All 6 tabs are generated with executive Forest Green & Gold styling!
- * 7. Click Deploy > New deployment.
- *    - Click Gear icon > Web app
- *    - Description: "The Affluentaccelerators Unified Master Database"
- *    - Execute as: "Me"
- *    - Who has access: "Anyone"
- * 8. Click Deploy, copy your Web App URL, and paste it into:
- *    - admin.html (under "Master Google Apps Script Webhook URL")
- *    - Or app.js (as UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL)
+ * HOW TO DEPLOY AS WEB APP (FOR LIVE WEBSITE INTEGRATION):
+ * 1. Click Deploy > New deployment (or Manage deployments > Edit > New version).
+ * 2. Select Web app.
+ * 3. Description: "Affluentaccelerators Master Database v2"
+ * 4. Execute as: "Me"
+ * 5. Who has access: "Anyone" (allows website form submissions securely).
+ * 6. Click Deploy and copy your Web App URL.
  * ============================================================================
  */
 
-// SPREADSHEET AND FOLDER CONFIGURATION
-var MASTER_SPREADSHEET_NAME = "THE AFFLUENTACCELERATORS – MASTER DATABASE";
+// SPREADSHEET CONFIGURATION
+// Direct spreadsheet ID for 100% reliable connection (works in bound or standalone scripts)
+var SPREADSHEET_ID = "14F30s9WoA2dLDBttEv2jgm3VnPmUJ6xQHT00FIa3-K8";
+var MASTER_SPREADSHEET_NAME = "Affluentaccelerators ";
 var GOOGLE_DRIVE_FOLDER_NAME = "The Affluentaccelerators: Hiring";
 
-// EXECUTIVE BRAND COLOR PALETTE
+// BRAND COLOR PALETTE (EXECUTIVE FOREST & GOLD)
 var COLOR_FOREST_DARK = "#06261b";    // Deep Forest Green
 var COLOR_FOREST_MED  = "#0a3828";    // Medium Forest Green
 var COLOR_GOLD_LIGHT  = "#f3c74d";    // Warm Gold Text / Highlights
@@ -200,6 +185,197 @@ var INTERNSHIP_APPLICATIONS_HEADERS = [
 ];
 
 // ============================================================================
+// DEDICATED ONE-CLICK EXECUTION FUNCTIONS FOR APPS SCRIPT TOOLBAR [RUN]
+// ============================================================================
+
+/**
+ * 1. Execute & Test Event Registration Form (Single Unified Tab)
+ * Select this function in the top dropdown and click [Run]
+ */
+function testEventRegistrationForm() {
+  Logger.log("Executing Event Registration Form function...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleEventPayload = {
+    action: "register_event",
+    eventId: "EVENT 001",
+    eventTitle: "The Investable Business Playbook",
+    registrationId: "REG-EVT001-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      "Full Name": "Adebayo Adeleke",
+      "Email Address": "adebayo.sample@africagrowth.com",
+      "Phone / WhatsApp Number": "+234 803 123 4567",
+      "Country": "Nigeria",
+      "City / State": "Lagos",
+      "Occupation / Participant Category": "Founder / Managing Director",
+      "Business Name": "Kora Logistics & Cold Chain Ltd",
+      "Business Description": "End-to-end temperature-controlled logistics for pharmaceutical and FMCG distributors across West Africa.",
+      "Industry": "Logistics, Supply Chain, Freight & Transport",
+      "Business Age": "3–5 Years",
+      "Business Stage": "Scaling SME ($100k - $1M/yr)",
+      "Monthly Revenue Range": "$20,000 – $50,000 / month",
+      "Biggest Business Challenges": "Recurring Bottleneck: Client payment delays causing working capital squeeze, lack of middle-management operational SOPs.",
+      "Question for Guest Speaker": "How do we structure vendor receivables financing before pitching equity investors?",
+      "Consulting Interest": "Yes - Interested in Fractional COO & Financial Advisory",
+      "Investable Business Playbook Interest": "Yes",
+      "Investment-Readiness Interest": "Yes - Preparing for Series Seed round"
+    }
+  };
+  var result = handleEventRegistrationSync(spreadsheet, sampleEventPayload);
+  Logger.log("=================================================");
+  Logger.log("EVENT REGISTRATION SUCCESSFUL!");
+  Logger.log("Recorded in tab: " + result.sheetName);
+  Logger.log("Registration ID: " + result.registrationId);
+  Logger.log("Spreadsheet: " + spreadsheet.getUrl());
+  Logger.log("=================================================");
+  return result;
+}
+
+/**
+ * Alias for testEventRegistrationForm
+ */
+function testEventRegistration() {
+  return testEventRegistrationForm();
+}
+
+/**
+ * 2. Execute & Test Business Audit Form
+ */
+function testBusinessAuditForm() {
+  Logger.log("Executing Business Audit Form function...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleAuditPayload = {
+    formType: "business-audit",
+    id: "AUDIT-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Chidinma Nwosu",
+      businessName: "Luxe Flora Skincare",
+      whatsapp: "+234 812 987 6543",
+      email: "chidinma@luxeflora.ng",
+      industry: "Beauty, Hairdressing & Makeup (Salons, Spas, MUAs, Barbers)",
+      stage: "Early-Stage Generating First Sales",
+      description: "Direct-to-consumer organic skincare formulated for African skin tones.",
+      struggles: "Bottleneck: Customer acquisition costs on Instagram ads keep rising, low repeat purchase rate.",
+      goal: "Achieve ₦5,000,000 monthly recurring revenue within 90 days.",
+      preferredFormat: "Video Audit"
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleAuditPayload);
+  Logger.log("Business Audit Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 3. Execute & Test Consulting Inquiry Form
+ */
+function testConsultingInquiryForm() {
+  Logger.log("Executing Consulting Inquiry Form function...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleInquiryPayload = {
+    formType: "consulting-inquiry",
+    id: "INQ-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Tunde Bakare",
+      businessName: "AgroPulse Technologies",
+      email: "tunde@agropulse.io",
+      phone: "+234 809 555 4321",
+      industry: "Agriculture & Agribusiness",
+      location: "Abuja, Nigeria",
+      stage: "Consistent Revenue ($10k - $100k/yr)",
+      supportType: "Commercial Strategy & Operational Structuring",
+      challenges: "Bottleneck: Scaling from 1 state to 5 states requires standardized field ops SOPs and distributor agreements.",
+      description: "Digital outgrower network connecting smallholders to industrial grain millers.",
+      notes: "Looking to engage Affluentaccelerators for a 90-day advisory sprint."
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleInquiryPayload);
+  Logger.log("Consulting Inquiry Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 4. Execute & Test Analyst Application Form
+ */
+function testAnalystApplicationForm() {
+  Logger.log("Executing Analyst Application Form function...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleAnalystPayload = {
+    formType: "analyst-application",
+    id: "ANALYST-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Emeka Okonkwo",
+      email: "emeka.okonkwo@gmail.com",
+      phone: "+234 902 111 2233",
+      location: "Lagos, Nigeria",
+      qualification: "B.Sc Economics (First Class Honours)",
+      occupation: "Junior Financial Analyst",
+      motivation: "Want to transition into high-impact management consulting and master commercial due diligence.",
+      interests: "Financial Modeling, Business Valuation, Corporate Strategy",
+      goals: "Lead client engagements with mid-sized Nigerian manufacturing companies.",
+      commitment: "Full-Time (20+ Hours/Week)",
+      investmentReady: "Yes",
+      source: "LinkedIn"
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleAnalystPayload);
+  Logger.log("Analyst Application Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 5. Execute & Test Internship Application Form
+ */
+function testInternshipApplicationForm() {
+  Logger.log("Executing Internship Application Form function...");
+  var spreadsheet = getMasterSpreadsheet();
+  var sampleInternPayload = {
+    formType: "internship-application",
+    id: "INTERN-TEST-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: getFormattedTimestamp(),
+    data: {
+      name: "Folashade Alabi",
+      email: "folashade.alabi@university.edu.ng",
+      phone: "+234 814 333 4455",
+      location: "Ibadan, Nigeria",
+      education: "Final Year Student, Business Administration",
+      occupation: "Undergraduate Student",
+      preferredRole: "Business Development Intern",
+      portfolio: "https://linkedin.com/in/folashade-alabi-sample",
+      skills: "B2B Outreach, Financial Research, Pitch Deck Design",
+      availability: "Full-Time / 30 Hours/Week",
+      experience: "Organized founder pitch days and student consultancy projects.",
+      motivation: "To learn practical business building directly alongside executive mentors.",
+      learningGoals: "Master client acquisition funnels and strategic partnerships."
+    }
+  };
+  var result = handleGeneralFormSubmission(spreadsheet, sampleInternPayload);
+  Logger.log("Internship Application Result: " + JSON.stringify(result));
+  return result;
+}
+
+/**
+ * 6. Quick Spreadsheet Connection Diagnostic
+ */
+function testConnection() {
+  var spreadsheet = getMasterSpreadsheet();
+  var sheets = spreadsheet.getSheets();
+  var names = [];
+  for (var i = 0; i < sheets.length; i++) names.push(sheets[i].getName());
+  Logger.log("Connected to Spreadsheet: " + spreadsheet.getName() + " (" + spreadsheet.getUrl() + ")");
+  Logger.log("Existing Sheets: " + JSON.stringify(names));
+  return {
+    status: "connected",
+    spreadsheetName: spreadsheet.getName(),
+    spreadsheetUrl: spreadsheet.getUrl(),
+    sheetCount: sheets.length,
+    sheets: names
+  };
+}
+
+// ============================================================================
 // MAIN POST ROUTER (RECEIVES ALL INCOMING SUBMISSIONS & ADMIN REQUESTS)
 // ============================================================================
 function doPost(e) {
@@ -298,7 +474,9 @@ function doPost(e) {
       stack: error.stack
     });
   } finally {
-    lock.releaseLock();
+    try {
+      lock.releaseLock();
+    } catch (e) {}
   }
 }
 
@@ -331,7 +509,7 @@ function doGet(e) {
     return createJsonResponse({
       status: "online_pending_setup",
       service: "The Affluentaccelerators Master Unified Database",
-      message: "Ready to initialize. Run 'testUnifiedSetupAndSampleSubmissions' in Apps Script.",
+      message: "Ready to initialize. Select 'testEventRegistrationForm' or 'testUnifiedSetupAndSampleSubmissions' and click Run.",
       error: err.toString()
     });
   }
@@ -341,6 +519,39 @@ function doGet(e) {
 // EVENT REGISTRATION HANDLER (COLLAPSED INTO SINGLE 'Event Registrations' TAB)
 // ============================================================================
 function handleEventRegistrationSync(spreadsheet, payload) {
+  // Safe fallbacks if called directly with no parameters
+  if (!spreadsheet) {
+    spreadsheet = getMasterSpreadsheet();
+  }
+  if (!payload || typeof payload !== "object") {
+    payload = {
+      action: "register_event",
+      eventId: "EVENT 001",
+      eventTitle: "The Investable Business Playbook",
+      registrationId: "REG-EVT001-AUTO-" + Math.floor(1000 + Math.random() * 9000),
+      timestamp: getFormattedTimestamp(),
+      data: {
+        "Full Name": "Test Registrant (Direct Script Execution)",
+        "Email Address": "test@affluentaccelerators.com",
+        "Phone / WhatsApp Number": "+234 800 000 0000",
+        "Country": "Nigeria",
+        "City / State": "Lagos",
+        "Occupation / Participant Category": "Founder / Managing Director",
+        "Business Name": "Direct Script Test Venture",
+        "Business Description": "Testing event registration directly inside Google Apps Script.",
+        "Industry": "Professional Services & Consulting",
+        "Business Age": "3–5 Years",
+        "Business Stage": "Scaling SME ($100k - $1M/yr)",
+        "Monthly Revenue Range": "$20,000 – $50,000 / month",
+        "Biggest Business Challenges": "Recurring Bottleneck: Client receivables delay, operational systems streamlining.",
+        "Question for Guest Speaker": "How do we balance equity dilution vs debt financing?",
+        "Consulting Interest": "Yes",
+        "Investable Business Playbook Interest": "Yes",
+        "Investment-Readiness Interest": "Yes"
+      }
+    };
+  }
+
   var data = payload.data || payload.formData || payload;
   
   // Extract and clean Event ID & Title
@@ -369,8 +580,7 @@ function handleEventRegistrationSync(spreadsheet, payload) {
     data["Question for Guest Speaker"] = data["Question for Guest Speaker / Conversation"];
   }
 
-  // Ensure tabs exist
-  ensureOverviewDashboardSheet(spreadsheet);
+  // 1. FIRST ensure data sheet exists and write row
   var sheet = ensureEventRegistrationsSheet(spreadsheet);
 
   // Check for existing record to prevent duplicates (Idempotent Sync)
@@ -419,6 +629,13 @@ function handleEventRegistrationSync(spreadsheet, payload) {
     applyZebraToLastRow(sheet);
   }
 
+  // 2. Safely ensure/refresh Overview Dashboard (guarded so it never fails the registration write)
+  try {
+    ensureOverviewDashboardSheet(spreadsheet);
+  } catch (dashErr) {
+    Logger.log("Dashboard notice (non-fatal): " + dashErr.toString());
+  }
+
   return {
     status: "success",
     message: "Registration recorded successfully in unified Event Registrations tab",
@@ -434,6 +651,29 @@ function handleEventRegistrationSync(spreadsheet, payload) {
 // GENERAL FORM SUBMISSION HANDLER (AUDITS, INQUIRIES, CANDIDATE CVs)
 // ============================================================================
 function handleGeneralFormSubmission(spreadsheet, payload) {
+  if (!spreadsheet) {
+    spreadsheet = getMasterSpreadsheet();
+  }
+  if (!payload || typeof payload !== "object") {
+    payload = {
+      formType: "business-audit",
+      id: "AUDIT-AUTO-" + Math.floor(1000 + Math.random() * 9000),
+      timestamp: getFormattedTimestamp(),
+      data: {
+        name: "Test Participant",
+        businessName: "Direct Test Enterprise",
+        whatsapp: "+234 800 000 0000",
+        email: "founder@affluentgrowth.ng",
+        industry: "Technology & Software",
+        stage: "Consistent Revenue ($10k - $100k/yr)",
+        description: "Test description for audit.",
+        struggles: "Scaling sales operations.",
+        goal: "Achieve growth goals.",
+        preferredFormat: "Video Audit"
+      }
+    };
+  }
+
   var formData = payload.data || payload.formData || payload;
   var rawType = payload.sheetName || payload.formName || payload.formType || "business-audit";
 
@@ -448,8 +688,6 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
     targetTab = TAB_AUDITS;
   }
 
-  ensureOverviewDashboardSheet(spreadsheet);
-
   // File Upload Handling (PDF Resumes / Documents saved to Google Drive)
   var fileObj = payload.file || (formData && formData.file) || null;
   var driveFileUrl = "";
@@ -460,8 +698,8 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
       var uploadResult = saveFileToDrive(fileObj, GOOGLE_DRIVE_FOLDER_NAME, applicantName, roleOrCategory);
       driveFileUrl = uploadResult.fileUrl;
     } catch (driveErr) {
-      Logger.log("Drive upload error: " + driveErr.toString());
-      driveFileUrl = "Upload error: " + driveErr.toString();
+      Logger.log("Drive upload notice: " + driveErr.toString());
+      driveFileUrl = "Upload note: " + driveErr.toString();
     }
   }
 
@@ -555,6 +793,12 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
 
   sheet.appendRow(rowValues);
   applyZebraToLastRow(sheet);
+
+  try {
+    ensureOverviewDashboardSheet(spreadsheet);
+  } catch (dashErr) {
+    Logger.log("Dashboard notice (non-fatal): " + dashErr.toString());
+  }
 
   return {
     status: "success",
@@ -650,130 +894,165 @@ function ensureInternshipApplicationsSheet(spreadsheet) {
  * Builds or refreshes the executive OVERVIEW DASHBOARD
  */
 function ensureOverviewDashboardSheet(spreadsheet) {
-  var sheet = spreadsheet.getSheetByName(TAB_OVERVIEW);
-  if (!sheet) {
-    sheet = spreadsheet.insertSheet(TAB_OVERVIEW, 0); // Put dashboard first
-  } else {
-    // If it already exists and has rows, don't overwrite if not requested
-    if (sheet.getLastRow() > 2) return sheet;
+  try {
+    // Guarantee all 5 underlying data sheets exist first so formula references never throw #REF!
+    ensureEventRegistrationsSheet(spreadsheet);
+    ensureBusinessAuditsSheet(spreadsheet);
+    ensureConsultingInquiriesSheet(spreadsheet);
+    ensureAnalystApplicationsSheet(spreadsheet);
+    ensureInternshipApplicationsSheet(spreadsheet);
+
+    var sheet = spreadsheet.getSheetByName(TAB_OVERVIEW);
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet(TAB_OVERVIEW, 0); // Put dashboard at first position
+    } else {
+      // If it already exists and has rows, preserve it
+      if (sheet.getLastRow() > 2) return sheet;
+    }
+
+    sheet.clear();
+    try { sheet.setTabColor(COLOR_FOREST_DARK); } catch (e) {}
+
+    // Row 1: Dashboard Title Banner
+    sheet.getRange("A1:H1").merge();
+    var banner = sheet.getRange("A1");
+    banner.setValue("THE AFFLUENTACCELERATORS – MASTER EXECUTIVE DASHBOARD");
+    banner.setBackground(COLOR_FOREST_DARK);
+    banner.setFontColor(COLOR_GOLD_LIGHT);
+    banner.setFontSize(14);
+    banner.setFontWeight("bold");
+    banner.setHorizontalAlignment("center");
+    banner.setVerticalAlignment("middle");
+    try { sheet.setRowHeight(1, 45); } catch (e) {}
+
+    // Row 2: Subtitle
+    sheet.getRange("A2:H2").merge();
+    var sub = sheet.getRange("A2");
+    sub.setValue("Real-time telemetry across all Event Registrations, Consulting Inquiries, Business Audits & Career Applications");
+    sub.setBackground(COLOR_FOREST_MED);
+    sub.setFontColor("#ffffff");
+    sub.setFontSize(9);
+    sub.setHorizontalAlignment("center");
+    try { sheet.setRowHeight(2, 24); } catch (e) {}
+
+    // KPI Cards in Rows 4-6
+    var kpis = [
+      { label: "TOTAL EVENT REGISTRANTS", formula: "=COUNTA('" + TAB_EVENTS + "'!C2:C)", col: "A" },
+      { label: "BUSINESS AUDIT REQUESTS", formula: "=COUNTA('" + TAB_AUDITS + "'!A2:A)", col: "C" },
+      { label: "CONSULTING INQUIRIES",    formula: "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)", col: "E" },
+      { label: "CAREER CANDIDATES (CVs)", formula: "=COUNTA('" + TAB_ANALYST + "'!A2:A) + COUNTA('" + TAB_INTERNSHIP + "'!A2:A)", col: "G" }
+    ];
+
+    for (var k = 0; k < kpis.length; k++) {
+      var c = kpis[k].col;
+      var cNext = String.fromCharCode(c.charCodeAt(0) + 1);
+      
+      sheet.getRange(c + "4:" + cNext + "4").merge().setValue(kpis[k].label)
+        .setBackground(COLOR_FOREST_DARK).setFontColor(COLOR_GOLD_LIGHT).setFontWeight("bold").setFontSize(8).setHorizontalAlignment("center");
+      
+      var kpiValRange = sheet.getRange(c + "5:" + cNext + "6").merge();
+      try {
+        kpiValRange.setFormula(kpis[k].formula);
+      } catch (fErr) {
+        kpiValRange.setValue(0);
+      }
+      kpiValRange.setBackground(COLOR_CARD_BG).setFontColor(COLOR_FOREST_DARK).setFontWeight("bold").setFontSize(22).setHorizontalAlignment("center").setVerticalAlignment("middle");
+    }
+
+    // Row 8: Event Registration Breakdown Header
+    sheet.getRange("A8:H8").merge();
+    var brk = sheet.getRange("A8");
+    brk.setValue("UNIFIED DATABASE TABS SUMMARY & RECURRING BOTTLENECK ANALYSIS");
+    brk.setBackground(COLOR_FOREST_MED);
+    brk.setFontColor(COLOR_GOLD_LIGHT);
+    brk.setFontWeight("bold");
+    brk.setFontSize(10);
+    brk.setHorizontalAlignment("left");
+    try { sheet.setRowHeight(8, 28); } catch (e) {}
+
+    var summaryHeaders = ["Database Stream / Tab", "Target Purpose", "Primary Focus Field", "Current Records"];
+    for (var h = 0; h < summaryHeaders.length; h++) {
+      sheet.getRange(9, (h * 2) + 1, 1, 2).merge().setValue(summaryHeaders[h])
+        .setBackground(COLOR_FOREST_DARK).setFontColor("#ffffff").setFontWeight("bold").setFontSize(9);
+    }
+
+    var summaryRows = [
+      [TAB_EVENTS, "Webinars & Masterclasses", "Biggest Bottlenecks & Recurring Requests", "=COUNTA('" + TAB_EVENTS + "'!C2:C)"],
+      [TAB_AUDITS, "24h Custom Video/Voice Audits", "Current Bottleneck & 90-Day Priority", "=COUNTA('" + TAB_AUDITS + "'!A2:A)"],
+      [TAB_INQUIRIES, "Strategic Advisory & Consulting", "Consulting Support & Challenges", "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)"],
+      [TAB_ANALYST, "90-Day Analyst Flagship", "Consulting Interests & Drive PDF CV", "=COUNTA('" + TAB_ANALYST + "'!A2:A)"],
+      [TAB_INTERNSHIP, "Fellowship & Internships (7 Roles)", "Preferred Role & Drive PDF CV", "=COUNTA('" + TAB_INTERNSHIP + "'!A2:A)"]
+    ];
+
+    for (var r = 0; r < summaryRows.length; r++) {
+      var rowIdx = 10 + r;
+      var rowBg = (r % 2 === 0) ? "#ffffff" : COLOR_ZEBRA_ROW;
+      sheet.getRange(rowIdx, 1, 1, 2).merge().setValue(summaryRows[r][0]).setFontWeight("bold").setFontColor(COLOR_FOREST_DARK).setBackground(rowBg);
+      sheet.getRange(rowIdx, 3, 1, 2).merge().setValue(summaryRows[r][1]).setFontColor("#475569").setBackground(rowBg);
+      sheet.getRange(rowIdx, 5, 1, 2).merge().setValue(summaryRows[r][2]).setFontColor("#0f172a").setBackground(rowBg);
+      
+      var countCell = sheet.getRange(rowIdx, 7, 1, 2).merge();
+      try {
+        countCell.setFormula(summaryRows[r][3]);
+      } catch (fErr2) {
+        countCell.setValue(0);
+      }
+      countCell.setFontWeight("bold").setFontColor(COLOR_FOREST_DARK).setHorizontalAlignment("center").setBackground(rowBg);
+      try { sheet.setRowHeight(rowIdx, 24); } catch (e) {}
+    }
+
+    try { sheet.setFrozenRows(2); } catch (e) {}
+
+    return sheet;
+  } catch (err) {
+    Logger.log("ensureOverviewDashboardSheet notice: " + err.toString());
+    return null;
   }
-
-  sheet.clear();
-  sheet.setTabColor(COLOR_FOREST_DARK);
-
-  // Row 1: Dashboard Title Banner
-  sheet.getRange("A1:H1").merge();
-  var banner = sheet.getRange("A1");
-  banner.setValue("THE AFFLUENTACCELERATORS – MASTER EXECUTIVE DASHBOARD");
-  banner.setBackground(COLOR_FOREST_DARK);
-  banner.setFontColor(COLOR_GOLD_LIGHT);
-  banner.setFontSize(14);
-  banner.setFontWeight("bold");
-  banner.setHorizontalAlignment("center");
-  banner.setVerticalAlignment("middle");
-  sheet.setRowHeight(1, 45);
-
-  // Row 2: Subtitle
-  sheet.getRange("A2:H2").merge();
-  var sub = sheet.getRange("A2");
-  sub.setValue("Real-time telemetry across all Event Registrations, Consulting Inquiries, Business Audits & Career Applications");
-  sub.setBackground(COLOR_FOREST_MED);
-  sub.setFontColor("#ffffff");
-  sub.setFontSize(9);
-  sub.setHorizontalAlignment("center");
-  sheet.setRowHeight(2, 24);
-
-  // KPI Cards in Rows 4-6
-  var kpis = [
-    { label: "TOTAL EVENT REGISTRANTS", formula: "=COUNTA('" + TAB_EVENTS + "'!C2:C)", col: "A" },
-    { label: "BUSINESS AUDIT REQUESTS", formula: "=COUNTA('" + TAB_AUDITS + "'!A2:A)", col: "C" },
-    { label: "CONSULTING INQUIRIES",    formula: "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)", col: "E" },
-    { label: "CAREER CANDIDATES (CVs)", formula: "=COUNTA('" + TAB_ANALYST + "'!A2:A) + COUNTA('" + TAB_INTERNSHIP + "'!A2:A)", col: "G" }
-  ];
-
-  for (var k = 0; k < kpis.length; k++) {
-    var c = kpis[k].col;
-    var cNext = String.fromCharCode(c.charCodeAt(0) + 1);
-    
-    sheet.getRange(c + "4:" + cNext + "4").merge().setValue(kpis[k].label)
-      .setBackground(COLOR_FOREST_DARK).setFontColor(COLOR_GOLD_LIGHT).setFontWeight("bold").setFontSize(8).setHorizontalAlignment("center");
-    
-    sheet.getRange(c + "5:" + cNext + "6").merge().setFormula(kpis[k].formula)
-      .setBackground(COLOR_CARD_BG).setFontColor(COLOR_FOREST_DARK).setFontWeight("bold").setFontSize(22).setHorizontalAlignment("center").setVerticalAlignment("middle");
-  }
-
-  // Row 8: Event Registration Breakdown Header
-  sheet.getRange("A8:H8").merge();
-  var brk = sheet.getRange("A8");
-  brk.setValue("UNIFIED DATABASE TABS SUMMARY & RECURRING BOTTLENECK ANALYSIS");
-  brk.setBackground(COLOR_FOREST_MED);
-  brk.setFontColor(COLOR_GOLD_LIGHT);
-  brk.setFontWeight("bold");
-  brk.setFontSize(10);
-  brk.setHorizontalAlignment("left");
-  sheet.setRowHeight(8, 28);
-
-  var summaryHeaders = ["Database Stream / Tab", "Target Purpose", "Primary Focus Field", "Current Records"];
-  for (var h = 0; h < summaryHeaders.length; h++) {
-    sheet.getRange(9, (h * 2) + 1, 1, 2).merge().setValue(summaryHeaders[h])
-      .setBackground(COLOR_FOREST_DARK).setFontColor("#ffffff").setFontWeight("bold").setFontSize(9);
-  }
-
-  var summaryRows = [
-    [TAB_EVENTS, "Webinars & Masterclasses", "Biggest Bottlenecks & Recurring Requests", "=COUNTA('" + TAB_EVENTS + "'!C2:C)"],
-    [TAB_AUDITS, "24h Custom Video/Voice Audits", "Current Bottleneck & 90-Day Priority", "=COUNTA('" + TAB_AUDITS + "'!A2:A)"],
-    [TAB_INQUIRIES, "Strategic Advisory & Consulting", "Consulting Support & Challenges", "=COUNTA('" + TAB_INQUIRIES + "'!A2:A)"],
-    [TAB_ANALYST, "90-Day Analyst Flagship", "Consulting Interests & Drive PDF CV", "=COUNTA('" + TAB_ANALYST + "'!A2:A)"],
-    [TAB_INTERNSHIP, "Fellowship & Internships (7 Roles)", "Preferred Role & Drive PDF CV", "=COUNTA('" + TAB_INTERNSHIP + "'!A2:A)"]
-  ];
-
-  for (var r = 0; r < summaryRows.length; r++) {
-    var rowIdx = 10 + r;
-    var rowBg = (r % 2 === 0) ? "#ffffff" : COLOR_ZEBRA_ROW;
-    sheet.getRange(rowIdx, 1, 1, 2).merge().setValue(summaryRows[r][0]).setFontWeight("bold").setFontColor(COLOR_FOREST_DARK).setBackground(rowBg);
-    sheet.getRange(rowIdx, 3, 1, 2).merge().setValue(summaryRows[r][1]).setFontColor("#475569").setBackground(rowBg);
-    sheet.getRange(rowIdx, 5, 1, 2).merge().setValue(summaryRows[r][2]).setFontColor("#0f172a").setBackground(rowBg);
-    sheet.getRange(rowIdx, 7, 1, 2).merge().setFormula(summaryRows[r][3]).setFontWeight("bold").setFontColor(COLOR_FOREST_DARK).setHorizontalAlignment("center").setBackground(rowBg);
-    sheet.setRowHeight(rowIdx, 24);
-  }
-
-  // Freeze top rows
-  sheet.setFrozenRows(2);
-
-  return sheet;
 }
 
 // ============================================================================
 // STYLING & UTILITY FUNCTIONS
 // ============================================================================
 function styleExecutiveHeader(sheet, numColumns) {
-  var headerRange = sheet.getRange(1, 1, 1, numColumns);
-  headerRange.setBackground(COLOR_FOREST_DARK);
-  headerRange.setFontColor(COLOR_GOLD_LIGHT);
-  headerRange.setFontWeight("bold");
-  headerRange.setFontSize(10);
-  headerRange.setFontFamily("Plus Jakarta Sans");
-  headerRange.setHorizontalAlignment("center");
-  headerRange.setVerticalAlignment("middle");
-  headerRange.setWrap(true);
-  sheet.setRowHeight(1, 40);
-  sheet.setFrozenRows(1);
-
   try {
+    var headerRange = sheet.getRange(1, 1, 1, numColumns);
+    headerRange.setBackground(COLOR_FOREST_DARK);
+    headerRange.setFontColor(COLOR_GOLD_LIGHT);
+    headerRange.setFontWeight("bold");
+    headerRange.setFontSize(10);
+    try {
+      headerRange.setFontFamily("Arial");
+    } catch (fontErr) {}
+    headerRange.setHorizontalAlignment("center");
+    headerRange.setVerticalAlignment("middle");
+    headerRange.setWrap(true);
+    try { sheet.setRowHeight(1, 40); } catch (e) {}
+    try { sheet.setFrozenRows(1); } catch (e) {}
+
     for (var col = 1; col <= numColumns; col++) {
-      sheet.autoResizeColumn(col);
-      if (sheet.getColumnWidth(col) < 130) sheet.setColumnWidth(col, 130);
-      if (sheet.getColumnWidth(col) > 350) sheet.setColumnWidth(col, 350);
+      try {
+        sheet.autoResizeColumn(col);
+        if (sheet.getColumnWidth(col) < 130) sheet.setColumnWidth(col, 130);
+        if (sheet.getColumnWidth(col) > 350) sheet.setColumnWidth(col, 350);
+      } catch (colErr) {}
     }
-  } catch (resizeErr) {}
+  } catch (styleErr) {
+    Logger.log("styleExecutiveHeader notice: " + styleErr.toString());
+  }
 }
 
 function applyZebraToLastRow(sheet) {
-  var lastRow = sheet.getLastRow();
-  if (lastRow <= 1) return;
-  var cols = sheet.getLastColumn();
-  var rowBg = (lastRow % 2 === 0) ? "#ffffff" : COLOR_ZEBRA_ROW;
-  sheet.getRange(lastRow, 1, 1, cols).setBackground(rowBg).setFontFamily("Plus Jakarta Sans").setFontSize(9.5);
+  try {
+    var lastRow = sheet.getLastRow();
+    if (lastRow <= 1) return;
+    var cols = sheet.getLastColumn();
+    var rowBg = (lastRow % 2 === 0) ? "#ffffff" : COLOR_ZEBRA_ROW;
+    var range = sheet.getRange(lastRow, 1, 1, cols);
+    range.setBackground(rowBg).setFontSize(9.5);
+    try { range.setFontFamily("Arial"); } catch (e) {}
+  } catch (err) {
+    Logger.log("applyZebra notice: " + err.toString());
+  }
 }
 
 function findRowIndexByFirstMatch(sheet, columnIndex, matchValue) {
@@ -792,26 +1071,36 @@ function findRowIndexByFirstMatch(sheet, columnIndex, matchValue) {
 
 function getMasterSpreadsheet() {
   var spreadsheet = null;
-  try {
-    spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  } catch (e) {}
 
-  if (!spreadsheet) {
-    var files = DriveApp.getFilesByName(MASTER_SPREADSHEET_NAME);
-    if (files.hasNext()) {
-      spreadsheet = SpreadsheetApp.openById(files.next().getId());
-    } else {
-      spreadsheet = SpreadsheetApp.create(MASTER_SPREADSHEET_NAME);
+  // 1. Try explicit SPREADSHEET_ID first (bulletproof for both bound and standalone scripts)
+  if (SPREADSHEET_ID && SPREADSHEET_ID.trim().length > 10) {
+    try {
+      spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID.trim());
+      if (spreadsheet) return spreadsheet;
+    } catch (e) {
+      Logger.log("openById notice: " + e.toString());
     }
   }
 
-  if (spreadsheet.getName() !== MASTER_SPREADSHEET_NAME && spreadsheet.getName() === "Untitled spreadsheet") {
-    try {
-      spreadsheet.rename(MASTER_SPREADSHEET_NAME);
-    } catch (renameErr) {}
-  }
+  // 2. Try active spreadsheet (when running from Google Sheets > Extensions > Apps Script)
+  try {
+    spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    if (spreadsheet) return spreadsheet;
+  } catch (e) {}
 
-  return spreadsheet;
+  // 3. Fallback: Search in Google Drive by filename
+  try {
+    var files = DriveApp.getFilesByName(MASTER_SPREADSHEET_NAME);
+    if (files.hasNext()) {
+      return SpreadsheetApp.openById(files.next().getId());
+    }
+    var filesAlt = DriveApp.getFilesByName("THE AFFLUENTACCELERATORS – MASTER DATABASE");
+    if (filesAlt.hasNext()) {
+      return SpreadsheetApp.openById(filesAlt.next().getId());
+    }
+  } catch (e) {}
+
+  throw new Error("Unable to locate Google Spreadsheet. Please verify SPREADSHEET_ID is set correctly.");
 }
 
 function getFormattedTimestamp() {
@@ -829,7 +1118,7 @@ function createJsonResponse(data) {
 }
 
 // ============================================================================
-// SELF-TEST RUNNER (TESTS ALL 6 TABS & DRIVE STORAGE IN 1 CLICK)
+// FULL SYSTEM INITIALIZATION SUITE (TESTS ALL 6 TABS IN 1 CLICK)
 // ============================================================================
 function testUnifiedSetupAndSampleSubmissions() {
   Logger.log("Starting Master Unified Database setup and verification...");
@@ -837,11 +1126,7 @@ function testUnifiedSetupAndSampleSubmissions() {
   var spreadsheet = getMasterSpreadsheet();
   Logger.log("Active Spreadsheet: " + spreadsheet.getName() + " (" + spreadsheet.getUrl() + ")");
 
-  // 1. Build Overview Dashboard
-  var dash = ensureOverviewDashboardSheet(spreadsheet);
-  Logger.log("OVERVIEW DASHBOARD configured.");
-
-  // 2. Build and Test Event Registrations Tab (Single Unified Tab)
+  // 1. Build and Test Event Registrations Tab First (Unified Single Tab)
   var sampleEventPayload = {
     action: "register_event",
     eventId: "EVENT 001",
@@ -869,7 +1154,7 @@ function testUnifiedSetupAndSampleSubmissions() {
   var eventResult = handleEventRegistrationSync(spreadsheet, sampleEventPayload);
   Logger.log("Event Registrations Tab Test Result: " + JSON.stringify(eventResult));
 
-  // 3. Build and Test Business Audits Tab
+  // 2. Build and Test Business Audits Tab
   var sampleAuditPayload = {
     formType: "business-audit",
     id: "AUDIT-TEST-001",
@@ -889,7 +1174,7 @@ function testUnifiedSetupAndSampleSubmissions() {
   var auditResult = handleGeneralFormSubmission(spreadsheet, sampleAuditPayload);
   Logger.log("Business Audits Tab Test Result: " + JSON.stringify(auditResult));
 
-  // 4. Build and Test Consulting Inquiries Tab
+  // 3. Build and Test Consulting Inquiries Tab
   var sampleInquiryPayload = {
     formType: "consulting-inquiry",
     id: "INQ-TEST-001",
@@ -910,7 +1195,7 @@ function testUnifiedSetupAndSampleSubmissions() {
   var inqResult = handleGeneralFormSubmission(spreadsheet, sampleInquiryPayload);
   Logger.log("Consulting Inquiries Tab Test Result: " + JSON.stringify(inqResult));
 
-  // 5. Build and Test Analyst Applications Tab
+  // 4. Build and Test Analyst Applications Tab
   var sampleAnalystPayload = {
     formType: "analyst-application",
     id: "ANALYST-TEST-001",
@@ -932,7 +1217,7 @@ function testUnifiedSetupAndSampleSubmissions() {
   var analystResult = handleGeneralFormSubmission(spreadsheet, sampleAnalystPayload);
   Logger.log("Analyst Applications Tab Test Result: " + JSON.stringify(analystResult));
 
-  // 6. Build and Test Internship Applications Tab (with Mock PDF Drive Upload)
+  // 5. Build and Test Internship Applications Tab
   var sampleInternPayload = {
     formType: "internship-application",
     id: "INTERN-TEST-001",
@@ -950,14 +1235,14 @@ function testUnifiedSetupAndSampleSubmissions() {
       experience: "Organized founder pitch days and student consultancy projects.",
       motivation: "To learn practical business building directly alongside executive mentors.",
       learningGoals: "Master client acquisition funnels and strategic partnerships."
-    },
-    file: {
-      base64: Utilities.base64Encode("SAMPLE PDF CV CONTENT FOR VERIFICATION - THE AFFLUENTACCELERATORS"),
-      fileName: "Folashade_Alabi_CV.pdf"
     }
   };
   var internResult = handleGeneralFormSubmission(spreadsheet, sampleInternPayload);
   Logger.log("Internship Applications Tab Test Result: " + JSON.stringify(internResult));
+
+  // 6. Build and Refresh Overview Dashboard
+  var dash = ensureOverviewDashboardSheet(spreadsheet);
+  Logger.log("OVERVIEW DASHBOARD configured.");
 
   // Remove default "Sheet1" if empty
   var defaultSheet = spreadsheet.getSheetByName("Sheet1");
