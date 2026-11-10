@@ -466,14 +466,24 @@ class AffluentApp {
             : `<span>Transmitting to Advisory Council...</span>`;
         }
 
+        const trackVal = (formA.querySelector('#consulting-track') && formA.querySelector('#consulting-track').value) 
+          ? formA.querySelector('#consulting-track').value 
+          : "In-Depth Consulting Inquiry (Advisory & Strategy)";
+        const teamSizeVal = formA.querySelector('#consulting-team-size') ? formA.querySelector('#consulting-team-size').value : "6 – 20 Employees";
+        const websiteVal = formA.querySelector('#consulting-website') ? formA.querySelector('#consulting-website').value.trim() : "N/A";
+
         const leadData = {
-          "Reference ID": `CS-${Date.now().toString().slice(-4)}`,
+          "Reference ID": `INQ-${Date.now().toString().slice(-4)}`,
+          "Submission Track": trackVal,
+          "Lead Source": "Website - In-Depth Inquiry Track",
           "Full Name": formA.querySelector('#consulting-name').value.trim(),
           "Business Name": formA.querySelector('#consulting-business').value.trim(),
           "Work Email": formA.querySelector('#consulting-email').value.trim(),
           "Phone / WhatsApp": formA.querySelector('#consulting-phone').value.trim(),
           "Industry": formA.querySelector('#consulting-industry').value.trim(),
           "Business Location": formA.querySelector('#consulting-location').value.trim(),
+          "Team Size": teamSizeVal,
+          "Website or Social URL": websiteVal,
           "Business Stage": formA.querySelector('#consulting-stage').value,
           "Business Operations": formA.querySelector('#consulting-desc').value.trim(),
           "Core Challenges": formA.querySelector('#consulting-challenge').value.trim(),
@@ -481,7 +491,7 @@ class AffluentApp {
           "Additional Notes": (formA.querySelector('#consulting-notes') && formA.querySelector('#consulting-notes').value) ? formA.querySelector('#consulting-notes').value.trim() : 'N/A'
         };
 
-        await this.submitToGoogleSheet('Consulting Inquiries', leadData, fileObj);
+        await this.submitToGoogleSheet('Business Audits & Inquiries', leadData, fileObj);
 
         if (submitBtn) {
           submitBtn.disabled = false;
