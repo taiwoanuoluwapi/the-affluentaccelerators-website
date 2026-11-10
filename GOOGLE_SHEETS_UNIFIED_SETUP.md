@@ -1,119 +1,209 @@
 # 📊 The Affluentaccelerators – Unified Master Google Sheets & Apps Script Setup
 
-## 🎯 Architectural Recommendation: Why Collapsing All Events into 1 Tab is Superior
+## 🎯 Architecture: Consolidated Audits & Inquiries + BDR Lead Tracking
 
-You asked:
-> *"Which do you think is better for me? I collapse all the event form into one sheet tab instead of multiple tabs for a more wholistic analysis of the different businesses and recurring requests or bottlenecks from all our registrations, then each request is indicated by an event name field and ID..."*
+You requested to collapse the **Business Audit** and **Consulting Inquiry** forms into one unified form and database track:
+> *"now I would love to collapse the audit and inquiry for together, since they have similar questions, let's make it one form for both track but a drop down select that changes if it's a free audit they're looking for or an indepth enquiry, I think they're quite the same, so we definitely might need to delete one of those tabs on the Google sheets and also the general submission tab, because we also have another input source from our app where BDR can also submit forms in these enquiries, so we want to just be able to track the source, either from our free audit track, the consult/inquiry, or an agent filed it in as a new lead, so let unique form include their business location, team size and web or social URL if it doesn't already include them"*
 
-### Recommendation: Collapsing All Events into 1 Tab is 100% the Better Architecture
+### Why Consolidating Audits & Inquiries into 1 Tab is Superior
 
-Here is why having a single **`Event Registrations`** tab with `Event ID` and `Event Name` columns is much better than splitting registrations across multiple tabs:
-
-| Factor | Single Tab (`Event Registrations`) ✅ *(Recommended)* | Multiple Tabs per Event ❌ |
+| Benefit | Unified `Business Audits & Inquiries` Tab ✅ | Separate Tabs (Old System) ❌ |
 | :--- | :--- | :--- |
-| **Wholistic Bottleneck Analysis** | **Instant Cross-Business Insights**: You can run 1 Pivot Table or search keyword trends across **all** attendees to see recurring bottlenecks (e.g. *working capital*, *sales channels*, *talent acquisition*). | **Data Silos**: Each event is locked in its own tab. Running cross-event summaries requires cumbersome multi-tab `=QUERY()` formulas. |
-| **Recurring Request Tracking** | **Unified Demand Discovery**: Questions for guest speakers and specific requests across all cohorts sit in one column, revealing exactly what content or consulting services to launch next. | Questions are scattered across different tabs; hard to spot patterns. |
-| **Future Event Maintenance** | **Zero Setup Needed**: Launching `EVENT 002`, `EVENT 003`, etc., requires **no new tabs** and **no script changes**. Every registration is simply tagged with its `Event ID` and `Event Name`. | Every new event requires creating, naming, and formatting a new sheet tab. |
-| **Filtering & Slicing** | **1-Click Filter Views**: Need to view only attendees for `EVENT 001`? Just click the Google Sheets filter icon on the `Event ID` column, or create a Filter View. | You must switch between 10–20 tabs as your event history grows. |
-| **CRM / Export Readiness** | Easy to export a single CSV for email newsletters, WhatsApp broadcasts, or CRM imports. | Must manually merge 10+ tabs before exporting. |
+| **Omnichannel Lead Tracking** | Track whether each lead originated from **Website - Free Audit Track**, **Website - In-Depth Inquiry**, or was filed in the field by an agent via the **BDR App**. | Inquiries and audits were split into separate silos, making lead tracking fragmented. |
+| **Complete Commercial Profile** | Every lead now consistently captures **Business Location**, **Team Size / Employees**, and **Website / Social Media URL**. | Fields were inconsistent (Audit lacked location and team size; Inquiry lacked preferred format). |
+| **Streamlined Clean Sheets** | Deletes redundant old tabs (`Business Audits`, `Consulting Inquiries`, `General Submissions`) leaving **5 purpose-built tabs**. | Cluttered spreadsheet with multiple redundant tabs. |
+| **BDR App Direct Ingestion** | Sales reps & BDRs can submit in-field leads directly to this exact same webhook with their agent tag in `source`. | Separate scripts and webhooks required for field agents. |
 
 ---
 
-## 🏛️ Master Spreadsheet Architecture (Single Sheet, 6 Tabs)
+## 🏛️ Master Spreadsheet Architecture (Single Sheet, 5 Tabs)
 
 Your entire organization's data now lives in **one** Google Spreadsheet:
 **`THE AFFLUENTACCELERATORS – MASTER DATABASE`**
 
 ```mermaid
 graph TD
-    A["Website & Front-end Forms"] --> B["Unified Google Apps Script (Code.gs)"]
-    B --> C["Google Drive: 'The Affluentaccelerators: Hiring'<br/>(Stores PDF CVs & Resumes)"]
-    B --> D["Master Spreadsheet: THE AFFLUENTACCELERATORS – MASTER DATABASE"]
-    D --> E["Tab 1: OVERVIEW DASHBOARD (Real-time KPI metrics)"]
-    D --> F["Tab 2: Event Registrations (ALL events consolidated + Bottlenecks)"]
-    D --> G["Tab 3: Business Audits (Free custom strategy audits)"]
-    D --> H["Tab 4: Consulting Inquiries (Corporate advisory leads)"]
-    D --> I["Tab 5: Analyst Applications (90-Day programme + CV links)"]
-    D --> J["Tab 6: Internship Applications (7 roles + CV links)"]
+    A["Website Unified Form"] --> D["Unified Google Apps Script (Code.gs)"]
+    B["BDR Mobile / Web App"] --> D
+    C["Event Registration Form"] --> D
+    D --> E["Google Drive: 'The Affluentaccelerators: Hiring'<br/>(Stores PDF Documents & CVs)"]
+    D --> F["Master Spreadsheet: THE AFFLUENTACCELERATORS – MASTER DATABASE"]
+    F --> G["Tab 1: OVERVIEW DASHBOARD (Real-time KPI metrics & lead telemetry)"]
+    F --> H["Tab 2: Event Registrations (ALL events consolidated + Bottlenecks)"]
+    F --> I["Tab 3: Business Audits & Inquiries (Audits, Advisory & BDR Leads)"]
+    F --> J["Tab 4: Analyst Applications (90-Day programme + CV links)"]
+    F --> K["Tab 5: Internship Applications (7 roles + CV links)"]
 ```
 
-### Tab Breakdown & Key Diagnostic Columns
+### Tab Breakdown & Diagnostic Columns
 
 1. **`OVERVIEW DASHBOARD`**:
-   - Executive KPI cards with dynamic `=COUNTA()` formulas: Total Event Registrations, Total Business Audits, Total Consulting Inquiries, and Total Career Applicants.
+   - Real-time KPI cards: Total Event Registrations, Total Audits & Inquiries, Free Audits vs In-Depth ratio, and Career Candidates.
    - Live stream breakdown and recurring bottleneck tracking table.
 
 2. **`Event Registrations`** *(Single Unified Tab for All Masterclasses & Webinars)*:
-   - **`Event ID`** (e.g. `EVENT 001`, `EVENT 002`)
-   - **`Event Name`** (e.g. `The Investable Business Playbook`)
-   - `Registration ID` (e.g. `REG-EVT001-4921`)
-   - `Registration Date` & `Sync Timestamp`
-   - `Full Name`, `Email Address`, `Phone / WhatsApp Number`, `Country`, `City / State`
-   - `Occupation / Category`, `Business Name`, `Business Description`, `Industry`
-   - `Business Age`, `Business Stage`, `Monthly Revenue Range`
-   - `Business Registration`, `Financial Records`, `Operational Systems`
-   - **`Biggest Bottlenecks / Growth Challenges`** *(Key field for cross-business bottleneck diagnosis)*
-   - `Business Priorities`, `Learning Expectations`
-   - **`Question for Speaker / Specific Bottleneck Request`** *(Key field for recurring requests)*
-   - `Consulting Interest`, `Playbook Interest`, `Investment-Readiness Interest`
-   - `Attendance Status`, `Follow-up Status`
+   - `Event ID`, `Event Name`, `Registration ID`, `Registration Date`, `Full Name`, `Email Address`, `Phone / WhatsApp Number`, `Country`, `City / State`, `Occupation / Category`, `Business Name`, `Business Description`, `Industry`, `Business Age`, `Business Stage`, `Website / Social Link`, `Number of Employees`, `Monthly Revenue`, `Biggest Bottlenecks / Growth Challenges`, `Question for Speaker / Specific Bottleneck Request`, `Consulting Interest`, `Status`.
 
-3. **`Business Audits`**:
-   - `Reference ID`, `Submission Time`, `Full Name`, `Business Name`, `WhatsApp Number`, `Email Address`, `Industry`, `Current Business Stage`, `Business Description & Revenue Model`, `Current Bottleneck / Where Stuck`, `90-Day Growth Goal`, `Preferred Format (Video/Voice)`, `Status`.
+3. **`Business Audits & Inquiries`** *(NEW Consolidated Lead Tab)*:
+   - **`Reference ID`** (e.g. `INQ-4821`, `AUD-1042`, `BDR-9302`)
+   - **`Submission Time`**
+   - **`Submission Track`** (`Free Business Audit`, `In-Depth Consulting Inquiry`, `BDR / Agent In-Field Lead`)
+   - **`Lead Source`** (`Website - Free Audit Track`, `Website - In-Depth Inquiry`, `BDR App: Agent Name`, `Trade Expo`, etc.)
+   - **`Full Name`**
+   - **`Business Name`**
+   - **`WhatsApp Number`**
+   - **`Work Email Address`**
+   - **`Industry / Sector`**
+   - **`Business Location`** *(e.g. Lagos, Nigeria / Nairobi / London)*
+   - **`Team Size`** *(e.g. 1 Person, 2–5, 6–20, 21–50, 51–200, 200+)*
+   - **`Website or Social URL`** *(e.g. https://company.com, LinkedIn, Instagram)*
+   - **`Current Business Stage`** *(Pre-Revenue, Early Sales, Consistent Revenue, Scaling SME, Enterprise)*
+   - **`What Business Does & Revenue Model`**
+   - **`Core Bottleneck / Current Struggles`**
+   - **`Primary Goal / 90-Day Priority`**
+   - **`Consulting Support Required`**
+   - **`Preferred Audit Format`**
+   - **`Uploaded Document (Drive Link)`** *(Pitch deck / company brief)*
+   - **`Additional / BDR Notes`**
+   - **`Lead Status`** (`New Lead`, `Audit Dispatched`, `Consultant Assigned`, `Closed - Won`)
+   - **`Assigned Consultant / BDR`**
+   - **`Sync Timestamp`**
 
-4. **`Consulting Inquiries`**:
-   - `Reference ID`, `Submission Time`, `Full Name`, `Business Name`, `Email Address`, `Phone Number`, `Industry`, `Location`, `Business Stage`, `Consulting Support Required`, `Key Challenges & Objectives`, `Business Overview`, `Uploaded Document (Drive Link)`, `Status`.
+4. **`Analyst Applications`**:
+   - Full Name, Email, Phone, Location, Qualification, Occupation, **`CV / Resume (Drive Link)`**, Motivation, Goals, Tuition Readiness (₦175,000), Status.
 
-5. **`Analyst Applications`**:
-   - `Reference ID`, `Submission Time`, `Full Name`, `Email Address`, `Phone Number`, `Location`, `Highest Qualification`, `Current Occupation`, **`CV / Resume (Drive Link)`**, `Motivation & Why This Programme`, `Areas of Consulting Interest`, `Career Goals`, `Tuition Readiness (₦175,000)`, `Status`.
-
-6. **`Internship Applications`**:
-   - `Reference ID`, `Submission Time`, `Full Name`, `Email Address`, `Phone Number`, `Location`, `Educational Background`, `Current Occupation`, `Preferred Role`, **`CV / Resume (Drive Link)`**, `Portfolio / Links`, `Key Skills`, `Availability`, `Relevant Experience`, `Motivation`, `Learning Goals`, `Status`.
+5. **`Internship Applications`**:
+   - Full Name, Email, Phone, Location, Education, Occupation, Preferred Role, **`CV / Resume (Drive Link)`**, Portfolio, Skills, Availability, Status.
 
 ---
 
-## ⚡ 3-Minute Deployment Instructions
+## ⚡ 1-Click Tab Consolidation & Obsolete Tabs Deletion
 
-### Step 1: Open Your Master Google Spreadsheet
-1. Open your master Google Sheet (or create a new one at [https://sheets.new](https://sheets.new)).
-2. Name it:
+The script includes an automated migration and cleanup engine.
+
+### How to Clean Up Your Sheet in 10 Seconds:
+1. Open your master Google Sheet.
+2. In the top menu, click **Extensions** > **Apps Script**.
+3. Replace the code in editor with the latest `google-sheets-unified-script.js`. Click **Save** 💾.
+4. In the top toolbar dropdown (next to "Debug"), select:
    ```
-   THE AFFLUENTACCELERATORS – MASTER DATABASE
+   testAuditAndInquiryConsolidation
    ```
+5. Click **Run** ▶️.
 
-### Step 2: Paste the Unified Apps Script
-1. In the Google Sheets top menu, click **Extensions** > **Apps Script**.
-2. Select all existing text in the editor, delete it, and copy the entire contents of:
-   ```
-   google-sheets-unified-script.js
-   ```
-3. Click the **Save** (diskette) icon.
+**What Happens Automatically:**
+- Creates the consolidated **`Business Audits & Inquiries`** tab with all 23 columns.
+- Migrates any rows from your old **`Business Audits`** and **`Consulting Inquiries`** tabs into the new tab so no leads are lost.
+- Permanently deletes the old **`Business Audits`** and **`Consulting Inquiries`** tabs.
+- Permanently deletes any obsolete **`General Submissions`**, **`General Submission`**, or **`Submissions`** tab.
+- Submits 3 sample verification rows (Free Audit track, Consulting Inquiry track, and BDR In-Field Lead track).
+- Refreshes your **`OVERVIEW DASHBOARD`**.
 
-### Step 3: Run the 1-Click Verification Test in Apps Script
-1. In the toolbar at the top (next to "Debug"), select either:
-   - **`testEventRegistrationForm`**: Quickly runs and verifies the Event Registration tab with sample data.
-   - Or **`testUnifiedSetupAndSampleSubmissions`**: Sets up all 6 tabs and tests the entire system in 1 click.
-2. Click **Run**.
-3. Google will ask for permission on your first run:
-   - Click **Review permissions**
-   - Choose your Google Account
-   - Click **Advanced** (bottom left)
-   - Click **Go to project (unsafe)**
-   - Click **Allow**
-4. Check your Google Spreadsheet: The **`Event Registrations`** tab (and all 6 tabs) are automatically created, formatted with Deep Forest Green (`#06261b`) and Warm Gold (`#f3c74d`) headers, frozen rows, auto-resized columns, and populated with sample data!
+---
 
-### Step 4: Deploy as Web App
-1. Click the blue **Deploy** button (top right) > **New deployment**.
-2. Click the **Gear icon** next to "Select type" and choose **Web app**.
-3. Configure the settings:
-   - **Description**: `The Affluentaccelerators Unified Master Database`
-   - **Execute as**: `Me (your email)`
-   - **Who has access**: `Anyone` *(Crucial so front-end forms can post without login gates)*
-4. Click **Deploy**.
-5. Copy the **Web App URL** (ends in `/exec`).
+## 📱 BDR Mobile / Web App Integration Guide
 
-### Step 5: Save Web App URL into Your Website
-1. Open the Admin Portal: `https://.../admin.html`
-2. Scroll to the **Unified Master Database Endpoint** section.
-3. Paste your Web App URL into the input field and click **Save & Verify URL**.
-4. The system will ping your script and confirm that all 6 tabs are online and connected!
+Your Business Development Representatives (BDRs) and field agents can submit prospect inquiries directly into this database from their internal app.
+
+### API Endpoint:
+Use your deployed Apps Script Web App URL:
+```
+POST https://script.google.com/macros/s/AKfycbzIwLdLmzRJVPJAyrrLwLDCYgsiOmZAR3-SjYG_CllDA17xgCITuCYFKwIOWdsZj8w/exec
+```
+
+### JSON Request Payload:
+```json
+{
+  "action": "submit_lead",
+  "formType": "audit-inquiry",
+  "track": "BDR / Agent In-Field Lead",
+  "source": "BDR App - Agent Adeola",
+  "data": {
+    "name": "Adeola Adeleke",
+    "businessName": "Zenith Agro-Allied Processing",
+    "whatsapp": "+234 803 123 4567",
+    "email": "adeola@zenithagro.ng",
+    "industry": "Agriculture & Agribusiness",
+    "location": "Ibadan, Oyo State, Nigeria",
+    "teamSize": "21 – 50 Employees (Established SME)",
+    "website": "https://instagram.com/zenithagrouk",
+    "stage": "Scaling SME ($100k - $1M/yr)",
+    "description": "Grain processing and wholesale distribution to commercial FMCG buyers.",
+    "struggles": "Receivables delay from distributors causing acute working capital friction.",
+    "goal": "Restructure distribution contracts and optimize cash flow cycle.",
+    "supportType": "Operations & Systems Optimization",
+    "bdrNotes": "Met founder at South-West Trade Fair. Requested executive briefing within 48 hours."
+  }
+}
+```
+
+### JavaScript / React Native Example:
+```javascript
+async function submitBdrLead(leadInfo, agentName) {
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzIwLdLmzRJVPJAyrrLwLDCYgsiOmZAR3-SjYG_CllDA17xgCITuCYFKwIOWdsZj8w/exec";
+  
+  const payload = {
+    action: "submit_lead",
+    formType: "audit-inquiry",
+    track: "BDR / Agent In-Field Lead",
+    source: `BDR App: ${agentName}`,
+    data: {
+      name: leadInfo.founderName,
+      businessName: leadInfo.companyName,
+      whatsapp: leadInfo.whatsappNumber,
+      email: leadInfo.emailAddress,
+      industry: leadInfo.industry,
+      location: leadInfo.location,
+      teamSize: leadInfo.teamSize,
+      website: leadInfo.websiteUrl,
+      stage: leadInfo.businessStage,
+      description: leadInfo.businessOverview,
+      struggles: leadInfo.coreChallenge,
+      supportType: leadInfo.supportInterest,
+      bdrNotes: leadInfo.fieldNotes
+    }
+  };
+
+  const response = await fetch(WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  });
+
+  return await response.json();
+}
+```
+
+### cURL Example:
+```bash
+curl -X POST "https://script.google.com/macros/s/AKfycbzIwLdLmzRJVPJAyrrLwLDCYgsiOmZAR3-SjYG_CllDA17xgCITuCYFKwIOWdsZj8w/exec" \
+  -H "Content-Type: text/plain;charset=utf-8" \
+  -d '{
+    "action": "submit_lead",
+    "formType": "audit-inquiry",
+    "track": "BDR / Agent In-Field Lead",
+    "source": "BDR App - Agent Michael",
+    "data": {
+      "name": "Kunle Adebisi",
+      "businessName": "Ade-Kunle Transport Logistics",
+      "whatsapp": "+2348021112233",
+      "email": "kunle@ade-kunle.com",
+      "industry": "Logistics, Supply Chain, Freight & Transport",
+      "location": "Lagos, Nigeria",
+      "teamSize": "6 – 20 Employees",
+      "website": "https://ade-kunle.com",
+      "stage": "Consistent Revenue ($10k - $100k/yr)",
+      "description": "Interstate haulage and freight dispatch.",
+      "struggles": "Fleet maintenance overheads and unstandardized dispatch SOPs.",
+      "supportType": "Operations & Systems Optimization",
+      "bdrNotes": "Follow up scheduled for Thursday 2pm."
+    }
+  }'
+```
+
+---
+
+## 🚀 Live Website Verification
+
+View your live website with the collapsed, adaptive form:
+👉 **[Open Website Preview](https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/)**

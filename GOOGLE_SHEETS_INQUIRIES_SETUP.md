@@ -8,13 +8,16 @@ This guide covers the **dedicated Google Spreadsheet for website inquiries, cons
 
 ## 1. Sheet Overview & Capabilities
 
-* **Spreadsheet Name**: `The Affluentaccelerators - Submissions & Leads`
+* **Spreadsheet Name**: `THE AFFLUENTACCELERATORS – MASTER DATABASE` (or `The Affluentaccelerators - Submissions & Leads`)
 * **Google Drive Storage Folder**: `The Affluentaccelerators: Hiring` (PDF resumes and company briefs are automatically stored in Drive, with clickable links recorded in the sheet).
 * **Dedicated Sheet Tabs**:
-  * **`Consulting Inquiries`** — Strategic advisory requests and diagnostic notes.
+  * **`Business Audits & Inquiries`** — Consolidated single tab for Free Audits, In-Depth Strategic Consultations, and BDR In-Field Leads (includes Business Location, Team Size, and Website/Social URL).
   * **`Internship Applications`** — Fellowship candidates with CVs stored in Google Drive.
   * **`Analyst Applications`** — 90-Day Programme applicants with credentials in Drive.
-  * **`Business Audits`** — Free diagnostic video/audio review requests.
+  * **`Event Registrations`** — Masterclasses & webinars.
+  * **`OVERVIEW DASHBOARD`** — Real-time telemetry and KPI metrics.
+
+> **Note on Migration**: If your sheet has the old `Business Audits`, `Consulting Inquiries`, or `General Submissions` tabs, run **`testAuditAndInquiryConsolidation`** in Apps Script. It will merge existing leads into `Business Audits & Inquiries` and clean up the old tabs automatically! See full documentation in [GOOGLE_SHEETS_UNIFIED_SETUP.md](./GOOGLE_SHEETS_UNIFIED_SETUP.md).
 
 ---
 
