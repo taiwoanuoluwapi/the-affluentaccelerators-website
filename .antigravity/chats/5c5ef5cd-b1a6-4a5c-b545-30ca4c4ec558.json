@@ -57,11 +57,23 @@
       "id": "7d6f3f1d-07ed-45a0-b068-ad12fd9a4bb2",
       "role": "user",
       "content": "i hope this does not affect the sheet for the consulting and inquiry form?",
-      "status": "pending",
+      "status": "cancelled",
       "model": "gemini-3.8-flash-high",
       "client_type": "gemini-bridge",
       "parent_message_id": null,
       "created_at": "2026-11-10T09:53:09.799Z",
+      "sender": "ios",
+      "is_cancelled": true
+    },
+    {
+      "id": "653313de-3fae-408b-aeca-f987f632cad6",
+      "role": "user",
+      "content": "i hope this does not affect the sheet for the consulting and inquiry form? I want the scripts and sheets to be different, a different sheet and script for enquiry forms and a different for events",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T09:54:03.938Z",
       "sender": "ios",
       "is_cancelled": false
     }
