@@ -101,12 +101,12 @@
   <!-- ============================================================== -->
   <!-- TOP NAVIGATION HEADER & RESPONSIVE MOBILE DRAWER -->
   <!-- ============================================================== -->
-  <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between">
+  <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shadow-sm group-hover:border-gold-400 transition-colors">
+      <a href="index.html" class="flex items-center gap-3 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-2 shadow-sm group-hover:border-gold-400 transition-colors">
           <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
             <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
@@ -115,14 +115,14 @@
         </div>
         <div>
           <div class="flex items-baseline gap-0.5">
-            <span class="text-[9px] sm:text-[10px] text-slate-400 font-light">the</span>
-            <span class="font-heading font-extrabold text-sm sm:text-base text-white group-hover:text-gold-300 transition-colors">Affluent<wbr>accelerators</span>
+            <span class="text-[10px] text-slate-400 font-light">the</span>
+            <span class="font-heading font-extrabold text-lg text-white group-hover:text-gold-300 transition-colors">Affluentaccelerators</span>
           </div>
-          <p class="text-[7.5px] sm:text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+          <p class="text-[8.5px] tracking-[0.22em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
         </div>
       </a>
 
-      <!-- Desktop Nav Items (hidden on mobile, visible on lg screens) -->
+      <!-- Desktop Nav Items -->
       <nav class="hidden lg:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-slate-300">
         <a href="index.html" class="hover:text-gold-300 transition-colors">Home</a>
         <a href="index.html#about" class="hover:text-gold-300 transition-colors">About Us</a>
@@ -139,7 +139,7 @@
         <a href="forms.html" class="text-gold-400 border-b-2 border-gold-400 pb-1">Apply / Forms</a>
       </nav>
 
-      <!-- Desktop Action CTA (hidden on extra small screens) -->
+      <!-- Desktop Action CTA -->
       <div class="hidden sm:flex items-center gap-3">
         <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-forest-950 hover:bg-forest-800 border border-gold-400/30 transition-all">
           <svg class="w-3.5 h-3.5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
@@ -147,9 +147,9 @@
         </a>
       </div>
 
-      <!-- Mobile Hamburger Menu Button (shown on mobile & tablet) -->
-      <button id="forms-nav-open" aria-label="Open mobile navigation menu" class="lg:hidden p-2.5 rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none focus:ring-2 focus:ring-gold-400">
-        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Mobile Hamburger Menu Button -->
+      <button id="forms-nav-open" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
@@ -164,14 +164,14 @@
   <aside id="forms-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
     <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
       <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1">
+        <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
             <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
             <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
             <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
           </svg>
         </div>
-        <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Menu</span>
+        <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Navigation</span>
       </div>
       <button id="forms-drawer-close" aria-label="Close navigation" class="text-slate-400 hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-lg hover:bg-forest-900 transition-colors">&times;</button>
     </div>
@@ -189,6 +189,7 @@
         <span class="text-[10px] font-bold bg-gold-400 text-forest-950 px-2 py-0.5 rounded-full">Hiring</span>
       </a>
       <a href="index.html#insights" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Insights</a>
+      <a href="index.html#contact" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Contact</a>
       <a href="forms.html" class="block py-2.5 px-3 rounded-xl text-gold-300 bg-forest-900 font-bold border border-gold-400/30">
         Apply / Forms ↗
       </a>
@@ -198,7 +199,7 @@
     <div class="pt-6 border-t border-forest-800 space-y-3">
       <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-forest-800 border border-gold-400/40 shadow-md transition-all">
         <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
-        Join WhatsApp Channel
+        Join Official WhatsApp Channel
       </a>
       <a href="tel:+2349039545275" class="flex items-center justify-center gap-2 text-xs text-slate-300 hover:text-gold-300 py-1">
         <span>Call: +234 903 954 5275</span>
