@@ -1249,6 +1249,7 @@
     if (openBtn) openBtn.addEventListener('click', openNav);
     if (closeBtn) closeBtn.addEventListener('click', closeNav);
     if (overlay) overlay.addEventListener('click', closeNav);
+    if (drawer) drawer.querySelectorAll('a').forEach(l => l.addEventListener('click', closeNav));
 
     // Event Category Filter
     document.querySelectorAll('.event-filter-btn').forEach(btn => {
