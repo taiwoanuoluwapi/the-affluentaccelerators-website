@@ -54,10 +54,31 @@ var TAB_EVENTS            = "Event Registrations";
 var TAB_AUDITS_INQUIRIES  = "Business Audits & Inquiries"; // Consolidated single tab
 var TAB_ANALYST           = "Analyst Applications";
 var TAB_INTERNSHIP        = "Internship Applications";
+var TAB_PUBLISHED_EVENTS  = "Events"; // Dedicated published events catalogue tab
 
 // Legacy aliases for backward compatibility
 var TAB_AUDITS            = TAB_AUDITS_INQUIRIES;
 var TAB_INQUIRIES         = TAB_AUDITS_INQUIRIES;
+
+/**
+ * Standardized Unified Headers for PUBLISHED EVENTS CATALOGUE
+ */
+var PUBLISHED_EVENTS_HEADERS = [
+  "Event ID",
+  "Event Title",
+  "Category",
+  "Date",
+  "Time",
+  "Timezone",
+  "Date Formatted",
+  "Venue / Platform",
+  "Host / Speaker",
+  "Description",
+  "Flyer Image / URL",
+  "Assigned Tab Name",
+  "Status",
+  "Published At"
+];
 
 /**
  * Standardized Unified Headers for EVENT REGISTRATIONS (One Tab for All Events)
@@ -507,7 +528,13 @@ function doPost(e) {
       });
     }
 
-    // 3b. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
+    // 3b. Action: Publish / Save Event to 'Events' Tab
+    if (action === "publish_event" || action === "save_event") {
+      var publishResult = handlePublishEvent(spreadsheet, payload);
+      return createJsonResponse(publishResult);
+    }
+
+    // 3c. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
     if (action === "consolidate_tabs" || action === "cleanup_sheets") {
       var cleanupResult = consolidateAuditAndInquiryTabs(spreadsheet);
       return createJsonResponse(cleanupResult);
