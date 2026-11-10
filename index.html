@@ -1144,8 +1144,8 @@
 
         <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href="forms.html#business-audit" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all hover:-translate-y-0.5 flex items-center justify-center space-x-2">
-            <svg class="w-4 h-4 text-forest-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-            <span>Request Custom Video Audit</span>
+            <svg class="w-4 h-4 text-forest-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Get Your Free Business Audit</span>
           </a>
 
           <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-forest-950 hover:bg-forest-800 border border-gold-400/40 transition-all hover:-translate-y-0.5 flex items-center justify-center space-x-2">
@@ -1310,26 +1310,17 @@
             </span>
           </div>
           <h3 class="text-xl font-heading font-extrabold text-slate-900 mt-1.5">
-            Get A Customised Video & Strategy Audit
+            Get A Free Business Audit
           </h3>
           <p class="text-xs text-slate-500 mt-1">
-            Fill in your business details below so an available consultant can review your stage, analyze your core struggle, and send back a bespoke video/audio audit.
+            Fill in your business details below so an available consultant can review your stage, analyze your core struggle, and deliver a personalized audit directly to your WhatsApp.
           </p>
         </div>
         <button class="modal-close-btn text-slate-400 hover:text-slate-700 p-2 text-xl leading-none">&times;</button>
       </div>
 
       <form id="form-business-audit" class="space-y-4 text-xs">
-        
-        <!-- Track Selector -->
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Are you looking for a one-time free audit or a paid in-depth strategy &amp; review? *</label>
-          <select id="audit-track" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 bg-white font-medium">
-            <option value="One-Time Free Audit" selected>One-Time Free Audit (Personalized Video / Voice Review via WhatsApp within 24h)</option>
-            <option value="Paid In-Depth Strategy &amp; Review">Paid In-Depth Strategy &amp; Review (Comprehensive Strategy &amp; Executive Advisory)</option>
-          </select>
-          <p class="text-[10px] text-slate-500 mt-1">We attend to all inquiries either way — select the level of depth you need.</p>
-        </div>
+        <input type="hidden" id="audit-track" value="Get a Free Business Audit">
 
         <!-- Contact essentials -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1433,20 +1424,9 @@
           <textarea id="audit-struggles" required rows="3" placeholder="Be open: e.g. Customer acquisition has stalled, unit economics aren't working, operations are chaotic without SOPs, cash flow leakage, team delegation issues..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800"></textarea>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Your #1 Priority or Growth Goal in Next 90 Days *</label>
-            <input type="text" id="audit-goal" required placeholder="e.g. Double client retainers, fix delivery bottleneck" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800">
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Preferred Response Format</label>
-            <select id="audit-format" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800">
-              <option value="Custom Video Audit (Loom / Screen & Face)">Custom Video Audit (Loom / Screen & Face)</option>
-              <option value="Detailed WhatsApp Voice Note Breakdown">Detailed WhatsApp Voice Note Breakdown</option>
-              <option value="Written Strategic Diagnostic Memo">Written Strategic Diagnostic Memo</option>
-              <option value="Any Available Format">Any Available Format</option>
-            </select>
-          </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Your #1 Priority or Growth Goal in Next 90 Days *</label>
+          <input type="text" id="audit-goal" required placeholder="e.g. Double client retainers, fix delivery bottleneck" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800">
         </div>
 
         <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-[11px] text-emerald-900">
@@ -1460,7 +1440,7 @@
         </div>
 
         <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow transition-all">
-          Submit & Request My Custom Audit
+          Submit &amp; Get My Free Business Audit
         </button>
       </form>
     </div>
