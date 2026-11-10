@@ -472,6 +472,12 @@ function doPost(e) {
       });
     }
 
+    // 3b. Action: Publish / Save Event to 'Events' Tab
+    if (action === "publish_event" || action === "save_event") {
+      var publishResult = handlePublishEvent(spreadsheet, payload);
+      return createJsonResponse(publishResult);
+    }
+
     // 4. ROUTE: Event Registration (Centralized in single 'Event Registrations' tab)
     var isEvent = (action === "register_event") || 
                   (payload.formType === "event-registration") ||
@@ -507,6 +513,44 @@ function doPost(e) {
 function doGet(e) {
   try {
     var spreadsheet = getMasterSpreadsheet();
+
+    // Support action: get_events to return published events dynamically
+    if (e && e.parameter && (e.parameter.action === "get_events" || e.parameter.action === "list_events")) {
+      var eventsSheet = spreadsheet.getSheetByName(TAB_PUBLISHED_EVENTS);
+      var eventsList = [];
+      if (eventsSheet && eventsSheet.getLastRow() > 1) {
+        var numCols = Math.min(eventsSheet.getLastColumn(), PUBLISHED_EVENTS_HEADERS.length);
+        var data = eventsSheet.getRange(2, 1, eventsSheet.getLastRow() - 1, numCols).getValues();
+        for (var i = 0; i < data.length; i++) {
+          var row = data[i];
+          if (row[0]) {
+            eventsList.push({
+              id: row[0] ? row[0].toString() : "",
+              title: row[1] ? row[1].toString() : "",
+              category: row[2] ? row[2].toString() : "Executive Masterclass",
+              date: row[3] ? row[3].toString() : "",
+              time: row[4] ? row[4].toString() : "",
+              timezone: row[5] ? row[5].toString() : "WAT",
+              dateFormatted: row[6] ? row[6].toString() : "",
+              venue: row[7] ? row[7].toString() : "Live on Google Meet",
+              host: row[8] ? row[8].toString() : "Fulfilment Taiwo (Lead Consultant)",
+              description: row[9] ? row[9].toString() : "",
+              flyer: row[10] ? row[10].toString() : "",
+              tabName: row[11] ? row[11].toString() : "",
+              status: row[12] ? row[12].toString() : "Upcoming",
+              publishedAt: row[13] ? row[13].toString() : ""
+            });
+          }
+        }
+      }
+      return createJsonResponse({
+        status: "success",
+        events: eventsList,
+        count: eventsList.length,
+        spreadsheetUrl: spreadsheet.getUrl()
+      });
+    }
+
     var sheets = spreadsheet.getSheets();
     var sheetNames = [];
     for (var i = 0; i < sheets.length; i++) {
