@@ -268,6 +268,18 @@
       "created_at": "2026-11-10T15:43:09.628Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "bafb4de8-527a-4171-90d6-b220e5222e5c",
+      "role": "user",
+      "content": "git push origin HEAD",
+      "status": "cancelled",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T16:23:41.104Z",
+      "sender": "ios",
+      "is_cancelled": true
     }
   ]
 }
