@@ -975,99 +975,16 @@
     // ----------------------------------------------------------------
     function initAdminDashboard() {
       renderEventsList();
+      renderLeads();
       renderRegistrations();
       renderAnalytics();
-      initWebhookTelemetry();
+      initFlyerUploadComponent();
+      initLeadsFilterListeners();
     }
 
-    // Webhook Telemetry & Ping (Unified Master Database)
-    function initWebhookTelemetry() {
-      const storedUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') || 
-                        localStorage.getItem('AA_EVENTS_SHEETS_URL') || 
-                        localStorage.getItem('AA_INQUIRIES_SHEETS_URL') || "";
-      document.getElementById('input-webhook-url').value = storedUrl;
-
-      document.getElementById('btn-save-webhook').addEventListener('click', function() {
-        const val = document.getElementById('input-webhook-url').value.trim();
-        if (val) {
-          localStorage.setItem('AA_UNIFIED_SHEETS_URL', val);
-          localStorage.setItem('AA_EVENTS_SHEETS_URL', val);
-          localStorage.setItem('AA_INQUIRIES_SHEETS_URL', val);
-          alert('Unified Master Google Sheets Webhook URL saved successfully!');
-          testGoogleSheetsConnection();
-        } else {
-          alert('Please enter a valid Apps Script Web App URL.');
-        }
-      });
-
-      document.getElementById('btn-test-connection').addEventListener('click', testGoogleSheetsConnection);
-      document.getElementById('btn-retry-failed-sync').addEventListener('click', retryFailedSynchronizations);
-      document.getElementById('btn-reconcile-all').addEventListener('click', reconcileAllRegistrations);
-    }
-
-    async function testGoogleSheetsConnection() {
-      const url = document.getElementById('input-webhook-url').value.trim();
-      const resultsBox = document.getElementById('connection-test-results');
-      resultsBox.classList.remove('hidden');
-
-      if (!url) {
-        resultsBox.innerHTML = `
-          <div class="text-amber-700 font-semibold">⚠️ No Events Webhook URL entered yet.</div>
-          <div class="text-slate-600">Please deploy <code>google-sheets-events-script.js</code> on your Events Google Sheet, paste the Web App URL above, and click 'Save &amp; Verify URL'.</div>
-        `;
-        return;
-      }
-
-      resultsBox.innerHTML = 'Connecting to Events Google Sheets Webhook...';
-
-      const startTime = performance.now();
-      try {
-        const resp = await fetch(url + (url.includes('?') ? '&' : '?') + 'action=test_connection', {
-          method: 'GET',
-          mode: 'cors'
-        });
-        const elapsed = Math.round(performance.now() - startTime);
-        const data = await resp.json();
-        
-        document.getElementById('telemetry-response-time').textContent = 'Latency: ~' + elapsed + 'ms';
-        document.getElementById('telemetry-sheet-name').textContent = data.spreadsheetName || 'THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE';
-        document.getElementById('telemetry-tab-count').textContent = data.totalSheets || '4';
-        
-        if (data.spreadsheetUrl) {
-          document.getElementById('open-master-sheet-btn').href = data.spreadsheetUrl;
-        }
-
-        resultsBox.innerHTML = `
-          <div class="text-emerald-700 font-bold">✓ Connection Successful (${elapsed}ms)</div>
-          <div>Spreadsheet: ${data.spreadsheetName}</div>
-          <div>Active Tabs: ${data.sheets ? data.sheets.join(', ') : 'OVERVIEW DASHBOARD, ALL REGISTRATIONS, EVENT 001'}</div>
-        `;
-      } catch (err) {
-        // Graceful fallback
-        resultsBox.innerHTML = `
-          <div class="text-emerald-700 font-bold">✓ Endpoint Responsive (Google Apps Script Online)</div>
-          <div class="text-slate-500">Status: Master spreadsheet connected and accepting event registrations.</div>
-        `;
-      }
-    }
-
-    async function retryFailedSynchronizations() {
-      if (window.affluentEvents) {
-        const count = await window.affluentEvents.retryFailedSyncs();
-        alert('Retry process completed. Re-synced records: ' + count);
-        renderRegistrations();
-      }
-    }
-
-    async function reconcileAllRegistrations() {
-      if (window.affluentEvents) {
-        await window.affluentEvents.reconcileAll();
-        alert('Reconciliation complete. All local records verified against central database.');
-        renderRegistrations();
-      }
-    }
-
-    // Render Events List
+    // ----------------------------------------------------------------
+    // RENDER EVENTS LIST (EVENT STUDIO)
+    // ----------------------------------------------------------------
     function renderEventsList() {
       const container = document.getElementById('admin-events-list');
       if (!container || !window.affluentEvents) return;
@@ -1079,7 +996,16 @@
         const regCount = window.affluentEvents.getRegistrationsForEvent(evt.id).length;
         const card = document.createElement('div');
         card.className = "p-4 sm:p-5 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 transition-all space-y-3";
+        
+        const flyerThumb = (evt.flyer && (evt.flyer.startsWith('data:image') || evt.flyer.startsWith('http') || evt.flyer.startsWith('images/')))
+          ? `<div class="w-full h-32 rounded-xl overflow-hidden bg-forest-950 border border-slate-200 mb-2.5"><img src="${evt.flyer}" class="w-full h-full object-cover" alt="${evt.title}"></div>`
+          : '';
+
+        const timeDisplay = evt.time ? evt.time + ' ' + (evt.timezone || 'WAT') : '';
+        const dateDisplay = evt.dateFormatted || (evt.date + (timeDisplay ? ' • ' + timeDisplay : ''));
+
         card.innerHTML = `
+          ${flyerThumb}
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-forest-900 text-gold-400">
               ${evt.id}
@@ -1089,12 +1015,20 @@
             </span>
           </div>
 
-          <h4 class="font-heading font-bold text-base text-slate-900">${evt.title}</h4>
-          <p class="text-xs text-slate-500">${evt.date} • ${evt.venue}</p>
+          <div>
+            <h4 class="font-heading font-bold text-base text-slate-900">${evt.title}</h4>
+            <p class="text-xs text-forest-800 font-semibold mt-0.5">${evt.category || 'Executive Masterclass'} • ${evt.host || 'Advisory Desk'}</p>
+            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+              <span>📅</span> <span>${dateDisplay}</span>
+            </p>
+            <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5">
+              <span>📹</span> <span>${evt.venue || 'Live on Google Meet'}</span>
+            </p>
+          </div>
 
           <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1 text-xs">
             <div class="flex flex-col sm:flex-row sm:justify-between text-slate-600 gap-0.5">
-              <span class="text-slate-400">Assigned Sheet Tab:</span>
+              <span class="text-slate-400">Sheet Tab:</span>
               <span class="font-mono font-bold text-forest-900 break-all">${evt.tabName || (evt.id + ' – ' + evt.title)}</span>
             </div>
             <div class="flex justify-between text-slate-600 pt-0.5">
@@ -1108,6 +1042,438 @@
               View Registrations (${regCount}) →
             </button>
             <button onclick="window.open('events.html', '_blank')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">
+              Preview Page ↗
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // RENDER BUSINESS INQUIRING LEADS (ONE-TIME AUDITS & STRATEGY REVIEWS)
+    // ----------------------------------------------------------------
+    function renderLeads() {
+      if (!window.affluentLeads) return;
+
+      const leads = window.affluentLeads.getAllLeads();
+      
+      // Update Telemetry Badges
+      const totalCount = leads.length;
+      const freeCount = leads.filter(l => (l.track || '').includes('Free') || (l.track || '').includes('Audit')).length;
+      const paidCount = leads.filter(l => (l.track || '').includes('Paid') || (l.track || '').includes('Strategy')).length;
+      
+      const badgeLeads = document.getElementById('badge-total-leads');
+      if (badgeLeads) badgeLeads.textContent = totalCount;
+      const statTotal = document.getElementById('stat-leads-total');
+      if (statTotal) statTotal.textContent = totalCount;
+      const statFree = document.getElementById('stat-leads-free');
+      if (statFree) statFree.textContent = freeCount;
+      const statPaid = document.getElementById('stat-leads-paid');
+      if (statPaid) statPaid.textContent = paidCount;
+
+      // Filter Logic
+      const search = (document.getElementById('search-leads-input') ? document.getElementById('search-leads-input').value : '').toLowerCase().trim();
+      const filterTrack = document.getElementById('filter-lead-track') ? document.getElementById('filter-lead-track').value : 'ALL';
+      const filterIndustry = document.getElementById('filter-lead-industry') ? document.getElementById('filter-lead-industry').value : 'ALL';
+      const filterStatus = document.getElementById('filter-lead-status') ? document.getElementById('filter-lead-status').value : 'ALL';
+
+      const filtered = leads.filter(l => {
+        if (filterTrack !== 'ALL') {
+          if (filterTrack === 'Free' && !((l.track || '').includes('Free') || (l.track || '').includes('Audit'))) return false;
+          if (filterTrack === 'Paid' && !((l.track || '').includes('Paid') || (l.track || '').includes('Strategy'))) return false;
+        }
+        if (filterIndustry !== 'ALL' && !(l.industry || '').toLowerCase().includes(filterIndustry.toLowerCase())) return false;
+        if (filterStatus !== 'ALL' && (l.status || 'New Lead') !== filterStatus) return false;
+        if (search) {
+          const matchStr = `${l.id || ''} ${l.name || ''} ${l.businessName || ''} ${l.email || ''} ${l.whatsapp || ''} ${l.industry || ''}`.toLowerCase();
+          if (!matchStr.includes(search)) return false;
+        }
+        return true;
+      });
+
+      const countEl = document.getElementById('showing-leads-count');
+      if (countEl) countEl.textContent = `Showing ${filtered.length} of ${totalCount} leads`;
+
+      // 1. Render Mobile Cards View
+      const cardsContainer = document.getElementById('leads-mobile-cards');
+      if (cardsContainer) {
+        cardsContainer.innerHTML = '';
+        if (filtered.length === 0) {
+          cardsContainer.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">No matching business leads found.</div>`;
+        } else {
+          filtered.forEach(lead => {
+            const phoneClean = (lead.whatsapp || '').replace(/[^0-9]/g, '');
+            const waGreeting = encodeURIComponent(`Hello ${lead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${lead.track || 'business inquiry'} for ${lead.businessName || 'your business'}. We have reviewed your initial notes and would love to provide your strategic diagnostic feedback.`);
+            const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+
+            const isFree = (lead.track || '').includes('Free') || (lead.track || '').includes('Audit');
+            const trackBadge = isFree
+              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Free Audit</span>`
+              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gold-100 text-forest-950 border border-gold-300">Paid Strategy</span>`;
+
+            const card = document.createElement('div');
+            card.className = "bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+            card.innerHTML = `
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-mono font-bold text-xs text-forest-900">${lead.id}</span>
+                  <span class="text-[10px] text-slate-400">${lead.date || ''}</span>
+                </div>
+                <div>${trackBadge}</div>
+              </div>
+
+              <div>
+                <h4 class="font-heading font-bold text-base text-slate-900">${lead.name || 'Prospective Founder'}</h4>
+                <p class="text-xs font-semibold text-forest-800">${lead.businessName || 'N/A'}</p>
+                <p class="text-[11px] text-slate-500">${lead.industry || 'Unspecified Sector'} • ${lead.stage || ''}</p>
+              </div>
+
+              ${lead.struggles ? `
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Core Struggle / Bottleneck:</span>
+                  <p class="text-slate-700 line-clamp-2 leading-relaxed">${lead.struggles}</p>
+                </div>
+              ` : ''}
+
+              <!-- Direct WhatsApp & Contact Actions on Mobile -->
+              <div class="flex items-center gap-2 pt-1 text-xs">
+                ${phoneClean ? `
+                  <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all text-center">
+                    <span>💬 Chat on WhatsApp</span>
+                    <span>↗</span>
+                  </a>
+                ` : ''}
+                ${lead.email ? `
+                  <a href="mailto:${lead.email}" class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold flex items-center justify-center gap-1">
+                    <span>✉️</span>
+                  </a>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center justify-between pt-1 gap-2 text-xs border-t border-slate-100">
+                <select onchange="updateLeadStatusAction('${lead.id}', this.value)" class="text-[11px] py-1.5 px-2.5 rounded-lg border border-slate-200 bg-white font-medium">
+                  <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>New Lead</option>
+                  <option value="Contacted on WhatsApp" ${lead.status === 'Contacted on WhatsApp' ? 'selected' : ''}>Contacted on WhatsApp</option>
+                  <option value="Audit Sent" ${lead.status === 'Audit Sent' ? 'selected' : ''}>Audit Sent</option>
+                  <option value="In Discussion" ${lead.status === 'In Discussion' ? 'selected' : ''}>In Discussion</option>
+                  <option value="Converted" ${lead.status === 'Converted' ? 'selected' : ''}>Client Converted</option>
+                </select>
+
+                <button onclick="viewLeadDetails('${lead.id}')" class="text-xs font-bold text-forest-800 hover:text-gold-600">
+                  View Dossier →
+                </button>
+              </div>
+            `;
+            cardsContainer.appendChild(card);
+          });
+        }
+      }
+
+      // 2. Render Desktop Table View
+      const tbody = document.getElementById('leads-table-body');
+      if (tbody) {
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">No matching business leads found.</td></tr>`;
+        } else {
+          filtered.forEach(lead => {
+            const phoneClean = (lead.whatsapp || '').replace(/[^0-9]/g, '');
+            const waGreeting = encodeURIComponent(`Hello ${lead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${lead.track || 'business inquiry'} for ${lead.businessName || 'your business'}. We have reviewed your diagnostic notes and would love to provide strategic feedback.`);
+            const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+
+            const isFree = (lead.track || '').includes('Free') || (lead.track || '').includes('Audit');
+            const trackBadge = isFree
+              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Free Audit</span>`
+              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gold-100 text-forest-950 border border-gold-300">Paid Strategy</span>`;
+
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50 transition-colors";
+            tr.innerHTML = `
+              <td class="py-3 px-4">
+                <span class="font-mono font-bold text-forest-900 block">${lead.id}</span>
+                <span class="text-[10px] text-slate-400 block">${lead.date || ''}</span>
+              </td>
+              <td class="py-3 px-4 font-bold text-slate-900">
+                <div>${lead.name || 'Lead'}</div>
+                <div class="text-[10px] text-slate-400 font-normal">${lead.email || ''}</div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="font-semibold text-slate-800">${lead.businessName || 'N/A'}</div>
+                <div class="text-[10px] text-slate-400">${lead.industry || 'Unspecified'}</div>
+              </td>
+              <td class="py-3 px-4">${trackBadge}</td>
+              <td class="py-3 px-4">
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm transition-all" title="Open WhatsApp chat with ${lead.name}">
+                  <span>💬 Chat on WhatsApp</span>
+                  <span class="text-[10px]">↗</span>
+                </a>
+              </td>
+              <td class="py-3 px-4 text-slate-600">
+                <div>${lead.stage || 'N/A'}</div>
+                <div class="text-[10px] text-slate-400">${lead.teamSize || ''}</div>
+              </td>
+              <td class="py-3 px-4">
+                <select onchange="updateLeadStatusAction('${lead.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white font-medium">
+                  <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>New Lead</option>
+                  <option value="Contacted on WhatsApp" ${lead.status === 'Contacted on WhatsApp' ? 'selected' : ''}>Contacted on WhatsApp</option>
+                  <option value="Audit Sent" ${lead.status === 'Audit Sent' ? 'selected' : ''}>Audit Sent</option>
+                  <option value="In Discussion" ${lead.status === 'In Discussion' ? 'selected' : ''}>In Discussion</option>
+                  <option value="Converted" ${lead.status === 'Converted' ? 'selected' : ''}>Client Converted</option>
+                </select>
+              </td>
+              <td class="py-3 px-4 text-right">
+                <button onclick="viewLeadDetails('${lead.id}')" class="px-3 py-1 rounded-lg text-[11px] font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 border border-forest-200 transition-colors">
+                  View Dossier
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+    }
+
+    // Lead Status Action
+    window.updateLeadStatusAction = function(leadId, newStatus) {
+      if (window.affluentLeads) {
+        window.affluentLeads.updateLeadStatus(leadId, newStatus);
+        renderLeads();
+      }
+    };
+
+    // View Full Lead Details Modal
+    window.viewLeadDetails = function(leadId) {
+      if (!window.affluentLeads) return;
+      const lead = window.affluentLeads.getLeadById(leadId);
+      if (!lead) return;
+
+      document.getElementById('modal-lead-id').textContent = `${lead.id} • ${lead.track || 'Diagnostic Audit'}`;
+      document.getElementById('modal-lead-name').textContent = `${lead.name} — ${lead.businessName || 'Company'}`;
+
+      const phoneClean = (lead.whatsapp || '').replace(/[^0-9]/g, '');
+      const waGreeting = encodeURIComponent(`Hello ${lead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${lead.track || 'business inquiry'} for ${lead.businessName || 'your business'}. We have reviewed your diagnostic submission and would love to discuss strategic next steps.`);
+      const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+      document.getElementById('modal-lead-wa-link').href = waLink;
+
+      const statusSelect = document.getElementById('modal-lead-status-select');
+      if (statusSelect) {
+        statusSelect.value = lead.status || 'New Lead';
+        statusSelect.onchange = function() {
+          updateLeadStatusAction(lead.id, this.value);
+        };
+      }
+
+      const content = document.getElementById('modal-lead-content');
+      content.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Contact Full Name</span>
+            <span class="text-xs font-bold text-slate-900 mt-0.5 block">${lead.name || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Business / Company Name</span>
+            <span class="text-xs font-bold text-forest-900 mt-0.5 block">${lead.businessName || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">WhatsApp Number</span>
+            <span class="text-xs font-semibold text-emerald-800 mt-0.5 block">${lead.whatsapp || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Email Address</span>
+            <span class="text-xs font-semibold text-slate-800 mt-0.5 block">${lead.email || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Industry / Sector</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.industry || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Current Business Stage</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.stage || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Location &amp; Team Size</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.location || 'N/A'} • ${lead.teamSize || 'N/A'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Website or Social Profile</span>
+            <span class="text-xs font-semibold text-forest-900 mt-0.5 block truncate">${lead.website ? `<a href="${lead.website}" target="_blank" class="underline hover:text-gold-600">${lead.website} ↗</a>` : '—'}</span>
+          </div>
+        </div>
+
+        ${lead.description ? `
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">What Business Does &amp; Revenue Model</span>
+            <p class="text-slate-800 leading-relaxed">${lead.description}</p>
+          </div>
+        ` : ''}
+
+        ${lead.struggles ? `
+          <div class="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200">
+            <span class="text-[10px] uppercase font-bold text-amber-800 block mb-1">Core Struggling Bottlenecks / Sticking Points</span>
+            <p class="text-slate-900 font-medium leading-relaxed">${lead.struggles}</p>
+          </div>
+        ` : ''}
+
+        ${lead.goal ? `
+          <div class="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200">
+            <span class="text-[10px] uppercase font-bold text-emerald-800 block mb-1">#1 Growth Goal in Next 90 Days</span>
+            <p class="text-forest-950 font-bold leading-relaxed">${lead.goal}</p>
+          </div>
+        ` : ''}
+
+        ${lead.preferredFormat ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Preferred Response Delivery</span>
+            <span class="font-bold text-forest-900">${lead.preferredFormat}</span>
+          </div>
+        ` : ''}
+
+        ${lead.supportType ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Consulting Engagement Scope</span>
+            <span class="font-bold text-forest-900">${lead.supportType}</span>
+          </div>
+        ` : ''}
+
+        ${lead.notes ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Additional Project Notes / Timeline</span>
+            <p class="text-slate-700">${lead.notes}</p>
+          </div>
+        ` : ''}
+      `;
+
+      const modal = document.getElementById('modal-lead-details');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    document.getElementById('close-lead-modal').onclick = () => document.getElementById('modal-lead-details').classList.add('hidden');
+    document.getElementById('close-lead-modal-btn').onclick = () => document.getElementById('modal-lead-details').classList.add('hidden');
+
+    function initLeadsFilterListeners() {
+      const sInput = document.getElementById('search-leads-input');
+      const tSelect = document.getElementById('filter-lead-track');
+      const iSelect = document.getElementById('filter-lead-industry');
+      const stSelect = document.getElementById('filter-lead-status');
+
+      if (sInput) sInput.addEventListener('input', renderLeads);
+      if (tSelect) tSelect.addEventListener('change', renderLeads);
+      if (iSelect) iSelect.addEventListener('change', renderLeads);
+      if (stSelect) stSelect.addEventListener('change', renderLeads);
+
+      const csvBtn = document.getElementById('btn-export-leads-csv');
+      if (csvBtn) csvBtn.addEventListener('click', () => {
+        if (window.affluentLeads) window.affluentLeads.exportLeadsCSV();
+      });
+
+      const jsonBtn = document.getElementById('btn-export-leads-json');
+      if (jsonBtn) jsonBtn.addEventListener('click', () => {
+        if (window.affluentLeads) window.affluentLeads.exportLeadsJSON();
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // EVENT FLYER UPLOAD & DRAG-AND-DROP COMPONENT
+    // ----------------------------------------------------------------
+    let currentUploadedFlyerData = null;
+
+    function initFlyerUploadComponent() {
+      const dropzone = document.getElementById('dropzone-new-event-flyer');
+      const fileInput = document.getElementById('input-new-event-flyer');
+      const defaultPreview = document.getElementById('preview-flyer-default');
+      const selectedPreview = document.getElementById('preview-flyer-selected');
+      const thumb = document.getElementById('thumb-new-event-flyer');
+      const nameEl = document.getElementById('name-new-event-flyer');
+      const sizeEl = document.getElementById('size-new-event-flyer');
+      const removeBtn = document.getElementById('btn-remove-flyer');
+
+      if (!dropzone || !fileInput) return;
+
+      dropzone.onclick = () => fileInput.click();
+
+      function handleFlyerFile(file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file (PNG, JPG, or WEBP).');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const rawDataUrl = e.target.result;
+          currentUploadedFlyerData = {
+            base64: rawDataUrl.split(',')[1],
+            dataUrl: rawDataUrl,
+            fileName: file.name,
+            fileSize: file.size,
+            mimeType: file.type
+          };
+
+          if (thumb) thumb.src = rawDataUrl;
+          if (nameEl) nameEl.textContent = file.name;
+          if (sizeEl) sizeEl.textContent = (file.size / 1024).toFixed(1) + ' KB • Ready to publish';
+
+          if (defaultPreview) defaultPreview.classList.add('hidden');
+          if (selectedPreview) {
+            selectedPreview.classList.remove('hidden');
+            selectedPreview.classList.add('flex');
+          }
+          dropzone.classList.add('border-emerald-500', 'bg-emerald-50/40');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      fileInput.onchange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFlyerFile(e.target.files[0]);
+        }
+      };
+
+      if (removeBtn) {
+        removeBtn.onclick = (e) => {
+          e.stopPropagation();
+          currentUploadedFlyerData = null;
+          fileInput.value = '';
+          if (defaultPreview) defaultPreview.classList.remove('hidden');
+          if (selectedPreview) {
+            selectedPreview.classList.add('hidden');
+            selectedPreview.classList.remove('flex');
+          }
+          dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+        };
+      }
+
+      ['dragenter', 'dragover'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('border-gold-400', 'bg-gold-50/40');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('border-gold-400', 'bg-gold-50/40');
+        }, false);
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFlyerFile(e.dataTransfer.files[0]);
+        }
+      }, false);
+    }
               Preview Page ↗
             </button>
           </div>
