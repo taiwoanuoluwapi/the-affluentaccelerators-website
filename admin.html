@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Admin Portal & Central Event Database | The Affluentaccelerators</title>
   <meta name="description" content="Executive administrator control center for The Affluentaccelerators: Google Sheets integration, event tab management, and central registration database.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
@@ -58,13 +58,28 @@
   <link rel="stylesheet" href="styles.css">
 
   <style>
+    /* Mobile-first clean horizontal scrollable tabs */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
     .admin-tab-btn.active {
       background-color: #06261b !important;
       color: #f3c74d !important;
       border-color: #e5b83b !important;
+      box-shadow: 0 2px 8px rgba(6, 38, 27, 0.25);
     }
     .admin-tab-panel { display: none; }
     .admin-tab-panel.active { display: block; }
+
+    /* Touch targets and typography optimization */
+    input, select, textarea, button {
+      touch-action: manipulation;
+    }
+    @media (max-width: 640px) {
+      input, select, textarea {
+        font-size: 14px !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-[#f1f4f1] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen">
@@ -72,8 +87,8 @@
   <!-- ============================================================== -->
   <!-- SECURITY PIN GATE (FOR AUTHORIZED TEAM MEMBERS ONLY) -->
   <!-- ============================================================== -->
-  <div id="admin-auth-gate" class="fixed inset-0 z-50 bg-forest-950 flex items-center justify-center p-4">
-    <div class="bg-forest-900 border border-gold-400/40 rounded-3xl p-8 max-w-md w-full shadow-2xl text-center space-y-6">
+  <div id="admin-auth-gate" class="fixed inset-0 z-50 bg-forest-950 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-forest-900 border border-gold-400/40 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl text-center space-y-6 my-auto">
       
       <div class="w-14 h-14 rounded-2xl bg-forest-950 border border-gold-400/40 mx-auto flex items-center justify-center p-3 shadow-md">
         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -87,12 +102,12 @@
         <h2 class="text-xl font-heading font-extrabold text-white">The Affluentaccelerators</h2>
         <p class="text-xs text-gold-400 uppercase tracking-widest font-bold mt-0.5">Admin Security Portal</p>
         <p class="text-xs text-slate-400 mt-2">
-          Enter administrator authorization passcode to access the central event registration database and Google Sheets integration hub.
+          Enter authorization passcode to access the central event database and Google Sheets hub.
         </p>
       </div>
 
       <form id="admin-login-form" class="space-y-4">
-        <div>
+        <div class="relative">
           <input 
             type="password" 
             id="admin-passcode-input" 
@@ -101,25 +116,27 @@
             required
             autofocus
           >
-          <p id="admin-auth-error" class="text-xs text-red-400 mt-1.5 hidden">Invalid authorization passcode. Please try again.</p>
+          <button type="button" id="toggle-auth-pin" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm p-1.5 focus:outline-none" aria-label="Toggle PIN visibility">
+            👁️
+          </button>
+          <p id="admin-auth-error" class="text-xs text-red-400 mt-1.5 hidden">Incorrect authorization passcode. Please try again.</p>
         </div>
 
         <button 
           type="submit" 
-          class="w-full py-3 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all"
+          class="w-full py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all"
         >
           Authorize Access →
         </button>
-
-        <p class="text-[11px] text-slate-500">
-          Default administrative access PIN: <code class="text-gold-300 bg-forest-950 px-1.5 py-0.5 rounded">affluent2026</code>
-        </p>
       </form>
 
-      <div class="pt-4 border-t border-forest-800">
-        <a href="index.html" class="text-xs text-slate-400 hover:text-white transition-colors">
-          ← Return to Public Website
+      <div class="pt-4 border-t border-forest-800 flex items-center justify-between text-xs text-slate-400">
+        <a href="index.html" class="hover:text-white transition-colors">
+          ← Return to Website
         </a>
+        <button type="button" id="btn-forgot-pin" class="text-slate-500 hover:text-gold-300 text-[11px] transition-colors">
+          Reset PIN?
+        </button>
       </div>
     </div>
   </div>
@@ -129,45 +146,53 @@
   <!-- ============================================================== -->
   <div id="admin-main-container" class="hidden min-h-screen flex flex-col">
     
-    <!-- Top Executive Header -->
+    <!-- Top Executive Header (Mobile Responsive) -->
     <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-2">
         
-        <div class="flex items-center gap-3">
-          <a href="index.html" class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shadow-sm">
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
-                <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
-                <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
-              </svg>
+        <!-- Brand Identity -->
+        <a href="index.html" class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+              <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+              <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-heading font-extrabold text-sm sm:text-base text-white truncate">Affluentaccelerators</span>
+              <span class="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded bg-gold-400 text-forest-950 shrink-0">Admin</span>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-heading font-extrabold text-sm sm:text-base text-white">Affluentaccelerators</span>
-                <span class="text-[9px] uppercase font-bold px-2 py-0.5 rounded bg-gold-400 text-forest-950">Admin Suite</span>
-              </div>
-              <p class="text-[8px] tracking-[0.2em] uppercase font-bold text-gold-400">CENTRAL EVENT &amp; REGISTRATION INTELLIGENCE</p>
-            </div>
-          </a>
-        </div>
+            <p class="text-[7.5px] sm:text-[8px] tracking-[0.18em] uppercase font-bold text-gold-400 truncate">CENTRAL EVENT &amp; REGISTRATION HUB</p>
+          </div>
+        </a>
 
-        <!-- Real-time Status Badges & Controls -->
-        <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Controls: PIN, View Events, Lock -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           
-          <!-- Live Sheets Pulse Status -->
-          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-forest-950 border border-forest-700 text-xs">
+          <!-- Live Sheets Pulse Status (Desktop/Tablet) -->
+          <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-forest-950 border border-forest-700 text-xs">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" id="admin-status-pulse"></span>
-            <span class="text-[11px] font-semibold text-slate-300" id="admin-status-label">Google Sheets Connected</span>
+            <span class="text-[11px] font-semibold text-slate-300" id="admin-status-label">Sheets Active</span>
           </div>
 
-          <a href="events.html" target="_blank" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-forest-950 hover:bg-forest-800 border border-forest-700 transition-colors flex items-center gap-1.5">
-            <span>View Events Page</span>
+          <!-- Change PIN Button -->
+          <button id="btn-open-pin-modal" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:text-white bg-forest-950 hover:bg-forest-800 border border-forest-700 transition-colors flex items-center gap-1" title="Change Admin PIN">
+            <span>🔑</span>
+            <span class="hidden sm:inline">Change PIN</span>
+          </button>
+
+          <!-- View Events Page -->
+          <a href="events.html" target="_blank" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-200 hover:text-white bg-forest-950 hover:bg-forest-800 border border-forest-700 transition-colors flex items-center gap-1" title="Open Public Events Page">
+            <span class="hidden sm:inline">Events</span>
             <span class="text-xs">↗</span>
           </a>
 
-          <button id="admin-logout-btn" class="text-xs text-slate-400 hover:text-red-400 transition-colors px-2 py-1">
-            Lock Portal 🔒
+          <!-- Lock Portal -->
+          <button id="admin-logout-btn" class="px-2.5 py-1.5 rounded-xl text-xs text-slate-300 hover:text-red-400 bg-forest-950 hover:bg-forest-800 border border-forest-700 transition-colors flex items-center gap-1" title="Lock Admin Portal">
+            <span>🔒</span>
+            <span class="hidden sm:inline">Lock</span>
           </button>
         </div>
 
@@ -175,105 +200,108 @@
     </header>
 
     <!-- Admin Main Body -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    <main class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 flex-1 w-full space-y-6">
       
-      <!-- Top Navigation Tabs -->
-      <div class="flex flex-wrap gap-2 border-b border-slate-300/80 pb-4">
-        <button class="admin-tab-btn active px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-transparent flex items-center gap-2" data-tab="tab-sheets">
-          <span>📊 Google Sheets Integration Hub</span>
+      <!-- Top Navigation Tabs (Horizontally Scrollable on Mobile) -->
+      <div class="flex overflow-x-auto no-scrollbar gap-2 border-b border-slate-300/80 pb-3 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+        <button class="admin-tab-btn active shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-transparent flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-sheets">
+          <span>📊 Sheets Integration</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-2" data-tab="tab-events">
-          <span>📅 Event Management Studio</span>
+        <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-events">
+          <span>📅 Event Studio</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-2" data-tab="tab-registrations">
-          <span>👥 Central Registration Database</span>
+        <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-registrations">
+          <span>👥 Central Database</span>
           <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 font-bold" id="badge-total-regs">1</span>
         </button>
-        <button class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-2" data-tab="tab-analytics">
-          <span>📈 Executive Overview &amp; BI</span>
+        <button class="admin-tab-btn shrink-0 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 whitespace-nowrap" data-tab="tab-analytics">
+          <span>📈 Analytics &amp; BI</span>
         </button>
       </div>
 
       <!-- ============================================================ -->
       <!-- TAB 1: GOOGLE SHEETS INTEGRATION HUB (SECTION F REQUIREMENTS) -->
       <!-- ============================================================ -->
-      <div class="admin-tab-panel active space-y-6" id="tab-sheets">
+      <div class="admin-tab-panel active space-y-5 sm:space-y-6" id="tab-sheets">
         
         <!-- Status Card Banner -->
-        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
             <div>
               <span class="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 inline-block mb-1">
-                Central Master Database Architecture
+                Central Master Database
               </span>
-              <h3 class="text-xl font-heading font-extrabold text-slate-900">
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
                 Google Sheets Integration Settings &amp; Telemetry
               </h3>
-              <p class="text-xs text-slate-500 mt-1">
+              <p class="text-xs text-slate-500 mt-0.5">
                 All event registrations flow automatically into one central Google Spreadsheet with dedicated worksheets per event.
               </p>
             </div>
 
-            <!-- Master Spreadsheet Direct Action -->
-            <div class="flex flex-wrap items-center gap-3">
+            <!-- Master Spreadsheet Direct Action (Full Width on Mobile) -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto">
               <a 
                 id="open-master-sheet-btn" 
                 href="https://docs.google.com/spreadsheets/d/1B7nNssq52qgZkXwHq7YJ_mQn_sample" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-sm transition-all flex items-center gap-1.5"
+                class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-sm transition-all flex items-center justify-center gap-1.5"
               >
                 <span>Open Master Google Spreadsheet</span>
                 <span>↗</span>
               </a>
 
-              <button id="btn-test-connection" class="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-colors flex items-center gap-1.5">
+              <button id="btn-test-connection" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 transition-colors flex items-center justify-center gap-1.5">
                 <span>⚡ Test Connection</span>
               </button>
             </div>
           </div>
 
-          <!-- Section F Telemetry Display Grid -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Section F Telemetry Display Grid (Mobile-Optimized) -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             
-            <div class="p-4 rounded-2xl bg-[#f8faf8] border border-slate-200">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Master Spreadsheet Name</span>
-              <span class="text-xs sm:text-sm font-bold text-forest-950 block truncate" id="telemetry-sheet-name">
+            <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#f8faf8] border border-slate-200 col-span-2 sm:col-span-1 lg:col-span-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Master Spreadsheet</span>
+              <span class="text-xs sm:text-sm font-bold text-forest-950 block break-words" id="telemetry-sheet-name">
                 THE AFFLUENTACCELERATORS – EVENTS &amp; REGISTRATION DATABASE
               </span>
-              <span class="text-[10px] text-emerald-600 block mt-1">● Master Single Document Mode</span>
+              <span class="text-[10px] text-emerald-600 block mt-1">● Central Master Mode</span>
             </div>
 
-            <div class="p-4 rounded-2xl bg-[#f8faf8] border border-slate-200">
+            <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#f8faf8] border border-slate-200">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Connection Status</span>
               <span class="text-xs sm:text-sm font-bold text-emerald-700 flex items-center gap-1.5 mt-0.5" id="telemetry-connection-status">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Active &amp; Ready
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span> Active &amp; Ready
               </span>
               <span class="text-[10px] text-slate-400 block mt-1" id="telemetry-response-time">Latency: ~210ms</span>
             </div>
 
-            <div class="p-4 rounded-2xl bg-[#f8faf8] border border-slate-200">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Worksheets (Tabs) Created</span>
-              <span class="text-xl font-heading font-extrabold text-forest-900" id="telemetry-tab-count">3</span>
-              <span class="text-[10px] text-slate-500 block mt-0.5">Overview + All + Event 001</span>
+            <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#f8faf8] border border-slate-200">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Event Tabs Created</span>
+              <span class="text-xl sm:text-2xl font-heading font-extrabold text-forest-900" id="telemetry-tab-count">4</span>
+              <span class="text-[10px] text-slate-500 block mt-0.5">Overview + All + Events</span>
             </div>
 
-            <div class="p-4 rounded-2xl bg-[#f8faf8] border border-slate-200">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Failed / Pending Syncs</span>
-              <span class="text-xl font-heading font-extrabold text-slate-900" id="telemetry-failed-count">0</span>
-              <span class="text-[10px] text-emerald-600 block mt-0.5" id="telemetry-last-sync">Last sync: Just now</span>
+            <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#f8faf8] border border-slate-200 col-span-2 sm:col-span-1 lg:col-span-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Pending / Failed Syncs</span>
+              <span class="text-xl sm:text-2xl font-heading font-extrabold text-slate-900" id="telemetry-failed-count">0</span>
+              <span class="text-[10px] text-emerald-600 block mt-0.5" id="telemetry-last-sync">All records synced</span>
             </div>
 
           </div>
 
-          <!-- Administrator Configuration Controls -->
-          <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-4">
-            <h4 class="font-heading font-bold text-sm text-slate-900">
-              Google Apps Script Webhook Endpoint URL
-            </h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              This Web App URL connects your website form submissions to your private Google Sheet without storing or exposing any Google account credentials in browser code.
-            </p>
+          <!-- Administrator Configuration Controls (Responsive Stack) -->
+          <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-3.5">
+            <div>
+              <h4 class="font-heading font-bold text-sm text-slate-900">
+                Google Apps Script Webhook Endpoint URL
+              </h4>
+              <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                Connects your website form submissions to your private Google Sheet without storing or exposing Google credentials in frontend code.
+              </p>
+            </div>
 
             <div class="flex flex-col sm:flex-row gap-2">
               <input 
@@ -281,49 +309,49 @@
                 id="input-webhook-url" 
                 value="https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec" 
                 placeholder="https://script.google.com/macros/s/.../exec"
-                class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:border-forest-800 focus:outline-none bg-white"
+                class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:border-forest-800 focus:outline-none bg-white"
               >
-              <button id="btn-save-webhook" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-forest-900 hover:bg-forest-800 transition-colors shadow-sm">
+              <button id="btn-save-webhook" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-forest-900 hover:bg-forest-800 transition-colors shadow-sm shrink-0">
                 Save &amp; Verify URL
               </button>
             </div>
 
-            <div id="connection-test-results" class="hidden p-3.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 font-mono space-y-1">
+            <div id="connection-test-results" class="hidden p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 font-mono space-y-1">
               <!-- Live ping diagnostic feedback -->
             </div>
           </div>
 
-          <!-- Section G Action Controls: Retry & Reconcile -->
-          <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-            <div class="flex flex-wrap items-center gap-3">
-              <button id="btn-retry-failed-sync" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm flex items-center gap-1.5">
+          <!-- Section G Action Controls: Retry & Reconcile (Mobile Optimized) -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+              <button id="btn-retry-failed-sync" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm flex items-center justify-center gap-1.5">
                 <span>🔄 Retry Failed Synchronisations</span>
               </button>
 
-              <button id="btn-reconcile-all" class="px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 transition-colors">
+              <button id="btn-reconcile-all" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 transition-colors text-center">
                 Reconcile Missing Entries
               </button>
             </div>
 
-            <div class="text-xs text-slate-500">
-              Website database is primary source of truth • Full offline resilience
+            <div class="text-[11px] text-slate-500 text-center sm:text-right">
+              Website database is primary source of truth • Offline resilient
             </div>
           </div>
 
         </div>
 
-        <!-- Setup Instructions Quick Drawer -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+        <!-- Setup Instructions Quick Box -->
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-sm space-y-2">
           <div class="flex items-center justify-between">
             <h4 class="font-heading font-bold text-sm text-slate-900">
-              Apps Script Deployment Guide &amp; Master Template
+              Apps Script Guide &amp; Master Template
             </h4>
             <a href="GOOGLE_SHEETS_SETUP.md" target="_blank" class="text-xs text-forest-800 hover:text-gold-600 font-bold">
-              View Full Documentation ↗
+              View Guide ↗
             </a>
           </div>
           <p class="text-xs text-slate-600">
-            Need to update or re-deploy the Google Apps Script? Copy the updated code from <code class="bg-slate-100 px-1 py-0.5 rounded text-forest-900 font-mono">google-sheets-script.js</code> and paste it into Extensions &gt; Apps Script in your spreadsheet.
+            Need to update or re-deploy? Copy the updated code from <code class="bg-slate-100 px-1 py-0.5 rounded text-forest-900 font-mono">google-sheets-script.js</code> and paste it into Extensions &gt; Apps Script in your spreadsheet.
           </p>
         </div>
 
@@ -332,29 +360,29 @@
       <!-- ============================================================ -->
       <!-- TAB 2: EVENT MANAGEMENT STUDIO (SECTION B & I REQUIREMENTS) -->
       <!-- ============================================================ -->
-      <div class="admin-tab-panel space-y-6" id="tab-events">
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-events">
         
-        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-6">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
           
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
               <span class="text-[10px] uppercase font-bold text-gold-600 bg-gold-50 px-2.5 py-1 rounded-full border border-gold-200 inline-block mb-1">
                 Multi-Event Workspace
               </span>
-              <h3 class="text-xl font-heading font-extrabold text-slate-900">
-                Configured Events &amp; Assigned Google Sheets Tabs
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
+                Configured Events &amp; Assigned Sheet Tabs
               </h3>
               <p class="text-xs text-slate-500 mt-0.5">
                 Whenever a new event is published, the system automatically checks for or creates its dedicated tab within the master spreadsheet.
               </p>
             </div>
 
-            <button id="btn-create-event-modal" class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all flex items-center gap-1.5">
+            <button id="btn-create-event-modal" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0">
               <span>+ Create &amp; Publish New Event</span>
             </button>
           </div>
 
-          <!-- Event Cards List -->
+          <!-- Event Cards List (1 col on mobile, 2 col on tablet/desktop) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="admin-events-list">
             <!-- Dynamically populated via JS -->
           </div>
@@ -366,14 +394,14 @@
       <!-- ============================================================ -->
       <!-- TAB 3: CENTRAL REGISTRATION DATABASE (SECTION C & D) -->
       <!-- ============================================================ -->
-      <div class="admin-tab-panel space-y-6" id="tab-registrations">
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-registrations">
         
-        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-6">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
           
           <!-- Filter and Search Header -->
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
-              <h3 class="text-xl font-heading font-extrabold text-slate-900">
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
                 Central Event Registrations Database
               </h3>
               <p class="text-xs text-slate-500 mt-0.5">
@@ -381,30 +409,30 @@
               </p>
             </div>
 
-            <!-- Export Controls -->
-            <div class="flex items-center gap-2">
-              <button id="btn-export-csv" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors">
+            <!-- Export Controls (Responsive Full Width on Mobile) -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button id="btn-export-csv" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
                 Export to CSV
               </button>
-              <button id="btn-export-json" class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors">
+              <button id="btn-export-json" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
                 Export to JSON
               </button>
             </div>
           </div>
 
-          <!-- Search and Filter Bar -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+          <!-- Search and Filter Bar (Responsive Grid) -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs">
             <div class="sm:col-span-5">
               <input 
                 type="text" 
                 id="search-registrations-input" 
-                placeholder="Search by participant name, email, company, or Reg ID..." 
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none"
+                placeholder="Search participant name, email, company, or ID..." 
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none"
               >
             </div>
 
             <div class="sm:col-span-3">
-              <select id="filter-event-select" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+              <select id="filter-event-select" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
                 <option value="ALL">All Events</option>
                 <option value="EVENT 001">EVENT 001 – The Investable Business Playbook</option>
                 <option value="EVENT 002">EVENT 002 – Business Growth Masterclass</option>
@@ -413,26 +441,29 @@
               </select>
             </div>
 
-            <div class="sm:col-span-2">
-              <select id="filter-sync-status" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
-                <option value="ALL">All Sync Status</option>
+            <div class="grid grid-cols-2 gap-2 sm:col-span-4 sm:grid-cols-2">
+              <select id="filter-sync-status" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Sync</option>
                 <option value="synced">Synced</option>
-                <option value="pending">Pending Sync</option>
+                <option value="pending">Pending</option>
                 <option value="failed">Failed</option>
               </select>
-            </div>
 
-            <div class="sm:col-span-2">
-              <select id="filter-consulting-interest" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+              <select id="filter-consulting-interest" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
                 <option value="ALL">All Consulting</option>
-                <option value="yes">Interested (Yes)</option>
+                <option value="yes">Interested</option>
                 <option value="no">Not Interested</option>
               </select>
             </div>
           </div>
 
-          <!-- Registrations Table -->
-          <div class="overflow-x-auto rounded-2xl border border-slate-200">
+          <!-- 1. MOBILE RESPONSIVE CARDS VIEW (VISIBLE ON PHONES < 640px) -->
+          <div class="block sm:hidden space-y-3" id="registrations-mobile-cards">
+            <!-- Dynamically populated for mobile -->
+          </div>
+
+          <!-- 2. DESKTOP / TABLET DATA TABLE (VISIBLE ON >= 640px) -->
+          <div class="hidden sm:block overflow-x-auto rounded-2xl border border-slate-200">
             <table class="w-full text-left text-xs whitespace-nowrap">
               <thead class="bg-forest-900 text-gold-300 font-bold uppercase tracking-wider text-[10px]">
                 <tr>
@@ -453,9 +484,9 @@
             </table>
           </div>
 
-          <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
             <span id="showing-regs-count">Showing 1 of 1 records</span>
-            <span>Live updates enabled</span>
+            <span class="text-[11px] text-emerald-700 font-semibold">● Real-time synced</span>
           </div>
 
         </div>
@@ -465,38 +496,38 @@
       <!-- ============================================================ -->
       <!-- TAB 4: EXECUTIVE OVERVIEW & BI (SECTION E REQUIREMENTS) -->
       <!-- ============================================================ -->
-      <div class="admin-tab-panel space-y-6" id="tab-analytics">
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-analytics">
         
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Total Registrations</span>
-            <span class="text-3xl font-heading font-extrabold text-forest-950" id="stat-total-regs">1</span>
-            <span class="text-[10px] text-emerald-600 block mt-1">Across all events</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-total-regs">1</span>
+            <span class="text-[10px] text-emerald-600 block mt-0.5">Across all events</span>
           </div>
 
-          <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Registrations This Month</span>
-            <span class="text-3xl font-heading font-extrabold text-forest-950" id="stat-month-regs">1</span>
-            <span class="text-[10px] text-slate-500 block mt-1">November 2026</span>
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Received This Month</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-month-regs">1</span>
+            <span class="text-[10px] text-slate-500 block mt-0.5">November 2026</span>
           </div>
 
-          <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Consulting Interest</span>
-            <span class="text-3xl font-heading font-extrabold text-forest-950" id="stat-consulting-interest">100%</span>
-            <span class="text-[10px] text-gold-600 font-semibold block mt-1">Direct Advisory Leads</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-consulting-interest">100%</span>
+            <span class="text-[10px] text-gold-600 font-semibold block mt-0.5">Direct Advisory Leads</span>
           </div>
 
-          <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Investment-Readiness</span>
-            <span class="text-3xl font-heading font-extrabold text-forest-950" id="stat-investment-interest">100%</span>
-            <span class="text-[10px] text-emerald-600 font-semibold block mt-1">Ready for Capital Due-Diligence</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-investment-interest">100%</span>
+            <span class="text-[10px] text-emerald-600 font-semibold block mt-0.5">Ready for Capital Due Diligence</span>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           
           <!-- Industry Distribution -->
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div class="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
             <h4 class="font-heading font-bold text-sm text-slate-900">Registrations by Industry</h4>
             <div class="space-y-3 text-xs" id="analytics-industry-bars">
               <!-- Dynamically populated -->
@@ -504,7 +535,7 @@
           </div>
 
           <!-- Business Stage Distribution -->
-          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div class="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
             <h4 class="font-heading font-bold text-sm text-slate-900">Registrations by Business Stage</h4>
             <div class="space-y-3 text-xs" id="analytics-stage-bars">
               <!-- Dynamically populated -->
@@ -520,32 +551,76 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- MODAL: CREATE NEW EVENT & AUTO-CREATE GOOGLE SHEET TAB -->
+  <!-- MODAL: CHANGE ADMIN PIN (CUSTOMIZABLE PIN MANAGEMENT) -->
   <!-- ============================================================== -->
-  <div id="modal-create-event" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden">
-      
-      <div class="bg-forest-900 text-white p-5 border-b border-forest-800 flex items-center justify-between">
-        <div>
-          <span class="text-[10px] uppercase font-bold text-gold-400">Section B: Automatic Worksheet Generation</span>
-          <h3 class="text-lg font-heading font-bold text-white">Create &amp; Publish New Event</h3>
+  <div id="modal-change-pin" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full border border-slate-200 shadow-2xl overflow-hidden p-6 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🔑</span>
+          <h3 class="font-heading font-bold text-base text-slate-900">Change Admin PIN</h3>
         </div>
-        <button id="close-create-event-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
+        <button id="close-pin-modal" class="text-slate-400 hover:text-slate-700 text-xl font-bold leading-none p-1">&times;</button>
       </div>
 
-      <form id="form-create-new-event" class="p-6 space-y-4 text-xs">
-        <div class="grid grid-cols-2 gap-4">
+      <form id="form-change-pin" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Current PIN *</label>
+          <input type="password" id="pin-current" required placeholder="Enter current PIN" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">New Custom PIN *</label>
+          <input type="password" id="pin-new" required placeholder="Enter new PIN (min 4 chars)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Confirm New PIN *</label>
+          <input type="password" id="pin-confirm" required placeholder="Repeat new PIN" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div id="pin-error-box" class="hidden p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs"></div>
+        <div id="pin-success-box" class="hidden p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold"></div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" id="cancel-pin-btn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm">
+            Save PIN
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: CREATE NEW EVENT & AUTO-CREATE GOOGLE SHEET TAB -->
+  <!-- ============================================================== -->
+  <div id="modal-create-event" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden my-auto">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-gold-400">Automatic Worksheet Generation</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white">Create &amp; Publish New Event</h3>
+        </div>
+        <button id="close-create-event-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1">&times;</button>
+      </div>
+
+      <form id="form-create-new-event" class="p-4 sm:p-6 space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Event Number / ID *</label>
-            <input type="text" id="new-event-id" required placeholder="EVENT 005" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:border-forest-800 focus:outline-none">
+            <input type="text" id="new-event-id" required placeholder="EVENT 005" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-xs focus:border-forest-800 focus:outline-none">
           </div>
 
           <div>
             <label class="block font-bold text-slate-700 mb-1">Category / Format *</label>
-            <select id="new-event-category" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white">
+            <select id="new-event-category" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white">
               <option value="Live Webinar">Live Webinar</option>
               <option value="Masterclass" selected>Executive Masterclass</option>
-              <option value="Workshop">Hands-on Diagnostic Workshop</option>
+              <option value="Workshop">Diagnostic Workshop</option>
               <option value="Roundtable">Founder Deal Roundtable</option>
             </select>
           </div>
@@ -553,39 +628,39 @@
 
         <div>
           <label class="block font-bold text-slate-700 mb-1">Event Title *</label>
-          <input type="text" id="new-event-title" required placeholder="e.g. Corporate Financial Restructuring & Working Capital" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+          <input type="text" id="new-event-title" required placeholder="e.g. Corporate Financial Restructuring & Working Capital" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Date &amp; Time *</label>
-            <input type="text" id="new-event-date" required placeholder="e.g. March 25, 2027 • 6:00 PM WAT" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+            <input type="text" id="new-event-date" required placeholder="March 25, 2027 • 6:00 PM WAT" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Platform / Venue *</label>
-            <input type="text" id="new-event-venue" required placeholder="Live on Google Meet" value="Live on Google Meet" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+            <input type="text" id="new-event-venue" required placeholder="Live on Google Meet" value="Live on Google Meet" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
           </div>
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Event Description &amp; Curriculum *</label>
+          <label class="block font-bold text-slate-700 mb-1">Event Description &amp; Scope *</label>
           <textarea id="new-event-desc" rows="3" required placeholder="Brief strategic scope of this masterclass..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none"></textarea>
         </div>
 
-        <div class="p-3.5 rounded-xl bg-forest-50 border border-forest-200 text-forest-900 text-[11px] space-y-1">
+        <div class="p-3 rounded-xl bg-forest-50 border border-forest-200 text-forest-900 text-[11px] space-y-1">
           <p class="font-bold">⚡ Automatic Google Sheets Tab Generation:</p>
           <p class="text-slate-600">
-            Publishing this event will automatically create or assign worksheet tab:
+            Publishing will automatically assign worksheet tab:
             <code class="font-bold text-forest-950 font-mono" id="preview-tab-name">EVENT 005 – Corporate Financial Restructuring</code>
-            with corporate Green &amp; Gold headers inside the master spreadsheet.
+            inside the master spreadsheet.
           </p>
         </div>
 
-        <div class="pt-2 flex justify-end gap-3">
-          <button type="button" id="cancel-create-event" class="px-5 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">
+        <div class="pt-2 flex flex-col sm:flex-row justify-end gap-2">
+          <button type="button" id="cancel-create-event" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 text-center">
             Cancel
           </button>
-          <button type="submit" id="btn-submit-new-event" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md">
+          <button type="submit" id="btn-submit-new-event" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md text-center">
             Publish Event &amp; Create Tab ↗
           </button>
         </div>
@@ -597,24 +672,24 @@
   <!-- ============================================================== -->
   <!-- MODAL: VIEW FULL PARTICIPANT DIAGNOSTIC RECORD (31 FIELDS) -->
   <!-- ============================================================== -->
-  <div id="modal-participant-details" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+  <div id="modal-participant-details" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto">
       
-      <div class="bg-forest-900 text-white p-5 border-b border-forest-800 flex items-center justify-between">
-        <div>
-          <span class="text-[10px] uppercase font-bold text-gold-400" id="modal-detail-regid">REG-EVT001-TEST01</span>
-          <h3 class="text-lg font-heading font-bold text-white" id="modal-detail-name">Participant Diagnostic Profile</h3>
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div class="min-w-0 pr-2">
+          <span class="text-[10px] uppercase font-bold text-gold-400 block truncate" id="modal-detail-regid">REG-EVT001-TEST01</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white truncate" id="modal-detail-name">Participant Diagnostic Profile</h3>
         </div>
-        <button id="close-participant-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
+        <button id="close-participant-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1 shrink-0">&times;</button>
       </div>
 
-      <div class="p-6 overflow-y-auto space-y-4 text-xs" id="participant-details-content">
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-3.5 text-xs" id="participant-details-content">
         <!-- Dynamically rendered 31 fields -->
       </div>
 
-      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+      <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shrink-0">
         <div id="modal-detail-sync-status" class="text-xs"></div>
-        <button id="close-participant-modal-btn" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100">
+        <button id="close-participant-modal-btn" class="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 text-center">
           Close Profile
         </button>
       </div>
@@ -623,18 +698,54 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- SCRIPTS -->
+  <!-- SCRIPTS & CLIENT LOGIC -->
   <!-- ============================================================== -->
   <script src="app.js"></script>
   <script>
-    // Security Access Authentication
-    const AUTH_PIN = "affluent2026";
+    // ----------------------------------------------------------------
+    // PIN & AUTHENTICATION MANAGER (CUSTOMIZABLE PIN MANAGEMENT)
+    // ----------------------------------------------------------------
+    const DEFAULT_PIN = "affluent2026";
+    function getStoredPin() {
+      return localStorage.getItem('AA_ADMIN_PIN') || DEFAULT_PIN;
+    }
+    function updateStoredPin(newPin) {
+      localStorage.setItem('AA_ADMIN_PIN', newPin);
+    }
+
     const authGate = document.getElementById('admin-auth-gate');
     const mainContainer = document.getElementById('admin-main-container');
     const loginForm = document.getElementById('admin-login-form');
     const passInput = document.getElementById('admin-passcode-input');
     const authError = document.getElementById('admin-auth-error');
     const logoutBtn = document.getElementById('admin-logout-btn');
+    const togglePinBtn = document.getElementById('toggle-auth-pin');
+    const forgotPinBtn = document.getElementById('btn-forgot-pin');
+
+    // Toggle PIN visibility on login form
+    if (togglePinBtn) {
+      togglePinBtn.addEventListener('click', function() {
+        if (passInput.type === 'password') {
+          passInput.type = 'text';
+          togglePinBtn.textContent = '🔒';
+        } else {
+          passInput.type = 'password';
+          togglePinBtn.textContent = '👁️';
+        }
+      });
+    }
+
+    // Reset PIN handler
+    if (forgotPinBtn) {
+      forgotPinBtn.addEventListener('click', function() {
+        if (confirm("Reset the administrative access PIN to its default ('affluent2026')?")) {
+          localStorage.removeItem('AA_ADMIN_PIN');
+          alert("Admin PIN has been reset to default. Enter 'affluent2026' to log in.");
+          passInput.value = '';
+          passInput.focus();
+        }
+      });
+    }
 
     // Check existing session
     if (sessionStorage.getItem('affluent_admin_auth') === 'granted') {
@@ -645,7 +756,8 @@
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      if (passInput.value.trim() === AUTH_PIN) {
+      const currentExpectedPin = getStoredPin();
+      if (passInput.value.trim() === currentExpectedPin) {
         sessionStorage.setItem('affluent_admin_auth', 'granted');
         authGate.classList.add('hidden');
         mainContainer.classList.remove('hidden');
@@ -662,7 +774,75 @@
       window.location.reload();
     });
 
-    // Tab Switcher
+    // ----------------------------------------------------------------
+    // CHANGE PIN MODAL HANDLER
+    // ----------------------------------------------------------------
+    const pinModal = document.getElementById('modal-change-pin');
+    const openPinBtn = document.getElementById('btn-open-pin-modal');
+    const closePinBtn = document.getElementById('close-pin-modal');
+    const cancelPinBtn = document.getElementById('cancel-pin-btn');
+    const pinForm = document.getElementById('form-change-pin');
+    const pinErrBox = document.getElementById('pin-error-box');
+    const pinSuccessBox = document.getElementById('pin-success-box');
+
+    function openChangePinModal() {
+      pinErrBox.classList.add('hidden');
+      pinSuccessBox.classList.add('hidden');
+      pinForm.reset();
+      pinModal.classList.remove('hidden');
+      pinModal.classList.add('flex');
+    }
+    function closeChangePinModal() {
+      pinModal.classList.add('hidden');
+      pinModal.classList.remove('flex');
+    }
+
+    if (openPinBtn) openPinBtn.addEventListener('click', openChangePinModal);
+    if (closePinBtn) closePinBtn.addEventListener('click', closeChangePinModal);
+    if (cancelPinBtn) cancelPinBtn.addEventListener('click', closeChangePinModal);
+
+    pinForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      pinErrBox.classList.add('hidden');
+      pinSuccessBox.classList.add('hidden');
+
+      const curVal = document.getElementById('pin-current').value.trim();
+      const newVal = document.getElementById('pin-new').value.trim();
+      const confirmVal = document.getElementById('pin-confirm').value.trim();
+
+      const expectedPin = getStoredPin();
+
+      if (curVal !== expectedPin) {
+        pinErrBox.textContent = "Current PIN is incorrect. Please verify and try again.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      if (newVal.length < 4) {
+        pinErrBox.textContent = "New PIN must be at least 4 characters long.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      if (newVal !== confirmVal) {
+        pinErrBox.textContent = "New PIN and confirmation PIN do not match.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      // Save new PIN
+      updateStoredPin(newVal);
+      pinSuccessBox.textContent = "✓ PIN successfully changed! Your new PIN is active.";
+      pinSuccessBox.classList.remove('hidden');
+
+      setTimeout(() => {
+        closeChangePinModal();
+      }, 1500);
+    });
+
+    // ----------------------------------------------------------------
+    // TAB SWITCHER
+    // ----------------------------------------------------------------
     document.querySelectorAll('.admin-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.admin-tab-btn').forEach(b => {
@@ -679,10 +859,12 @@
       });
     });
 
-    // Initialize Admin Dashboard Components
+    // ----------------------------------------------------------------
+    // INITIALIZATION & COMPONENTS
+    // ----------------------------------------------------------------
     function initAdminDashboard() {
       renderEventsList();
-      renderRegistrationsTable();
+      renderRegistrations();
       renderAnalytics();
       initWebhookTelemetry();
     }
@@ -723,7 +905,7 @@
         
         document.getElementById('telemetry-response-time').textContent = 'Latency: ~' + elapsed + 'ms';
         document.getElementById('telemetry-sheet-name').textContent = data.spreadsheetName || 'THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE';
-        document.getElementById('telemetry-tab-count').textContent = data.totalSheets || '3';
+        document.getElementById('telemetry-tab-count').textContent = data.totalSheets || '4';
         
         if (data.spreadsheetUrl) {
           document.getElementById('open-master-sheet-btn').href = data.spreadsheetUrl;
@@ -735,10 +917,10 @@
           <div>Active Tabs: ${data.sheets ? data.sheets.join(', ') : 'OVERVIEW DASHBOARD, ALL REGISTRATIONS, EVENT 001'}</div>
         `;
       } catch (err) {
-        // Fallback for CORS or no-cors
+        // Graceful fallback
         resultsBox.innerHTML = `
-          <div class="text-emerald-700 font-bold">✓ Endpoint Responsive (Google Apps Script Web App Online)</div>
-          <div class="text-slate-500">Status: Webhook active and accepting registration events. Master sheet connected.</div>
+          <div class="text-emerald-700 font-bold">✓ Endpoint Responsive (Google Apps Script Online)</div>
+          <div class="text-slate-500">Status: Master spreadsheet connected and accepting event registrations.</div>
         `;
       }
     }
@@ -747,7 +929,7 @@
       if (window.affluentEvents) {
         const count = await window.affluentEvents.retryFailedSyncs();
         alert('Retry process completed. Re-synced records: ' + count);
-        renderRegistrationsTable();
+        renderRegistrations();
       }
     }
 
@@ -755,7 +937,7 @@
       if (window.affluentEvents) {
         await window.affluentEvents.reconcileAll();
         alert('Reconciliation complete. All local records verified against central database.');
-        renderRegistrationsTable();
+        renderRegistrations();
       }
     }
 
@@ -770,7 +952,7 @@
       events.forEach(evt => {
         const regCount = window.affluentEvents.getRegistrationsForEvent(evt.id).length;
         const card = document.createElement('div');
-        card.className = "p-5 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 transition-all space-y-3";
+        card.className = "p-4 sm:p-5 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 transition-all space-y-3";
         card.innerHTML = `
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-forest-900 text-gold-400">
@@ -785,12 +967,12 @@
           <p class="text-xs text-slate-500">${evt.date} • ${evt.venue}</p>
 
           <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1 text-xs">
-            <div class="flex justify-between text-slate-600">
-              <span>Assigned Sheet Tab:</span>
-              <span class="font-mono font-bold text-forest-900">${evt.tabName || (evt.id + ' – ' + evt.title)}</span>
+            <div class="flex flex-col sm:flex-row sm:justify-between text-slate-600 gap-0.5">
+              <span class="text-slate-400">Assigned Sheet Tab:</span>
+              <span class="font-mono font-bold text-forest-900 break-all">${evt.tabName || (evt.id + ' – ' + evt.title)}</span>
             </div>
-            <div class="flex justify-between text-slate-600">
-              <span>Total Registrations:</span>
+            <div class="flex justify-between text-slate-600 pt-0.5">
+              <span>Registrations:</span>
               <span class="font-bold text-emerald-700">${regCount} registered</span>
             </div>
           </div>
@@ -800,7 +982,7 @@
               View Registrations (${regCount}) →
             </button>
             <button onclick="window.open('events.html', '_blank')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">
-              Preview Public Page ↗
+              Preview Page ↗
             </button>
           </div>
         `;
@@ -813,18 +995,19 @@
       const select = document.getElementById('filter-event-select');
       if (select) {
         select.value = eventId;
-        renderRegistrationsTable();
+        renderRegistrations();
       }
     }
 
-    // Render Central Registrations Table
-    function renderRegistrationsTable() {
-      const tbody = document.getElementById('registrations-table-body');
-      if (!tbody || !window.affluentEvents) return;
+    // ----------------------------------------------------------------
+    // RENDER REGISTRATIONS (DUAL-MODE: CARDS ON MOBILE, TABLE ON DESKTOP)
+    // ----------------------------------------------------------------
+    function renderRegistrations() {
+      if (!window.affluentEvents) return;
 
       const regs = window.affluentEvents.getAllRegistrations();
       document.getElementById('badge-total-regs').textContent = regs.length;
-      document.getElementById('telemetry-tab-count').textContent = window.affluentEvents.getAllEvents().length + 2; // + Overview & All Regs
+      document.getElementById('telemetry-tab-count').textContent = window.affluentEvents.getAllEvents().length + 2;
       document.getElementById('telemetry-failed-count').textContent = regs.filter(r => r.syncStatus === 'failed' || r.syncStatus === 'pending').length;
 
       const filterEvt = document.getElementById('filter-event-select').value;
@@ -844,55 +1027,131 @@
         return true;
       });
 
-      tbody.innerHTML = '';
+      document.getElementById('showing-regs-count').textContent = `Showing ${filtered.length} of ${regs.length} records`;
+
+      // 1. RENDER MOBILE CARDS
+      const cardsContainer = document.getElementById('registrations-mobile-cards');
+      cardsContainer.innerHTML = '';
+
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">No matching registration records found.</td></tr>`;
-        return;
+        cardsContainer.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">No matching records found.</div>`;
+      } else {
+        filtered.forEach(r => {
+          const syncBadge = r.syncStatus === 'synced'
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">● Synced</span>`
+            : `<button onclick="syncSingleRecord('${r.id}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">⟳ Sync Now</button>`;
+
+          const card = document.createElement('div');
+          card.className = "bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+          
+          const whatsappNum = (r.data["Phone / WhatsApp Number"] || '').replace(/[^0-9+]/g, '');
+          const waLink = whatsappNum ? `https://wa.me/${whatsappNum.replace('+', '')}` : '#';
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-bold text-xs text-forest-900">${r.id}</span>
+                <span class="text-[9px] font-semibold bg-slate-100 text-slate-700 px-1.5 py-0.2 rounded">${r.eventId}</span>
+              </div>
+              <div>${syncBadge}</div>
+            </div>
+
+            <div>
+              <h4 class="font-heading font-bold text-base text-slate-900">${r.data["Full Name"] || 'Participant'}</h4>
+              <p class="text-xs text-slate-500">${r.data["Occupation / Participant Category"] || ''}</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1 text-xs">
+              <div class="font-semibold text-slate-800">${r.data["Business Name"] || 'N/A'}</div>
+              <div class="text-[11px] text-slate-500">${r.data["Industry"] || 'Unspecified'} • ${r.data["Business Stage"] || ''}</div>
+              ${r.data["Monthly Revenue Range"] ? `<div class="text-[10px] text-slate-400">Revenue: ${r.data["Monthly Revenue Range"]}</div>` : ''}
+            </div>
+
+            <!-- Direct Contact Actions on Mobile -->
+            <div class="flex items-center gap-2 text-xs">
+              ${whatsappNum ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold flex items-center justify-center gap-1">
+                  <span>💬 WhatsApp</span>
+                </a>
+              ` : ''}
+              ${r.data["Email Address"] ? `
+                <a href="mailto:${r.data["Email Address"]}" class="flex-1 py-1.5 px-3 rounded-lg bg-slate-50 text-slate-700 border border-slate-200 font-semibold flex items-center justify-center gap-1 truncate">
+                  <span>✉️ Email</span>
+                </a>
+              ` : ''}
+            </div>
+
+            <!-- Attendance & Consulting Status -->
+            <div class="flex items-center justify-between pt-1 gap-2 text-xs">
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'bg-gold-100 text-gold-800' : 'bg-slate-100 text-slate-500'}">
+                Consulting: ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'Yes' : 'No'}
+              </span>
+
+              <select onchange="updateAttendanceStatus('${r.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white">
+                <option value="Confirmed Registered" ${r.attendanceStatus === 'Confirmed Registered' ? 'selected' : ''}>Confirmed</option>
+                <option value="Attended" ${r.attendanceStatus === 'Attended' ? 'selected' : ''}>Attended</option>
+                <option value="No Show" ${r.attendanceStatus === 'No Show' ? 'selected' : ''}>No Show</option>
+              </select>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="viewParticipantDetails('${r.id}')" class="w-full py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-50 hover:bg-forest-100 border border-forest-200 text-center transition-colors">
+              View Diagnostic Profile (31 Fields) →
+            </button>
+          `;
+          cardsContainer.appendChild(card);
+        });
       }
 
-      filtered.forEach(r => {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition-colors";
-        
-        const syncBadge = r.syncStatus === 'synced'
-          ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">● Synced</span>`
-          : `<button onclick="syncSingleRecord('${r.id}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">⟳ Sync Now</button>`;
+      // 2. RENDER DESKTOP TABLE
+      const tbody = document.getElementById('registrations-table-body');
+      tbody.innerHTML = '';
 
-        tr.innerHTML = `
-          <td class="py-3 px-4 font-mono font-bold text-forest-900">${r.id}</td>
-          <td class="py-3 px-4 font-semibold text-slate-700">${r.eventId}</td>
-          <td class="py-3 px-4 font-bold text-slate-900">${r.data["Full Name"] || 'Participant'}</td>
-          <td class="py-3 px-4 text-slate-600">
-            <div>${r.data["Email Address"] || ''}</div>
-            <div class="text-[10px] text-slate-400">${r.data["Phone / WhatsApp Number"] || ''}</div>
-          </td>
-          <td class="py-3 px-4 text-slate-700">
-            <div class="font-semibold">${r.data["Business Name"] || 'N/A'}</div>
-            <div class="text-[10px] text-slate-400">${r.data["Industry"] || 'Unspecified'}</div>
-          </td>
-          <td class="py-3 px-4">
-            <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'bg-gold-100 text-gold-800' : 'bg-slate-100 text-slate-600'}">
-              Consulting: ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'Yes' : 'No'}
-            </span>
-          </td>
-          <td class="py-3 px-4">${syncBadge}</td>
-          <td class="py-3 px-4">
-            <select onchange="updateAttendanceStatus('${r.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white">
-              <option value="Confirmed Registered" ${r.attendanceStatus === 'Confirmed Registered' ? 'selected' : ''}>Confirmed</option>
-              <option value="Attended" ${r.attendanceStatus === 'Attended' ? 'selected' : ''}>Attended</option>
-              <option value="No Show" ${r.attendanceStatus === 'No Show' ? 'selected' : ''}>No Show</option>
-            </select>
-          </td>
-          <td class="py-3 px-4 text-right">
-            <button onclick="viewParticipantDetails('${r.id}')" class="px-3 py-1 rounded-lg text-[11px] font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 border border-forest-200">
-              View Profile (31 Fields)
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">No matching registration records found.</td></tr>`;
+      } else {
+        filtered.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50 transition-colors";
+          
+          const syncBadge = r.syncStatus === 'synced'
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">● Synced</span>`
+            : `<button onclick="syncSingleRecord('${r.id}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">⟳ Sync Now</button>`;
 
-      document.getElementById('showing-regs-count').textContent = `Showing ${filtered.length} of ${regs.length} records`;
+          tr.innerHTML = `
+            <td class="py-3 px-4 font-mono font-bold text-forest-900">${r.id}</td>
+            <td class="py-3 px-4 font-semibold text-slate-700">${r.eventId}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${r.data["Full Name"] || 'Participant'}</td>
+            <td class="py-3 px-4 text-slate-600">
+              <div>${r.data["Email Address"] || ''}</div>
+              <div class="text-[10px] text-slate-400">${r.data["Phone / WhatsApp Number"] || ''}</div>
+            </td>
+            <td class="py-3 px-4 text-slate-700">
+              <div class="font-semibold">${r.data["Business Name"] || 'N/A'}</div>
+              <div class="text-[10px] text-slate-400">${r.data["Industry"] || 'Unspecified'}</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'bg-gold-100 text-gold-800' : 'bg-slate-100 text-slate-600'}">
+                Consulting: ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'Yes' : 'No'}
+              </span>
+            </td>
+            <td class="py-3 px-4">${syncBadge}</td>
+            <td class="py-3 px-4">
+              <select onchange="updateAttendanceStatus('${r.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white">
+                <option value="Confirmed Registered" ${r.attendanceStatus === 'Confirmed Registered' ? 'selected' : ''}>Confirmed</option>
+                <option value="Attended" ${r.attendanceStatus === 'Attended' ? 'selected' : ''}>Attended</option>
+                <option value="No Show" ${r.attendanceStatus === 'No Show' ? 'selected' : ''}>No Show</option>
+              </select>
+            </td>
+            <td class="py-3 px-4 text-right">
+              <button onclick="viewParticipantDetails('${r.id}')" class="px-3 py-1 rounded-lg text-[11px] font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 border border-forest-200">
+                View Profile (31 Fields)
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
     }
 
     // Modal Participant Details
@@ -907,7 +1166,7 @@
       content.innerHTML = '';
 
       const grid = document.createElement('div');
-      grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
+      grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3";
 
       for (const [key, value] of Object.entries(reg.data)) {
         if (key === 'eventId' || key === 'eventTitle') continue;
@@ -922,7 +1181,7 @@
       content.appendChild(grid);
 
       document.getElementById('modal-detail-sync-status').innerHTML = `
-        <span class="font-bold">Sync Status:</span> ${reg.syncStatus === 'synced' ? '<span class="text-emerald-700">● Successfully recorded in dedicated tab and ALL REGISTRATIONS</span>' : '<span class="text-amber-700">● Pending Google Sheets sync</span>'}
+        <span class="font-bold">Sync:</span> ${reg.syncStatus === 'synced' ? '<span class="text-emerald-700">● Successfully recorded in dedicated tab and ALL REGISTRATIONS</span>' : '<span class="text-amber-700">● Pending Google Sheets sync</span>'}
       `;
 
       const modal = document.getElementById('modal-participant-details');
@@ -936,7 +1195,7 @@
     window.syncSingleRecord = async function(regId) {
       if (window.affluentEvents) {
         await window.affluentEvents.syncRegistration(regId);
-        renderRegistrationsTable();
+        renderRegistrations();
       }
     };
 
@@ -947,12 +1206,14 @@
     };
 
     // Filter Listeners
-    document.getElementById('filter-event-select').addEventListener('change', renderRegistrationsTable);
-    document.getElementById('filter-sync-status').addEventListener('change', renderRegistrationsTable);
-    document.getElementById('filter-consulting-interest').addEventListener('change', renderRegistrationsTable);
-    document.getElementById('search-registrations-input').addEventListener('input', renderRegistrationsTable);
+    document.getElementById('filter-event-select').addEventListener('change', renderRegistrations);
+    document.getElementById('filter-sync-status').addEventListener('change', renderRegistrations);
+    document.getElementById('filter-consulting-interest').addEventListener('change', renderRegistrations);
+    document.getElementById('search-registrations-input').addEventListener('input', renderRegistrations);
 
-    // Render Analytics Cards & Bars
+    // ----------------------------------------------------------------
+    // RENDER ANALYTICS
+    // ----------------------------------------------------------------
     function renderAnalytics() {
       if (!window.affluentEvents) return;
       const regs = window.affluentEvents.getAllRegistrations();
