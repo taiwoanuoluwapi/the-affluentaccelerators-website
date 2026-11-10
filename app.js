@@ -1,18 +1,18 @@
 // THE AFFLUENTACCELERATORS - CORE APPLICATION LOGIC
 
 // ============================================================================
-// GOOGLE SHEETS FORM WEBHOOK CONFIGURATION
+// DUAL GOOGLE SHEETS WEBHOOK CONFIGURATION (100% SEPARATED SHEETS & SCRIPTS)
 // ============================================================================
-// All forms submit directly to your Google Spreadsheet.
-// Each form automatically creates and routes submissions to its own dedicated tab:
-// - "Consulting Inquiries"
-// - "Analyst Applications"
-// - "Internship Applications"
-//
-// To connect to your spreadsheet:
-// 1. Follow the 3-minute steps in GOOGLE_SHEETS_SETUP.md (or copy google-sheets-script.js)
-// 2. Paste your deployed Apps Script Web App URL below:
-const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
+// 1. INQUIRIES & APPLICATIONS SPREADSHEET (Consulting, Hiring, CVs & Audits)
+// Script: google-sheets-inquiries-script.js (or google-sheets-script.js)
+// Sheet: "The Affluentaccelerators - Submissions & Leads"
+const INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
+const GOOGLE_SHEETS_WEBHOOK_URL = INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL; // Backward compatibility alias
+
+// 2. EVENTS MASTER SPREADSHEET (Central Event Database, Webinars & Masterclasses)
+// Script: google-sheets-events-script.js
+// Sheet: "THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE"
+const EVENTS_GOOGLE_SHEETS_WEBHOOK_URL = "";
 
 // Default Initial State
 const DEFAULT_STATE = {
