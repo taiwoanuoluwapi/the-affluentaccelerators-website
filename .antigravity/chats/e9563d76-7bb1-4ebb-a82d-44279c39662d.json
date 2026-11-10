@@ -52,6 +52,18 @@
       "created_at": "2026-11-10T18:33:16.252Z",
       "sender": "ios",
       "is_cancelled": true
+    },
+    {
+      "id": "94760477-308a-4693-b1d5-d5b6be570691",
+      "role": "user",
+      "content": "so on the consulting and inquiry for I want you to finally remove the free or paid consulting option, just put it as get a free business audit and on the form remove the response format option, also on the home page instead of custom video audit change it to get you free business audit, and on the general side bar I want you to replace the navigation text with the Affluentaccelerators logo instead of saying navigation",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T18:35:20.697Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
