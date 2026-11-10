@@ -6,7 +6,7 @@
 // Master Unified Webhook URL: Routes all Event Registrations (single tab)
 // and Inquiries/Applications (Business Audits, Consulting, Analyst, Internship)
 // into one consolidated Master Google Spreadsheet with dedicated tabs.
-const UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
+const UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzIwLdLmzRJVPJAyrrLwLDCYgsiOmZAR3-SjYG_CllDA17xgCITuCYFKwIOWdsZj8w/exec";
 const INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
 const EVENTS_GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
 const GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL; // Backward compatibility alias
