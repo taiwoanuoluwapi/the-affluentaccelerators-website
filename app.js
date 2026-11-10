@@ -1,18 +1,15 @@
 // THE AFFLUENTACCELERATORS - CORE APPLICATION LOGIC
 
 // ============================================================================
-// DUAL GOOGLE SHEETS WEBHOOK CONFIGURATION (100% SEPARATED SHEETS & SCRIPTS)
+// UNIFIED MASTER GOOGLE SHEETS WEBHOOK CONFIGURATION
 // ============================================================================
-// 1. INQUIRIES & APPLICATIONS SPREADSHEET (Consulting, Hiring, CVs & Audits)
-// Script: google-sheets-inquiries-script.js (or google-sheets-script.js)
-// Sheet: "The Affluentaccelerators - Submissions & Leads"
-const INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
-const GOOGLE_SHEETS_WEBHOOK_URL = INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL; // Backward compatibility alias
-
-// 2. EVENTS MASTER SPREADSHEET (Central Event Database, Webinars & Masterclasses)
-// Script: google-sheets-events-script.js
-// Sheet: "THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE"
-const EVENTS_GOOGLE_SHEETS_WEBHOOK_URL = "";
+// Master Unified Webhook URL: Routes all Event Registrations (single tab)
+// and Inquiries/Applications (Business Audits, Consulting, Analyst, Internship)
+// into one consolidated Master Google Spreadsheet with dedicated tabs.
+const UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
+const INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+const EVENTS_GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+const GOOGLE_SHEETS_WEBHOOK_URL = UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL; // Backward compatibility alias
 
 // Default Initial State
 const DEFAULT_STATE = {
@@ -365,7 +362,10 @@ class AffluentApp {
   // GOOGLE SHEETS FORM SUBMISSION HANDLER (INQUIRIES & HIRING APPLICATIONS ONLY)
   // ============================================================================
   async submitToGoogleSheet(sheetName, submissionData, fileObj = null) {
-    const webhookUrl = localStorage.getItem('AA_INQUIRIES_SHEETS_URL') || INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL;
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       localStorage.getItem('AA_INQUIRIES_SHEETS_URL') ||
+                       localStorage.getItem('AA_EVENTS_SHEETS_URL') ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
     
     const payload = {
       sheetName: sheetName,

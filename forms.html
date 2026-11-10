@@ -399,7 +399,7 @@
         <!-- FORM 1: BUSINESS AUDIT       -->
         <!-- ============================= -->
         <div id="form-panel-business-audit" class="form-panel">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
             <!-- Form Header -->
             <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
               <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">📊</div>
@@ -532,7 +532,7 @@
         <!-- FORM 2: CONSULTING INQUIRY      -->
         <!-- =============================== -->
         <div id="form-panel-consulting-inquiry" class="form-panel">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
             <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
               <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">💼</div>
               <div>
@@ -683,7 +683,7 @@
         <!-- FORM 3: ANALYST APPLICATION     -->
         <!-- =============================== -->
         <div id="form-panel-analyst-application" class="form-panel">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
             <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
               <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">🎓</div>
               <div>
@@ -824,7 +824,7 @@
         <!-- FORM 4: INTERNSHIP APPLICATION     -->
         <!-- ================================== -->
         <div id="form-panel-internship-application" class="form-panel">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
             <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
               <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">🌱</div>
               <div>
@@ -979,14 +979,47 @@
   </footer>
 
   <script>
-    const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec';
+    // Active Webhook URL (supports Unified Master Webhook configured in Admin / localStorage)
+    const storedUnifiedUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') || localStorage.getItem('AA_INQUIRIES_SHEETS_URL');
+    const GOOGLE_SHEETS_WEBHOOK_URL = storedUnifiedUrl || 'https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec';
+
+    // Mobile Navigation Drawer Controller
+    (function initMobileDrawer() {
+      const openBtn = document.getElementById('forms-nav-open');
+      const closeBtn = document.getElementById('forms-drawer-close');
+      const drawer = document.getElementById('forms-drawer');
+      const overlay = document.getElementById('forms-drawer-overlay');
+
+      if (!openBtn || !closeBtn || !drawer || !overlay) return;
+
+      function openDrawer() {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', openDrawer);
+      closeBtn.addEventListener('click', closeDrawer);
+      overlay.addEventListener('click', closeDrawer);
+
+      drawer.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', closeDrawer);
+      });
+    })();
 
     const formKeys = ['business-audit', 'consulting-inquiry', 'analyst-application', 'internship-application'];
 
     // Show/hide panels
     function showForm(formKey) {
       // Hide landing
-      document.getElementById('landing-panel').classList.add('hidden-panel');
+      const landing = document.getElementById('landing-panel');
+      if (landing) landing.classList.add('hidden-panel');
       // Hide all form panels
       formKeys.forEach(function(k) {
         const panel = document.getElementById('form-panel-' + k);
@@ -1002,8 +1035,12 @@
       if (activeBtn) activeBtn.classList.add('active');
       // Update URL hash
       history.pushState(null, '', '#' + formKey);
-      // Scroll to top of content
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Scroll to content: on mobile, scroll smoothly directly to the active form!
+      if (window.innerWidth < 1024 && target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     function showLanding() {
