@@ -362,10 +362,10 @@ class AffluentApp {
   }
 
   // ============================================================================
-  // GOOGLE SHEETS FORM SUBMISSION HANDLER
+  // GOOGLE SHEETS FORM SUBMISSION HANDLER (INQUIRIES & HIRING APPLICATIONS ONLY)
   // ============================================================================
   async submitToGoogleSheet(sheetName, submissionData, fileObj = null) {
-    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    const webhookUrl = localStorage.getItem('AA_INQUIRIES_SHEETS_URL') || INQUIRIES_GOOGLE_SHEETS_WEBHOOK_URL;
     
     const payload = {
       sheetName: sheetName,
@@ -1151,14 +1151,14 @@ class CentralEventManager {
     };
   }
 
-  // Send Registration to Google Sheets Webhook
+  // Send Registration to Dedicated Events Google Sheets Webhook
   async syncRegistration(regId) {
     const record = this.state.registrations.find(r => r.id === regId);
     if (!record) return false;
 
-    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    const webhookUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || localStorage.getItem('AA_GOOGLE_SHEETS_URL') || EVENTS_GOOGLE_SHEETS_WEBHOOK_URL;
     if (!webhookUrl || !webhookUrl.startsWith('http')) {
-      console.warn("[Google Sheets Sync] Webhook URL not configured. Record remains stored locally.");
+      console.warn("[Events Sync] Dedicated Events Webhook URL not configured yet. Registration is securely saved in local database.");
       return false;
     }
 
@@ -1214,8 +1214,8 @@ class CentralEventManager {
       existing = newEvt;
     }
 
-    // Ping Google Sheets to pre-create worksheet tab
-    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    // Ping Dedicated Events Google Sheets to pre-create worksheet tab
+    const webhookUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || localStorage.getItem('AA_GOOGLE_SHEETS_URL') || EVENTS_GOOGLE_SHEETS_WEBHOOK_URL;
     if (webhookUrl && webhookUrl.startsWith('http')) {
       try {
         await fetch(webhookUrl, {

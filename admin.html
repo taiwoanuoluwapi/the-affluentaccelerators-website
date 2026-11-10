@@ -295,11 +295,15 @@
           <!-- Administrator Configuration Controls (Responsive Stack) -->
           <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-3.5">
             <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] uppercase font-bold text-forest-800 bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Events Database Endpoint</span>
+                <span class="text-[10px] text-slate-500 font-medium">Separate from Inquiries Sheet</span>
+              </div>
               <h4 class="font-heading font-bold text-sm text-slate-900">
-                Google Apps Script Webhook Endpoint URL
+                Events Master Google Apps Script Webhook URL
               </h4>
               <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                Connects your website form submissions to your private Google Sheet without storing or exposing Google credentials in frontend code.
+                Connects event registrations from <code class="text-forest-900 font-mono font-bold">events.html</code> to your dedicated spreadsheet <strong>THE AFFLUENTACCELERATORS – EVENTS &amp; REGISTRATION DATABASE</strong>.
               </p>
             </div>
 
@@ -307,13 +311,22 @@
               <input 
                 type="url" 
                 id="input-webhook-url" 
-                value="https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec" 
-                placeholder="https://script.google.com/macros/s/.../exec"
+                value="" 
+                placeholder="Paste your deployed Events Web App URL (https://script.google.com/macros/s/.../exec)"
                 class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono focus:border-forest-800 focus:outline-none bg-white"
               >
               <button id="btn-save-webhook" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-forest-900 hover:bg-forest-800 transition-colors shadow-sm shrink-0">
                 Save &amp; Verify URL
               </button>
+            </div>
+
+            <!-- Inquiries Independence Note -->
+            <div class="p-3 rounded-xl bg-white border border-emerald-200 text-xs text-slate-700 flex items-start gap-2.5">
+              <span class="text-emerald-600 text-base leading-none">🛡️</span>
+              <div class="text-[11px] leading-relaxed">
+                <strong class="text-forest-950 font-bold block mb-0.5">Inquiries &amp; Hiring Sheets Are 100% Separate &amp; Protected:</strong>
+                Consulting inquiries, Internship applications (with CVs), Analyst applications, and Business Audits continue routing to their existing independent Google Sheet (<em>The Affluentaccelerators - Submissions &amp; Leads</em>) via <code class="font-mono text-forest-900">google-sheets-inquiries-script.js</code>. They are completely untouched by this events webhook.
+              </div>
             </div>
 
             <div id="connection-test-results" class="hidden p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 font-mono space-y-1">
@@ -869,17 +882,20 @@
       initWebhookTelemetry();
     }
 
-    // Webhook Telemetry & Ping
+    // Webhook Telemetry & Ping (Dedicated to Events)
     function initWebhookTelemetry() {
-      const storedUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || "https://script.google.com/macros/s/AKfycbxMyScm3TK_XlbR79Yeo_Zc6qxCKiOOkL75tzsTYF2JM9pA1TXdqcwRTCAa98tpul8/exec";
+      const storedUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || localStorage.getItem('AA_GOOGLE_SHEETS_URL') || "";
       document.getElementById('input-webhook-url').value = storedUrl;
 
       document.getElementById('btn-save-webhook').addEventListener('click', function() {
         const val = document.getElementById('input-webhook-url').value.trim();
         if (val) {
+          localStorage.setItem('AA_EVENTS_SHEETS_URL', val);
           localStorage.setItem('AA_GOOGLE_SHEETS_URL', val);
-          alert('Google Sheets Webhook URL updated successfully!');
+          alert('Events Google Sheets Webhook URL saved successfully!');
           testGoogleSheetsConnection();
+        } else {
+          alert('Please enter a valid Apps Script Web App URL.');
         }
       });
 
