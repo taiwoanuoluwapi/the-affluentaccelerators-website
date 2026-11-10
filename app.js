@@ -1022,45 +1022,71 @@ class CentralEventManager {
 
   loadState() {
     const defaultData = {
-      spreadsheetName: "THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE",
+      spreadsheetName: "THE AFFLUENTACCELERATORS – MASTER DATABASE",
       spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1B7nNssq52qgZkXwHq7YJ_mQn_sample",
       events: [
         {
           id: "EVENT 001",
           title: "The Investable Business Playbook",
           category: "Live Webinar",
-          date: "Wednesday, November 19, 2026 • 6:00 PM WAT",
+          date: "2026-11-19",
+          time: "18:00",
+          timezone: "WAT",
+          dateFormatted: "Wednesday, November 19, 2026 • 6:00 PM WAT",
+          isoDate: "2026-11-19T18:00:00+01:00",
           venue: "Live on Google Meet",
           host: "Fulfilment Taiwo (Lead Consultant)",
           tabName: "EVENT 001 – The Investable Business Playbook",
           flyer: "images/photo-1794301616-c3edd84b.jpg",
+          status: "Upcoming",
           description: "How to Build Businesses That Attract Investors. A masterclass on institutional systems, cash flow diagnostics, and angel/VC due-diligence criteria."
         },
         {
           id: "EVENT 002",
           title: "Business Growth & Revenue Scaling Masterclass",
           category: "Executive Masterclass",
-          date: "Saturday, December 12, 2026 • 4:00 PM WAT",
+          date: "2026-12-12",
+          time: "16:00",
+          timezone: "WAT",
+          dateFormatted: "Saturday, December 12, 2026 • 4:00 PM WAT",
+          isoDate: "2026-12-12T16:00:00+01:00",
           venue: "Virtual Interactive Workshop",
+          host: "Lead Advisory Practice",
           tabName: "EVENT 002 – Business Growth Masterclass",
+          flyer: "images/photo-1794301616-c3edd84b.jpg",
+          status: "Upcoming",
           description: "Moving beyond founder-led hustle to sustainable sales funnels, regional distributor partnerships, and predictable revenue engines."
         },
         {
           id: "EVENT 003",
           title: "Business Finance & Cashflow Restructuring",
           category: "Diagnostic Workshop",
-          date: "Thursday, January 14, 2027 • 5:00 PM WAT",
+          date: "2027-01-14",
+          time: "17:00",
+          timezone: "WAT",
+          dateFormatted: "Thursday, January 14, 2027 • 5:00 PM WAT",
+          isoDate: "2027-01-14T17:00:00+01:00",
           venue: "Live on Google Meet",
+          host: "Lead Financial Advisory Practice",
           tabName: "EVENT 003 – Business Finance Workshop",
+          flyer: "images/photo-1794301616-c3edd84b.jpg",
+          status: "Upcoming",
           description: "Hands-on diagnostic clinic covering working capital traps, managing uncollected trade receivables, and structuring audited financial dashboards."
         },
         {
           id: "EVENT 004",
           title: "African Founder Roundtable & Deal Clinic",
           category: "Founder Roundtable",
-          date: "Thursday, February 18, 2027 • 6:00 PM WAT",
+          date: "2027-02-18",
+          time: "18:00",
+          timezone: "WAT",
+          dateFormatted: "Thursday, February 18, 2027 • 6:00 PM WAT",
+          isoDate: "2027-02-18T18:00:00+01:00",
           venue: "Curated Executive Roundtable",
+          host: "Fulfilment Taiwo & Guest Partners",
           tabName: "EVENT 004 – Founder Roundtable",
+          flyer: "images/photo-1794301616-c3edd84b.jpg",
+          status: "Upcoming",
           description: "Intimate deal clinic for established founders looking to pitch institutional investors, structure mezzanine debt, or execute expansion rounds."
         }
       ],
@@ -1119,6 +1145,20 @@ class CentralEventManager {
         const parsed = JSON.parse(stored);
         if (!parsed.events || parsed.events.length === 0) {
           parsed.events = defaultData.events;
+        } else {
+          // Ensure events have structured date, time, isoDate, flyer, and status
+          parsed.events.forEach(evt => {
+            const def = defaultData.events.find(d => d.id === evt.id);
+            if (def) {
+              if (!evt.time && def.time) evt.time = def.time;
+              if (!evt.date && def.date) evt.date = def.date;
+              if (!evt.isoDate && def.isoDate) evt.isoDate = def.isoDate;
+              if (!evt.dateFormatted && def.dateFormatted) evt.dateFormatted = def.dateFormatted;
+              if (!evt.flyer && def.flyer) evt.flyer = def.flyer;
+              if (!evt.host && def.host) evt.host = def.host;
+              if (!evt.status) evt.status = def.status;
+            }
+          });
         }
         return parsed;
       }
