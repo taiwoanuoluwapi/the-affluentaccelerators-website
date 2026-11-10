@@ -1231,13 +1231,13 @@
           </ul>
         </div>
 
-        <!-- Programmes -->
+        <!-- Programmes & Pathway -->
         <div>
-          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 font-heading">Programmes</h4>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 font-heading">Programmes &amp; Pathway</h4>
           <ul class="space-y-2.5">
-            <li><a href="index.html#programme-analyst" class="hover:text-gold-400 transition-colors">Business Consultant/Analyst (90 Days)</a></li>
-            <li><a href="index.html#programme-internship" class="hover:text-gold-400 transition-colors">Internship &amp; Fellowship Programme</a></li>
-            <li><a href="index.html#programme-accelerator" class="hover:text-gold-400 transition-colors">The Affluent &amp; Audacious Accelerator</a></li>
+            <li><a href="#pathway" class="hover:text-gold-400 transition-colors">Business Consultant/Analyst (90 Days)</a></li>
+            <li><a href="#open-roles" class="hover:text-gold-400 transition-colors">Internship &amp; Fellowship Programme</a></li>
+            <li><a href="forms.html#consulting-inquiry" class="hover:text-gold-400 transition-colors">The Affluent &amp; Audacious Accelerator</a></li>
             <li><a href="forms.html#consulting-inquiry" class="hover:text-gold-400 transition-colors">Corporate Cohort Requests</a></li>
           </ul>
         </div>
@@ -1461,13 +1461,27 @@
       });
     });
 
-    // Mobile Menu Toggle
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileBtn && mobileMenu) {
-      mobileBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
+    // Mobile Drawer Toggle
+    const openBtn = document.getElementById('careers-nav-open');
+    const closeBtn = document.getElementById('careers-drawer-close');
+    const drawer = document.getElementById('careers-drawer');
+    const overlay = document.getElementById('careers-drawer-overlay');
+
+    if (openBtn && closeBtn && drawer && overlay) {
+      function openDrawer() {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeDrawer() {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+      openBtn.addEventListener('click', openDrawer);
+      closeBtn.addEventListener('click', closeDrawer);
+      overlay.addEventListener('click', closeDrawer);
+      drawer.querySelectorAll('a').forEach(l => l.addEventListener('click', closeDrawer));
     }
 
     // Role Filtering
