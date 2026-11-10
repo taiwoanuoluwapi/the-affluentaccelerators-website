@@ -121,34 +121,62 @@
         </button>
 
         <!-- Mobile Drawer Toggle -->
-        <button id="events-nav-open" aria-label="Open mobile navigation" class="lg:hidden p-2.5 rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all">
+        <button id="events-nav-open" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Drawer -->
-  <div id="events-drawer-overlay" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-sm hidden" aria-hidden="true"></div>
-  <aside id="events-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto">
+  <!-- Mobile Drawer Overlay -->
+  <div id="events-drawer-overlay" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-sm hidden transition-opacity duration-300" aria-hidden="true"></div>
+
+  <!-- Mobile Navigation Slide-in Drawer -->
+  <aside id="events-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
     <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
-      <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Navigation</span>
-      <button id="events-drawer-close" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+            <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+            <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+          </svg>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Navigation</span>
+      </div>
+      <button id="events-drawer-close" aria-label="Close navigation" class="text-slate-400 hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-lg hover:bg-forest-900 transition-colors">&times;</button>
     </div>
-    <nav class="space-y-3 text-sm font-semibold text-slate-200">
-      <a href="index.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Home</a>
-      <a href="index.html#about" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">About Us</a>
-      <a href="index.html#services" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Consulting Services</a>
-      <a href="careers.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Careers &amp; Pathways</a>
-      <a href="events.html" class="block py-2 px-3 rounded-lg bg-forest-900 text-gold-300 border border-gold-400/30">Events &amp; Webinars (Active)</a>
-      <a href="forms.html" class="block py-2 px-3 rounded-lg hover:bg-forest-900 hover:text-gold-300 transition-colors">Apply / Forms</a>
+
+    <nav class="space-y-2 text-sm font-semibold text-slate-200 flex-1">
+      <a href="index.html" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Home</a>
+      <a href="index.html#about" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">About Us</a>
+      <a href="index.html#services" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Consulting Services</a>
+      <a href="events.html" class="flex items-center justify-between py-2.5 px-3 rounded-xl text-gold-300 bg-forest-900 font-bold border border-gold-400/30">
+        <span>Events &amp; Webinars</span>
+        <span class="text-[10px] font-bold bg-red-500 text-white px-2 py-0.5 rounded-full animate-pulse">Nov 19</span>
+      </a>
+      <a href="careers.html" class="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">
+        <span>Careers &amp; Pathway</span>
+        <span class="text-[10px] font-bold bg-gold-400 text-forest-950 px-2 py-0.5 rounded-full">Hiring</span>
+      </a>
+      <a href="index.html#insights" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Insights</a>
+      <a href="index.html#contact" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Contact</a>
+      <a href="forms.html" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors border border-gold-400/20">
+        Apply / Forms ↗
+      </a>
     </nav>
-    <div class="mt-auto pt-6 border-t border-forest-800 space-y-3">
-      <button onclick="openRegistrationModal('EVENT 001')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors text-center shadow-lg">
+
+    <!-- Mobile Drawer CTAs -->
+    <div class="pt-6 border-t border-forest-800 space-y-3">
+      <button onclick="openRegistrationModal('EVENT 001')" class="w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all text-center">
         Register for Nov 19 Webinar
       </button>
-      <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="block w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-forest-900 border border-gold-400/30 text-center hover:bg-forest-800 transition-colors">
+      <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-forest-800 border border-gold-400/40 shadow-md transition-all">
+        <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
         Join Official WhatsApp Channel
+      </a>
+      <a href="tel:+2349039545275" class="flex items-center justify-center gap-2 text-xs text-slate-300 hover:text-gold-300 py-1">
+        <span>Call: +234 903 954 5275</span>
       </a>
     </div>
   </aside>
