@@ -638,20 +638,30 @@ class AffluentApp {
         const origBtnText = submitBtn ? submitBtn.innerHTML : '';
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = `<span>Assigning Consultant & Preparing Audit...</span>`;
+          submitBtn.innerHTML = `
+            <span class="inline-flex items-center justify-center gap-2">
+              <svg class="animate-spin h-4 w-4 text-forest-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span>Please wait...</span>
+            </span>`;
         }
 
         const trackVal = (formAudit.querySelector('#audit-track') && formAudit.querySelector('#audit-track').value)
           ? formAudit.querySelector('#audit-track').value
-          : "One-Time Free Audit";
+          : "Get a Free Business Audit";
         const locationVal = formAudit.querySelector('#audit-location') ? formAudit.querySelector('#audit-location').value.trim() : "Lagos, Nigeria";
         const teamSizeVal = formAudit.querySelector('#audit-team-size') ? formAudit.querySelector('#audit-team-size').value : "6 – 20 Employees";
         const websiteVal = formAudit.querySelector('#audit-website') ? formAudit.querySelector('#audit-website').value.trim() : "N/A";
+        const formatVal = (formAudit.querySelector('#audit-format') && formAudit.querySelector('#audit-format').value)
+          ? formAudit.querySelector('#audit-format').value
+          : "Free Business Audit";
 
         const leadData = {
           "Reference ID": `AUD-${Date.now().toString().slice(-4)}`,
           "Submission Track": trackVal,
-          "Lead Source": "Website - One-Time Free Audit Track",
+          "Lead Source": "Website - Free Business Audit",
           "Full Name": formAudit.querySelector('#audit-name').value.trim(),
           "Business Name": formAudit.querySelector('#audit-business').value.trim(),
           "WhatsApp Number": formAudit.querySelector('#audit-whatsapp').value.trim(),
@@ -664,7 +674,7 @@ class AffluentApp {
           "What the Business Does": formAudit.querySelector('#audit-desc').value.trim(),
           "Core Struggle / Bottleneck": formAudit.querySelector('#audit-struggles').value.trim(),
           "Primary Goal": formAudit.querySelector('#audit-goal').value.trim(),
-          "Preferred Response Format": formAudit.querySelector('#audit-format').value
+          "Preferred Response Format": formatVal
         };
 
         await this.submitToGoogleSheet('Business Audits & Inquiries', leadData);
@@ -677,8 +687,8 @@ class AffluentApp {
         formAudit.reset();
         this.closeModal('modal-business-audit');
         this.showConfirmationModal(
-          'Audit Request Dispatched to Consultant',
-          'Thank you! Your business breakdown has been delivered directly to our consulting desk. An available consultant is preparing your personalized video/message audit and will deliver it directly to your WhatsApp number within 24 hours. Be sure to also join our WhatsApp Channel for continuous executive briefings.'
+          'Free Business Audit Request Received',
+          'Thank you! Your business breakdown has been delivered directly to our team. An available consultant will review your diagnostics and deliver a personalized audit directly to your WhatsApp number within 24 hours. Be sure to also join our WhatsApp Channel for continuous executive briefings.'
         );
       });
     }
@@ -938,7 +948,7 @@ function setupPdfUploader(config) {
       };
 
       if (filenameEl) filenameEl.textContent = file.name;
-      if (filesizeEl) filesizeEl.textContent = formatBytes(file.size) + ' • Ready to upload to Google Drive';
+      if (filesizeEl) filesizeEl.textContent = formatBytes(file.size) + ' • Ready to submit';
       if (defaultPreview) defaultPreview.classList.add('hidden');
       if (selectedPreview) selectedPreview.classList.remove('hidden');
       if (dropzone) dropzone.classList.add('border-emerald-500', 'bg-emerald-50/40');
@@ -1578,7 +1588,7 @@ class CentralLeadsManager {
         description: "B2B long-haul cold chain logistics and freight forwarding for pharmaceutical and consumer goods distributors across southwestern Nigeria.",
         struggles: "Fleet downtime is eating margins, clients take 75+ days to settle invoices, and cash flow is locked in uncollected trade receivables.",
         goal: "Restructure working capital and establish formal distributor prepayment terms in next 60 days.",
-        preferredFormat: "Custom Video Audit (Loom / Screen & Face)",
+        preferredFormat: "Free Business Audit",
         status: "New Lead",
         syncStatus: "synced"
       },
