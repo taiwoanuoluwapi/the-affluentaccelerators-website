@@ -776,11 +776,11 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
     var trackVal = formData["track"] || payload.track || "";
     if (!trackVal) {
       if (rawType === "business-audit") {
-        trackVal = "Free Business Audit (Video / Audio Diagnostic)";
+        trackVal = "One-Time Free Audit";
       } else if (rawType === "bdr-lead" || formData["bdrNotes"]) {
         trackVal = "BDR / Agent In-Field Lead";
       } else {
-        trackVal = "In-Depth Consulting Inquiry (Advisory & Strategy)";
+        trackVal = "Paid In-Depth Strategy & Review";
       }
     }
 
@@ -789,17 +789,17 @@ function handleGeneralFormSubmission(spreadsheet, payload) {
     if (!sourceVal) {
       if (formData["bdrNotes"] || trackVal.indexOf("BDR") !== -1) {
         sourceVal = "BDR / Agent App";
-      } else if (trackVal.indexOf("Free") !== -1) {
-        sourceVal = "Website - Free Audit Track";
+      } else if (trackVal.indexOf("Free") !== -1 || trackVal.indexOf("Audit") !== -1) {
+        sourceVal = "Website - One-Time Free Audit Track";
       } else {
-        sourceVal = "Website - In-Depth Inquiry Track";
+        sourceVal = "Website - Paid In-Depth Strategy Track";
       }
     }
 
     var goalVal = formData["goal"] || formData["Primary Goal / 90-Day Priority"] || formData["90-Day Goal"] || "";
     var supportVal = formData["supportType"] || formData["Consulting Support Needed"] || formData["Consulting Support Required"] || "";
     var formatVal = formData["preferredFormat"] || formData["Preferred Format"] || formData["Preferred Audit Format"] || "";
-    if (!formatVal && trackVal.indexOf("Free") !== -1) {
+    if (!formatVal && (trackVal.indexOf("Free") !== -1 || trackVal.indexOf("Audit") !== -1)) {
       formatVal = "Custom Video Audit (Loom / Screen & Face)";
     }
 
