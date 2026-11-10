@@ -163,16 +163,22 @@
   <!-- Mobile Navigation Slide-in Drawer -->
   <aside id="forms-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
     <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5 shrink-0 group-hover:border-gold-400 transition-colors">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
             <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
             <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
             <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
           </svg>
         </div>
-        <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Navigation</span>
-      </div>
+        <div>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-[9px] text-slate-400 font-light">the</span>
+            <span class="font-heading font-extrabold text-sm text-white group-hover:text-gold-300 transition-colors">Affluentaccelerators</span>
+          </div>
+          <p class="text-[7.5px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
+        </div>
+      </a>
       <button id="forms-drawer-close" aria-label="Close navigation" class="text-slate-400 hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-lg hover:bg-forest-900 transition-colors">&times;</button>
     </div>
 
@@ -230,8 +236,8 @@
               data-form="audit-inquiry">
               <span class="tab-icon text-xl mt-0.5">📊</span>
               <div>
-                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Business Diagnostic &amp; Strategy</span>
-                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">One-time free audit or paid in-depth review</span>
+                <span class="tab-title block text-xs font-bold text-slate-800 group-hover:text-forest-900">Get a Free Business Audit</span>
+                <span class="tab-desc block text-[10px] text-slate-500 leading-snug mt-0.5">Personalized review delivered via WhatsApp in 24h</span>
               </div>
             </button>
             <button onclick="showForm('analyst-application')"
