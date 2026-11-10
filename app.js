@@ -626,13 +626,25 @@ class AffluentApp {
           submitBtn.innerHTML = `<span>Assigning Consultant & Preparing Audit...</span>`;
         }
 
+        const trackVal = (formAudit.querySelector('#audit-track') && formAudit.querySelector('#audit-track').value)
+          ? formAudit.querySelector('#audit-track').value
+          : "Free Business Audit (Video / Audio Diagnostic)";
+        const locationVal = formAudit.querySelector('#audit-location') ? formAudit.querySelector('#audit-location').value.trim() : "Lagos, Nigeria";
+        const teamSizeVal = formAudit.querySelector('#audit-team-size') ? formAudit.querySelector('#audit-team-size').value : "6 – 20 Employees";
+        const websiteVal = formAudit.querySelector('#audit-website') ? formAudit.querySelector('#audit-website').value.trim() : "N/A";
+
         const leadData = {
           "Reference ID": `AUD-${Date.now().toString().slice(-4)}`,
+          "Submission Track": trackVal,
+          "Lead Source": "Website - Free Audit Track",
           "Full Name": formAudit.querySelector('#audit-name').value.trim(),
           "Business Name": formAudit.querySelector('#audit-business').value.trim(),
           "WhatsApp Number": formAudit.querySelector('#audit-whatsapp').value.trim(),
           "Email Address": formAudit.querySelector('#audit-email').value.trim(),
           "Industry / Sector": formAudit.querySelector('#audit-industry').value.trim(),
+          "Business Location": locationVal,
+          "Team Size": teamSizeVal,
+          "Website or Social URL": websiteVal,
           "Current Stage": formAudit.querySelector('#audit-stage').value,
           "What the Business Does": formAudit.querySelector('#audit-desc').value.trim(),
           "Core Struggle / Bottleneck": formAudit.querySelector('#audit-struggles').value.trim(),
@@ -640,7 +652,7 @@ class AffluentApp {
           "Preferred Response Format": formAudit.querySelector('#audit-format').value
         };
 
-        await this.submitToGoogleSheet('Custom Business Audits', leadData);
+        await this.submitToGoogleSheet('Business Audits & Inquiries', leadData);
 
         if (submitBtn) {
           submitBtn.disabled = false;
