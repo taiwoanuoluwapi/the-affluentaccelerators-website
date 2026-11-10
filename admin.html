@@ -910,14 +910,13 @@
 
     // Webhook Telemetry & Ping (Dedicated to Events)
     function initWebhookTelemetry() {
-      const storedUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || localStorage.getItem('AA_GOOGLE_SHEETS_URL') || "";
+      const storedUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || "";
       document.getElementById('input-webhook-url').value = storedUrl;
 
       document.getElementById('btn-save-webhook').addEventListener('click', function() {
         const val = document.getElementById('input-webhook-url').value.trim();
         if (val) {
           localStorage.setItem('AA_EVENTS_SHEETS_URL', val);
-          localStorage.setItem('AA_GOOGLE_SHEETS_URL', val);
           alert('Events Google Sheets Webhook URL saved successfully!');
           testGoogleSheetsConnection();
         } else {
