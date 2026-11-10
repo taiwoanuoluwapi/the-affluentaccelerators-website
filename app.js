@@ -1264,49 +1264,200 @@ class CentralEventManager {
     }
   }
 
-  // Create & Publish New Event (Requirement B)
-  async createAndPublishEvent(eventData) {
-    const cleanNum = eventData.id.replace(/[^0-9]/g, "");
-    const formattedId = cleanNum ? "EVENT " + cleanNum.padStart(3, '0') : eventData.id;
-    const tabName = formattedId + " – " + eventData.title.substring(0, 35);
-
-    let existing = this.state.events.find(e => e.id === formattedId);
-    if (!existing) {
-      const newEvt = {
-        id: formattedId,
-        title: eventData.title,
-        category: eventData.category || "Executive Masterclass",
-        date: eventData.date,
-        venue: eventData.venue || "Live on Google Meet",
-        tabName: tabName,
-        description: eventData.description || ""
-      };
-      this.state.events.push(newEvt);
-      this.saveState();
-      existing = newEvt;
+  // Parse any event date/time format into a reliable JavaScript Date object
+  parseEventDate(evt) {
+    if (!evt) return null;
+    if (evt.isoDate) {
+      const d = new Date(evt.isoDate);
+      if (!isNaN(d.getTime())) return d;
     }
+    if (evt.date) {
+      // Clean standard YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}$/.test(evt.date)) {
+        const timeStr = evt.time || "18:00";
+        const d = new Date(`${evt.date}T${timeStr}:00+01:00`);
+        if (!isNaN(d.getTime())) return d;
+      }
+      // Natural language e.g. "Wednesday, November 19, 2026 • 6:00 PM WAT"
+      const dateOnly = evt.date.replace(/^[A-Za-z]+,\s*/, '').replace(/•.*$/, '').trim();
+      let timeOnly = evt.time || "";
+      if (!timeOnly) {
+        const timeMatch = evt.date.match(/(\d{1,2}:\d{2}\s*(?:AM|PM|WAT|GMT))/i);
+        if (timeMatch) timeOnly = timeMatch[1].replace(/WAT|GMT/i, '').trim();
+      }
+      const combined = dateOnly + " " + (timeOnly || "18:00") + " GMT+0100";
+      const d = new Date(combined);
+      if (!isNaN(d.getTime())) return d;
 
-    // Ping Dedicated Events Google Sheets to pre-create worksheet tab
-    const webhookUrl = localStorage.getItem('AA_EVENTS_SHEETS_URL') || EVENTS_GOOGLE_SHEETS_WEBHOOK_URL;
-    if (webhookUrl && webhookUrl.startsWith('http')) {
-      try {
-        await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: "create_event_tab",
-            eventId: formattedId,
-            eventTitle: eventData.title,
-            tabName: tabName
-          }),
-          mode: 'no-cors'
+      const direct = new Date(evt.date);
+      if (!isNaN(direct.getTime())) return direct;
+    }
+    return null;
+  }
+
+  // Get all upcoming events sorted chronologically (nearest upcoming first)
+  getUpcomingEvents() {
+    const now = new Date();
+    return this.state.events
+      .filter(evt => {
+        const evtDate = this.parseEventDate(evt);
+        if (!evtDate) return true; // keep if cannot parse
+        // Add 2 hours buffer so event remains "live/upcoming" during its session
+        const evtEnd = new Date(evtDate.getTime() + (2 * 60 * 60 * 1000));
+        return evtEnd >= now;
+      })
+      .sort((a, b) => {
+        const da = this.parseEventDate(a);
+        const db = this.parseEventDate(b);
+        if (!da || !db) return 0;
+        return da.getTime() - db.getTime();
+      });
+  }
+
+  // Get next upcoming event (or latest fallback if all passed)
+  getNextUpcomingEvent() {
+    const upcoming = this.getUpcomingEvents();
+    if (upcoming.length > 0) {
+      return upcoming[0];
+    }
+    // Fallback: return first event in list
+    return this.state.events.length > 0 ? this.state.events[0] : null;
+  }
+
+  // Sync latest published events catalogue from Google Sheet
+  async syncEventsFromSheet() {
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       EVENTS_GOOGLE_SHEETS_WEBHOOK_URL ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+    if (!webhookUrl || !webhookUrl.startsWith('http')) return this.state.events;
+
+    try {
+      const resp = await fetch(webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + 'action=get_events', {
+        method: 'GET',
+        mode: 'cors'
+      });
+      const data = await resp.json();
+      if (data && data.status === 'success' && Array.isArray(data.events) && data.events.length > 0) {
+        data.events.forEach(sheetEvt => {
+          if (!sheetEvt.id) return;
+          const idx = this.state.events.findIndex(e => e.id === sheetEvt.id);
+          if (idx >= 0) {
+            this.state.events[idx] = Object.assign(this.state.events[idx], sheetEvt);
+          } else {
+            this.state.events.push(sheetEvt);
+          }
         });
-      } catch (e) {
-        console.warn("Could not pre-create sheet tab remotely:", e);
+        this.saveState();
+      }
+    } catch (e) {
+      // Quiet fallback to local events catalogue
+    }
+    return this.state.events;
+  }
+
+  // Create & Publish New Event with Date, Time, Flyer & Google Sheet Tab Sync
+  async createAndPublishEvent(eventData) {
+    const cleanNum = (eventData.id || "").replace(/[^0-9]/g, "");
+    const formattedId = cleanNum ? "EVENT " + cleanNum.padStart(3, '0') : (eventData.id || "EVENT 005");
+    const tabName = formattedId + " – " + (eventData.title || "").substring(0, 35);
+
+    // Format display date cleanly
+    let formattedDateStr = eventData.dateFormatted;
+    if (!formattedDateStr && eventData.date) {
+      const parts = eventData.date.split('-');
+      if (parts.length === 3) {
+        const [y, m, d] = parts;
+        const dateObj = new Date(parseInt(y, 10), parseInt(m, 10) - 1, parseInt(d, 10));
+        const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+        const monthName = dateObj.toLocaleDateString('en-US', { month: 'long' });
+        
+        let timeDisplay = "6:00 PM";
+        if (eventData.time) {
+          const [h, min] = eventData.time.split(':');
+          const hours = parseInt(h, 10);
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          const hours12 = hours % 12 || 12;
+          timeDisplay = `${hours12}:${min || '00'} ${ampm}`;
+        }
+        const tz = eventData.timezone || "WAT";
+        formattedDateStr = `${dayName}, ${monthName} ${parseInt(d, 10)}, ${y} • ${timeDisplay} ${tz}`;
+      } else {
+        formattedDateStr = eventData.date;
       }
     }
 
-    return existing;
+    const isoDateStr = eventData.isoDate || 
+      (eventData.date && eventData.time ? `${eventData.date}T${eventData.time}:00+01:00` : null);
+
+    const newEvt = {
+      id: formattedId,
+      title: eventData.title,
+      category: eventData.category || "Executive Masterclass",
+      date: eventData.date, // e.g. "2026-11-25"
+      time: eventData.time || "18:00", // e.g. "18:00"
+      timezone: eventData.timezone || "WAT",
+      dateFormatted: formattedDateStr || (eventData.date + ' • ' + (eventData.time || '18:00') + ' WAT'),
+      isoDate: isoDateStr,
+      venue: eventData.venue || "Live on Google Meet",
+      host: eventData.host || "Fulfilment Taiwo (Lead Consultant)",
+      flyer: eventData.flyer || "images/photo-1794301616-c3edd84b.jpg",
+      tabName: tabName,
+      description: eventData.description || "",
+      status: "Upcoming",
+      createdAt: new Date().toISOString()
+    };
+
+    const existingIdx = this.state.events.findIndex(e => e.id === formattedId);
+    if (existingIdx >= 0) {
+      this.state.events[existingIdx] = Object.assign(this.state.events[existingIdx], newEvt);
+    } else {
+      this.state.events.push(newEvt);
+    }
+    this.saveState();
+
+    // Stream & Sync Published Event to Master Google Sheets 'Events' Tab
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       localStorage.getItem('AA_EVENTS_SHEETS_URL') ||
+                       EVENTS_GOOGLE_SHEETS_WEBHOOK_URL ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+    
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      try {
+        const payload = {
+          action: "publish_event",
+          eventId: formattedId,
+          eventTitle: newEvt.title,
+          category: newEvt.category,
+          date: newEvt.date,
+          time: newEvt.time,
+          timezone: newEvt.timezone,
+          dateFormatted: newEvt.dateFormatted,
+          isoDate: newEvt.isoDate,
+          venue: newEvt.venue,
+          host: newEvt.host,
+          description: newEvt.description,
+          flyer: (typeof newEvt.flyer === 'string' && newEvt.flyer.startsWith('data:')) ? 'Uploaded Flyer Image' : newEvt.flyer,
+          tabName: tabName,
+          status: "Upcoming",
+          publishedAt: new Date().toISOString()
+        };
+
+        if (eventData.flyerFile && eventData.flyerFile.base64) {
+          payload.flyerFile = eventData.flyerFile;
+        }
+
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+      } catch (e) {
+        console.warn("Could not sync published event to Google Sheets:", e);
+      }
+    }
+
+    return newEvt;
   }
 
   // Retry Failed Synchronizations (Requirement F & G)
