@@ -256,6 +256,18 @@
       "created_at": "2026-11-10T15:35:23.582Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "b1a9444a-d837-409e-8d34-f8e314268e38",
+      "role": "agent",
+      "content": "All dropdown options have been updated across the entire site. The dropdowns now clearly ask visitors whether they want a one-time free audit or a paid in-depth strategy and review, while emphasizing that you attend to all inquiries either way.\n\n### Summary of Changes\n\n1. **New Dropdown Label & Clear Options**:\n   - **Dropdown Question**: \n     > *\"Are you looking for a one-time free audit or a paid in-depth strategy & review? \\*\"*\n     > *Sub-caption: \"We attend to all inquiries either way — select the level of depth you need.\"*\n   - **Updated Options**:\n     1. **`One-Time Free Audit`** *(Personalized Video / Voice Review via WhatsApp within 24h)*\n     2. **`Paid In-Depth Strategy & Review`** *(Comprehensive Strategy & Executive Advisory)*\n   - The internal `BDR / Agent In-Field Lead` option has been removed from all customer-facing dropdowns so visitors aren't confused.\n\n2. **Updated Pages & Modals**:\n   - [forms.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html): The unified form switcher (`#unified-track`), sidebar tab, landing preview card, and reactive badges dynamically adapt between **One-Time Free Audit** and **Paid In-Depth Strategy & Review**.\n   - [index.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html): Both quick modal dialogs (Modal D: Free Audit and Modal A: Strategy Review) now feature the updated question and two options.\n   - [app.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/app.js): Form submission handlers now pass `One-Time Free Audit` or `Paid In-Depth Strategy & Review` as the `Submission Track`.\n\n3. **Backend & Google Sheets Compatibility**:\n   - Updated [google-sheets-unified-script.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/google-sheets-unified-script.js), [google-sheets-script.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/google-sheets-script.js), and [google-sheets-inquiries-script.js](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/google-sheets-inquiries-script.js) so incoming submissions seamlessly populate the **`Business Audits & Inquiries`** tab with these clean track names.\n   - Updated documentation in [GOOGLE_SHEETS_UNIFIED_SETUP.md](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/GOOGLE_SHEETS_UNIFIED_SETUP.md) and [admin.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/admin.html).\n\n---\n\n👉 **Preview the updated site:**\nhttps://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "c8138406-4201-4d8e-8c70-9a6834693598",
+      "created_at": "2026-11-10T15:43:09.628Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
