@@ -316,6 +316,18 @@
       "created_at": "2026-11-10T17:47:20.176Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "47cae200-a1dd-4aa9-8bd0-37fda8310d58",
+      "role": "agent",
+      "content": "I have updated the Admin Portal to eliminate the empty spaces/gaps and added a proper executive navbar-sidebar.\n\n### Summary of Changes\n\n1. **Corrected Empty Blocks and Spacing Gaps**:\n   - **Root Cause**: A rogue `</div>` tag prematurely closed the `<main>` container after the Leads section. Because `<main>` had flex expansion (`flex-1`), selecting the **Event Registrations** or **Analytics & BI** tabs caused the empty `<main>` container to consume the entire viewport height as a blank white block, pushing the tab details below the fold.\n   - **Resolution**: Fixed the HTML nesting hierarchy so all four tab panels are direct siblings inside the main content viewport. Tab switching now immediately renders content at the top of the viewport with automatic scroll reset (`window.scrollTo({ top: 0, behavior: 'smooth' })`), completely eliminating the blank gap.\n\n2. **Added Dedicated Navbar-Sidebar Menu**:\n   - **Top Nav Header**: Kept **only** the Affluentaccelerators logo, name, and admin badge, with all other top-nav controls relocated to the sidebar. Included a responsive mobile menu toggle button for smaller screens.\n   - **Sidebar Navigation (Text Format)**:\n     - 📅 **Event Studio**: Tab switch button with title and description.\n     - 💼 **Business Inquiring Leads**: Tab switch button with live lead count badge and description.\n     - 👥 **Event Registrations**: Tab switch button with live registration count badge and description.\n     - 📈 **Analytics & BI**: Tab switch button with description.\n     - 📊 **Live Google Sheet**: Direct link opening the master multi-tab Google Spreadsheet in a new tab.\n     - 🌐 **Public Events Page**: Direct link opening `events.html` in a new tab.\n     - 🟢 **Central Hub Online**: Real-time database and Sheets API sync status indicator in text format.\n     - 🔑 **Change Admin PIN**: Modal trigger to update the custom security PIN.\n     - 🔄 **Reset PIN to Default**: One-click action to restore the default passcode (`affluent2026`).\n     - 🔒 **Lock Admin Portal**: Session lock button to return to the security gate.\n   - **Responsive Drawer**: Full left-hand sidebar on desktop (`md` and up), sliding drawer with dark backdrop on mobile.\n\nAll changes have been committed and pushed automatically. You can preview the live admin portal here:\n**https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/admin.html**",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "aa30e611-2f78-4408-bac4-655dcc4d8472",
+      "created_at": "2026-11-10T18:00:15.125Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
