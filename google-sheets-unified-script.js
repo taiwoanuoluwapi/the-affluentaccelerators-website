@@ -49,12 +49,15 @@ var COLOR_CARD_BG     = "#f0fdf4";    // Soft Mint KPI Card Background
 var COLOR_ZEBRA_ROW   = "#f8faf8";    // Subtle alternating row tint
 
 // TAB NAMES CONSTANTS
-var TAB_OVERVIEW      = "OVERVIEW DASHBOARD";
-var TAB_EVENTS        = "Event Registrations";
-var TAB_AUDITS        = "Business Audits";
-var TAB_INQUIRIES     = "Consulting Inquiries";
-var TAB_ANALYST       = "Analyst Applications";
-var TAB_INTERNSHIP    = "Internship Applications";
+var TAB_OVERVIEW          = "OVERVIEW DASHBOARD";
+var TAB_EVENTS            = "Event Registrations";
+var TAB_AUDITS_INQUIRIES  = "Business Audits & Inquiries"; // Consolidated single tab
+var TAB_ANALYST           = "Analyst Applications";
+var TAB_INTERNSHIP        = "Internship Applications";
+
+// Legacy aliases for backward compatibility
+var TAB_AUDITS            = TAB_AUDITS_INQUIRIES;
+var TAB_INQUIRIES         = TAB_AUDITS_INQUIRIES;
 
 /**
  * Standardized Unified Headers for EVENT REGISTRATIONS (One Tab for All Events)
@@ -96,46 +99,38 @@ var EVENT_REGISTRATIONS_HEADERS = [
 ];
 
 /**
- * Headers for BUSINESS AUDITS
+ * Standardized Headers for CONSOLIDATED BUSINESS AUDITS & INQUIRIES
+ * (Tracks Free Strategy Audits, In-Depth Advisory Inquiries, and BDR In-Field Leads)
  */
-var BUSINESS_AUDITS_HEADERS = [
+var AUDIT_INQUIRY_HEADERS = [
   "Reference ID",
   "Submission Time",
+  "Submission Track",            // "Free Business Audit", "In-Depth Consulting Inquiry", "BDR / Agent In-Field Lead"
+  "Lead Source",                // "Website - Free Audit Track", "Website - In-Depth Inquiry", "BDR App", "Agent Filed Lead", etc.
   "Full Name",
   "Business Name",
   "WhatsApp Number",
-  "Email Address",
+  "Work Email Address",
   "Industry / Sector",
+  "Business Location",          // Requested: City, Country / State
+  "Team Size",                  // Requested: Number of employees / team size
+  "Website or Social URL",      // Requested: Website or social media profile
   "Current Business Stage",
-  "Business Description & Revenue Model",
-  "Current Bottleneck / Where Stuck",
-  "90-Day Growth Goal / Priority",
+  "What Business Does & Revenue Model",
+  "Core Bottleneck / Current Struggles",
+  "Primary Goal / 90-Day Priority",
+  "Consulting Support Required",
   "Preferred Audit Format",
-  "Status",
-  "Assigned Consultant / Notes"
+  "Uploaded Document (Drive Link)",
+  "Additional / BDR Notes",
+  "Lead Status",                // "New Lead", "Audit Dispatched", "Under Review", "Closed - Won"
+  "Assigned Consultant / BDR",
+  "Sync Timestamp"
 ];
 
-/**
- * Headers for CONSULTING INQUIRIES
- */
-var CONSULTING_INQUIRIES_HEADERS = [
-  "Reference ID",
-  "Submission Time",
-  "Full Name",
-  "Business Name",
-  "Email Address",
-  "Phone / WhatsApp Number",
-  "Industry / Sector",
-  "Location (City, Country)",
-  "Business Stage",
-  "Consulting Support Required",
-  "Specific Challenges & Objectives",
-  "Business Overview & Model",
-  "Uploaded Document (Drive Link)",
-  "Additional Notes",
-  "Status",
-  "Assigned Lead Consultant"
-];
+// Backward-compatible alias arrays
+var BUSINESS_AUDITS_HEADERS = AUDIT_INQUIRY_HEADERS;
+var CONSULTING_INQUIRIES_HEADERS = AUDIT_INQUIRY_HEADERS;
 
 /**
  * Headers for ANALYST APPLICATIONS

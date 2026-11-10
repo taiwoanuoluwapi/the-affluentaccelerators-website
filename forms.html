@@ -320,36 +320,33 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-            <!-- Card: Business Audit -->
-            <button onclick="showForm('business-audit')"
-              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
-              <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">📊</div>
-                <div>
-                  <span class="block text-[10px] font-bold uppercase tracking-widest text-gold-600">Free Service</span>
-                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Business Audit</h3>
+            <!-- Card: Business Audit & Consulting Inquiry (Collapsed Unified Card) -->
+            <button onclick="showForm('audit-inquiry')"
+              class="sm:col-span-2 text-left bg-gradient-to-br from-white via-white to-gold-50/40 rounded-2xl p-6 sm:p-7 border-2 border-gold-400/40 shadow-sm hover:border-gold-500 hover:shadow-lg transition-all group card-hover-lift">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3.5">
+                  <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">📊</div>
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                      <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">Free Strategy Audit</span>
+                      <span class="text-[10px] font-bold uppercase tracking-wider text-forest-950 bg-gold-300 px-2.5 py-0.5 rounded-full border border-gold-400">In-Depth Advisory</span>
+                      <span class="text-[10px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">BDR In-Field Intake</span>
+                    </div>
+                    <h3 class="text-lg font-heading font-extrabold text-slate-900 group-hover:text-forest-900">Business Audit &amp; Consulting Inquiry</h3>
+                  </div>
                 </div>
+                <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 group-hover:bg-gold-300 transition-colors shrink-0 shadow-sm">
+                  Select Track &amp; Apply <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </span>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">Get a customised video or audio audit of your business — delivered via WhatsApp within 24 hours by one of our consultants.</p>
-              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
-                Fill This Form <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-              </span>
-            </button>
-
-            <!-- Card: Consulting Inquiry -->
-            <button onclick="showForm('consulting-inquiry')"
-              class="text-left bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-gold-400 hover:shadow-md transition-all group card-hover-lift">
-              <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-xl bg-forest-950 text-gold-400 flex items-center justify-center text-2xl shadow">💼</div>
-                <div>
-                  <span class="block text-[10px] font-bold uppercase tracking-widest text-forest-700">Advisory</span>
-                  <h3 class="text-base font-heading font-bold text-slate-900 group-hover:text-forest-900">Consulting Inquiry</h3>
-                </div>
+              <p class="text-xs text-slate-600 leading-relaxed max-w-2xl">
+                Whether you need a complimentary diagnostic video/voice review within 24 hours on WhatsApp, an in-depth corporate advisory engagement, or your team is registering an in-field prospect — select your preference in one unified form.
+              </p>
+              <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center gap-4 text-[11px] text-slate-600 font-medium">
+                <span class="flex items-center gap-1.5"><span class="text-emerald-600 font-bold">✓</span> Free WhatsApp Video/Audio Diagnostic</span>
+                <span class="flex items-center gap-1.5"><span class="text-gold-600 font-bold">✓</span> Strategic Advisory Engagements</span>
+                <span class="flex items-center gap-1.5"><span class="text-forest-700 font-bold">✓</span> Direct BDR / Agent Lead Tracking</span>
               </div>
-              <p class="text-xs text-slate-600 leading-relaxed">Request a formal business consultation — strategy, operations, growth, development, or founder acceleration engagements.</p>
-              <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-forest-800 group-hover:text-gold-600 transition-colors">
-                Fill This Form <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-              </span>
             </button>
 
             <!-- Card: Analyst Application -->
@@ -387,59 +384,82 @@
           </div>
         </div>
 
-        <!-- ============================= -->
-        <!-- FORM 1: BUSINESS AUDIT       -->
-        <!-- ============================= -->
-        <div id="form-panel-business-audit" class="form-panel">
+        <!-- ============================================================= -->
+        <!-- FORM: BUSINESS AUDIT & CONSULTING INQUIRY (COLLAPSED & UNIFIED) -->
+        <!-- ============================================================= -->
+        <div id="form-panel-audit-inquiry" class="form-panel">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
-            <!-- Form Header -->
+            <!-- Form Header with Dynamic Track Badges -->
             <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
               <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">📊</div>
               <div class="flex-1">
-                <div class="flex flex-wrap gap-2 mb-1">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-gold-800 bg-gold-100 px-2.5 py-0.5 rounded-full border border-gold-400/40">⚡ Rapid Consultant Response</span>
-                  <span class="text-[10px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Free • Delivered via WhatsApp</span>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span id="unified-badge-track" class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">Free Strategy Audit</span>
+                  <span id="unified-badge-delivery" class="text-[10px] font-medium text-forest-800 bg-gold-100 px-2 py-0.5 rounded-full border border-gold-300">Delivered via WhatsApp in 24h</span>
                 </div>
-                <h2 class="text-xl font-heading font-extrabold text-slate-900">Get A Customised Video & Strategy Audit</h2>
-                <p class="text-xs text-slate-500 mt-1">Fill in your business details so an available consultant can send back a bespoke video/audio audit within 24h.</p>
+                <h2 id="unified-form-title" class="text-xl font-heading font-extrabold text-slate-900">Custom Business Audit &amp; Strategy Inquiry</h2>
+                <p id="unified-form-desc" class="text-xs text-slate-500 mt-1">Select your desired track below: request a complimentary video/voice audit or submit an in-depth corporate advisory inquiry.</p>
               </div>
+            </div>
+
+            <!-- Track Switcher Dropdown Banner -->
+            <div class="bg-forest-950 p-4 sm:p-5 rounded-2xl border-2 border-gold-400/40 text-white mb-6 shadow-md">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                <label for="unified-track" class="block text-xs font-bold uppercase tracking-wider text-gold-300">
+                  🎯 Inquiry Track &amp; Service Requested *
+                </label>
+                <span class="text-[10px] text-slate-300">Adapts required focus and response workflow</span>
+              </div>
+              <select id="unified-track" required class="w-full px-4 py-3 rounded-xl border border-gold-400/50 bg-forest-900 text-white font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 cursor-pointer">
+                <option value="Free Business Audit (Video / Audio Diagnostic)">Free Strategy Audit (Personalized Video / Voice Review via WhatsApp within 24h)</option>
+                <option value="In-Depth Consulting Inquiry (Advisory &amp; Strategy)">In-Depth Consulting Inquiry (Comprehensive Strategy, Operations &amp; Growth Advisory)</option>
+                <option value="BDR / Agent In-Field Lead (Direct Referral)">BDR / Agent In-Field Lead (Direct In-Field Prospect &amp; Business Intake)</option>
+              </select>
             </div>
 
             <!-- Success Message (hidden by default) -->
-            <div id="success-business-audit" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+            <div id="success-audit-inquiry" class="hidden p-6 sm:p-8 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
               <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
-              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Audit Request Submitted!</h3>
-              <p class="text-xs text-slate-600 leading-relaxed">Our team has received your submission. Expect a personalised video or voice audit within 24 hours on your WhatsApp.</p>
-              <button onclick="showForm('business-audit')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">Submit Another</button>
+              <h3 id="success-audit-inquiry-title" class="text-lg font-heading font-extrabold text-slate-900 mb-2">Submission Successfully Received!</h3>
+              <p id="success-audit-inquiry-desc" class="text-xs text-slate-600 leading-relaxed max-w-md mx-auto">
+                Our team has received your submission. Your file has been dispatched to our senior consulting desk.
+              </p>
+              <button onclick="showForm('audit-inquiry')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">
+                Submit Another Inquiry
+              </button>
             </div>
 
-            <form id="form-business-audit" class="space-y-4 text-xs" novalidate>
+            <form id="form-audit-inquiry" class="space-y-4 text-xs" novalidate>
+              <input type="hidden" id="unified-source" value="Website - Free Audit Track">
+
+              <!-- Contact Essentials -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-700 mb-1">Your Full Name *</label>
-                  <input type="text" id="audit-name" required placeholder="e.g. Adebayo Adeleke" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  <input type="text" id="unified-name" required placeholder="e.g. Adebayo Adeleke" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-700 mb-1">Business Name *</label>
-                  <input type="text" id="audit-business" required placeholder="e.g. Kora Logistics" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  <input type="text" id="unified-business" required placeholder="e.g. Kora Logistics &amp; Distribution" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block font-semibold text-slate-700 mb-1">WhatsApp Number * <span class="text-[10px] font-normal text-emerald-700">(Where we send your audit)</span></label>
-                  <input type="tel" id="audit-whatsapp" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
+                  <label class="block font-semibold text-slate-700 mb-1">WhatsApp Number * <span class="text-[10px] font-normal text-emerald-700">(Where we send your audit / follow-up)</span></label>
+                  <input type="tel" id="unified-whatsapp" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
                 </div>
                 <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Email Address *</label>
-                  <input type="email" id="audit-email" required placeholder="name@business.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  <label class="block font-semibold text-slate-700 mb-1">Work Email Address *</label>
+                  <input type="email" id="unified-email" required placeholder="name@business.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
                 </div>
               </div>
 
+              <!-- Sector and Stage -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block font-semibold text-slate-700 mb-1">Industry / Sector *</label>
-                  <select id="audit-industry" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm bg-white font-medium">
+                  <select id="unified-industry" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm bg-white font-medium">
                     <option value="" disabled selected>Select Industry / Sector</option>
                     <option value="Agriculture &amp; Agribusiness">Agriculture &amp; Agribusiness</option>
                     <option value="Automotive &amp; Mechanics (Garages, Diagnostics, Fleet Maintenance)">Automotive &amp; Mechanics (Garages, Diagnostics, Fleet Maintenance)</option>
@@ -467,7 +487,7 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-slate-700 mb-1">Current Stage of Business *</label>
-                  <select id="audit-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  <select id="unified-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
                     <option value="Idea / Early Pre-Revenue">Idea / Early Pre-Revenue</option>
                     <option value="Early-Stage Generating First Sales">Early-Stage Generating First Sales</option>
                     <option value="Consistent Revenue ($10k - $100k/yr)">Consistent Revenue ($10k - $100k/yr)</option>
@@ -477,32 +497,115 @@
                 </div>
               </div>
 
+              <!-- Mandatory Fields: Business Location, Team Size, Web or Social URL -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Business Location *</label>
+                  <input type="text" id="unified-location" required placeholder="e.g. Lagos, Nigeria" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Team Size / Employees *</label>
+                  <select id="unified-team-size" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm bg-white font-medium">
+                    <option value="1 Person (Solo Founder / Specialist)">1 Person (Solo Founder / Specialist)</option>
+                    <option value="2 – 5 Employees (Micro Enterprise)">2 – 5 Employees (Micro Enterprise)</option>
+                    <option value="6 – 20 Employees (Growing Team)" selected>6 – 20 Employees (Growing Team)</option>
+                    <option value="21 – 50 Employees (Established SME)">21 – 50 Employees (Established SME)</option>
+                    <option value="51 – 200 Employees (Mid-Market)">51 – 200 Employees (Mid-Market)</option>
+                    <option value="200+ Employees (Enterprise / Group)">200+ Employees (Enterprise / Group)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Web or Social URL *</label>
+                  <input type="text" id="unified-website" required placeholder="e.g. https://company.com or @handle" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
+              </div>
+
+              <!-- Business Model & Challenges -->
               <div>
                 <label class="block font-semibold text-slate-700 mb-1">What does your business do and how do you make money? *</label>
-                <textarea id="audit-desc" required rows="2" placeholder="Briefly explain your primary product/service, your target customer, and current pricing or delivery model..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+                <textarea id="unified-desc" required rows="2" placeholder="Briefly explain your primary product/service, your target customer, and current pricing or delivery model..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
               </div>
 
               <div>
                 <label class="block font-semibold text-slate-700 mb-1">Where are you currently stuck or what are you struggling with? *</label>
-                <textarea id="audit-struggles" required rows="3" placeholder="Be open: e.g. Customer acquisition has stalled, unit economics aren't working, operations are chaotic without SOPs, cash flow leakage, team delegation issues..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
+                <textarea id="unified-struggles" required rows="3" placeholder="Be open: e.g. Customer acquisition has stalled, unit economics aren't working, operations are chaotic without SOPs, cash flow leakage, team delegation issues..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Your #1 Priority or Growth Goal in Next 90 Days *</label>
-                  <input type="text" id="audit-goal" required placeholder="e.g. Double client retainers, fix delivery bottleneck" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+              <!-- Track Focus Block 1: Free Strategy Audit Specifics -->
+              <div id="block-audit-details" class="space-y-4 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your #1 Priority or Growth Goal in Next 90 Days *</label>
+                    <input type="text" id="unified-goal" placeholder="e.g. Double client retainers, fix delivery bottleneck" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Preferred Response Format</label>
+                    <select id="unified-format" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                      <option value="Custom Video Audit (Loom / Screen &amp; Face)">Custom Video Audit (Loom / Screen & Face)</option>
+                      <option value="Detailed WhatsApp Voice Note Breakdown">Detailed WhatsApp Voice Note Breakdown</option>
+                      <option value="Written Strategic Diagnostic Memo">Written Strategic Diagnostic Memo</option>
+                      <option value="Any Available Format">Any Available Format</option>
+                    </select>
+                  </div>
                 </div>
+              </div>
+
+              <!-- Track Focus Block 2: In-Depth Consulting Inquiry Specifics -->
+              <div id="block-consulting-details" class="hidden space-y-4 pt-1">
                 <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Preferred Response Format</label>
-                  <select id="audit-format" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                    <option value="Custom Video Audit (Loom / Screen &amp; Face)">Custom Video Audit (Loom / Screen & Face)</option>
-                    <option value="Detailed WhatsApp Voice Note Breakdown">Detailed WhatsApp Voice Note Breakdown</option>
-                    <option value="Written Strategic Diagnostic Memo">Written Strategic Diagnostic Memo</option>
-                    <option value="Any Available Format">Any Available Format</option>
+                  <label class="block font-semibold text-slate-700 mb-1">What kind of consulting support are you interested in? *</label>
+                  <select id="unified-support" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
+                    <option value="Business Strategy &amp; Advisory">Business Strategy &amp; Advisory</option>
+                    <option value="Business Analysis &amp; Research Diagnostic">Business Analysis &amp; Research Diagnostic</option>
+                    <option value="Business Development &amp; Growth">Business Development &amp; Growth</option>
+                    <option value="Operations &amp; Systems Optimization">Operations &amp; Systems Optimization</option>
+                    <option value="Founder Business Acceleration">Founder Business Acceleration (1-on-1 Founder &amp; Business Scaling)</option>
+                    <option value="Comprehensive Enterprise Advisory">Comprehensive Enterprise Advisory</option>
                   </select>
                 </div>
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Additional Project Details / Timelines / Budget Context (Optional)</label>
+                  <input type="text" id="unified-notes" placeholder="Any timelines, specific requirements, or background context" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
+                </div>
               </div>
 
+              <!-- Track Focus Block 3: BDR / Agent Lead Specifics -->
+              <div id="block-bdr-details" class="hidden space-y-3 pt-1 p-3.5 rounded-xl bg-blue-50/60 border border-blue-200">
+                <div>
+                  <label class="block font-semibold text-blue-950 mb-1">BDR Agent Notes &amp; Field Context (Optional)</label>
+                  <input type="text" id="unified-bdr-notes" placeholder="e.g. Filed by Agent Michael • Met at Trade Expo • Follow up by next Monday" class="w-full px-3.5 py-2.5 rounded-xl border border-blue-300 focus:outline-none focus:border-forest-800 text-sm bg-white">
+                </div>
+              </div>
+
+              <!-- PDF Pitch Deck / Company Brief Upload (Optional for all tracks) -->
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Company Profile / Pitch Deck / Diagnostic Brief (PDF, Optional)</label>
+                <div class="relative border-2 border-dashed border-slate-300 hover:border-gold-400 rounded-2xl p-4 transition-colors bg-white group cursor-pointer text-center" id="dropzone-unified-doc">
+                  <input type="file" id="unified-doc-file" accept=".pdf,application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                  <div id="preview-unified-doc-default" class="flex flex-col items-center justify-center py-2">
+                    <div class="w-9 h-9 rounded-xl bg-forest-50 text-forest-800 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition-transform">
+                      💼
+                    </div>
+                    <p class="text-xs font-bold text-slate-800"><span class="text-forest-800 underline">Click to attach company document</span> or drag and drop</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">PDF documents only • Max 10MB • Uploads directly to Google Drive</p>
+                  </div>
+                  <div id="preview-unified-doc-selected" class="hidden flex items-center justify-between p-2.5 bg-forest-50 rounded-xl border border-forest-200">
+                    <div class="flex items-center gap-2.5 truncate">
+                      <span class="text-lg">📑</span>
+                      <div class="truncate text-left">
+                        <p id="filename-unified-doc" class="text-xs font-bold text-forest-950 truncate"></p>
+                        <p id="filesize-unified-doc" class="text-[10px] text-emerald-700 font-medium"></p>
+                      </div>
+                    </div>
+                    <button type="button" id="remove-unified-doc" class="z-20 text-slate-400 hover:text-red-600 p-1 text-xs font-bold transition-colors">
+                      ✕ Remove
+                    </button>
+                  </div>
+                </div>
+                <div id="error-unified-doc" class="hidden mt-1 text-[11px] text-red-600 font-medium"></div>
+              </div>
+
+              <!-- WhatsApp Community Banner -->
               <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-[11px] text-emerald-900">
                 <div class="flex items-center gap-2">
                   <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
@@ -511,161 +614,10 @@
                 <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="font-bold underline text-emerald-800 hover:text-emerald-950 flex-shrink-0 ml-2">Join ↗</a>
               </div>
 
-              <div id="error-business-audit" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+              <div id="error-audit-inquiry" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
 
-              <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all">
-                Submit & Request My Custom Audit
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <!-- =============================== -->
-        <!-- FORM 2: CONSULTING INQUIRY      -->
-        <!-- =============================== -->
-        <div id="form-panel-consulting-inquiry" class="form-panel">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 md:p-8">
-            <div class="flex items-start gap-3 pb-5 border-b border-slate-100 mb-6">
-              <div class="w-10 h-10 rounded-xl bg-forest-950 flex items-center justify-center text-xl shrink-0">💼</div>
-              <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-forest-800 bg-forest-100 px-2.5 py-0.5 rounded-full inline-block mb-1">Strategic Engagement</span>
-                <h2 class="text-xl font-heading font-extrabold text-slate-900">Request A Business Consultation</h2>
-                <p class="text-xs text-slate-500 mt-1">Tell us about your business and the challenges you need help solving.</p>
-              </div>
-            </div>
-
-            <div id="success-consulting-inquiry" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
-              <div class="w-14 h-14 rounded-2xl bg-forest-900 text-gold-400 mx-auto flex items-center justify-center text-2xl mb-4">✓</div>
-              <h3 class="text-lg font-heading font-extrabold text-slate-900 mb-2">Inquiry Received!</h3>
-              <p class="text-xs text-slate-600 leading-relaxed">Your consultation request has been successfully submitted. Our advisory team will be in touch within 1–2 business days.</p>
-              <button onclick="showForm('consulting-inquiry')" class="mt-5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors">Submit Another</button>
-            </div>
-
-            <form id="form-consulting-inquiry" class="space-y-4 text-xs" novalidate>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Full Name *</label>
-                  <input type="text" id="consulting-name" required placeholder="e.g. Olumide Adeleke" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Business Name *</label>
-                  <input type="text" id="consulting-business" required placeholder="e.g. Apex Industrial Group" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Work Email Address *</label>
-                  <input type="email" id="consulting-email" required placeholder="olumide@company.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Phone / WhatsApp Number *</label>
-                  <input type="tel" id="consulting-phone" required placeholder="+234 800 000 0000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Industry *</label>
-                  <select id="consulting-industry" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm bg-white font-medium">
-                    <option value="" disabled selected>Select Industry / Sector</option>
-                    <option value="Agriculture &amp; Agribusiness">Agriculture &amp; Agribusiness</option>
-                    <option value="Automotive &amp; Mechanics (Garages, Diagnostics, Fleet Maintenance)">Automotive &amp; Mechanics (Garages, Diagnostics, Fleet Maintenance)</option>
-                    <option value="Banking, Financial Services &amp; FinTech">Banking, Financial Services &amp; FinTech</option>
-                    <option value="Beauty, Hairdressing &amp; Makeup (Salons, Spas, MUAs, Barbers)">Beauty, Hairdressing &amp; Makeup (Salons, Spas, MUAs, Barbers)</option>
-                    <option value="Construction, Real Estate &amp; Infrastructure">Construction, Real Estate &amp; Infrastructure</option>
-                    <option value="Consumer Goods &amp; FMCG">Consumer Goods &amp; FMCG</option>
-                    <option value="Creative Arts, Media &amp; Entertainment">Creative Arts, Media &amp; Entertainment</option>
-                    <option value="Education, Training &amp; EdTech">Education, Training &amp; EdTech</option>
-                    <option value="Electrical, Energy &amp; Skilled Trades (Electricians, Solar, Inverters, Plumbers)">Electrical, Energy &amp; Skilled Trades (Electricians, Solar, Inverters, Plumbers)</option>
-                    <option value="Energy, Oil &amp; Gas, Renewables &amp; Utilities">Energy, Oil &amp; Gas, Renewables &amp; Utilities</option>
-                    <option value="Healthcare, Pharmaceuticals &amp; Medical">Healthcare, Pharmaceuticals &amp; Medical</option>
-                    <option value="Hospitality, Tourism, Food &amp; Restaurants">Hospitality, Tourism, Food &amp; Restaurants</option>
-                    <option value="Legal, Accounting &amp; Professional Services">Legal, Accounting &amp; Professional Services</option>
-                    <option value="Logistics, Supply Chain, Freight &amp; Transport">Logistics, Supply Chain, Freight &amp; Transport</option>
-                    <option value="Manufacturing &amp; Industrial Production">Manufacturing &amp; Industrial Production</option>
-                    <option value="Marketing, Advertising &amp; Public Relations">Marketing, Advertising &amp; Public Relations</option>
-                    <option value="Non-Profit, NGO &amp; Social Development">Non-Profit, NGO &amp; Social Development</option>
-                    <option value="Photography, Videography &amp; Creative Studios">Photography, Videography &amp; Creative Studios</option>
-                    <option value="Retail, Wholesale, Import &amp; Export">Retail, Wholesale, Import &amp; Export</option>
-                    <option value="Technical Services &amp; Appliance Repair (Technicians, HVAC, Electronics)">Technical Services &amp; Appliance Repair (Technicians, HVAC, Electronics)</option>
-                    <option value="Technology, Software &amp; Telecommunications">Technology, Software &amp; Telecommunications</option>
-                    <option value="Other / Multi-Sector Enterprise">Other / Multi-Sector Enterprise</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Business Location *</label>
-                  <input type="text" id="consulting-location" required placeholder="e.g. Lagos, Nigeria" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                </div>
-                <div>
-                  <label class="block font-semibold text-slate-700 mb-1">Business Size or Stage *</label>
-                  <select id="consulting-stage" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-                    <option value="Early Traction (1-10 Employees)">Early Traction (1-10 Employees)</option>
-                    <option value="Growing SME (11-50 Employees)">Growing SME (11-50 Employees)</option>
-                    <option value="Mid-Market Enterprise (50-250 Employees)">Mid-Market (50-250 Employees)</option>
-                    <option value="Corporate / Established Organization">Corporate / Established</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">What does your business currently do? *</label>
-                <textarea id="consulting-desc" required rows="2" placeholder="Briefly describe your commercial product, service, and primary target market..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">What challenges are you looking to solve? *</label>
-                <textarea id="consulting-challenge" required rows="2" placeholder="e.g. Cash flow leakage, stalled customer acquisition, operational bottlenecks..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm"></textarea>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">What kind of support are you interested in? *</label>
-                <select id="consulting-support" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 font-medium text-sm">
-                  <option value="Business Strategy &amp; Advisory">Business Strategy & Advisory</option>
-                  <option value="Business Analysis &amp; Research Diagnostic">Business Analysis & Research Diagnostic</option>
-                  <option value="Business Development &amp; Growth">Business Development & Growth</option>
-                  <option value="Operations &amp; Systems Optimization">Operations & Systems Optimization</option>
-                  <option value="Founder Business Acceleration">Founder Business Acceleration (1-on-1 Founder &amp; Business Scaling)</option>
-                  <option value="Comprehensive Enterprise Advisory">Comprehensive Enterprise Advisory</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Additional Information (Optional)</label>
-                <input type="text" id="consulting-notes" placeholder="Any timelines, specific requirements, or background context" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-forest-800 text-sm">
-              </div>
-
-              <div>
-                <label class="block font-semibold text-slate-700 mb-1">Company Profile / Pitch Deck / Diagnostic Brief (PDF, Optional)</label>
-                <div class="relative border-2 border-dashed border-slate-300 hover:border-gold-400 rounded-2xl p-4 transition-colors bg-white group cursor-pointer text-center" id="dropzone-consulting-doc">
-                  <input type="file" id="consulting-doc-file" accept=".pdf,application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                  <div id="preview-consulting-doc-default" class="flex flex-col items-center justify-center py-2">
-                    <div class="w-9 h-9 rounded-xl bg-forest-50 text-forest-800 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition-transform">
-                      💼
-                    </div>
-                    <p class="text-xs font-bold text-slate-800"><span class="text-forest-800 underline">Click to attach company brief</span> or drag and drop</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">PDF documents only • Max 10MB • Saved to Drive</p>
-                  </div>
-                  <div id="preview-consulting-doc-selected" class="hidden flex items-center justify-between p-2.5 bg-forest-50 rounded-xl border border-forest-200">
-                    <div class="flex items-center gap-2.5 truncate">
-                      <span class="text-lg">📑</span>
-                      <div class="truncate text-left">
-                        <p id="filename-consulting-doc" class="text-xs font-bold text-forest-950 truncate"></p>
-                        <p id="filesize-consulting-doc" class="text-[10px] text-emerald-700 font-medium"></p>
-                      </div>
-                    </div>
-                    <button type="button" id="remove-consulting-doc" class="z-20 text-slate-400 hover:text-red-600 p-1 text-xs font-bold transition-colors">
-                      ✕ Remove
-                    </button>
-                  </div>
-                </div>
-                <div id="error-consulting-doc" class="hidden mt-1 text-[11px] text-red-600 font-medium"></div>
-              </div>
-
-              <div id="error-consulting-inquiry" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
-
-              <button type="submit" class="w-full py-3.5 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
-                Request A Consultation
+              <button type="submit" id="btn-submit-audit-inquiry" class="w-full py-4 px-6 rounded-xl font-bold uppercase tracking-wider text-sm text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all">
+                <span id="unified-submit-text">Submit &amp; Request My Free Custom Audit</span>
               </button>
             </form>
           </div>
@@ -1005,29 +957,52 @@
       });
     })();
 
-    const formKeys = ['business-audit', 'consulting-inquiry', 'analyst-application', 'internship-application'];
+    const formKeys = ['audit-inquiry', 'analyst-application', 'internship-application'];
+
+    function resolveFormKey(key) {
+      if (key === 'business-audit' || key === 'consulting-inquiry' || key === 'audit-inquiry' || key === 'business-audit-inquiry') {
+        return 'audit-inquiry';
+      }
+      return key;
+    }
 
     // Show/hide panels
     function showForm(formKey) {
       // Hide landing
       const landing = document.getElementById('landing-panel');
       if (landing) landing.classList.add('hidden-panel');
+
+      const resolvedKey = resolveFormKey(formKey);
+
+      // Pre-select track in dropdown if triggered from a specific CTA / link
+      const trackSelect = document.getElementById('unified-track');
+      if (trackSelect) {
+        if (formKey === 'business-audit') {
+          trackSelect.value = 'Free Business Audit (Video / Audio Diagnostic)';
+        } else if (formKey === 'consulting-inquiry') {
+          trackSelect.value = 'In-Depth Consulting Inquiry (Advisory & Strategy)';
+        }
+        updateTrackUI();
+      }
+
       // Hide all form panels
       formKeys.forEach(function(k) {
         const panel = document.getElementById('form-panel-' + k);
         if (panel) panel.classList.remove('active');
-        // Update tab button styles
         const btn = document.querySelector('.form-tab-btn[data-form="' + k + '"]');
         if (btn) btn.classList.remove('active');
       });
+
       // Show selected form
-      const target = document.getElementById('form-panel-' + formKey);
+      const target = document.getElementById('form-panel-' + resolvedKey);
       if (target) target.classList.add('active');
-      const activeBtn = document.querySelector('.form-tab-btn[data-form="' + formKey + '"]');
+      const activeBtn = document.querySelector('.form-tab-btn[data-form="' + resolvedKey + '"]');
       if (activeBtn) activeBtn.classList.add('active');
+
       // Update URL hash
       history.pushState(null, '', '#' + formKey);
-      // Scroll to content: on mobile, scroll smoothly directly to the active form!
+
+      // Scroll to content
       if (window.innerWidth < 1024 && target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
@@ -1049,15 +1024,20 @@
     // Check URL hash on load
     function checkHash() {
       const hash = window.location.hash.replace('#', '');
-      if (hash && formKeys.includes(hash)) {
-        showForm(hash);
-      } else {
-        showLanding();
+      if (hash) {
+        if (hash === 'business-audit' || hash === 'consulting-inquiry' || hash === 'audit-inquiry' || formKeys.includes(hash)) {
+          showForm(hash);
+          return;
+        }
       }
+      showLanding();
     }
 
     window.addEventListener('hashchange', checkHash);
-    document.addEventListener('DOMContentLoaded', checkHash);
+    document.addEventListener('DOMContentLoaded', function() {
+      checkHash();
+      updateTrackUI();
+    });
 
     // === PDF Drag & Drop / File Uploader Helper ===
     function setupPdfUploader(config) {
@@ -1195,15 +1175,15 @@
     }
 
     // Initialize Uploaders
-    const consultingUploader = setupPdfUploader({
-      dropzoneId: 'dropzone-consulting-doc',
-      inputId: 'consulting-doc-file',
-      defaultPreviewId: 'preview-consulting-doc-default',
-      selectedPreviewId: 'preview-consulting-doc-selected',
-      filenameId: 'filename-consulting-doc',
-      filesizeId: 'filesize-consulting-doc',
-      removeBtnId: 'remove-consulting-doc',
-      errorId: 'error-consulting-doc'
+    const unifiedUploader = setupPdfUploader({
+      dropzoneId: 'dropzone-unified-doc',
+      inputId: 'unified-doc-file',
+      defaultPreviewId: 'preview-unified-doc-default',
+      selectedPreviewId: 'preview-unified-doc-selected',
+      filenameId: 'filename-unified-doc',
+      filesizeId: 'filesize-unified-doc',
+      removeBtnId: 'remove-unified-doc',
+      errorId: 'error-unified-doc'
     });
 
     const analystUploader = setupPdfUploader({
@@ -1228,6 +1208,86 @@
       errorId: 'error-internship-cv'
     });
 
+    // Track Switcher Reactive UI Logic
+    function updateTrackUI() {
+      const trackSelect = document.getElementById('unified-track');
+      if (!trackSelect) return;
+      const track = trackSelect.value;
+      const badgeTrack = document.getElementById('unified-badge-track');
+      const badgeDelivery = document.getElementById('unified-badge-delivery');
+      const titleEl = document.getElementById('unified-form-title');
+      const descEl = document.getElementById('unified-form-desc');
+      const blockAudit = document.getElementById('block-audit-details');
+      const blockConsulting = document.getElementById('block-consulting-details');
+      const blockBdr = document.getElementById('block-bdr-details');
+      const submitBtnText = document.getElementById('unified-submit-text');
+      const sourceInput = document.getElementById('unified-source');
+      const successTitle = document.getElementById('success-audit-inquiry-title');
+      const successDesc = document.getElementById('success-audit-inquiry-desc');
+
+      if (track.includes('Free Business Audit')) {
+        if (badgeTrack) {
+          badgeTrack.textContent = 'Free Strategy Audit';
+          badgeTrack.className = 'text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300';
+        }
+        if (badgeDelivery) {
+          badgeDelivery.textContent = 'Delivered via WhatsApp in 24h';
+          badgeDelivery.className = 'text-[10px] font-medium text-forest-800 bg-gold-100 px-2 py-0.5 rounded-full border border-gold-300';
+        }
+        if (titleEl) titleEl.textContent = 'Get A Customised Video & Strategy Audit';
+        if (descEl) descEl.textContent = 'Fill in your business details below so an available consultant can review your stage, analyze your core struggle, and send back a bespoke video/audio audit within 24 hours on WhatsApp.';
+        if (blockAudit) blockAudit.classList.remove('hidden');
+        if (blockConsulting) blockConsulting.classList.add('hidden');
+        if (blockBdr) blockBdr.classList.add('hidden');
+        if (submitBtnText) submitBtnText.textContent = 'Submit & Request My Free Custom Audit';
+        if (sourceInput) sourceInput.value = 'Website - Free Audit Track';
+        if (successTitle) successTitle.textContent = 'Audit Request Submitted!';
+        if (successDesc) successDesc.textContent = 'Our team has received your submission. Expect a personalised video or voice audit within 24 hours on your WhatsApp.';
+      } else if (track.includes('In-Depth Consulting')) {
+        if (badgeTrack) {
+          badgeTrack.textContent = 'Strategic Advisory Track';
+          badgeTrack.className = 'text-[10px] font-bold uppercase tracking-wider text-forest-900 bg-gold-200 px-2.5 py-0.5 rounded-full border border-gold-400';
+        }
+        if (badgeDelivery) {
+          badgeDelivery.textContent = '1-on-1 Practice Review • 24–48h Response';
+          badgeDelivery.className = 'text-[10px] font-medium text-forest-900 bg-forest-50 px-2 py-0.5 rounded-full border border-forest-200';
+        }
+        if (titleEl) titleEl.textContent = 'Request A Business Consultation & Strategy Engagement';
+        if (descEl) descEl.textContent = 'Tell us about your business, the challenges you need help solving, and your timeline for corporate advisory support.';
+        if (blockAudit) blockAudit.classList.add('hidden');
+        if (blockConsulting) blockConsulting.classList.remove('hidden');
+        if (blockBdr) blockBdr.classList.add('hidden');
+        if (submitBtnText) submitBtnText.textContent = 'Submit Business Consulting Inquiry';
+        if (sourceInput) sourceInput.value = 'Website - In-Depth Inquiry Track';
+        if (successTitle) successTitle.textContent = 'Consulting Inquiry Received!';
+        if (successDesc) successDesc.textContent = 'Your consultation request has been successfully submitted. Our senior advisory team will review your diagnostic notes and reach out within 1–2 business days.';
+      } else {
+        // BDR / Agent In-Field Lead
+        if (badgeTrack) {
+          badgeTrack.textContent = 'BDR / Field Prospect Intake';
+          badgeTrack.className = 'text-[10px] font-bold uppercase tracking-wider text-blue-900 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-300';
+        }
+        if (badgeDelivery) {
+          badgeDelivery.textContent = 'Internal Lead Logging • Routed to Advisory';
+          badgeDelivery.className = 'text-[10px] font-medium text-slate-800 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-300';
+        }
+        if (titleEl) titleEl.textContent = 'Log In-Field Lead / Client Diagnostic';
+        if (descEl) descEl.textContent = 'BDR / Sales Agent intake tracking. Enter prospect business metrics, team size, and background context.';
+        if (blockAudit) blockAudit.classList.add('hidden');
+        if (blockConsulting) blockConsulting.classList.remove('hidden');
+        if (blockBdr) blockBdr.classList.remove('hidden');
+        if (submitBtnText) submitBtnText.textContent = 'Log Lead to Advisory Desk';
+        if (sourceInput) sourceInput.value = 'BDR / Agent In-Field Lead';
+        if (successTitle) successTitle.textContent = 'In-Field Lead Logged Successfully!';
+        if (successDesc) successDesc.textContent = 'The prospect has been registered into the central database and flagged for advisory follow-up.';
+      }
+    }
+
+    const unifiedTrackSelect = document.getElementById('unified-track');
+    if (unifiedTrackSelect) {
+      unifiedTrackSelect.addEventListener('change', updateTrackUI);
+    }
+
     // === Form Submission Logic ===
     async function submitForm(formKey, data, fileObj) {
       const errorEl = document.getElementById('error-' + formKey);
@@ -1241,7 +1301,7 @@
           submitBtn.disabled = true;
           submitBtn.innerHTML = fileObj 
             ? `<span>Uploading to Google Drive & Transmitting...</span>` 
-            : `<span>Submitting to Advisory Council...</span>`;
+            : `<span>Submitting to Advisory Desk...</span>`;
         }
 
         const payload = Object.assign({ formType: formKey, timestamp: new Date().toISOString() }, data);
@@ -1279,41 +1339,37 @@
       }
     }
 
-    // Business Audit
-    document.getElementById('form-business-audit').addEventListener('submit', function(e) {
-      e.preventDefault();
-      submitForm('business-audit', {
-        name: document.getElementById('audit-name').value,
-        businessName: document.getElementById('audit-business').value,
-        whatsapp: document.getElementById('audit-whatsapp').value,
-        email: document.getElementById('audit-email').value,
-        industry: document.getElementById('audit-industry').value,
-        stage: document.getElementById('audit-stage').value,
-        description: document.getElementById('audit-desc').value,
-        struggles: document.getElementById('audit-struggles').value,
-        goal: document.getElementById('audit-goal').value,
-        preferredFormat: document.getElementById('audit-format').value,
-      });
-    });
+    // Consolidated Business Audit & Consulting Inquiry Submission
+    const formAuditInquiry = document.getElementById('form-audit-inquiry');
+    if (formAuditInquiry) {
+      formAuditInquiry.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fileObj = unifiedUploader ? unifiedUploader.getFile() : null;
+        const trackVal = document.getElementById('unified-track').value;
+        const sourceVal = document.getElementById('unified-source').value;
 
-    // Consulting Inquiry
-    document.getElementById('form-consulting-inquiry').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const fileObj = consultingUploader ? consultingUploader.getFile() : null;
-      submitForm('consulting-inquiry', {
-        name: document.getElementById('consulting-name').value,
-        businessName: document.getElementById('consulting-business').value,
-        email: document.getElementById('consulting-email').value,
-        phone: document.getElementById('consulting-phone').value,
-        industry: document.getElementById('consulting-industry').value,
-        location: document.getElementById('consulting-location').value,
-        stage: document.getElementById('consulting-stage').value,
-        description: document.getElementById('consulting-desc').value,
-        challenges: document.getElementById('consulting-challenge').value,
-        supportType: document.getElementById('consulting-support').value,
-        notes: document.getElementById('consulting-notes').value,
-      }, fileObj);
-    });
+        submitForm('audit-inquiry', {
+          track: trackVal,
+          source: sourceVal,
+          name: document.getElementById('unified-name').value.trim(),
+          businessName: document.getElementById('unified-business').value.trim(),
+          whatsapp: document.getElementById('unified-whatsapp').value.trim(),
+          email: document.getElementById('unified-email').value.trim(),
+          industry: document.getElementById('unified-industry').value,
+          location: document.getElementById('unified-location').value.trim(),
+          teamSize: document.getElementById('unified-team-size').value,
+          website: document.getElementById('unified-website').value.trim(),
+          stage: document.getElementById('unified-stage').value,
+          description: document.getElementById('unified-desc').value.trim(),
+          struggles: document.getElementById('unified-struggles').value.trim(),
+          goal: document.getElementById('unified-goal') ? document.getElementById('unified-goal').value.trim() : '',
+          preferredFormat: document.getElementById('unified-format') ? document.getElementById('unified-format').value : 'Custom Video Audit (Loom / Screen & Face)',
+          supportType: document.getElementById('unified-support') ? document.getElementById('unified-support').value : 'Business Strategy & Advisory',
+          notes: document.getElementById('unified-notes') ? document.getElementById('unified-notes').value.trim() : '',
+          bdrNotes: document.getElementById('unified-bdr-notes') ? document.getElementById('unified-bdr-notes').value.trim() : ''
+        }, fileObj);
+      });
+    }
 
     // Analyst Application
     document.getElementById('form-analyst-application').addEventListener('submit', function(e) {
@@ -1362,13 +1418,15 @@
 
     // Reset forms when "Submit Another" is clicked (re-show the form)
     function resetFormPanel(formKey) {
-      const formEl = document.getElementById('form-' + formKey);
-      const successEl = document.getElementById('success-' + formKey);
+      const resolvedKey = resolveFormKey(formKey);
+      const formEl = document.getElementById('form-' + resolvedKey);
+      const successEl = document.getElementById('success-' + resolvedKey);
       if (formEl) { formEl.reset(); formEl.classList.remove('hidden'); }
       if (successEl) successEl.classList.add('hidden');
-      if (formKey === 'consulting-inquiry' && consultingUploader) consultingUploader.clear();
-      if (formKey === 'analyst-application' && analystUploader) analystUploader.clear();
-      if (formKey === 'internship-application' && internshipUploader) internshipUploader.clear();
+      if (resolvedKey === 'audit-inquiry' && unifiedUploader) unifiedUploader.clear();
+      if (resolvedKey === 'analyst-application' && analystUploader) analystUploader.clear();
+      if (resolvedKey === 'internship-application' && internshipUploader) internshipUploader.clear();
+      updateTrackUI();
     }
     // Patch showForm to also reset if needed
     const _origShowForm = showForm;
