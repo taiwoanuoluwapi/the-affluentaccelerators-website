@@ -507,6 +507,12 @@ function doPost(e) {
       });
     }
 
+    // 3b. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
+    if (action === "consolidate_tabs" || action === "cleanup_sheets") {
+      var cleanupResult = consolidateAuditAndInquiryTabs(spreadsheet);
+      return createJsonResponse(cleanupResult);
+    }
+
     // 4. ROUTE: Event Registration (Centralized in single 'Event Registrations' tab)
     var isEvent = (action === "register_event") || 
                   (payload.formType === "event-registration") ||
