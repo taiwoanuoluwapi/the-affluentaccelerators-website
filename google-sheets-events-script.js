@@ -311,6 +311,19 @@ function handleEventRegistrationSync(spreadsheet, payload) {
 
   var dateStr = data["Registration Date"] || payload.timestamp || getFormattedTimestamp();
 
+  // Normalize universal event question aliases for seamless backward & forward compatibility
+  if (data["Playbook & Event Materials Interest"] && !data["Investable Business Playbook Interest"]) {
+    data["Investable Business Playbook Interest"] = data["Playbook & Event Materials Interest"];
+  } else if (data["Investable Business Playbook Interest"] && !data["Playbook & Event Materials Interest"]) {
+    data["Playbook & Event Materials Interest"] = data["Investable Business Playbook Interest"];
+  }
+
+  if (data["Question for Guest Speaker / Conversation"] && !data["Question for Guest Speaker"]) {
+    data["Question for Guest Speaker"] = data["Question for Guest Speaker / Conversation"];
+  } else if (data["Question for Guest Speaker"] && !data["Question for Guest Speaker / Conversation"]) {
+    data["Question for Guest Speaker / Conversation"] = data["Question for Guest Speaker"];
+  }
+
   // 1. Ensure master tabs exist
   ensureOverviewDashboardSheet(spreadsheet);
   var allRegSheet = ensureAllRegistrationsSheet(spreadsheet);

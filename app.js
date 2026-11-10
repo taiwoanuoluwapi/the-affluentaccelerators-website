@@ -1074,6 +1074,7 @@ class CentralEventManager {
             "Question for Guest Speaker": "How should early-stage African logistics operators structure debt vs equity when expanding fleet?",
             "Consulting Interest": "Yes - Immediate Need (Next 30 Days)",
             "Investable Business Playbook Interest": "Yes - Want Full Playbook & Advisory Brief",
+            "Playbook & Event Materials Interest": "Yes - Want Full Playbook & Advisory Brief",
             "Investment-Readiness Interest": "Yes - Actively Preparing for Funding Round",
             "Follow-up Interest": "Yes - Schedule 15-min Discovery Call",
             "Marketing Consent": "Yes",
