@@ -194,9 +194,9 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <!-- Live Ribbon Badge -->
-        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-forest-950 border border-gold-400/40 text-gold-300 text-xs font-bold uppercase tracking-wider mb-6 shadow-md">
+        <div id="hero-ribbon-badge" class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-forest-950 border border-gold-400/40 text-gold-300 text-xs font-bold uppercase tracking-wider mb-6 shadow-md">
           <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-          <span>Featured Live Webinar • Free Executive Masterclass</span>
+          <span id="hero-ribbon-text">Featured Live Webinar • Free Executive Masterclass</span>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -205,19 +205,19 @@
           <div class="lg:col-span-7 space-y-6">
             
             <div class="space-y-3">
-              <p class="text-xs sm:text-sm font-bold tracking-widest uppercase text-gold-400 font-mono">
+              <p id="hero-event-id-date" class="text-xs sm:text-sm font-bold tracking-widest uppercase text-gold-400 font-mono">
                 EVENT 001 • WEDNESDAY, NOVEMBER 19, 2026
               </p>
-              <h1 class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.12] text-white">
+              <h1 id="hero-event-title" class="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-[1.12] text-white">
                 The Investable <br/>
                 <span class="gold-gradient-text">Business Playbook</span>
               </h1>
-              <p class="text-lg sm:text-xl font-heading font-semibold text-slate-200">
+              <p id="hero-event-subtitle" class="text-lg sm:text-xl font-heading font-semibold text-slate-200">
                 How to Build Businesses That Attract Investors.
               </p>
             </div>
 
-            <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl">
+            <p id="hero-event-desc" class="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl">
               Most emerging market businesses hit structural ceilings because they remain founder-dependent, lack institutional financial clarity, and cannot satisfy modern investor due-diligence hurdles. In this high-impact executive webinar, learn the exact 4-pillar methodology required to build enterprise value, attract capital, and transition from informal survival to scalable commercial institutions.
             </p>
 
@@ -225,15 +225,15 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-2">
               <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Date &amp; Time</span>
-                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5" id="hero-event-date-val">
                   <span class="text-gold-400">📅</span> Nov 19, 2026
                 </span>
-                <span class="text-[10px] text-gold-300/80 block mt-0.5">6:00 PM GMT+1 (WAT)</span>
+                <span class="text-[10px] text-gold-300/80 block mt-0.5" id="hero-event-time-val">6:00 PM GMT+1 (WAT)</span>
               </div>
 
               <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Platform</span>
-                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5" id="hero-event-venue-val">
                   <span class="text-emerald-400">📹</span> Google Meet
                 </span>
                 <span class="text-[10px] text-slate-400 block mt-0.5">Private link sent upon RSVP</span>
@@ -241,34 +241,34 @@
 
               <div class="p-3.5 rounded-2xl bg-forest-950/80 border border-forest-800 col-span-2 sm:col-span-1">
                 <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Host &amp; Speaker</span>
-                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                <span class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5" id="hero-event-host-val">
                   <span class="text-gold-400">🎙️</span> Fulfilment Taiwo
                 </span>
-                <span class="text-[10px] text-gold-300/80 block mt-0.5">Lead Consultant, AffluentAccelerators</span>
+                <span class="text-[10px] text-gold-300/80 block mt-0.5" id="hero-event-host-sub">Lead Consultant, AffluentAccelerators</span>
               </div>
             </div>
 
-            <!-- Countdown Timer to Nov 19 -->
+            <!-- Countdown Timer to Next Session -->
             <div class="p-4 rounded-2xl bg-forest-950/90 border border-gold-400/30">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-gold-300">Countdown to Live Session:</span>
-                <span class="text-[10px] text-slate-400">Seats limited to 250 verified participants</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-gold-300" id="countdown-label">Countdown to Live Session:</span>
+                <span class="text-[10px] text-slate-400" id="countdown-seat-notice">Seats limited to 250 verified participants</span>
               </div>
               <div class="grid grid-cols-4 gap-2 text-center" id="webinar-countdown">
                 <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
-                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-days">09</span>
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-days">00</span>
                   <span class="text-[9px] uppercase tracking-wider text-slate-400">Days</span>
                 </div>
                 <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
-                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-hours">08</span>
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-hours">00</span>
                   <span class="text-[9px] uppercase tracking-wider text-slate-400">Hours</span>
                 </div>
                 <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
-                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-mins">45</span>
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-mins">00</span>
                   <span class="text-[9px] uppercase tracking-wider text-slate-400">Minutes</span>
                 </div>
                 <div class="p-2 rounded-xl bg-forest-900/90 border border-forest-800">
-                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-secs">30</span>
+                  <span class="block text-lg sm:text-2xl font-bold font-heading text-gold-400" id="cd-secs">00</span>
                   <span class="text-[9px] uppercase tracking-wider text-slate-400">Seconds</span>
                 </div>
               </div>
@@ -276,8 +276,8 @@
 
             <!-- Primary CTAs -->
             <div class="flex flex-col sm:flex-row gap-4 pt-2">
-              <button onclick="openRegistrationModal('EVENT 001')" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow gold-glow-hover transition-all hover:-translate-y-0.5">
-                <span>Register Now For Free</span>
+              <button id="hero-event-register-btn" onclick="openRegistrationModal('EVENT 001')" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 hover:from-gold-300 hover:to-gold-400 shadow-xl gold-glow gold-glow-hover transition-all hover:-translate-y-0.5">
+                <span id="hero-register-btn-label">Register Now For Free</span>
                 <span class="text-base leading-none">↗</span>
               </button>
               
@@ -305,18 +305,19 @@
 
               <div class="relative rounded-3xl overflow-hidden border-2 border-gold-400/50 shadow-2xl bg-forest-950">
                 <img 
+                  id="hero-event-flyer-img"
                   src="images/photo-1794301616-c3edd84b.jpg" 
                   alt="Live Webinar: The Investable Business Playbook - How to Build Businesses That Attract Investors with Fulfilment Taiwo" 
-                  class="w-full h-auto object-cover transform group-hover:scale-[1.01] transition-transform duration-500"
+                  class="w-full h-auto object-cover transform group-hover:scale-[1.01] transition-transform duration-500 max-h-[500px]"
                 >
                 
                 <!-- Quick Floating Overlay Action -->
                 <div class="p-4 bg-forest-950/95 border-t border-gold-400/30 flex items-center justify-between">
                   <div>
                     <span class="text-[10px] uppercase font-bold text-gold-400 block">Host &amp; Lead Consultant</span>
-                    <span class="text-xs font-bold text-white">Fulfilment Taiwo</span>
+                    <span class="text-xs font-bold text-white" id="hero-flyer-speaker-name">Fulfilment Taiwo</span>
                   </div>
-                  <button onclick="openRegistrationModal('EVENT 001')" class="px-4 py-2 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm">
+                  <button id="hero-flyer-reserve-btn" onclick="openRegistrationModal('EVENT 001')" class="px-4 py-2 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm">
                     Reserve My Seat
                   </button>
                 </div>
