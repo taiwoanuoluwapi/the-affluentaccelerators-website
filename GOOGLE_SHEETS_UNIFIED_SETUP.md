@@ -89,17 +89,18 @@ graph TD
    ```
 3. Click the **Save** (diskette) icon.
 
-### Step 3: Run the 1-Click Verification Test
-1. In the toolbar at the top (next to "Debug"), choose **`testUnifiedSetupAndSampleSubmissions`** from the function dropdown.
+### Step 3: Run the 1-Click Verification Test in Apps Script
+1. In the toolbar at the top (next to "Debug"), select either:
+   - **`testEventRegistrationForm`**: Quickly runs and verifies the Event Registration tab with sample data.
+   - Or **`testUnifiedSetupAndSampleSubmissions`**: Sets up all 6 tabs and tests the entire system in 1 click.
 2. Click **Run**.
 3. Google will ask for permission on your first run:
    - Click **Review permissions**
    - Choose your Google Account
    - Click **Advanced** (bottom left)
-   - Click **Go to Untitled project (unsafe)**
+   - Click **Go to project (unsafe)**
    - Click **Allow**
-4. Check your Google Spreadsheet: All **6 tabs** are automatically created, formatted with Deep Forest Green (`#06261b`) and Warm Gold (`#f3c74d`) headers, frozen rows, auto-resized columns, and populated with sample verification data!
-5. Check your Google Drive: The folder **`The Affluentaccelerators: Hiring`** has been created with a sample applicant CV.
+4. Check your Google Spreadsheet: The **`Event Registrations`** tab (and all 6 tabs) are automatically created, formatted with Deep Forest Green (`#06261b`) and Warm Gold (`#f3c74d`) headers, frozen rows, auto-resized columns, and populated with sample data!
 
 ### Step 4: Deploy as Web App
 1. Click the blue **Deploy** button (top right) > **New deployment**.
