@@ -984,8 +984,343 @@ window.closeRoleModal = function(modalId) {
   }
 };
 
+// ============================================================================
+// CENTRAL EVENT REGISTRATION & GOOGLE SHEETS DATABASE MANAGER (SECTIONS A - I)
+// ============================================================================
+class CentralEventManager {
+  constructor() {
+    this.storageKey = 'affluent_events_database_v1';
+    this.state = this.loadState();
+  }
+
+  loadState() {
+    const defaultData = {
+      spreadsheetName: "THE AFFLUENTACCELERATORS – EVENTS & REGISTRATION DATABASE",
+      spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1B7nNssq52qgZkXwHq7YJ_mQn_sample",
+      events: [
+        {
+          id: "EVENT 001",
+          title: "The Investable Business Playbook",
+          category: "Live Webinar",
+          date: "Wednesday, November 19, 2026 • 6:00 PM WAT",
+          venue: "Live on Google Meet",
+          host: "Fulfilment Taiwo (Lead Consultant)",
+          tabName: "EVENT 001 – The Investable Business Playbook",
+          flyer: "images/photo-1794301616-c3edd84b.jpg",
+          description: "How to Build Businesses That Attract Investors. A masterclass on institutional systems, cash flow diagnostics, and angel/VC due-diligence criteria."
+        },
+        {
+          id: "EVENT 002",
+          title: "Business Growth & Revenue Scaling Masterclass",
+          category: "Executive Masterclass",
+          date: "Saturday, December 12, 2026 • 4:00 PM WAT",
+          venue: "Virtual Interactive Workshop",
+          tabName: "EVENT 002 – Business Growth Masterclass",
+          description: "Moving beyond founder-led hustle to sustainable sales funnels, regional distributor partnerships, and predictable revenue engines."
+        },
+        {
+          id: "EVENT 003",
+          title: "Business Finance & Cashflow Restructuring",
+          category: "Diagnostic Workshop",
+          date: "Thursday, January 14, 2027 • 5:00 PM WAT",
+          venue: "Live on Google Meet",
+          tabName: "EVENT 003 – Business Finance Workshop",
+          description: "Hands-on diagnostic clinic covering working capital traps, managing uncollected trade receivables, and structuring audited financial dashboards."
+        },
+        {
+          id: "EVENT 004",
+          title: "African Founder Roundtable & Deal Clinic",
+          category: "Founder Roundtable",
+          date: "Thursday, February 18, 2027 • 6:00 PM WAT",
+          venue: "Curated Executive Roundtable",
+          tabName: "EVENT 004 – Founder Roundtable",
+          description: "Intimate deal clinic for established founders looking to pitch institutional investors, structure mezzanine debt, or execute expansion rounds."
+        }
+      ],
+      registrations: [
+        {
+          id: "REG-EVT001-TEST01",
+          eventId: "EVENT 001",
+          eventTitle: "The Investable Business Playbook",
+          createdAt: "2026-11-09 14:30:00",
+          syncStatus: "synced",
+          syncTimestamp: "2026-11-09 14:30:04",
+          attendanceStatus: "Confirmed Registered",
+          followupStatus: "Pending Review",
+          data: {
+            "Registration ID": "REG-EVT001-TEST01",
+            "Registration Date": "2026-11-09",
+            "Full Name": "Emeka Adeleke",
+            "Email Address": "emeka.adeleke@example.com",
+            "Phone / WhatsApp Number": "+234 803 123 4567",
+            "Country": "Nigeria",
+            "City / State": "Lagos",
+            "Occupation / Participant Category": "Founder / CEO",
+            "Business Name": "Nexora Logistics & Distribution",
+            "Business Description": "B2B temperature-controlled logistics for fast-moving consumer goods and regional retailers.",
+            "Industry": "Logistics & Supply Chain",
+            "Business Age": "1 – 3 Years",
+            "Business Stage": "Growth & Scaling",
+            "Website / Social Media Link": "https://nexoralogistics.example.com",
+            "Number of Employees": "6 – 15 Employees",
+            "Revenue Status": "Consistently Profitable",
+            "Monthly Revenue Range": "₦2M – ₦10M ($1,400–$7,000)",
+            "Business Registration Status": "Fully Registered / Incorporated (CAC)",
+            "Financial Record-Keeping Status": "Cloud Accounting (QuickBooks / Xero / Wave)",
+            "Operational Systems Status": "Transitioning to Systems (Some SOPs, founder still involved)",
+            "Biggest Business Challenges": "Access to Growth Capital & Funding",
+            "Business Priorities": "Securing Institutional Growth Capital",
+            "Learning Expectations": "Mastering the investor readiness checklist and financial modeling requirements.",
+            "Question for Guest Speaker": "How should early-stage African logistics operators structure debt vs equity when expanding fleet?",
+            "Consulting Interest": "Yes - Immediate Need (Next 30 Days)",
+            "Investable Business Playbook Interest": "Yes - Want Full Playbook & Advisory Brief",
+            "Investment-Readiness Interest": "Yes - Actively Preparing for Funding Round",
+            "Follow-up Interest": "Yes - Schedule 15-min Discovery Call",
+            "Marketing Consent": "Yes",
+            "Communication Preferences": "WhatsApp & Email",
+            "Attendance Status": "Confirmed Registered",
+            "Follow-up Status": "Pending Review"
+          }
+        }
+      ]
+    };
+
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (!parsed.events || parsed.events.length === 0) {
+          parsed.events = defaultData.events;
+        }
+        return parsed;
+      }
+    } catch (e) {
+      console.warn("Could not load stored event database:", e);
+    }
+    return defaultData;
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+    } catch (e) {
+      console.error("Error saving event database:", e);
+    }
+  }
+
+  // Register Participant (Requirements C, D, G)
+  async registerParticipant(formData) {
+    const eventId = formData.eventId || "EVENT 001";
+    const cleanNum = eventId.replace(/[^0-9]/g, "") || "001";
+    const randCode = Math.floor(1000 + Math.random() * 9000);
+    const regId = "REG-EVT" + cleanNum + "-" + randCode;
+
+    const eventObj = this.state.events.find(e => e.id === eventId) || {
+      id: eventId,
+      title: formData.eventTitle || "Special Event"
+    };
+
+    const nowStr = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+    const record = {
+      id: regId,
+      eventId: eventId,
+      eventTitle: eventObj.title,
+      createdAt: nowStr,
+      syncStatus: "pending",
+      syncTimestamp: null,
+      attendanceStatus: formData["Attendance Status"] || "Confirmed Registered",
+      followupStatus: formData["Follow-up Status"] || "Pending Review",
+      data: {
+        "Registration ID": regId,
+        "Registration Date": nowStr.substring(0, 10),
+        ...formData
+      }
+    };
+
+    // Save locally immediately (Primary source of truth - Section G)
+    this.state.registrations.unshift(record);
+    this.saveState();
+
+    // Trigger asynchronous sync to Google Sheets
+    await this.syncRegistration(regId);
+
+    return {
+      id: regId,
+      record: record
+    };
+  }
+
+  // Send Registration to Google Sheets Webhook
+  async syncRegistration(regId) {
+    const record = this.state.registrations.find(r => r.id === regId);
+    if (!record) return false;
+
+    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    if (!webhookUrl || !webhookUrl.startsWith('http')) {
+      console.warn("[Google Sheets Sync] Webhook URL not configured. Record remains stored locally.");
+      return false;
+    }
+
+    const payload = {
+      action: "register_event",
+      eventId: record.eventId,
+      eventTitle: record.eventTitle,
+      registrationId: record.id,
+      timestamp: record.createdAt,
+      data: record.data
+    };
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
+      });
+
+      record.syncStatus = "synced";
+      record.syncTimestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+      this.saveState();
+      return true;
+    } catch (err) {
+      console.error("[Google Sheets Sync Error]", err);
+      record.syncStatus = "failed";
+      record.lastError = err.toString();
+      this.saveState();
+      return false;
+    }
+  }
+
+  // Create & Publish New Event (Requirement B)
+  async createAndPublishEvent(eventData) {
+    const cleanNum = eventData.id.replace(/[^0-9]/g, "");
+    const formattedId = cleanNum ? "EVENT " + cleanNum.padStart(3, '0') : eventData.id;
+    const tabName = formattedId + " – " + eventData.title.substring(0, 35);
+
+    let existing = this.state.events.find(e => e.id === formattedId);
+    if (!existing) {
+      const newEvt = {
+        id: formattedId,
+        title: eventData.title,
+        category: eventData.category || "Executive Masterclass",
+        date: eventData.date,
+        venue: eventData.venue || "Live on Google Meet",
+        tabName: tabName,
+        description: eventData.description || ""
+      };
+      this.state.events.push(newEvt);
+      this.saveState();
+      existing = newEvt;
+    }
+
+    // Ping Google Sheets to pre-create worksheet tab
+    const webhookUrl = localStorage.getItem('AA_GOOGLE_SHEETS_URL') || GOOGLE_SHEETS_WEBHOOK_URL;
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: "create_event_tab",
+            eventId: formattedId,
+            eventTitle: eventData.title,
+            tabName: tabName
+          }),
+          mode: 'no-cors'
+        });
+      } catch (e) {
+        console.warn("Could not pre-create sheet tab remotely:", e);
+      }
+    }
+
+    return existing;
+  }
+
+  // Retry Failed Synchronizations (Requirement F & G)
+  async retryFailedSyncs() {
+    const failed = this.state.registrations.filter(r => r.syncStatus !== "synced");
+    let count = 0;
+    for (const rec of failed) {
+      const ok = await this.syncRegistration(rec.id);
+      if (ok) count++;
+    }
+    return count;
+  }
+
+  // Reconcile All Registrations
+  async reconcileAll() {
+    let count = 0;
+    for (const rec of this.state.registrations) {
+      const ok = await this.syncRegistration(rec.id);
+      if (ok) count++;
+    }
+    return count;
+  }
+
+  // Accessors
+  getAllEvents() { return this.state.events; }
+  getAllRegistrations() { return this.state.registrations; }
+  getRegistrationById(id) { return this.state.registrations.find(r => r.id === id); }
+  getRegistrationsForEvent(eventId) { return this.state.registrations.filter(r => r.eventId === eventId); }
+
+  updateRegistrationField(regId, field, value) {
+    const reg = this.getRegistrationById(regId);
+    if (reg) {
+      reg[field] = value;
+      if (reg.data) reg.data[field] = value;
+      this.saveState();
+    }
+  }
+
+  // CSV Export
+  exportRegistrationsCSV() {
+    const regs = this.state.registrations;
+    if (regs.length === 0) return;
+
+    const sample = regs[0].data || {};
+    const headers = ["Reg ID", "Event ID", "Sync Status", "Attendance", ...Object.keys(sample)];
+
+    const rows = [headers];
+    regs.forEach(r => {
+      const row = [r.id, r.eventId, r.syncStatus, r.attendanceStatus];
+      Object.keys(sample).forEach(k => {
+        const val = (r.data[k] || '').toString().replace(/"/g, '""');
+        row.push(`"${val}"`);
+      });
+      rows.push(row);
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `affluent_accelerators_event_registrations_${new Date().toISOString().substring(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // JSON Export
+  exportRegistrationsJSON() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.registrations, null, 2));
+    const link = document.createElement("a");
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", `affluent_accelerators_event_registrations_${new Date().toISOString().substring(0,10)}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+// Instantiate Global Central Event Manager
+window.affluentEvents = new CentralEventManager();
+
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
   window.affluentApp = new AffluentApp();
   window.affluentApp.init();
+  if (!window.affluentEvents) {
+    window.affluentEvents = new CentralEventManager();
+  }
 });
