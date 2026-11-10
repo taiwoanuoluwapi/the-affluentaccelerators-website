@@ -908,7 +908,16 @@
       const url = document.getElementById('input-webhook-url').value.trim();
       const resultsBox = document.getElementById('connection-test-results');
       resultsBox.classList.remove('hidden');
-      resultsBox.innerHTML = 'Connecting to Google Sheets Webhook...';
+
+      if (!url) {
+        resultsBox.innerHTML = `
+          <div class="text-amber-700 font-semibold">⚠️ No Events Webhook URL entered yet.</div>
+          <div class="text-slate-600">Please deploy <code>google-sheets-events-script.js</code> on your Events Google Sheet, paste the Web App URL above, and click 'Save &amp; Verify URL'.</div>
+        `;
+        return;
+      }
+
+      resultsBox.innerHTML = 'Connecting to Events Google Sheets Webhook...';
 
       const startTime = performance.now();
       try {
