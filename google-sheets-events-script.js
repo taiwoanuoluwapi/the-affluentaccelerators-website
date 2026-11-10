@@ -49,12 +49,33 @@ var COLOR_CARD_BG     = "#f0fdf4";    // Soft Mint KPI Card Background
 var COLOR_ZEBRA_ROW   = "#f8faf8";    // Subtle alternating row tint
 
 // TAB NAMES CONSTANTS
-var TAB_OVERVIEW      = "OVERVIEW DASHBOARD";
-var TAB_EVENTS        = "Event Registrations";
-var TAB_AUDITS        = "Business Audits";
-var TAB_INQUIRIES     = "Consulting Inquiries";
-var TAB_ANALYST       = "Analyst Applications";
-var TAB_INTERNSHIP    = "Internship Applications";
+var TAB_OVERVIEW          = "OVERVIEW DASHBOARD";
+var TAB_EVENTS            = "Event Registrations";
+var TAB_AUDITS            = "Business Audits";
+var TAB_INQUIRIES         = "Consulting Inquiries";
+var TAB_ANALYST           = "Analyst Applications";
+var TAB_INTERNSHIP        = "Internship Applications";
+var TAB_PUBLISHED_EVENTS  = "Events"; // Dedicated published events catalogue tab
+
+/**
+ * Standardized Unified Headers for PUBLISHED EVENTS CATALOGUE
+ */
+var PUBLISHED_EVENTS_HEADERS = [
+  "Event ID",
+  "Event Title",
+  "Category",
+  "Date",
+  "Time",
+  "Timezone",
+  "Date Formatted",
+  "Venue / Platform",
+  "Host / Speaker",
+  "Description",
+  "Flyer Image / URL",
+  "Assigned Tab Name",
+  "Status",
+  "Published At"
+];
 
 /**
  * Standardized Unified Headers for EVENT REGISTRATIONS (One Tab for All Events)

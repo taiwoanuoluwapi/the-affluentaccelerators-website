@@ -1498,9 +1498,12 @@
       if (!window.affluentEvents) return;
 
       const regs = window.affluentEvents.getAllRegistrations();
-      document.getElementById('badge-total-regs').textContent = regs.length;
-      document.getElementById('telemetry-tab-count').textContent = window.affluentEvents.getAllEvents().length + 2;
-      document.getElementById('telemetry-failed-count').textContent = regs.filter(r => r.syncStatus === 'failed' || r.syncStatus === 'pending').length;
+      const badgeRegs = document.getElementById('badge-total-regs');
+      if (badgeRegs) badgeRegs.textContent = regs.length;
+      const tabCountEl = document.getElementById('telemetry-tab-count');
+      if (tabCountEl) tabCountEl.textContent = window.affluentEvents.getAllEvents().length + 2;
+      const failedCountEl = document.getElementById('telemetry-failed-count');
+      if (failedCountEl) failedCountEl.textContent = regs.filter(r => r.syncStatus === 'failed' || r.syncStatus === 'pending').length;
 
       const filterEvt = document.getElementById('filter-event-select').value;
       const filterSync = document.getElementById('filter-sync-status').value;
@@ -1793,26 +1796,61 @@
       e.preventDefault();
       const submitBtn = document.getElementById('btn-submit-new-event');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Generating Worksheet in Google Sheets...';
+      submitBtn.textContent = 'Publishing Event & Syncing to Sheets...';
+
+      const dateVal = document.getElementById('new-event-date').value;
+      const timeVal = document.getElementById('new-event-time').value || '18:00';
+      const tzVal = document.getElementById('new-event-timezone').value || 'WAT';
+      const flyerUrlInput = document.getElementById('new-event-flyer-url').value.trim();
+
+      let flyerResult = "images/photo-1794301616-c3edd84b.jpg";
+      if (currentUploadedFlyerData && currentUploadedFlyerData.dataUrl) {
+        flyerResult = currentUploadedFlyerData.dataUrl;
+      } else if (flyerUrlInput) {
+        flyerResult = flyerUrlInput;
+      }
 
       const newEvt = {
         id: document.getElementById('new-event-id').value.trim(),
         title: document.getElementById('new-event-title').value.trim(),
         category: document.getElementById('new-event-category').value,
-        date: document.getElementById('new-event-date').value.trim(),
+        date: dateVal,
+        time: timeVal,
+        timezone: tzVal,
         venue: document.getElementById('new-event-venue').value.trim(),
-        description: document.getElementById('new-event-desc').value.trim()
+        host: document.getElementById('new-event-host').value.trim(),
+        description: document.getElementById('new-event-desc').value.trim(),
+        flyer: flyerResult,
+        flyerFile: currentUploadedFlyerData ? {
+          base64: currentUploadedFlyerData.base64,
+          fileName: currentUploadedFlyerData.fileName,
+          mimeType: currentUploadedFlyerData.mimeType
+        } : null
       };
 
       if (window.affluentEvents) {
         await window.affluentEvents.createAndPublishEvent(newEvt);
-        alert('Event published! Worksheet tab assigned: ' + newEvt.id + ' – ' + newEvt.title);
+        alert(`Event "${newEvt.title}" published successfully!\n\nDate: ${newEvt.date} at ${newEvt.time} (${newEvt.timezone})\nSynced to Google Sheets 'Events' tab & live on website.`);
         createEventModal.classList.add('hidden');
         createEventModal.classList.remove('flex');
+        
+        // Reset form & uploader
+        document.getElementById('form-create-new-event').reset();
+        currentUploadedFlyerData = null;
+        const defaultPrev = document.getElementById('preview-flyer-default');
+        const selectedPrev = document.getElementById('preview-flyer-selected');
+        const dropzone = document.getElementById('dropzone-new-event-flyer');
+        if (defaultPrev) defaultPrev.classList.remove('hidden');
+        if (selectedPrev) {
+          selectedPrev.classList.add('hidden');
+          selectedPrev.classList.remove('flex');
+        }
+        if (dropzone) dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+
         renderEventsList();
       }
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Publish Event & Create Tab ↗';
+      submitBtn.textContent = 'Publish Event & Sync to Sheet ↗';
     });
 
     // CSV / JSON Exports
