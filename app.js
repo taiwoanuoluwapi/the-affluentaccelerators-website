@@ -468,14 +468,14 @@ class AffluentApp {
 
         const trackVal = (formA.querySelector('#consulting-track') && formA.querySelector('#consulting-track').value) 
           ? formA.querySelector('#consulting-track').value 
-          : "In-Depth Consulting Inquiry (Advisory & Strategy)";
+          : "Paid In-Depth Strategy & Review";
         const teamSizeVal = formA.querySelector('#consulting-team-size') ? formA.querySelector('#consulting-team-size').value : "6 – 20 Employees";
         const websiteVal = formA.querySelector('#consulting-website') ? formA.querySelector('#consulting-website').value.trim() : "N/A";
 
         const leadData = {
           "Reference ID": `INQ-${Date.now().toString().slice(-4)}`,
           "Submission Track": trackVal,
-          "Lead Source": "Website - In-Depth Inquiry Track",
+          "Lead Source": "Website - Paid In-Depth Strategy Track",
           "Full Name": formA.querySelector('#consulting-name').value.trim(),
           "Business Name": formA.querySelector('#consulting-business').value.trim(),
           "Work Email": formA.querySelector('#consulting-email').value.trim(),
@@ -628,7 +628,7 @@ class AffluentApp {
 
         const trackVal = (formAudit.querySelector('#audit-track') && formAudit.querySelector('#audit-track').value)
           ? formAudit.querySelector('#audit-track').value
-          : "Free Business Audit (Video / Audio Diagnostic)";
+          : "One-Time Free Audit";
         const locationVal = formAudit.querySelector('#audit-location') ? formAudit.querySelector('#audit-location').value.trim() : "Lagos, Nigeria";
         const teamSizeVal = formAudit.querySelector('#audit-team-size') ? formAudit.querySelector('#audit-team-size').value : "6 – 20 Employees";
         const websiteVal = formAudit.querySelector('#audit-website') ? formAudit.querySelector('#audit-website').value.trim() : "N/A";
@@ -636,7 +636,7 @@ class AffluentApp {
         const leadData = {
           "Reference ID": `AUD-${Date.now().toString().slice(-4)}`,
           "Submission Track": trackVal,
-          "Lead Source": "Website - Free Audit Track",
+          "Lead Source": "Website - One-Time Free Audit Track",
           "Full Name": formAudit.querySelector('#audit-name').value.trim(),
           "Business Name": formAudit.querySelector('#audit-business').value.trim(),
           "WhatsApp Number": formAudit.querySelector('#audit-whatsapp').value.trim(),
