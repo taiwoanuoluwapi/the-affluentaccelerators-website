@@ -280,6 +280,18 @@
       "created_at": "2026-11-10T16:23:41.104Z",
       "sender": "ios",
       "is_cancelled": true
+    },
+    {
+      "id": "0ccf4689-8111-41f6-8823-659912a27aae",
+      "role": "user",
+      "content": "now on the admin portal I want you to build me the necessary corrections from all the changes, I also the new event publishing to be stored and synceɗ on the google sheet probably to another tab, I want the event time to be a time and a date field not just a text. I also want to be able to maybe the business inquiring leads from there with a button to direct chat with them on WhatsApp (most likely a wa.me link with their number), remove the sync sheet or connection tab where I have to post my script URL or so, also when an event is next or upcoming is there a what to dynamically change the details on the event page to the next event, I think right now it's saying the investable business playbook, so I want that to always change when it's passed and their a following event coming, but if not it can remain, so that means those page details would be synced from the event tab on the sheet, let the form to publish the event also have an image field I can upload the flyer too",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-10T16:30:46.556Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
