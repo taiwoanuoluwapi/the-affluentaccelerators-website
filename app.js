@@ -1536,8 +1536,189 @@ class CentralEventManager {
   }
 }
 
-// Instantiate Global Central Event Manager
+// ============================================================================
+// CENTRAL BUSINESS LEADS MANAGER (AUDITS, STRATEGY REVIEWS, CONSULTING LEADS)
+// ============================================================================
+class CentralLeadsManager {
+  constructor() {
+    this.storageKey = 'affluent_business_leads_v1';
+    this.state = this.loadState();
+  }
+
+  loadState() {
+    const defaultLeads = [
+      {
+        id: "LEAD-AUDIT-2026-4821",
+        date: "2026-11-10",
+        track: "One-Time Free Audit",
+        name: "Babatunde Ogunlesi",
+        businessName: "Zenith Peak Logistics",
+        whatsapp: "+234 802 345 6789",
+        email: "babatunde@zenithpeak.ng",
+        industry: "Logistics, Supply Chain, Freight & Transport",
+        stage: "Scaling SME ($100k - $1M/yr)",
+        location: "Ikeja, Lagos, Nigeria",
+        teamSize: "21 – 50 Employees (Established SME)",
+        website: "https://zenithpeak.ng",
+        description: "B2B long-haul cold chain logistics and freight forwarding for pharmaceutical and consumer goods distributors across southwestern Nigeria.",
+        struggles: "Fleet downtime is eating margins, clients take 75+ days to settle invoices, and cash flow is locked in uncollected trade receivables.",
+        goal: "Restructure working capital and establish formal distributor prepayment terms in next 60 days.",
+        preferredFormat: "Custom Video Audit (Loom / Screen & Face)",
+        status: "New Lead",
+        syncStatus: "synced"
+      },
+      {
+        id: "LEAD-STRAT-2026-3190",
+        date: "2026-11-09",
+        track: "Paid In-Depth Strategy & Review",
+        name: "Dr. Amina Bello",
+        businessName: "Zaria Bio-Nutrient Farms",
+        whatsapp: "+234 814 987 6543",
+        email: "amina.bello@zariabionutrients.com",
+        industry: "Agriculture & Agribusiness",
+        stage: "Consistent Revenue ($10k - $100k/yr)",
+        location: "Kaduna & Kano, Nigeria",
+        teamSize: "6 – 20 Employees (Growing Team)",
+        website: "https://zariabionutrients.com",
+        description: "Organic fertilizer and high-yield grain processing supplying off-taker networks across northern Nigeria.",
+        struggles: "Need institutional expansion capital, audited cash flow forecasting, and unit economics pricing models to pitch commercial off-takers.",
+        supportType: "Business Strategy & Advisory",
+        notes: "Targeting Q1 2027 mezzanine debt. Requesting senior team advisory review.",
+        status: "Contacted on WhatsApp",
+        syncStatus: "synced"
+      },
+      {
+        id: "LEAD-AUDIT-2026-2245",
+        date: "2026-11-08",
+        track: "One-Time Free Audit",
+        name: "Chinedu Okonkwo",
+        businessName: "Apex Cloud Solutions",
+        whatsapp: "+234 905 432 1098",
+        email: "chinedu@apexcloud.io",
+        industry: "Technology, Software & Telecommunications",
+        stage: "Early-Stage Generating First Sales",
+        location: "Lekki, Lagos, Nigeria",
+        teamSize: "2 – 5 Employees (Micro Enterprise)",
+        website: "https://apexcloud.io",
+        description: "Custom cloud infrastructure migration and DevOps support for mid-market financial services.",
+        struggles: "Sales cycles take over 6 months; prospective clients agree during discovery but delay contract signing.",
+        goal: "Shorten sales cycle to under 30 days and package fixed-scope productized retainers.",
+        preferredFormat: "Detailed WhatsApp Voice Note Breakdown",
+        status: "Audit Sent",
+        syncStatus: "synced"
+      }
+    ];
+
+    try {
+      const stored = localStorage.getItem(this.storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn("Could not parse stored business leads:", e);
+    }
+    return defaultLeads;
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+    } catch (e) {
+      console.error("Error saving business leads:", e);
+    }
+  }
+
+  getAllLeads() {
+    return this.state;
+  }
+
+  getLeadById(id) {
+    return this.state.find(l => l.id === id);
+  }
+
+  saveLead(leadData) {
+    const randCode = Math.floor(1000 + Math.random() * 9000);
+    const prefix = (leadData.track && leadData.track.includes("Paid")) ? "LEAD-STRAT" : "LEAD-AUDIT";
+    const leadId = `${prefix}-${new Date().getFullYear()}-${randCode}`;
+
+    const newLead = {
+      id: leadId,
+      date: new Date().toISOString().substring(0, 10),
+      status: "New Lead",
+      syncStatus: "synced",
+      ...leadData
+    };
+
+    this.state.unshift(newLead);
+    this.saveState();
+    return newLead;
+  }
+
+  updateLeadStatus(leadId, newStatus) {
+    const lead = this.getLeadById(leadId);
+    if (lead) {
+      lead.status = newStatus;
+      this.saveState();
+    }
+  }
+
+  exportLeadsCSV() {
+    if (this.state.length === 0) return;
+    const headers = [
+      "Lead ID", "Date", "Track", "Full Name", "Business Name", "WhatsApp Number", 
+      "Email Address", "Industry", "Location", "Team Size", "Business Stage", "Website", 
+      "Status", "Core Struggles", "Growth Goal", "Support Type", "Preferred Format", "Notes"
+    ];
+
+    const rows = [headers];
+    this.state.forEach(l => {
+      rows.push([
+        l.id || '',
+        l.date || '',
+        l.track || '',
+        l.name || '',
+        l.businessName || '',
+        l.whatsapp || '',
+        l.email || '',
+        l.industry || '',
+        l.location || '',
+        l.teamSize || '',
+        l.stage || '',
+        l.website || '',
+        l.status || '',
+        (l.struggles || '').replace(/"/g, '""'),
+        (l.goal || '').replace(/"/g, '""'),
+        (l.supportType || '').replace(/"/g, '""'),
+        (l.preferredFormat || '').replace(/"/g, '""'),
+        (l.notes || '').replace(/"/g, '""')
+      ].map(val => `"${val}"`));
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `affluent_business_inquiring_leads_${new Date().toISOString().substring(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  exportLeadsJSON() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state, null, 2));
+    const link = document.createElement("a");
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", `affluent_business_inquiring_leads_${new Date().toISOString().substring(0,10)}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+// Instantiate Global Managers
 window.affluentEvents = new CentralEventManager();
+window.affluentLeads = new CentralLeadsManager();
 
 // Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -1545,5 +1726,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.affluentApp.init();
   if (!window.affluentEvents) {
     window.affluentEvents = new CentralEventManager();
+  }
+  if (!window.affluentLeads) {
+    window.affluentLeads = new CentralLeadsManager();
   }
 });

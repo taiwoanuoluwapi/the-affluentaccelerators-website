@@ -1301,6 +1301,27 @@
           submitBtn.innerHTML = origBtnText;
         }
 
+        // Save to central business inquiring leads database for Admin Portal
+        if (formKey === 'audit-inquiry') {
+          if (window.affluentLeads && typeof window.affluentLeads.saveLead === 'function') {
+            window.affluentLeads.saveLead(data);
+          } else {
+            try {
+              const current = JSON.parse(localStorage.getItem('affluent_business_leads_v1') || '[]');
+              const randCode = Math.floor(1000 + Math.random() * 9000);
+              const prefix = (data.track && data.track.includes("Paid")) ? "LEAD-STRAT" : "LEAD-AUDIT";
+              current.unshift({
+                id: `${prefix}-${new Date().getFullYear()}-${randCode}`,
+                date: new Date().toISOString().substring(0, 10),
+                status: "New Lead",
+                syncStatus: "synced",
+                ...data
+              });
+              localStorage.setItem('affluent_business_leads_v1', JSON.stringify(current));
+            } catch (e) {}
+          }
+        }
+
         // no-cors means we can't read response body, treat as success
         if (errorEl) errorEl.classList.add('hidden');
         if (formEl) formEl.classList.add('hidden');
