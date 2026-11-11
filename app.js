@@ -28,8 +28,9 @@ const DEFAULT_STATE = {
     { id: "role-1", title: "Business Research Associate", type: "Research & Strategy", active: true, department: "Strategy & Advisory", commitment: "Full-Time / Part-Time" },
     { id: "role-2", title: "Business Analyst Intern", type: "Analysis & Intelligence", active: true, department: "Consulting Operations", commitment: "Full-Time" },
     { id: "role-3", title: "Consulting Associate", type: "Client Engagements", active: true, department: "Client Advisory", commitment: "Full-Time" },
-    { id: "role-4", title: "Business Development Intern", type: "Growth & Partnerships", active: true, department: "Growth & Expansion", commitment: "Full-Time / Flexible", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform", isHot: true },
-    { id: "role-ea", title: "Executive Assistant Intern", type: "Executive Support & Operations", active: true, department: "Executive Office", commitment: "Full-Time / Flexible", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform", isHot: true },
+    { id: "role-4", title: "Business Development Manager Trainee", type: "Growth & Partnerships", active: true, department: "Growth & Expansion", commitment: "3-Month Certification", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform", isHot: true },
+    { id: "role-ea", title: "Executive Assistant Intern", type: "Executive Support & Operations", active: true, department: "Executive Office", commitment: "3-Month Certification", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfPE3ZLkJ-PLMNPF76JQB__fQ-EdsK9k6XPqraz5TGz0_f7mg/viewform", isHot: true },
+    { id: "role-smm", title: "Social Media Manager Trainee", type: "Social Media & Brand", active: true, department: "Digital & Brand Growth", commitment: "3-Month Certification", externalUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdQKOsFtt0SLpL07ULoYIjTwA1NbAyQj_CwKnYUA2WZZKypfQ/viewform", isHot: true },
     { id: "role-5", title: "Marketing & Growth Associate", type: "Brand & Campaigns", active: true, department: "Commercial Growth", commitment: "Full-Time" },
     { id: "role-6", title: "Operations & Project Support", type: "Process Optimization", active: true, department: "Internal Operations", commitment: "Full-Time" },
     { id: "role-7", title: "Research & Strategy Fellow", type: "Fellowship (Advanced)", active: true, department: "Executive Research", commitment: "6-Month Fellowship" }
@@ -1068,7 +1069,15 @@ function setupPdfUploader(config) {
 
 // Global Career Role Modal Helpers
 window.openRoleModal = function(roleId) {
-  const modal = document.getElementById(roleId === 'role-ea-intern' ? 'modal-ea-intern' : 'modal-bd-intern');
+  let targetId = 'modal-bd-intern';
+  if (roleId === 'role-ea-intern' || roleId === 'role-trainee-ea' || roleId === 'modal-ea-intern') {
+    targetId = 'modal-ea-intern';
+  } else if (roleId === 'role-smm' || roleId === 'role-trainee-smm' || roleId === 'modal-trainee-smm' || roleId === 'modal-smm-intern') {
+    targetId = 'modal-smm-intern';
+  } else if (roleId === 'role-bd-intern' || roleId === 'role-trainee-bdm' || roleId === 'role-trainee-consultant' || roleId === 'modal-bd-intern' || roleId === 'modal-trainee-bdm') {
+    targetId = 'modal-bd-intern';
+  }
+  const modal = document.getElementById(targetId) || document.getElementById(roleId);
   if (modal) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
