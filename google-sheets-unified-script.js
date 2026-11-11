@@ -1086,6 +1086,66 @@ function handlePublishEvent(spreadsheet, payload) {
   };
 }
 
+function handleSyncAllEvents(spreadsheet, payload) {
+  var sheet = ensurePublishedEventsSheet(spreadsheet);
+  var eventsList = payload.events || [];
+  if (!Array.isArray(eventsList) || eventsList.length === 0) {
+    return { status: "success", message: "No events to sync.", count: 0 };
+  }
+
+  var existingMap = {};
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    var range = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
+    for (var r = 0; r < range.length; r++) {
+      if (range[r][0]) {
+        existingMap[range[r][0].toString().trim().toUpperCase()] = r + 2;
+      }
+    }
+  }
+
+  var updatedCount = 0;
+  var insertedCount = 0;
+
+  for (var i = 0; i < eventsList.length; i++) {
+    var item = eventsList[i];
+    var eventId = (item.eventId || item.id || "EVENT").toString().trim();
+    var title = (item.eventTitle || item.title || "").toString().trim();
+    var category = item.category || "Executive Masterclass";
+    var date = item.date || "";
+    var time = item.time || "";
+    var timezone = item.timezone || "WAT";
+    var dateFormatted = item.dateFormatted || (date + " • " + time + " " + timezone);
+    var venue = item.venue || "Live on Google Meet";
+    var host = item.host || "Fulfilment Taiwo (Lead Consultant)";
+    var description = item.description || "";
+    var flyer = item.flyer || "";
+    var tabName = item.tabName || (eventId + " – " + title);
+    var status = item.status || "Upcoming";
+    var publishedAt = item.publishedAt || item.createdAt || new Date().toISOString();
+
+    var rowValues = [eventId, title, category, date, time, timezone, dateFormatted, venue, host, description, flyer, tabName, status, publishedAt];
+
+    var matchRow = existingMap[eventId.toUpperCase()];
+    if (matchRow) {
+      sheet.getRange(matchRow, 1, 1, PUBLISHED_EVENTS_HEADERS.length).setValues([rowValues]);
+      updatedCount++;
+    } else {
+      sheet.appendRow(rowValues);
+      existingMap[eventId.toUpperCase()] = sheet.getLastRow();
+      insertedCount++;
+    }
+  }
+
+  return {
+    status: "success",
+    message: "Synced " + (updatedCount + insertedCount) + " events to 'Events' tab (" + updatedCount + " updated, " + insertedCount + " inserted).",
+    updatedCount: updatedCount,
+    insertedCount: insertedCount,
+    spreadsheetUrl: spreadsheet.getUrl()
+  };
+}
+
 function ensureAuditInquirySheet(spreadsheet) {
   var sheet = spreadsheet.getSheetByName(TAB_AUDITS_INQUIRIES);
   if (!sheet) {
