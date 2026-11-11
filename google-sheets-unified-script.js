@@ -528,13 +528,19 @@ function doPost(e) {
       });
     }
 
-    // 3b. Action: Publish / Save Event to 'Events' Tab
-    if (action === "publish_event" || action === "save_event") {
+    // 3b. Action: Publish / Save / Update Event to 'Events' Tab
+    if (action === "publish_event" || action === "save_event" || action === "update_event" || action === "edit_event") {
       var publishResult = handlePublishEvent(spreadsheet, payload);
       return createJsonResponse(publishResult);
     }
 
-    // 3c. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
+    // 3c. Action: Batch Sync All Events to 'Events' Tab
+    if (action === "sync_all_events" || action === "sync_events") {
+      var syncResult = handleSyncAllEvents(spreadsheet, payload);
+      return createJsonResponse(syncResult);
+    }
+
+    // 3d. Action: Consolidate Tabs & Delete Obsolete Sheets (Audits & Inquiries + General Submissions)
     if (action === "consolidate_tabs" || action === "cleanup_sheets") {
       var cleanupResult = consolidateAuditAndInquiryTabs(spreadsheet);
       return createJsonResponse(cleanupResult);
