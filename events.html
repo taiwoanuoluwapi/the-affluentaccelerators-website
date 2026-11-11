@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Events & Masterclasses | The Affluentaccelerators</title>
   <meta name="description" content="Register for executive live webinars, masterclasses, and founder roundtables by The Affluentaccelerators. Learn to build scalable, investable businesses.">
+
+  <!-- Clean URLs Normalizer: Instantly strips .html & /index.html from copied links -->
+  <script>
+    (function() {
+      try {
+        var p = window.location.pathname;
+        if (p.endsWith('/index.html')) {
+          var clean = p.replace(/\/index\.html$/, '/') || '/';
+          window.history.replaceState(null, '', clean + window.location.search + window.location.hash);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/, '');
+          window.history.replaceState(null, '', clean + window.location.search + window.location.hash);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Open Graph / WhatsApp / Facebook / LinkedIn Link Sharing Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Affluentaccelerators">
+  <meta property="og:title" content="Events & Masterclasses | The Affluentaccelerators">
+  <meta property="og:description" content="Register for executive live webinars, masterclasses, and founder roundtables by The Affluentaccelerators. Learn to build scalable, investable businesses.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Affluentaccelerators Official Logo & Preview">
+
+  <!-- Twitter / X Card Link Sharing Preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Events & Masterclasses | The Affluentaccelerators">
+  <meta name="twitter:description" content="Register for executive live webinars, masterclasses, and founder roundtables by The Affluentaccelerators. Learn to build scalable, investable businesses.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta name="twitter:image:alt" content="The Affluentaccelerators Official Logo & Preview">
+
+  <!-- Brand Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
 
   <!-- Tailwind CSS CDN -->
@@ -85,7 +125,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group">
+      <a href="./" class="flex items-center gap-3 group">
         <div class="w-10 h-10 rounded-xl bg-forest-950 border border-gold-400/40 flex items-center justify-center p-2 shadow-sm group-hover:border-gold-400 transition-colors">
           <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
@@ -104,12 +144,12 @@
 
       <!-- Desktop Nav Links -->
       <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
-        <a href="index.html" class="hover:text-gold-300 transition-colors">Home</a>
-        <a href="index.html#about" class="hover:text-gold-300 transition-colors">About</a>
-        <a href="index.html#services" class="hover:text-gold-300 transition-colors">Consulting</a>
+        <a href="./" class="hover:text-gold-300 transition-colors">Home</a>
+        <a href="./#about" class="hover:text-gold-300 transition-colors">About</a>
+        <a href="./#services" class="hover:text-gold-300 transition-colors">Consulting</a>
         <a href="careers.html" class="hover:text-gold-300 transition-colors">Careers</a>
         <a href="events.html" class="text-gold-300 border-b-2 border-gold-400 pb-1">Events &amp; Webinars</a>
-        <a href="index.html#insights" class="hover:text-gold-300 transition-colors">Insights</a>
+        <a href="./#insights" class="hover:text-gold-300 transition-colors">Insights</a>
         <a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a>
       </nav>
 
@@ -134,7 +174,7 @@
   <!-- Mobile Navigation Slide-in Drawer -->
   <aside id="events-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
     <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
-      <a href="index.html" class="flex items-center gap-2.5 group">
+      <a href="./" class="flex items-center gap-2.5 group">
         <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5 shrink-0 group-hover:border-gold-400 transition-colors">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
             <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
@@ -154,9 +194,9 @@
     </div>
 
     <nav class="space-y-2 text-sm font-semibold text-slate-200 flex-1">
-      <a href="index.html" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Home</a>
-      <a href="index.html#about" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">About Us</a>
-      <a href="index.html#services" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Consulting Services</a>
+      <a href="./" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Home</a>
+      <a href="./#about" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">About Us</a>
+      <a href="./#services" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Consulting Services</a>
       <a href="events.html" class="flex items-center justify-between py-2.5 px-3 rounded-xl text-gold-300 bg-forest-900 font-bold border border-gold-400/30">
         <span>Events &amp; Webinars</span>
         <span class="text-[10px] font-bold bg-red-500 text-white px-2 py-0.5 rounded-full animate-pulse">Nov 19</span>
@@ -165,8 +205,8 @@
         <span>Careers &amp; Pathway</span>
         <span class="text-[10px] font-bold bg-gold-400 text-forest-950 px-2 py-0.5 rounded-full">Hiring</span>
       </a>
-      <a href="index.html#insights" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Insights</a>
-      <a href="index.html#contact" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Contact</a>
+      <a href="./#insights" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Insights</a>
+      <a href="./#contact" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors">Contact</a>
       <a href="forms.html" class="block py-2.5 px-3 rounded-xl hover:bg-forest-900 hover:text-gold-300 transition-colors border border-gold-400/20">
         Apply / Forms ↗
       </a>
@@ -1162,7 +1202,7 @@
         
         <!-- Company Identity -->
         <div class="lg:col-span-2 space-y-4">
-          <a href="index.html" class="flex items-center gap-3">
+          <a href="./" class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5">
               <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
                 <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
@@ -1184,9 +1224,9 @@
         <div>
           <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4">Navigation</h4>
           <ul class="space-y-2 text-xs">
-            <li><a href="index.html" class="hover:text-gold-300 transition-colors">Home</a></li>
-            <li><a href="index.html#about" class="hover:text-gold-300 transition-colors">About Firm</a></li>
-            <li><a href="index.html#services" class="hover:text-gold-300 transition-colors">Consulting Services</a></li>
+            <li><a href="./" class="hover:text-gold-300 transition-colors">Home</a></li>
+            <li><a href="./#about" class="hover:text-gold-300 transition-colors">About Firm</a></li>
+            <li><a href="./#services" class="hover:text-gold-300 transition-colors">Consulting Services</a></li>
             <li><a href="careers.html" class="hover:text-gold-300 transition-colors">Careers &amp; Pathway</a></li>
             <li><a href="events.html" class="text-gold-400 font-bold">Events &amp; Webinars</a></li>
             <li><a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a></li>
@@ -1224,8 +1264,8 @@
       <div class="pt-8 border-t border-forest-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
         <p>&copy; 2026 The Affluentaccelerators. All rights reserved.</p>
         <div class="flex items-center gap-6">
-          <a href="index.html#terms" class="hover:text-slate-300">Terms of Engagement</a>
-          <a href="index.html#privacy" class="hover:text-slate-300">Privacy &amp; Data Ethics</a>
+          <a href="./#terms" class="hover:text-slate-300">Terms of Engagement</a>
+          <a href="./#privacy" class="hover:text-slate-300">Privacy &amp; Data Ethics</a>
         </div>
       </div>
 
