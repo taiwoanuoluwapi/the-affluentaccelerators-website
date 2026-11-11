@@ -126,17 +126,17 @@
       </div>
 
       <!-- Mobile Hamburger Toggle -->
-      <button id="careers-nav-open" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none">
+      <button id="careers-nav-open" onclick="openCareersDrawer()" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none cursor-pointer">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
   </header>
 
   <!-- Mobile Drawer Overlay -->
-  <div id="careers-drawer-overlay" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-sm hidden transition-opacity duration-300" aria-hidden="true"></div>
+  <div id="careers-drawer-overlay" onclick="closeCareersDrawer()" class="fixed inset-0 z-[60] bg-forest-950/80 backdrop-blur-sm hidden transition-opacity duration-300" aria-hidden="true"></div>
 
   <!-- Mobile Navigation Slide-in Drawer -->
-  <aside id="careers-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
+  <aside id="careers-drawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] z-[70] bg-forest-950 border-l border-forest-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6 overflow-y-auto" aria-label="Navigation drawer">
     <div class="flex items-center justify-between pb-5 border-b border-forest-800 mb-6">
       <a href="index.html" class="flex items-center gap-2.5 group">
         <div class="w-9 h-9 rounded-lg bg-forest-900 border border-gold-400/40 flex items-center justify-center p-1.5 shrink-0 group-hover:border-gold-400 transition-colors">
@@ -154,7 +154,7 @@
           <p class="text-[7.5px] tracking-[0.2em] uppercase font-bold text-gold-400">BUSINESS | WEALTH | IMPACT</p>
         </div>
       </a>
-      <button id="careers-drawer-close" aria-label="Close navigation" class="text-slate-400 hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-lg hover:bg-forest-900 transition-colors">&times;</button>
+      <button id="careers-drawer-close" onclick="closeCareersDrawer()" aria-label="Close navigation" class="text-slate-400 hover:text-white text-2xl leading-none w-8 h-8 flex items-center justify-center rounded-lg hover:bg-forest-900 transition-colors cursor-pointer">&times;</button>
     </div>
 
     <nav class="space-y-2 text-sm font-semibold text-slate-200 flex-1">
@@ -179,7 +179,7 @@
     <!-- Mobile Drawer CTAs -->
     <div class="pt-6 border-t border-forest-800 space-y-3">
       <a href="#open-roles" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
-        Explore 2 Active Roles
+        Explore 3 Trainee Tracks
       </a>
       <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-forest-800 border border-gold-400/40 shadow-md transition-all">
         <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
