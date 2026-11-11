@@ -376,6 +376,18 @@
       "created_at": "2026-11-11T15:07:13.212Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "802f9d30-6333-4f1c-a8dc-558c252bc871",
+      "role": "agent",
+      "content": "The tracks and images have been updated:\n\n1. **Certified Business Development Manager (3 Months)**:\n   - **Flyer Image**: Attached [`images/photo-1794409532-762538d8.jpg`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/images/photo-1794409532-762538d8.jpg) is now live on the Trainee Track card and details modal on both [careers.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/careers.html) and [index.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html).\n   - **Curriculum & Focus**: Updated to reflect **Business Growth Strategy**, **Partnerships & Deal Management**, **Client Acquisition & Relationship Management**, and **Pipeline, Execution & Results**.\n   - **Direct Google Form**: Connected to the [BD Trainee Google Form](https://docs.google.com/forms/d/e/1FAIpQLSflnGt5tzDGTz6Ow5bPcLeTQLjCvGrW4I_c9NvfSDtAf7eA7Q/viewform).\n\n2. **Certified Social Media Manager (3 Months)**:\n   - **Flyer Image**: Attached [`images/photo-1794409532-3fda3e86.jpg`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/images/photo-1794409532-3fda3e86.jpg) is now live as the official header banner on the Trainee Track card and details modal.\n   - **Curriculum & Focus**: Updated with the headline *\"Hands-on Practice with Real Clients and Accounts\"*, multi-channel audience growth, and executive brand positioning.\n   - **Direct Google Form**: Connected to the [Social Media Trainee Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdQKOsFtt0SLpL07ULoYIjTwA1NbAyQj_CwKnYUA2WZZKypfQ/viewform).\n\n3. **Separation of the Paid Track (₦175,000)**:\n   - Clarified across [careers.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/careers.html), [index.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/index.html), and [forms.html](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html) that the **Business Consultant & Analyst** track is the flagship paid **90-Day Professional Programme (₦175,000)**.\n   - Added a clear callout banner in the Careers page directing applicants to the [90-Day Analyst Application Funnel](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/forms.html#analyst-application).\n\nYou can preview the live updates here:\n**https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/**",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "c53563f4-0179-4f4d-b68f-d2f681205012",
+      "created_at": "2026-11-11T15:20:00.463Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
