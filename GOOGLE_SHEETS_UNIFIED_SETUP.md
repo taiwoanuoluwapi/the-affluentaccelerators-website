@@ -69,11 +69,49 @@ graph TD
    - **`Assigned Consultant / BDR`**
    - **`Sync Timestamp`**
 
-4. **`Analyst Applications`**:
+4. **`Events`** *(Live Masterclass & Webinar Catalogue)*:
+   - **`Event ID`** (e.g. `EVENT 001`, `EVENT 002`, `EVENT 003`)
+   - **`Title`** (e.g. `The Investable Business Playbook`)
+   - **`Category`** (`Executive Masterclass`, `Live Webinar`, `Diagnostic Workshop`, `Roundtable`)
+   - **`Date`** (`YYYY-MM-DD`)
+   - **`Time`** (`18:00`)
+   - **`Timezone`** (`WAT`, `GMT`, `CAT`)
+   - **`Formatted Date & Time`** (e.g. `Wednesday, November 19, 2026 • 6:00 PM WAT`)
+   - **`Venue / Platform`** (e.g. `Live on Google Meet`)
+   - **`Host / Key Speaker`** (e.g. `Fulfilment Taiwo (Lead Consultant)`)
+   - **`Description & Scope`**
+   - **`Flyer Image URL`**
+   - **`Sheet Tab Name`** (e.g. `EVENT 001 – The Investable Business Playbook`)
+   - **`Status`** (`Upcoming`, `Live Today`, `Concluded • Replay Available`)
+   - **`Published / Updated At`** (ISO 8601 Timestamp)
+
+5. **`Analyst Applications`**:
    - Full Name, Email, Phone, Location, Qualification, Occupation, **`CV / Resume (Drive Link)`**, Motivation, Goals, Tuition Readiness (₦175,000), Status.
 
-5. **`Internship Applications`**:
+6. **`Internship Applications`**:
    - Full Name, Email, Phone, Location, Education, Occupation, Preferred Role, **`CV / Resume (Drive Link)`**, Portfolio, Skills, Availability, Status.
+
+---
+
+## 📅 Live Events Studio: Publishing, Editing & Real-Time Syncing
+
+The **Admin Portal (`admin.html`)** is fully connected to the **`Events`** sheet tab:
+
+### 1. Push All Events to Google Sheet (1-Click)
+- In the Admin Portal under **Event Studio**, click the button:
+  ```
+  🔄 Push All to 'Events' Tab
+  ```
+- All existing masterclasses (`EVENT 001`, `EVENT 002`, `EVENT 003`, `EVENT 004`, etc.) and upcoming sessions are immediately pushed and synchronized to the `Events` tab.
+
+### 2. Edit Existing & Upcoming Events
+- On any event card in the Admin Studio, click **✏️ Edit**.
+- Update the title, date, time, timezone, speaker/host, platform/venue, flyer URL, status (`Upcoming`, `Live Today`, `Concluded`), or strategic description.
+- Click **"Save Changes & Sync to Sheet ↗"**. The changes update both the website preview and the matching row in the `Events` Google Sheet tab instantly.
+
+### 3. Create & Publish New Events
+- Click **"+ Create Event"**, enter session details, optionally upload or link an event flyer, and click **"Publish Event & Sync to Sheet ↗"**.
+- A new row is appended to the `Events` tab on the spreadsheet and live on the website.
 
 ---
 
