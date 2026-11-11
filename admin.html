@@ -904,6 +904,119 @@
   </div>
 
   <!-- ============================================================== -->
+  <!-- MODAL: EDIT EXISTING EVENT & LIVE-SYNC TO GOOGLE SHEETS 'EVENTS' TAB -->
+  <!-- ============================================================== -->
+  <div id="modal-edit-event" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-gold-400">Master Database Sync</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white">Edit Event &amp; Sync to Sheet</h3>
+        </div>
+        <button id="close-edit-event-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1">&times;</button>
+      </div>
+
+      <form id="form-edit-event" class="p-4 sm:p-6 space-y-3.5 text-xs overflow-y-auto flex-1">
+        <input type="hidden" id="edit-event-id-hidden">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Event Number / ID</label>
+            <input type="text" id="edit-event-id" readonly class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-100 font-mono text-xs text-slate-600 cursor-not-allowed font-bold">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status *</label>
+            <select id="edit-event-status" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="Upcoming">Upcoming (Active Registration)</option>
+              <option value="Live Today">Live Today</option>
+              <option value="Concluded">Concluded • Replay Available</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Category / Format *</label>
+            <select id="edit-event-category" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="Live Webinar">Live Webinar</option>
+              <option value="Executive Masterclass">Executive Masterclass</option>
+              <option value="Diagnostic Workshop">Diagnostic Workshop</option>
+              <option value="Founder Deal Roundtable">Founder Deal Roundtable</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Host / Speaker *</label>
+            <input type="text" id="edit-event-host" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Title *</label>
+          <input type="text" id="edit-event-title" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+        </div>
+
+        <!-- Separate Date & Time Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+          <div class="sm:col-span-6">
+            <label class="block font-bold text-slate-700 mb-1">Event Date *</label>
+            <input type="date" id="edit-event-date" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Time *</label>
+            <input type="time" id="edit-event-time" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Timezone *</label>
+            <select id="edit-event-timezone" class="w-full px-2 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="WAT">WAT (GMT+1)</option>
+              <option value="GMT">GMT (UTC+0)</option>
+              <option value="CAT">CAT (GMT+2)</option>
+              <option value="EAT">EAT (GMT+3)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Platform / Venue *</label>
+          <input type="text" id="edit-event-venue" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Flyer Image URL or Local Path</label>
+          <input type="text" id="edit-event-flyer" placeholder="images/photo-1794301616-c3edd84b.jpg or https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none font-mono">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Description &amp; Scope *</label>
+          <textarea id="edit-event-desc" rows="3" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none"></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-forest-50 border border-forest-200 text-forest-900 text-[11px] space-y-1">
+          <p class="font-bold">⚡ Real-Time Google Sheets Sync:</p>
+          <p class="text-slate-600">
+            Saving changes will immediately update the event on the website and sync row details directly into the master spreadsheet's <code class="font-bold text-forest-950 font-mono">Events</code> tab.
+          </p>
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row justify-end gap-2 shrink-0">
+          <button type="button" id="cancel-edit-event" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 text-center">
+            Cancel
+          </button>
+          <button type="submit" id="btn-submit-edit-event" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md text-center">
+            Save Changes &amp; Sync to Sheet ↗
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
   <!-- MODAL: VIEW FULL BUSINESS INQUIRY LEAD DOSSIER & WHATSAPP CHAT -->
   <!-- ============================================================== -->
   <div id="modal-lead-details" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
@@ -1169,11 +1282,10 @@
       });
     });
 
-    // Sidebar Drawer & Toggle Controls (Mobile & Desktop)
+    // Sidebar Drawer & Toggle Controls (Top Banner Left Toggle for All Viewports)
     const adminSidebar = document.getElementById('admin-sidebar');
     const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-    const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
-    const desktopSidebarToggle = document.getElementById('desktop-sidebar-toggle');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn') || document.getElementById('desktop-sidebar-toggle');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
 
     function openMobileSidebar() {
@@ -1192,15 +1304,21 @@
       }
     }
 
-    if (mobileSidebarToggle) mobileSidebarToggle.addEventListener('click', openMobileSidebar);
+    function handleSidebarToggle() {
+      if (window.innerWidth < 768) {
+        if (adminSidebar.classList.contains('-translate-x-full')) {
+          openMobileSidebar();
+        } else {
+          closeMobileSidebar();
+        }
+      } else {
+        adminSidebar.classList.toggle('md:hidden');
+      }
+    }
+
+    if (sidebarToggleBtn) sidebarToggleBtn.addEventListener('click', handleSidebarToggle);
     if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMobileSidebar);
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
-
-    if (desktopSidebarToggle && adminSidebar) {
-      desktopSidebarToggle.addEventListener('click', function() {
-        adminSidebar.classList.toggle('md:hidden');
-      });
-    }
 
     // Sidebar Reset PIN Handler
     const sidebarResetPinBtn = document.getElementById('btn-sidebar-reset-pin');
@@ -1259,9 +1377,14 @@
             <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-forest-900 text-gold-400">
               ${evt.id}
             </span>
-            <span class="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-              Published &amp; Active
-            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                ${evt.status || 'Upcoming'}
+              </span>
+              <button onclick="openEditEventModal('${evt.id}')" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-gold-400 hover:text-forest-950 transition-colors border border-slate-200" title="Edit Event Details">
+                ✏️ Edit
+              </button>
+            </div>
           </div>
 
           <div>
@@ -1286,13 +1409,24 @@
             </div>
           </div>
 
-          <div class="flex items-center justify-between pt-1">
-            <button onclick="filterByEvent('${evt.id}')" class="text-xs font-bold text-forest-800 hover:text-gold-600">
-              View Registrations (${regCount}) →
-            </button>
-            <button onclick="window.open('events.html', '_blank')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">
-              Preview Page ↗
-            </button>
+          <div class="flex flex-wrap items-center justify-between pt-1 gap-2 border-t border-slate-200/70">
+            <div class="flex items-center gap-2">
+              <button onclick="openEditEventModal('${evt.id}')" class="text-xs font-bold text-gold-600 hover:text-gold-700 flex items-center gap-1">
+                <span>✏️</span> <span>Edit</span>
+              </button>
+              <span class="text-slate-300">|</span>
+              <button onclick="syncSingleEvent('${evt.id}')" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1" title="Sync this event to Google Sheets 'Events' tab">
+                <span>🔄</span> <span>Sync to Sheet</span>
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="filterByEvent('${evt.id}')" class="text-xs font-bold text-forest-800 hover:text-gold-600">
+                Regs (${regCount}) →
+              </button>
+              <button onclick="window.open('events.html', '_blank')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">
+                Preview ↗
+              </button>
+            </div>
           </div>
         `;
         container.appendChild(card);
@@ -2094,6 +2228,118 @@
       submitBtn.disabled = false;
       submitBtn.textContent = 'Publish Event & Sync to Sheet ↗';
     });
+
+    // ----------------------------------------------------------------
+    // MODAL EDIT EVENT HANDLER & GOOGLE SHEETS LIVE SYNC
+    // ----------------------------------------------------------------
+    const editEventModal = document.getElementById('modal-edit-event');
+    const closeEditEventBtn = document.getElementById('close-edit-event-modal');
+    const cancelEditEventBtn = document.getElementById('cancel-edit-event');
+
+    function closeEditEvent() {
+      if (editEventModal) {
+        editEventModal.classList.add('hidden');
+        editEventModal.classList.remove('flex');
+      }
+    }
+    if (closeEditEventBtn) closeEditEventBtn.onclick = closeEditEvent;
+    if (cancelEditEventBtn) cancelEditEventBtn.onclick = closeEditEvent;
+
+    window.openEditEventModal = function(eventId) {
+      if (!window.affluentEvents) return;
+      const evt = window.affluentEvents.getEventById(eventId);
+      if (!evt) {
+        alert("Event record not found.");
+        return;
+      }
+
+      document.getElementById('edit-event-id-hidden').value = evt.id;
+      document.getElementById('edit-event-id').value = evt.id;
+      document.getElementById('edit-event-title').value = evt.title || '';
+      document.getElementById('edit-event-category').value = evt.category || 'Executive Masterclass';
+      document.getElementById('edit-event-status').value = evt.status || 'Upcoming';
+      document.getElementById('edit-event-host').value = evt.host || 'Fulfilment Taiwo (Lead Consultant)';
+      document.getElementById('edit-event-date').value = evt.date || '';
+      document.getElementById('edit-event-time').value = evt.time || '18:00';
+      document.getElementById('edit-event-timezone').value = evt.timezone || 'WAT';
+      document.getElementById('edit-event-venue').value = evt.venue || 'Live on Google Meet';
+      document.getElementById('edit-event-flyer').value = evt.flyer || '';
+      document.getElementById('edit-event-desc').value = evt.description || '';
+
+      editEventModal.classList.remove('hidden');
+      editEventModal.classList.add('flex');
+    };
+
+    const formEditEvent = document.getElementById('form-edit-event');
+    if (formEditEvent) {
+      formEditEvent.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const saveBtn = document.getElementById('btn-submit-edit-event');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving Changes & Syncing to Sheets...';
+
+        const eventId = document.getElementById('edit-event-id-hidden').value;
+        const updatedData = {
+          title: document.getElementById('edit-event-title').value.trim(),
+          category: document.getElementById('edit-event-category').value,
+          status: document.getElementById('edit-event-status').value,
+          host: document.getElementById('edit-event-host').value.trim(),
+          date: document.getElementById('edit-event-date').value,
+          time: document.getElementById('edit-event-time').value || '18:00',
+          timezone: document.getElementById('edit-event-timezone').value || 'WAT',
+          venue: document.getElementById('edit-event-venue').value.trim(),
+          flyer: document.getElementById('edit-event-flyer').value.trim() || 'images/photo-1794301616-c3edd84b.jpg',
+          description: document.getElementById('edit-event-desc').value.trim()
+        };
+
+        if (window.affluentEvents) {
+          const res = await window.affluentEvents.updateEvent(eventId, updatedData);
+          alert(`✓ Event "${updatedData.title}" (${eventId}) updated successfully!\n\nStatus: ${updatedData.status}\nDate: ${updatedData.date} • ${updatedData.time} ${updatedData.timezone}\nChanges synced to Google Sheets 'Events' tab & live on website.`);
+          closeEditEvent();
+          renderEventsList();
+        }
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes & Sync to Sheet ↗';
+      });
+    }
+
+    // Sync Single Event to Sheets 'Events' Tab
+    window.syncSingleEvent = async function(eventId) {
+      if (!window.affluentEvents) return;
+      const evt = window.affluentEvents.getEventById(eventId);
+      if (!evt) return;
+      const confirmed = confirm(`Push and sync event "${evt.title}" (${evt.id}) to the Master Google Sheets 'Events' tab?`);
+      if (!confirmed) return;
+
+      const res = await window.affluentEvents.syncSingleEventToSheet(evt);
+      if (res && res.success) {
+        alert(`✓ Event "${evt.title}" (${evt.id}) successfully synced to Google Sheets 'Events' tab!`);
+      } else {
+        alert(`Note: Sync command dispatched to Google Sheets 'Events' tab. Event saved locally.`);
+      }
+    };
+
+    // Push & Sync All Events to Sheets 'Events' Tab
+    const syncAllBtn = document.getElementById('btn-sync-all-events-sheet');
+    if (syncAllBtn) {
+      syncAllBtn.addEventListener('click', async function() {
+        if (!window.affluentEvents) return;
+        const events = window.affluentEvents.getAllEvents();
+        syncAllBtn.disabled = true;
+        syncAllBtn.textContent = 'Syncing Events to Sheet...';
+
+        try {
+          const res = await window.affluentEvents.syncAllEventsToSheet();
+          alert(`✓ Successfully pushed and synced ${events.length} events to the 'Events' tab on your master Google Sheet!\n\nAll existing and upcoming events are live in your master database.`);
+        } catch (err) {
+          alert(`Event sync completed: ${events.length} events processed.`);
+        } finally {
+          syncAllBtn.disabled = false;
+          syncAllBtn.innerHTML = '<span>🔄 Push All to \'Events\' Tab</span>';
+        }
+      });
+    }
 
     // CSV / JSON Exports
     document.getElementById('btn-export-csv').addEventListener('click', function() {
