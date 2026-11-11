@@ -1632,6 +1632,45 @@
 
   <!-- Page Interactivity Scripts -->
   <script>
+    // Mobile Navigation Drawer Toggle Helpers
+    function openCareersDrawer() {
+      const drawer = document.getElementById('careers-drawer');
+      const overlay = document.getElementById('careers-drawer-overlay');
+      if (drawer && overlay) {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeCareersDrawer() {
+      const drawer = document.getElementById('careers-drawer');
+      const overlay = document.getElementById('careers-drawer-overlay');
+      if (drawer && overlay) {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    window.openCareersDrawer = openCareersDrawer;
+    window.closeCareersDrawer = closeCareersDrawer;
+
+    // Attach drawer event listeners
+    const openBtn = document.getElementById('careers-nav-open');
+    const closeBtn = document.getElementById('careers-drawer-close');
+    const drawer = document.getElementById('careers-drawer');
+    const overlay = document.getElementById('careers-drawer-overlay');
+
+    if (openBtn) openBtn.addEventListener('click', openCareersDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeCareersDrawer);
+    if (overlay) overlay.addEventListener('click', closeCareersDrawer);
+    if (drawer) {
+      drawer.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeCareersDrawer);
+      });
+    }
+
     // Modal Helpers
     window.openRoleModal = function(roleId) {
       let targetId = 'modal-trainee-bdm';
@@ -1643,12 +1682,6 @@
         targetId = 'modal-trainee-bdm';
       }
       const modal = document.getElementById(targetId) || document.getElementById(roleId);
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
-    };
       if (modal) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -1676,28 +1709,17 @@
       });
     });
 
-    // Mobile Drawer Toggle
-    const openBtn = document.getElementById('careers-nav-open');
-    const closeBtn = document.getElementById('careers-drawer-close');
-    const drawer = document.getElementById('careers-drawer');
-    const overlay = document.getElementById('careers-drawer-overlay');
-
-    if (openBtn && closeBtn && drawer && overlay) {
-      function openDrawer() {
-        drawer.classList.remove('translate-x-full');
-        overlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeDrawer() {
-        drawer.classList.add('translate-x-full');
-        overlay.classList.add('hidden');
+    // Close modals and drawer on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCareersDrawer();
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        });
         document.body.style.overflow = '';
       }
-      openBtn.addEventListener('click', openDrawer);
-      closeBtn.addEventListener('click', closeDrawer);
-      overlay.addEventListener('click', closeDrawer);
-      drawer.querySelectorAll('a').forEach(l => l.addEventListener('click', closeDrawer));
-    }
+    });
 
     // Role Filtering
     const filterBtns = document.querySelectorAll('.role-filter-btn');
