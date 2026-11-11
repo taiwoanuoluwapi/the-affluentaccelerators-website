@@ -1534,6 +1534,175 @@ class CentralEventManager {
     return newEvt;
   }
 
+  // Get single event by ID
+  getEventById(id) {
+    if (!id) return null;
+    const cleanId = id.toString().trim().toUpperCase();
+    return this.state.events.find(e => (e.id || '').toUpperCase() === cleanId) || null;
+  }
+
+  // Update existing or upcoming event & sync to Master Google Sheet 'Events' tab
+  async updateEvent(eventId, updatedData) {
+    if (!eventId) return null;
+    const cleanId = eventId.toString().trim().toUpperCase();
+    const idx = this.state.events.findIndex(e => (e.id || '').toUpperCase() === cleanId);
+    if (idx === -1) {
+      console.warn("Event not found for update:", eventId);
+      return null;
+    }
+
+    const currentEvt = this.state.events[idx];
+    const dateVal = updatedData.date || currentEvt.date;
+    const timeVal = updatedData.time || currentEvt.time || "18:00";
+    const tzVal = updatedData.timezone || currentEvt.timezone || "WAT";
+    
+    let formattedDateStr = updatedData.dateFormatted;
+    if (!formattedDateStr && dateVal) {
+      try {
+        const parts = dateVal.split('-');
+        if (parts.length === 3) {
+          const dObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          formattedDateStr = `${days[dObj.getDay()]}, ${months[dObj.getMonth()]} ${dObj.getDate()}, ${dObj.getFullYear()} • ${timeVal} ${tzVal}`;
+        }
+      } catch (e) {
+        formattedDateStr = `${dateVal} • ${timeVal} ${tzVal}`;
+      }
+    }
+
+    const isoDateStr = updatedData.isoDate || 
+      (dateVal && timeVal ? `${dateVal}T${timeVal}:00+01:00` : currentEvt.isoDate);
+
+    const updatedEvt = {
+      ...currentEvt,
+      ...updatedData,
+      id: currentEvt.id, // preserve ID
+      date: dateVal,
+      time: timeVal,
+      timezone: tzVal,
+      dateFormatted: formattedDateStr || currentEvt.dateFormatted,
+      isoDate: isoDateStr,
+      status: updatedData.status || currentEvt.status || "Upcoming",
+      updatedAt: new Date().toISOString()
+    };
+
+    if (updatedData.flyer) {
+      updatedEvt.flyer = updatedData.flyer;
+    }
+
+    this.state.events[idx] = updatedEvt;
+    this.saveState();
+
+    // Push updated event row to Google Sheet 'Events' tab
+    await this.syncSingleEventToSheet(updatedEvt, updatedData.flyerFile);
+
+    return updatedEvt;
+  }
+
+  // Push single event to Google Sheet 'Events' tab
+  async syncSingleEventToSheet(evt, flyerFile = null) {
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       localStorage.getItem('AA_EVENTS_SHEETS_URL') ||
+                       EVENTS_GOOGLE_SHEETS_WEBHOOK_URL ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+    
+    if (webhookUrl && webhookUrl.startsWith('http')) {
+      try {
+        const payload = {
+          action: "publish_event",
+          eventId: evt.id,
+          eventTitle: evt.title,
+          category: evt.category || "Executive Masterclass",
+          date: evt.date || "",
+          time: evt.time || "",
+          timezone: evt.timezone || "WAT",
+          dateFormatted: evt.dateFormatted || "",
+          isoDate: evt.isoDate || "",
+          venue: evt.venue || "Live on Google Meet",
+          host: evt.host || "Fulfilment Taiwo (Lead Consultant)",
+          description: evt.description || "",
+          flyer: (typeof evt.flyer === 'string' && evt.flyer.startsWith('data:')) ? 'Uploaded Flyer Image' : (evt.flyer || ""),
+          tabName: evt.tabName || (evt.id + ' – ' + evt.title),
+          status: evt.status || "Upcoming",
+          publishedAt: evt.createdAt || new Date().toISOString()
+        };
+
+        if (flyerFile && flyerFile.base64) {
+          payload.flyerFile = flyerFile;
+        } else if (evt.flyerFile && evt.flyerFile.base64) {
+          payload.flyerFile = evt.flyerFile;
+        }
+
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+        return { success: true };
+      } catch (e) {
+        console.warn("Could not sync event to Google Sheets:", e);
+        return { success: false, error: e.message };
+      }
+    }
+    return { success: false, reason: "No webhook configured" };
+  }
+
+  // Push and sync all events to the Master Google Sheet 'Events' tab
+  async syncAllEventsToSheet() {
+    const webhookUrl = localStorage.getItem('AA_UNIFIED_SHEETS_URL') ||
+                       localStorage.getItem('AA_EVENTS_SHEETS_URL') ||
+                       EVENTS_GOOGLE_SHEETS_WEBHOOK_URL ||
+                       UNIFIED_GOOGLE_SHEETS_WEBHOOK_URL;
+    
+    if (!webhookUrl || !webhookUrl.startsWith('http')) {
+      return { success: false, reason: "No webhook configured" };
+    }
+
+    const events = this.state.events || [];
+    let syncedCount = 0;
+    
+    try {
+      const payload = {
+        action: "sync_all_events",
+        events: events.map(evt => ({
+          eventId: evt.id,
+          eventTitle: evt.title,
+          category: evt.category || "Executive Masterclass",
+          date: evt.date || "",
+          time: evt.time || "",
+          timezone: evt.timezone || "WAT",
+          dateFormatted: evt.dateFormatted || "",
+          isoDate: evt.isoDate || "",
+          venue: evt.venue || "Live on Google Meet",
+          host: evt.host || "Fulfilment Taiwo (Lead Consultant)",
+          description: evt.description || "",
+          flyer: (typeof evt.flyer === 'string' && evt.flyer.startsWith('data:')) ? 'Uploaded Flyer Image' : (evt.flyer || ""),
+          tabName: evt.tabName || (evt.id + ' – ' + evt.title),
+          status: evt.status || "Upcoming",
+          publishedAt: evt.createdAt || new Date().toISOString()
+        }))
+      };
+
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
+      });
+      syncedCount = events.length;
+    } catch (e) {
+      console.warn("Batch sync fallback to individual pushes:", e);
+      for (const evt of events) {
+        await this.syncSingleEventToSheet(evt);
+        syncedCount++;
+      }
+    }
+
+    return { success: true, count: syncedCount };
+  }
+
   // Retry Failed Synchronizations (Requirement F & G)
   async retryFailedSyncs() {
     const failed = this.state.registrations.filter(r => r.syncStatus !== "synced");
