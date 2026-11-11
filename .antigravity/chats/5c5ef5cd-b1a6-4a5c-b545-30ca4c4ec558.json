@@ -328,6 +328,30 @@
       "created_at": "2026-11-10T18:00:15.125Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "a3237506-16c2-4be8-9638-9ccff79e277e",
+      "role": "user",
+      "content": "I attached images: images/photo-1794380162-fe5b57ef.jpg, images/photo-1794380163-c794c2d7.jpg, images/photo-1794380163-ea4c0f67.jpg, images/photo-1794380308-9deeec2e.jpg.\n\nso i mentioned for you to remove the inline navigation button on the admin page, I don't like it since there's already one on the top banner left, I want you to also now push and sync my events to a new \"Events\" tab on the master Google sheet so I call create and publish new event to there and also give an option to edit existing and upcoming events... also I want to change the active hiring on the career and path to a trainee program while we're still collecting Application to our talent pool as usual and on the forms page, but for the active hiring, replace their images with these, we're adding a social media manager track too, they all still keep their old Google forms link but for the social media track here's the link https://docs.google.com/forms/d/e/1FAIpQLSdQKOsFtt0SLpL07ULoYIjTwA1NbAyQj_CwKnYUA2WZZKypfQ/viewform?usp=publish-editor",
+      "status": "cancelled",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-11T07:02:49.609Z",
+      "sender": "ios",
+      "is_cancelled": true
+    },
+    {
+      "id": "7142d631-644a-4f1f-a540-89c8363f7c4e",
+      "role": "user",
+      "content": "I attached images: images/photo-1794380162-fe5b57ef.jpg, images/photo-1794380163-c794c2d7.jpg, images/photo-1794380163-ea4c0f67.jpg, images/photo-1794380308-9deeec2e.jpg.\n\nso i mentioned for you to remove the inline navigation button on the admin page, I don't like it since there's already one on the top banner left, I want you to also now push and sync my events to a new \"Events\" tab on the master Google sheet so I call create and publish new event to there and also give an option to edit existing and upcoming events... also I want to change the active hiring on the career and path to a trainee program while we're still collecting Application to our talent pool as usual and on the forms page, but for the active hiring, replace their images with these, we're adding a social media manager track too, they all still keep their old Google forms link but for the social media track here's the link https://docs.google.com/forms/d/e/1FAIpQLSdQKOsFtt0SLpL07ULoYIjTwA1NbAyQj_CwKnYUA2WZZKypfQ/viewform?usp=publish-editor",
+      "status": "pending",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-11T07:02:51.551Z",
+      "sender": "ios",
+      "is_cancelled": false
     }
   ]
 }
