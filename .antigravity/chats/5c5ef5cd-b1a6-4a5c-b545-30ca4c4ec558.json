@@ -400,6 +400,18 @@
       "created_at": "2026-11-11T16:05:01.362Z",
       "sender": "ios",
       "is_cancelled": false
+    },
+    {
+      "id": "caa31f31-a1a2-46fc-b9ab-9af6e5881eb1",
+      "role": "agent",
+      "content": "The sidebar menu button on the careers page has been fixed.\n\n### Root Cause & What Was Fixed\n1. **Resolved JavaScript Syntax Error**: A stray duplicated code block in [`careers.html`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/careers.html#L1634-L1672) caused an `Unexpected token ';'` error during script parsing, which prevented all subsequent JavaScript—including the mobile drawer toggle listeners—from executing.\n2. **Robust Drawer Handlers**: Added explicit [`openCareersDrawer`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/careers.html#L1636-L1645) and [`closeCareersDrawer`](https://github.com/taiwoanuoluwapi/the-affluentaccelerators-website/blob/main/careers.html#L1647-L1656) functions bound both directly to DOM `onclick` events and `addEventListener` listeners on `#careers-nav-open`, `#careers-drawer-close`, `#careers-drawer-overlay`, and all drawer navigation links.\n3. **Keyboard Accessibility**: Added `Escape` key support to close both the mobile drawer and any open role modals.\n4. **Z-Index Layering**: Verified overlay (`z-[60]`) and drawer (`z-[70]`) depth to cleanly overlay the sticky navigation header (`z-50`).\n\nYou can test the live page here:\n**[View Updated Website Preview](https://antigravity.luch.dev/site/cc4afaf2-23df-4a93-a726-589d1ffb2d9c/1357de481731c84ee260bf7f/)**",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "3d897b7c-75be-4079-829b-1fe3bc40033e",
+      "created_at": "2026-11-11T16:10:04.770Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
