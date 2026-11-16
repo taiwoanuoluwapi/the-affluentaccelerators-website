@@ -111,7 +111,7 @@
     }
   </style>
 </head>
-<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen">
+<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen aa-sidebar-layout">
 
   <!-- ============================================================== -->
   <!-- TOP NAVIGATION HEADER & SLIDE-IN MOBILE DRAWER -->
@@ -137,36 +137,8 @@
         </div>
       </a>
 
-      <!-- Desktop Nav Items -->
-      <nav class="hidden lg:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-slate-300">
-        <a href="./" class="hover:text-gold-300 transition-colors">Home</a>
-        <a href="./#about" class="hover:text-gold-300 transition-colors">About Us</a>
-        <a href="./#services" class="hover:text-gold-300 transition-colors">Consulting Services</a>
-        <a href="events.html" class="text-gold-300 hover:text-gold-200 transition-colors flex items-center gap-1.5">
-          <span>Events</span>
-          <span class="text-[9px] bg-red-500 text-white px-1.5 py-0.5 rounded font-bold">Nov 19</span>
-        </a>
-        <a href="careers.html" class="text-gold-400 border-b-2 border-gold-400 pb-1 flex items-center gap-1.5">
-          <span>Careers</span>
-          <span class="text-[9px] bg-gold-400 text-forest-950 px-1.5 py-0.2 rounded-full font-bold">Hiring</span>
-        </a>
-        <a href="./#insights" class="hover:text-gold-300 transition-colors">Insights</a>
-        <a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a>
-      </nav>
-
-      <!-- Desktop Action CTAs -->
-      <div class="hidden sm:flex items-center gap-3">
-        <a href="https://whatsapp.com/channel/0029VbF4VgZAojYzawgu8I0Q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-200 bg-forest-950 hover:bg-forest-800 border border-gold-400/30 transition-all">
-          <svg class="w-3.5 h-3.5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.766.883 2.796.883 3.181 0 5.767-2.586 5.767-5.766.001-3.181-2.585-5.77-5.767-5.77zm0-2.172c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8-1.391 0-2.695-.357-3.832-.984L3 21l1.838-5.111C4.195 14.73 3.8 13.418 3.8 12c0-4.418 3.582-8 8.231-8z"/></svg>
-          <span>WhatsApp Channel</span>
-        </a>
-        <a href="#open-roles" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all">
-          <span>Apply Now ↓</span>
-        </a>
-      </div>
-
-      <!-- Mobile Hamburger Toggle -->
-      <button id="careers-nav-open" onclick="openCareersDrawer()" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none cursor-pointer">
+      <!-- Sidebar Menu Toggle (visible on all screen sizes) -->
+      <button id="careers-nav-open" aria-label="Open navigation menu" class="w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none cursor-pointer">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
@@ -1702,13 +1674,52 @@
     const drawer = document.getElementById('careers-drawer');
     const overlay = document.getElementById('careers-drawer-overlay');
 
-    if (openBtn) openBtn.addEventListener('click', openCareersDrawer);
-    if (closeBtn) closeBtn.addEventListener('click', closeCareersDrawer);
+    const careersDesktopQuery = window.matchMedia('(min-width: 1024px)');
+
+    if (openBtn) openBtn.addEventListener('click', function() {
+      if (careersDesktopQuery.matches) {
+        document.body.classList.toggle('aa-sidebar-collapsed');
+      } else {
+        openCareersDrawer();
+      }
+    });
+    if (closeBtn) closeBtn.addEventListener('click', function() {
+      if (careersDesktopQuery.matches) {
+        document.body.classList.add('aa-sidebar-collapsed');
+      } else {
+        closeCareersDrawer();
+      }
+    });
     if (overlay) overlay.addEventListener('click', closeCareersDrawer);
     if (drawer) {
       drawer.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', closeCareersDrawer);
+        link.addEventListener('click', function() {
+          if (!careersDesktopQuery.matches) closeCareersDrawer();
+        });
       });
+    }
+
+    // Desktop: the same drawer is docked as a persistent left sidebar.
+    // Mobile: it behaves exactly as before (slide-in overlay).
+    function syncCareersLayout() {
+      if (!drawer || !overlay) return;
+      if (careersDesktopQuery.matches) {
+        document.body.classList.add('aa-sidebar-layout');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      } else {
+        document.body.classList.remove('aa-sidebar-layout');
+        document.body.classList.remove('aa-sidebar-collapsed');
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+    syncCareersLayout();
+    if (careersDesktopQuery.addEventListener) {
+      careersDesktopQuery.addEventListener('change', syncCareersLayout);
+    } else if (careersDesktopQuery.addListener) {
+      careersDesktopQuery.addListener(syncCareersLayout);
     }
 
     // Modal Helpers

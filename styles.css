@@ -154,3 +154,65 @@ h1, h2, h3, h4, .font-heading {
     display: none;
   }
 }
+
+/* ==========================================================================
+   DESKTOP SIDEBAR LAYOUT
+   On large screens the slide-in navigation drawer is promoted to a
+   persistent left sidebar: the page content is offset to the right of it
+   and the header toggle collapses / expands it.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  body.aa-sidebar-layout {
+    padding-left: 20rem;
+    transition: padding-left 0.3s ease-in-out;
+  }
+  body.aa-sidebar-layout.aa-sidebar-collapsed {
+    padding-left: 0;
+  }
+
+  /* Dock the drawer to the left edge, full height */
+  body.aa-sidebar-layout #nav-drawer,
+  body.aa-sidebar-layout #careers-drawer,
+  body.aa-sidebar-layout #events-drawer,
+  body.aa-sidebar-layout #forms-drawer {
+    left: 0 !important;
+    right: auto !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 20rem !important;
+    max-width: 20rem !important;
+    transform: none !important;
+    border-left: 0 !important;
+    border-right: 1px solid rgba(12, 58, 41, 0.9);
+    box-shadow: 6px 0 24px rgba(2, 15, 10, 0.18);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Collapsed state slides the sidebar away */
+  body.aa-sidebar-layout.aa-sidebar-collapsed #nav-drawer,
+  body.aa-sidebar-layout.aa-sidebar-collapsed #careers-drawer,
+  body.aa-sidebar-layout.aa-sidebar-collapsed #events-drawer,
+  body.aa-sidebar-layout.aa-sidebar-collapsed #forms-drawer {
+    transform: translateX(-100%) !important;
+  }
+
+  /* Never dim the page behind a docked sidebar */
+  body.aa-sidebar-layout #nav-drawer-overlay,
+  body.aa-sidebar-layout #careers-drawer-overlay,
+  body.aa-sidebar-layout #events-drawer-overlay,
+  body.aa-sidebar-layout #forms-drawer-overlay {
+    display: none !important;
+  }
+
+  /* The drawer keeps its own logo/close header, which doubles as the
+     sidebar's title bar on desktop. */
+
+  /* The content column is narrower once the sidebar is docked, so long
+     unbreakable strings (e.g. the footer email address) must be allowed
+     to wrap instead of pushing the page wider than the viewport. */
+  body.aa-sidebar-layout a[href^="mailto:"],
+  body.aa-sidebar-layout a[href^="tel:"] {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}

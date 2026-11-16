@@ -116,7 +116,7 @@
     .form-step.active { display: block; }
   </style>
 </head>
-<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen flex flex-col justify-between">
+<body class="bg-[#f8faf8] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen flex flex-col justify-between aa-sidebar-layout">
 
   <!-- ============================================================== -->
   <!-- HEADER & NAVIGATION -->
@@ -142,29 +142,10 @@
         </div>
       </a>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
-        <a href="./" class="hover:text-gold-300 transition-colors">Home</a>
-        <a href="./#about" class="hover:text-gold-300 transition-colors">About</a>
-        <a href="./#services" class="hover:text-gold-300 transition-colors">Consulting</a>
-        <a href="careers.html" class="hover:text-gold-300 transition-colors">Careers</a>
-        <a href="events.html" class="text-gold-300 border-b-2 border-gold-400 pb-1">Events &amp; Webinars</a>
-        <a href="./#insights" class="hover:text-gold-300 transition-colors">Insights</a>
-        <a href="forms.html" class="hover:text-gold-300 transition-colors">Apply / Forms</a>
-      </nav>
-
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-3">
-        <button onclick="openRegistrationModal('EVENT 001')" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md gold-glow-hover transition-all">
-          <span>Register Nov 19</span>
-          <span class="text-xs">→</span>
-        </button>
-
-        <!-- Mobile Drawer Toggle -->
-        <button id="events-nav-open" aria-label="Open mobile navigation menu" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
+      <!-- Sidebar Menu Toggle (visible on all screen sizes) -->
+      <button id="events-nav-open" aria-label="Open navigation menu" class="w-11 h-11 flex items-center justify-center rounded-xl bg-forest-950 border border-gold-400/40 text-gold-400 hover:bg-forest-800 transition-all focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
   </header>
 
@@ -1293,10 +1274,48 @@
       overlay.classList.add('hidden');
       document.body.style.overflow = '';
     }
-    if (openBtn) openBtn.addEventListener('click', openNav);
-    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    if (openBtn) openBtn.addEventListener('click', function() {
+      if (eventsDesktopQuery.matches) {
+        document.body.classList.toggle('aa-sidebar-collapsed');
+      } else {
+        openNav();
+      }
+    });
+    if (closeBtn) closeBtn.addEventListener('click', function() {
+      if (eventsDesktopQuery.matches) {
+        document.body.classList.add('aa-sidebar-collapsed');
+      } else {
+        closeNav();
+      }
+    });
     if (overlay) overlay.addEventListener('click', closeNav);
-    if (drawer) drawer.querySelectorAll('a').forEach(l => l.addEventListener('click', closeNav));
+    if (drawer) drawer.querySelectorAll('a').forEach(l => l.addEventListener('click', function() {
+      if (!eventsDesktopQuery.matches) closeNav();
+    }));
+
+    // Desktop: the same drawer is docked as a persistent left sidebar.
+    // Mobile: it behaves exactly as before (slide-in overlay).
+    const eventsDesktopQuery = window.matchMedia('(min-width: 1024px)');
+    function syncEventsLayout() {
+      if (!drawer || !overlay) return;
+      if (eventsDesktopQuery.matches) {
+        document.body.classList.add('aa-sidebar-layout');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      } else {
+        document.body.classList.remove('aa-sidebar-layout');
+        document.body.classList.remove('aa-sidebar-collapsed');
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+    syncEventsLayout();
+    if (eventsDesktopQuery.addEventListener) {
+      eventsDesktopQuery.addEventListener('change', syncEventsLayout);
+    } else if (eventsDesktopQuery.addListener) {
+      eventsDesktopQuery.addListener(syncEventsLayout);
+    }
 
     // Event Category Filter
     document.querySelectorAll('.event-filter-btn').forEach(btn => {
