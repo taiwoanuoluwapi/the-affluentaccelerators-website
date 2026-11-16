@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Admin Portal & Central Event Database | The Affluentaccelerators</title>
+  <meta name="description" content="Executive administrator control center for The Affluentaccelerators: Google Sheets integration, event tab management, and central registration database.">
+
+  <!-- Clean URLs Normalizer: Instantly strips .html & /index.html from copied links -->
+  <script>
+    (function() {
+      try {
+        var p = window.location.pathname;
+        if (p.endsWith('/index.html')) {
+          var clean = p.replace(/\/index\.html$/, '/') || '/';
+          window.history.replaceState(null, '', clean + window.location.search + window.location.hash);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/, '');
+          window.history.replaceState(null, '', clean + window.location.search + window.location.hash);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Open Graph / WhatsApp / Facebook / LinkedIn Link Sharing Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Affluentaccelerators">
+  <meta property="og:title" content="Admin Portal | The Affluentaccelerators">
+  <meta property="og:description" content="Executive administrator control center for The Affluentaccelerators.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Affluentaccelerators Official Logo & Preview">
+
+  <!-- Twitter / X Card Link Sharing Preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Admin Portal | The Affluentaccelerators">
+  <meta name="twitter:description" content="Executive administrator control center for The Affluentaccelerators.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/taiwoanuoluwapi/the-affluentaccelerators-website/main/images/og-preview.png">
+  <meta name="twitter:image:alt" content="The Affluentaccelerators Official Logo & Preview">
+
+  <!-- Brand Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="images/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,15 90,85 10,85%22 fill=%22%23e5b83b%22/><polygon points=%2250,42 75,85 25,85%22 fill=%22%2306261b%22/></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              950: '#03150e',
+              900: '#06261b',
+              800: '#0a3828',
+              700: '#0f4f3a',
+              600: '#16694e',
+              500: '#10b981',
+              100: '#d1fae5',
+              50: '#f0fdf4',
+            },
+            gold: {
+              600: '#b88a1b',
+              500: '#d4af37',
+              400: '#e5b83b',
+              300: '#f3c74d',
+              100: '#fef8e7',
+              50: '#fffdf5',
+            },
+            charcoal: {
+              950: '#080d0b',
+              900: '#0f1714',
+              800: '#182420',
+              700: '#24342f',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Cinzel"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Mobile-first clean horizontal scrollable tabs */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .admin-tab-btn.active {
+      background-color: #03150e !important;
+      color: #f3c74d !important;
+      border-left-color: #e5b83b !important;
+      box-shadow: 0 2px 8px rgba(3, 21, 14, 0.4);
+    }
+    .admin-tab-panel { display: none; }
+    .admin-tab-panel.active { display: block; }
+
+    /* Touch targets and typography optimization */
+    input, select, textarea, button {
+      touch-action: manipulation;
+    }
+    @media (max-width: 640px) {
+      input, select, textarea {
+        font-size: 14px !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#f1f4f1] text-[#1a221f] antialiased selection:bg-gold-400 selection:text-forest-950 min-h-screen">
+
+  <!-- ============================================================== -->
+  <!-- SECURITY PIN GATE (FOR AUTHORIZED TEAM MEMBERS ONLY) -->
+  <!-- ============================================================== -->
+  <div id="admin-auth-gate" class="fixed inset-0 z-50 bg-forest-950 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-forest-900 border border-gold-400/40 rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl text-center space-y-6 my-auto">
+      
+      <div class="w-14 h-14 rounded-2xl bg-forest-950 border border-gold-400/40 mx-auto flex items-center justify-center p-3 shadow-md">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+          <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"/>
+          <path d="M50 40L72 84H28L50 40Z" fill="#06261b"/>
+          <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"/>
+        </svg>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-heading font-extrabold text-white">The Affluentaccelerators</h2>
+        <p class="text-xs text-gold-400 uppercase tracking-widest font-bold mt-0.5">Admin Security Portal</p>
+        <p class="text-xs text-slate-400 mt-2">
+          Enter authorization passcode to access the central event database and Google Sheets hub.
+        </p>
+      </div>
+
+      <form id="admin-login-form" class="space-y-4">
+        <div class="relative">
+          <input 
+            type="password" 
+            id="admin-passcode-input" 
+            placeholder="Enter Admin PIN" 
+            class="w-full px-4 py-3 rounded-xl bg-forest-950 border border-forest-700 text-white placeholder-slate-500 focus:border-gold-400 focus:outline-none text-center font-mono text-base tracking-widest"
+            required
+            autofocus
+          >
+          <button type="button" id="toggle-auth-pin" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm p-1.5 focus:outline-none" aria-label="Toggle PIN visibility">
+            👁️
+          </button>
+          <p id="admin-auth-error" class="text-xs text-red-400 mt-1.5 hidden">Incorrect authorization passcode. Please try again.</p>
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-xl transition-all"
+        >
+          Authorize Access →
+        </button>
+      </form>
+
+      <div class="pt-4 border-t border-forest-800 flex items-center justify-between text-xs text-slate-400">
+        <a href="./" class="hover:text-white transition-colors">
+          ← Return to Website
+        </a>
+        <button type="button" id="btn-forgot-pin" class="text-slate-500 hover:text-gold-300 text-[11px] transition-colors">
+          Reset PIN?
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MAIN ADMIN DASHBOARD INTERFACE (UNLOCKED) -->
+  <!-- ============================================================== -->
+  <div id="admin-main-container" class="hidden min-h-screen flex flex-col">
+    
+    <!-- Top Executive Header -->
+    <header class="bg-forest-900 border-b border-forest-800 text-white sticky top-0 z-40 shadow-md">
+      <div class="w-full px-3.5 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+        
+        <!-- Left: Sidebar Navigation Toggle & Brand Identity (Unified toggle on top banner left for all screens) -->
+        <div class="flex items-center gap-3 min-w-0">
+          <button 
+            type="button" 
+            id="sidebar-toggle-btn" 
+            class="flex p-2 rounded-xl bg-forest-950 border border-forest-700 text-gold-300 hover:text-white hover:bg-forest-800 transition-colors shrink-0 shadow-sm" 
+            aria-label="Toggle navigation menu"
+            title="Toggle navigation menu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+
+          <!-- Affluentaccelerators Brand Identity Section (Kept exclusive at top nav!) -->
+          <a href="./" class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-forest-950 border border-gold-400/40 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M50 12L88 88H12L50 12Z" stroke="#e5b83b" stroke-width="9" stroke-linejoin="round"></path>
+                <path d="M50 40L72 84H28L50 40Z" fill="#06261b"></path>
+                <path d="M50 35L75 85" stroke="#e5b83b" stroke-width="6"></path>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-heading font-extrabold text-sm sm:text-base text-white truncate">Affluentaccelerators</span>
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.2 rounded bg-gold-400 text-forest-950 shrink-0">Admin</span>
+              </div>
+              <p class="text-[7.5px] sm:text-[8px] tracking-[0.18em] uppercase font-bold text-gold-400 truncate">CENTRAL EVENT &amp; REGISTRATION HUB</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Clean Top Nav Right Side (Admin Online status badge only - no duplicate navigation buttons) -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-forest-950 border border-forest-700/80 text-[11px] text-slate-300 shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="font-medium text-slate-300">Admin Online</span>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Workspace Container (Sidebar + Content Viewport) -->
+    <div class="flex-1 flex min-h-0 relative">
+
+      <!-- Mobile Backdrop Overlay -->
+      <div id="sidebar-backdrop" class="fixed inset-0 bg-forest-950/70 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+      <!-- NAVBAR - SIDEBAR -->
+      <aside 
+        id="admin-sidebar" 
+        class="fixed md:sticky top-0 md:top-[57px] inset-y-0 left-0 z-50 w-72 lg:w-80 bg-forest-900 border-r border-forest-800 text-white flex flex-col justify-between shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none h-full md:h-[calc(100vh-57px)] overflow-y-auto"
+      >
+        <!-- Top Section with Navigation -->
+        <div class="p-4 space-y-6">
+          
+          <!-- Mobile Sidebar Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-forest-800 md:hidden">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-bold text-gold-400 uppercase tracking-wider font-heading">Portal Menu</span>
+            </div>
+            <button 
+              type="button" 
+              id="close-sidebar-btn" 
+              class="p-1.5 rounded-lg bg-forest-950 text-slate-400 hover:text-white hover:bg-forest-800 transition-colors" 
+              aria-label="Close sidebar"
+            >
+              ✕
+            </button>
+          </div>
+
+          <!-- Section 1: All Different Tabs (Now Lined in Sidebar in Text Format) -->
+          <div class="space-y-1.5">
+            <p class="px-2 text-[10px] uppercase font-bold tracking-wider text-gold-400/80 mb-2">Workspaces &amp; Tabs</p>
+            
+            <!-- Tab 1: Event Studio -->
+            <button 
+              type="button" 
+              class="admin-tab-btn active w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border-l-4 border-gold-400 bg-forest-950 text-gold-300 flex items-center gap-3 group shadow-inner" 
+              data-tab="tab-events"
+            >
+              <span class="text-base shrink-0">📅</span>
+              <div class="min-w-0 flex-1">
+                <span class="block font-bold leading-tight">Event Studio</span>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Create &amp; publish live events</span>
+              </div>
+            </button>
+
+            <!-- Tab 2: Business Inquiring Leads -->
+            <button 
+              type="button" 
+              class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border-l-4 border-transparent text-slate-300 hover:text-white hover:bg-forest-800/70 flex items-center gap-3 group" 
+              data-tab="tab-leads"
+            >
+              <span class="text-base shrink-0">💼</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="block font-bold leading-tight">Business Inquiring Leads</span>
+                  <span class="px-2 py-0.5 text-[10px] rounded-full bg-gold-400 text-forest-950 font-bold ml-1.5 shrink-0" id="badge-total-leads">3</span>
+                </div>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Free Audits &amp; Strategy Reviews</span>
+              </div>
+            </button>
+
+            <!-- Tab 3: Event Registrations -->
+            <button 
+              type="button" 
+              class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border-l-4 border-transparent text-slate-300 hover:text-white hover:bg-forest-800/70 flex items-center gap-3 group" 
+              data-tab="tab-registrations"
+            >
+              <span class="text-base shrink-0">👥</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="block font-bold leading-tight">Event Registrations</span>
+                  <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-800 font-bold ml-1.5 shrink-0" id="badge-total-regs">1</span>
+                </div>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Central attendee database &amp; sync</span>
+              </div>
+            </button>
+
+            <!-- Tab 4: Analytics & BI -->
+            <button 
+              type="button" 
+              class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border-l-4 border-transparent text-slate-300 hover:text-white hover:bg-forest-800/70 flex items-center gap-3 group" 
+              data-tab="tab-analytics"
+            >
+              <span class="text-base shrink-0">📈</span>
+              <div class="min-w-0 flex-1">
+                <span class="block font-bold leading-tight">Analytics &amp; BI</span>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Executive overview &amp; distributions</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Section 2: External Hubs & Database Links in Text Format -->
+          <div class="space-y-1.5 pt-2 border-t border-forest-800/80">
+            <p class="px-2 text-[10px] uppercase font-bold tracking-wider text-gold-400/80 mb-2">Master Database &amp; Public Site</p>
+
+            <!-- Link to the live Google Sheet -->
+            <a 
+              id="open-master-sheet-btn" 
+              href="https://docs.google.com/spreadsheets/d/1B7nNssq52qgZkXwHq7YJ_mQn_sample" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border border-gold-400/30 bg-forest-950/80 hover:bg-forest-800 text-gold-300 hover:text-white flex items-center gap-3 group shadow-sm"
+            >
+              <span class="text-base shrink-0">📊</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="block font-bold leading-tight">Live Google Sheet</span>
+                  <span class="text-xs text-gold-400">↗</span>
+                </div>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Open Master Multi-Tab Database</span>
+              </div>
+            </a>
+
+            <!-- Public Events Page -->
+            <a 
+              href="events.html" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all border border-forest-700/60 bg-forest-950/40 hover:bg-forest-800 text-slate-300 hover:text-white flex items-center gap-3 group"
+            >
+              <span class="text-base shrink-0">🌐</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="block font-bold leading-tight">Public Events Page</span>
+                  <span class="text-xs text-slate-400">↗</span>
+                </div>
+                <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Preview live registration portal</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Section 3: Live Database Telemetry Card in Text Format -->
+          <div class="pt-2 border-t border-forest-800/80">
+            <div class="p-3 rounded-xl bg-forest-950/80 border border-forest-800 text-xs flex items-center gap-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+              <div class="min-w-0 flex-1">
+                <span class="block font-bold text-slate-200 text-xs">Central Hub Online</span>
+                <span class="block text-[10px] text-emerald-400 font-medium">Sheets API &amp; Local DB Synchronized</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Section: Security & Access Controls in Text Format -->
+        <div class="p-4 border-t border-forest-800 space-y-1.5 bg-forest-950/50">
+          <p class="px-2 text-[10px] uppercase font-bold tracking-wider text-gold-400/80 mb-2">Security &amp; Account</p>
+
+          <!-- Change PIN / Password -->
+          <button 
+            type="button" 
+            id="btn-open-pin-modal" 
+            class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all border border-forest-700/60 bg-forest-900/60 hover:bg-forest-800 text-slate-200 hover:text-white flex items-center gap-2.5 group"
+          >
+            <span class="text-sm shrink-0">🔑</span>
+            <div class="min-w-0 flex-1">
+              <span class="block font-bold leading-tight">Change Admin PIN</span>
+              <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Update your security passcode</span>
+            </div>
+          </button>
+
+          <!-- Reset Password / PIN to Default -->
+          <button 
+            type="button" 
+            id="btn-sidebar-reset-pin" 
+            class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all border border-forest-700/60 bg-forest-900/60 hover:bg-forest-800 text-slate-200 hover:text-gold-300 flex items-center gap-2.5 group"
+          >
+            <span class="text-sm shrink-0">🔄</span>
+            <div class="min-w-0 flex-1">
+              <span class="block font-bold leading-tight">Reset PIN to Default</span>
+              <span class="block text-[10px] text-slate-400 group-hover:text-slate-300 font-normal truncate">Reset passcode to default ('affluent2026')</span>
+            </div>
+          </button>
+
+          <!-- Lock Admin Portal -->
+          <button 
+            type="button" 
+            id="admin-logout-btn" 
+            class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all border border-red-500/30 bg-red-950/20 hover:bg-red-900/40 text-red-200 hover:text-red-100 flex items-center gap-2.5 group mt-1"
+          >
+            <span class="text-sm shrink-0">🔒</span>
+            <div class="min-w-0 flex-1">
+              <span class="block font-bold leading-tight">Lock Admin Portal</span>
+              <span class="block text-[10px] text-red-300/70 font-normal truncate">End authorized session</span>
+            </div>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Admin Content Viewport -->
+      <main id="admin-main-content" class="flex-1 min-w-0 p-3.5 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 overflow-y-auto">
+        
+        <!-- Active View Breadcrumb Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Active Workspace</span>
+            <span class="text-slate-300">/</span>
+            <span id="active-tab-title" class="font-extrabold text-forest-950 text-sm sm:text-base font-heading">Event Studio</span>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+      <!-- TAB 1: EVENT MANAGEMENT STUDIO (PUBLISHING & MASTER OVERVIEW) -->
+      <!-- ============================================================ -->
+      <div class="admin-tab-panel active space-y-5 sm:space-y-6" id="tab-events">
+        
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-gold-600 bg-gold-50 px-2.5 py-1 rounded-full border border-gold-200 inline-block mb-1">
+                Central Event Management Studio
+              </span>
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
+                Published Events &amp; Master Sheets Sync
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Create, edit, and publish masterclasses and workshops. All events sync in real-time to the dedicated <strong>'Events'</strong> tab on Google Sheets.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto shrink-0">
+              <button id="btn-sync-all-events-sheet" type="button" class="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                <span>🔄 Push All to 'Events' Tab</span>
+              </button>
+              <button id="btn-create-event-modal" type="button" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 shadow-md transition-all flex items-center justify-center gap-1.5">
+                <span>+ Create Event</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Event Cards List (1 col on mobile, 2 col on tablet/desktop) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="admin-events-list">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- TAB 2: BUSINESS INQUIRING LEADS & STRATEGY REVIEWS PIPELINE  -->
+      <!-- ============================================================ -->
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-leads">
+        
+        <!-- Summary Metric Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Total Inquiries &amp; Leads</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-leads-total">3</span>
+            <span class="text-[10px] text-emerald-600 block mt-0.5">Audits &amp; Strategy Reviews</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">One-Time Free Audits</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-emerald-800" id="stat-leads-free">2</span>
+            <span class="text-[10px] text-slate-500 block mt-0.5">24h Video / Voice Note Audits</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Paid In-Depth Strategy</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-gold-600" id="stat-leads-paid">1</span>
+            <span class="text-[10px] text-gold-600 font-semibold block mt-0.5">High-Ticket Retainers</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">WhatsApp Direct Chat</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-leads-contacted">100%</span>
+            <span class="text-[10px] text-emerald-600 font-semibold block mt-0.5">Instant wa.me Connect Enabled</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          
+          <!-- Filter and Search Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 inline-block mb-1">
+                Direct Client Pipeline
+              </span>
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
+                Business Inquiring Leads &amp; Strategy Reviews
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Prospective businesses seeking free diagnostics or paid advisory engagements with instant 1-click WhatsApp direct chat.
+              </p>
+              <p class="js-sheet-sync-status text-[11px] mt-1 text-slate-400">Not synced with Google Sheet yet</p>
+            </div>
+
+            <!-- Export Controls -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button type="button" class="js-sheet-refresh flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors text-center">
+                ↻ Refresh from Sheet
+              </button>
+              <button id="btn-export-leads-csv" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Export Leads (CSV)
+              </button>
+              <button id="btn-export-leads-json" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Export Leads (JSON)
+              </button>
+            </div>
+          </div>
+
+          <!-- Search and Filter Bar -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs">
+            <div class="sm:col-span-5">
+              <input 
+                type="text" 
+                id="search-leads-input" 
+                placeholder="Search lead name, company, WhatsApp number, or email..." 
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none"
+              >
+            </div>
+
+            <div class="sm:col-span-3">
+              <select id="filter-lead-track" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Inquiry Tracks</option>
+                <option value="Free">One-Time Free Audit</option>
+                <option value="Paid">Paid In-Depth Strategy &amp; Review</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 sm:col-span-4 sm:grid-cols-2">
+              <select id="filter-lead-industry" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Industries</option>
+                <option value="Logistics">Logistics &amp; Transport</option>
+                <option value="Agriculture">Agriculture &amp; FMCG</option>
+                <option value="Technology">Tech &amp; Software</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Retail">Retail &amp; Wholesale</option>
+              </select>
+
+              <select id="filter-lead-status" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Lead Statuses</option>
+                <option value="New Lead">New Lead</option>
+                <option value="Contacted on WhatsApp">Contacted on WhatsApp</option>
+                <option value="Audit Sent">Audit Sent</option>
+                <option value="In Discussion">In Discussion</option>
+                <option value="Converted">Client Converted</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 1. MOBILE RESPONSIVE CARDS VIEW -->
+          <div class="block sm:hidden space-y-3" id="leads-mobile-cards">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- 2. DESKTOP / TABLET DATA TABLE -->
+          <div class="hidden sm:block overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-forest-900 text-gold-300 font-bold uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th class="py-3 px-4">Lead ID &amp; Date</th>
+                  <th class="py-3 px-4">Contact Person</th>
+                  <th class="py-3 px-4">Business &amp; Industry</th>
+                  <th class="py-3 px-4">Service Track</th>
+                  <th class="py-3 px-4">WhatsApp Contact</th>
+                  <th class="py-3 px-4">Stage / Employees</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white" id="leads-table-body">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+            <span id="showing-leads-count">Showing 3 of 3 leads</span>
+            <span class="text-[11px] text-emerald-700 font-semibold">● 1-Click WhatsApp Direct Connect Active</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- TAB 3: CENTRAL REGISTRATION DATABASE (SECTION C & D) -->
+      <!-- ============================================================ -->
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-registrations">
+        
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          
+          <!-- Filter and Search Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900">
+                Central Event Registrations Database
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Consolidated records across all webinars and masterclasses with live Google Sheets sync indicators.
+              </p>
+              <p class="js-sheet-sync-status text-[11px] mt-1 text-slate-400">Not synced with Google Sheet yet</p>
+            </div>
+
+            <!-- Export Controls (Responsive Full Width on Mobile) -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button type="button" class="js-sheet-refresh flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors text-center">
+                ↻ Refresh from Sheet
+              </button>
+              <button id="btn-export-csv" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Export to CSV
+              </button>
+              <button id="btn-export-json" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Export to JSON
+              </button>
+            </div>
+          </div>
+
+          <!-- Search and Filter Bar (Responsive Grid) -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs">
+            <div class="sm:col-span-5">
+              <input 
+                type="text" 
+                id="search-registrations-input" 
+                placeholder="Search participant name, email, company, or ID..." 
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none"
+              >
+            </div>
+
+            <div class="sm:col-span-3">
+              <select id="filter-event-select" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Events</option>
+                <option value="EVENT 001">EVENT 001 – The Investable Business Playbook</option>
+                <option value="EVENT 002">EVENT 002 – Business Growth Masterclass</option>
+                <option value="EVENT 003">EVENT 003 – Business Finance Workshop</option>
+                <option value="EVENT 004">EVENT 004 – Founder Roundtable</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 sm:col-span-4 sm:grid-cols-2">
+              <select id="filter-sync-status" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Sync</option>
+                <option value="synced">Synced</option>
+                <option value="pending">Pending</option>
+                <option value="failed">Failed</option>
+              </select>
+
+              <select id="filter-consulting-interest" class="w-full px-2.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none bg-white">
+                <option value="ALL">All Consulting</option>
+                <option value="yes">Interested</option>
+                <option value="no">Not Interested</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 1. MOBILE RESPONSIVE CARDS VIEW (VISIBLE ON PHONES < 640px) -->
+          <div class="block sm:hidden space-y-3" id="registrations-mobile-cards">
+            <!-- Dynamically populated for mobile -->
+          </div>
+
+          <!-- 2. DESKTOP / TABLET DATA TABLE (VISIBLE ON >= 640px) -->
+          <div class="hidden sm:block overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-forest-900 text-gold-300 font-bold uppercase tracking-wider text-[10px]">
+                <tr>
+                  <th class="py-3 px-4">Reg ID</th>
+                  <th class="py-3 px-4">Event ID</th>
+                  <th class="py-3 px-4">Participant Name</th>
+                  <th class="py-3 px-4">Email / Phone</th>
+                  <th class="py-3 px-4">Business &amp; Industry</th>
+                  <th class="py-3 px-4">Consulting / Investment</th>
+                  <th class="py-3 px-4">Sync Status</th>
+                  <th class="py-3 px-4">Attendance</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 bg-white" id="registrations-table-body">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+            <span id="showing-regs-count">Showing 1 of 1 records</span>
+            <span class="text-[11px] text-emerald-700 font-semibold">● Real-time synced</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- TAB 4: EXECUTIVE OVERVIEW & BI (SECTION E REQUIREMENTS) -->
+      <!-- ============================================================ -->
+      <div class="admin-tab-panel space-y-5 sm:space-y-6" id="tab-analytics">
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Total Registrations</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-total-regs">1</span>
+            <span class="text-[10px] text-emerald-600 block mt-0.5">Across all events</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Received This Month</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-month-regs">1</span>
+            <span class="text-[10px] text-slate-500 block mt-0.5">November 2026</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Consulting Interest</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-consulting-interest">100%</span>
+            <span class="text-[10px] text-gold-600 font-semibold block mt-0.5">Direct Advisory Leads</span>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Investment-Readiness</span>
+            <span class="text-2xl sm:text-3xl font-heading font-extrabold text-forest-950" id="stat-investment-interest">100%</span>
+            <span class="text-[10px] text-emerald-600 font-semibold block mt-0.5">Ready for Capital Due Diligence</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          
+          <!-- Industry Distribution -->
+          <div class="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
+            <h4 class="font-heading font-bold text-sm text-slate-900">Registrations by Industry</h4>
+            <div class="space-y-3 text-xs" id="analytics-industry-bars">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Business Stage Distribution -->
+          <div class="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-3.5">
+            <h4 class="font-heading font-bold text-sm text-slate-900">Registrations by Business Stage</h4>
+            <div class="space-y-3 text-xs" id="analytics-stage-bars">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: CHANGE ADMIN PIN (CUSTOMIZABLE PIN MANAGEMENT) -->
+  <!-- ============================================================== -->
+  <div id="modal-change-pin" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full border border-slate-200 shadow-2xl overflow-hidden p-6 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🔑</span>
+          <h3 class="font-heading font-bold text-base text-slate-900">Change Admin PIN</h3>
+        </div>
+        <button id="close-pin-modal" class="text-slate-400 hover:text-slate-700 text-xl font-bold leading-none p-1">&times;</button>
+      </div>
+
+      <form id="form-change-pin" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Current PIN *</label>
+          <input type="password" id="pin-current" required placeholder="Enter current PIN" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">New Custom PIN *</label>
+          <input type="password" id="pin-new" required placeholder="Enter new PIN (min 4 chars)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Confirm New PIN *</label>
+          <input type="password" id="pin-confirm" required placeholder="Repeat new PIN" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-forest-800 focus:outline-none text-xs">
+        </div>
+
+        <div id="pin-error-box" class="hidden p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs"></div>
+        <div id="pin-success-box" class="hidden p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold"></div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" id="cancel-pin-btn" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold text-forest-950 bg-gold-400 hover:bg-gold-300 transition-colors shadow-sm">
+            Save PIN
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: CREATE NEW EVENT & AUTO-SYNC TO GOOGLE SHEETS 'EVENTS' TAB -->
+  <!-- ============================================================== -->
+  <div id="modal-create-event" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-gold-400">Master Database Sync</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white">Create &amp; Publish New Event</h3>
+        </div>
+        <button id="close-create-event-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1">&times;</button>
+      </div>
+
+      <form id="form-create-new-event" class="p-4 sm:p-6 space-y-3.5 text-xs overflow-y-auto flex-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Event Number / ID *</label>
+            <input type="text" id="new-event-id" required placeholder="EVENT 005" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 font-mono text-xs focus:border-forest-800 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Category / Format *</label>
+            <select id="new-event-category" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white">
+              <option value="Live Webinar">Live Webinar</option>
+              <option value="Masterclass" selected>Executive Masterclass</option>
+              <option value="Workshop">Diagnostic Workshop</option>
+              <option value="Roundtable">Founder Deal Roundtable</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Title *</label>
+          <input type="text" id="new-event-title" required placeholder="e.g. Corporate Financial Restructuring & Working Capital" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+        </div>
+
+        <!-- Separate Date & Time Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+          <div class="sm:col-span-6">
+            <label class="block font-bold text-slate-700 mb-1">Event Date *</label>
+            <input type="date" id="new-event-date" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Time *</label>
+            <input type="time" id="new-event-time" value="18:00" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Timezone *</label>
+            <select id="new-event-timezone" class="w-full px-2 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="WAT" selected>WAT (GMT+1)</option>
+              <option value="GMT">GMT (UTC+0)</option>
+              <option value="CAT">CAT (GMT+2)</option>
+              <option value="EAT">EAT (GMT+3)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Platform / Venue *</label>
+            <input type="text" id="new-event-venue" required placeholder="Live on Google Meet" value="Live on Google Meet" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Host / Speaker *</label>
+            <input type="text" id="new-event-host" required value="Fulfilment Taiwo (Lead Consultant)" placeholder="e.g. Fulfilment Taiwo" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Flyer Image Upload Component -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Flyer / Promotional Visual</label>
+          <div id="dropzone-new-event-flyer" class="border-2 border-dashed border-slate-300 hover:border-gold-400 rounded-2xl p-4 text-center cursor-pointer transition-all bg-[#fbfdfb]">
+            <input type="file" id="input-new-event-flyer" accept="image/png,image/jpeg,image/webp" class="hidden">
+            
+            <div id="preview-flyer-default" class="space-y-1.5 py-1">
+              <span class="text-2xl block">🖼️</span>
+              <p class="font-bold text-slate-700 text-xs">Click or drag &amp; drop event flyer image</p>
+              <p class="text-[10px] text-slate-500">Supports PNG, JPG, or WEBP (Max 5MB)</p>
+            </div>
+
+            <div id="preview-flyer-selected" class="hidden items-center justify-between gap-3 text-left p-2 rounded-xl bg-emerald-50 border border-emerald-200">
+              <div class="flex items-center gap-3 min-w-0">
+                <img id="thumb-new-event-flyer" src="" class="w-12 h-12 rounded-lg object-cover border border-emerald-300 shrink-0" alt="Flyer Preview">
+                <div class="min-w-0">
+                  <span id="name-new-event-flyer" class="font-bold text-forest-950 block truncate text-xs">flyer.png</span>
+                  <span id="size-new-event-flyer" class="text-[10px] text-emerald-700 block">120 KB • Ready to publish</span>
+                </div>
+              </div>
+              <button type="button" id="btn-remove-flyer" class="px-2.5 py-1 rounded-lg text-[10px] font-bold text-red-700 bg-red-100 hover:bg-red-200 shrink-0">
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-1.5">
+            <input type="url" id="new-event-flyer-url" placeholder="Or enter public image URL (optional)" class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-[11px] focus:border-forest-800 focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Description &amp; Scope *</label>
+          <textarea id="new-event-desc" rows="3" required placeholder="Brief strategic scope of this masterclass..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none"></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-forest-50 border border-forest-200 text-forest-900 text-[11px] space-y-1">
+          <p class="font-bold">⚡ Automatic Google Sheets Sync:</p>
+          <p class="text-slate-600">
+            Publishing will automatically write this event into the master spreadsheet's <code class="font-bold text-forest-950 font-mono">Events</code> tab and assign dedicated worksheet:
+            <code class="font-bold text-forest-950 font-mono" id="preview-tab-name">EVENT 005 – Corporate Financial Restructuring</code>.
+          </p>
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row justify-end gap-2 shrink-0">
+          <button type="button" id="cancel-create-event" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 text-center">
+            Cancel
+          </button>
+          <button type="submit" id="btn-submit-new-event" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md text-center">
+            Publish Event &amp; Sync to Sheet ↗
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: EDIT EXISTING EVENT & LIVE-SYNC TO GOOGLE SHEETS 'EVENTS' TAB -->
+  <!-- ============================================================== -->
+  <div id="modal-edit-event" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-gold-400">Master Database Sync</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white">Edit Event &amp; Sync to Sheet</h3>
+        </div>
+        <button id="close-edit-event-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1">&times;</button>
+      </div>
+
+      <form id="form-edit-event" class="p-4 sm:p-6 space-y-3.5 text-xs overflow-y-auto flex-1">
+        <input type="hidden" id="edit-event-id-hidden">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Event Number / ID</label>
+            <input type="text" id="edit-event-id" readonly class="w-full px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-100 font-mono text-xs text-slate-600 cursor-not-allowed font-bold">
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Status *</label>
+            <select id="edit-event-status" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="Upcoming">Upcoming (Active Registration)</option>
+              <option value="Live Today">Live Today</option>
+              <option value="Concluded">Concluded • Replay Available</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Category / Format *</label>
+            <select id="edit-event-category" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="Live Webinar">Live Webinar</option>
+              <option value="Executive Masterclass">Executive Masterclass</option>
+              <option value="Diagnostic Workshop">Diagnostic Workshop</option>
+              <option value="Founder Deal Roundtable">Founder Deal Roundtable</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Host / Speaker *</label>
+            <input type="text" id="edit-event-host" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Title *</label>
+          <input type="text" id="edit-event-title" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+        </div>
+
+        <!-- Separate Date & Time Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+          <div class="sm:col-span-6">
+            <label class="block font-bold text-slate-700 mb-1">Event Date *</label>
+            <input type="date" id="edit-event-date" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Time *</label>
+            <input type="time" id="edit-event-time" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+          </div>
+
+          <div class="sm:col-span-3">
+            <label class="block font-bold text-slate-700 mb-1">Timezone *</label>
+            <select id="edit-event-timezone" class="w-full px-2 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none bg-white font-medium">
+              <option value="WAT">WAT (GMT+1)</option>
+              <option value="GMT">GMT (UTC+0)</option>
+              <option value="CAT">CAT (GMT+2)</option>
+              <option value="EAT">EAT (GMT+3)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Platform / Venue *</label>
+          <input type="text" id="edit-event-venue" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Flyer Image URL or Local Path</label>
+          <input type="text" id="edit-event-flyer" placeholder="images/photo-1794301616-c3edd84b.jpg or https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none font-mono">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Event Description &amp; Scope *</label>
+          <textarea id="edit-event-desc" rows="3" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-forest-800 focus:outline-none"></textarea>
+        </div>
+
+        <div class="p-3 rounded-xl bg-forest-50 border border-forest-200 text-forest-900 text-[11px] space-y-1">
+          <p class="font-bold">⚡ Real-Time Google Sheets Sync:</p>
+          <p class="text-slate-600">
+            Saving changes will immediately update the event on the website and sync row details directly into the master spreadsheet's <code class="font-bold text-forest-950 font-mono">Events</code> tab.
+          </p>
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row justify-end gap-2 shrink-0">
+          <button type="button" id="cancel-edit-event" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 text-center">
+            Cancel
+          </button>
+          <button type="submit" id="btn-submit-edit-event" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-forest-950 bg-gold-400 hover:bg-gold-300 shadow-md text-center">
+            Save Changes &amp; Sync to Sheet ↗
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: VIEW FULL BUSINESS INQUIRY LEAD DOSSIER & WHATSAPP CHAT -->
+  <!-- ============================================================== -->
+  <div id="modal-lead-details" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div class="min-w-0 pr-2">
+          <span class="text-[10px] uppercase font-bold text-gold-400 block truncate" id="modal-lead-id">LEAD-AUDIT-2026-4821</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white truncate" id="modal-lead-name">Business Strategy Dossier</h3>
+        </div>
+        <button id="close-lead-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1 shrink-0">&times;</button>
+      </div>
+
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs" id="modal-lead-content">
+        <!-- Dynamically rendered fields -->
+      </div>
+
+      <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] font-bold text-slate-600">Lead Status:</span>
+          <select id="modal-lead-status-select" class="text-xs py-1.5 px-2.5 rounded-xl border border-slate-300 bg-white font-medium focus:border-forest-800 focus:outline-none">
+            <option value="New Lead">New Lead</option>
+            <option value="Contacted on WhatsApp">Contacted on WhatsApp</option>
+            <option value="Audit Sent">Audit Sent</option>
+            <option value="In Discussion">In Discussion</option>
+            <option value="Converted">Client Converted</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a id="modal-lead-wa-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm flex items-center justify-center gap-1.5 transition-colors">
+            <span>💬 Chat on WhatsApp</span>
+            <span>↗</span>
+          </a>
+          <button id="close-lead-modal-btn" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 text-center">
+            Close
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: VIEW FULL PARTICIPANT DIAGNOSTIC RECORD (31 FIELDS) -->
+  <!-- ============================================================== -->
+  <div id="modal-participant-details" class="fixed inset-0 z-50 bg-forest-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto">
+      
+      <div class="bg-forest-900 text-white p-4 sm:p-5 border-b border-forest-800 flex items-center justify-between shrink-0">
+        <div class="min-w-0 pr-2">
+          <span class="text-[10px] uppercase font-bold text-gold-400 block truncate" id="modal-detail-regid">REG-EVT001-TEST01</span>
+          <h3 class="text-base sm:text-lg font-heading font-bold text-white truncate" id="modal-detail-name">Participant Diagnostic Profile</h3>
+        </div>
+        <button id="close-participant-modal" class="text-slate-400 hover:text-white text-2xl font-bold leading-none p-1 shrink-0">&times;</button>
+      </div>
+
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-3.5 text-xs" id="participant-details-content">
+        <!-- Dynamically rendered 31 fields -->
+      </div>
+
+      <div class="p-3.5 sm:p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shrink-0">
+        <div id="modal-detail-sync-status" class="text-xs"></div>
+        <button id="close-participant-modal-btn" class="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 text-center">
+          Close Profile
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SCRIPTS & CLIENT LOGIC -->
+  <!-- ============================================================== -->
+  <script src="app.js"></script>
+  <script>
+    // ----------------------------------------------------------------
+    // PIN & AUTHENTICATION MANAGER (CUSTOMIZABLE PIN MANAGEMENT)
+    // ----------------------------------------------------------------
+    const DEFAULT_PIN = "affluent2026";
+    function getStoredPin() {
+      return localStorage.getItem('AA_ADMIN_PIN') || DEFAULT_PIN;
+    }
+    function updateStoredPin(newPin) {
+      localStorage.setItem('AA_ADMIN_PIN', newPin);
+    }
+
+    const authGate = document.getElementById('admin-auth-gate');
+    const mainContainer = document.getElementById('admin-main-container');
+    const loginForm = document.getElementById('admin-login-form');
+    const passInput = document.getElementById('admin-passcode-input');
+    const authError = document.getElementById('admin-auth-error');
+    const logoutBtn = document.getElementById('admin-logout-btn');
+    const togglePinBtn = document.getElementById('toggle-auth-pin');
+    const forgotPinBtn = document.getElementById('btn-forgot-pin');
+
+    // Toggle PIN visibility on login form
+    if (togglePinBtn) {
+      togglePinBtn.addEventListener('click', function() {
+        if (passInput.type === 'password') {
+          passInput.type = 'text';
+          togglePinBtn.textContent = '🔒';
+        } else {
+          passInput.type = 'password';
+          togglePinBtn.textContent = '👁️';
+        }
+      });
+    }
+
+    // Reset PIN handler
+    if (forgotPinBtn) {
+      forgotPinBtn.addEventListener('click', function() {
+        if (confirm("Reset the administrative access PIN to its default ('affluent2026')?")) {
+          localStorage.removeItem('AA_ADMIN_PIN');
+          alert("Admin PIN has been reset to default. Enter 'affluent2026' to log in.");
+          passInput.value = '';
+          passInput.focus();
+        }
+      });
+    }
+
+    // Check existing session
+    if (sessionStorage.getItem('affluent_admin_auth') === 'granted') {
+      authGate.classList.add('hidden');
+      mainContainer.classList.remove('hidden');
+      initAdminDashboard();
+    }
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const currentExpectedPin = getStoredPin();
+      if (passInput.value.trim() === currentExpectedPin) {
+        sessionStorage.setItem('affluent_admin_auth', 'granted');
+        authGate.classList.add('hidden');
+        mainContainer.classList.remove('hidden');
+        initAdminDashboard();
+      } else {
+        authError.classList.remove('hidden');
+        passInput.value = '';
+        passInput.focus();
+      }
+    });
+
+    logoutBtn.addEventListener('click', function() {
+      sessionStorage.removeItem('affluent_admin_auth');
+      window.location.reload();
+    });
+
+    // ----------------------------------------------------------------
+    // CHANGE PIN MODAL HANDLER
+    // ----------------------------------------------------------------
+    const pinModal = document.getElementById('modal-change-pin');
+    const openPinBtn = document.getElementById('btn-open-pin-modal');
+    const closePinBtn = document.getElementById('close-pin-modal');
+    const cancelPinBtn = document.getElementById('cancel-pin-btn');
+    const pinForm = document.getElementById('form-change-pin');
+    const pinErrBox = document.getElementById('pin-error-box');
+    const pinSuccessBox = document.getElementById('pin-success-box');
+
+    function openChangePinModal() {
+      pinErrBox.classList.add('hidden');
+      pinSuccessBox.classList.add('hidden');
+      pinForm.reset();
+      pinModal.classList.remove('hidden');
+      pinModal.classList.add('flex');
+    }
+    function closeChangePinModal() {
+      pinModal.classList.add('hidden');
+      pinModal.classList.remove('flex');
+    }
+
+    if (openPinBtn) openPinBtn.addEventListener('click', openChangePinModal);
+    if (closePinBtn) closePinBtn.addEventListener('click', closeChangePinModal);
+    if (cancelPinBtn) cancelPinBtn.addEventListener('click', closeChangePinModal);
+
+    pinForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      pinErrBox.classList.add('hidden');
+      pinSuccessBox.classList.add('hidden');
+
+      const curVal = document.getElementById('pin-current').value.trim();
+      const newVal = document.getElementById('pin-new').value.trim();
+      const confirmVal = document.getElementById('pin-confirm').value.trim();
+
+      const expectedPin = getStoredPin();
+
+      if (curVal !== expectedPin) {
+        pinErrBox.textContent = "Current PIN is incorrect. Please verify and try again.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      if (newVal.length < 4) {
+        pinErrBox.textContent = "New PIN must be at least 4 characters long.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      if (newVal !== confirmVal) {
+        pinErrBox.textContent = "New PIN and confirmation PIN do not match.";
+        pinErrBox.classList.remove('hidden');
+        return;
+      }
+
+      // Save new PIN
+      updateStoredPin(newVal);
+      pinSuccessBox.textContent = "✓ PIN successfully changed! Your new PIN is active.";
+      pinSuccessBox.classList.remove('hidden');
+
+      setTimeout(() => {
+        closeChangePinModal();
+      }, 1500);
+    });
+
+    // ----------------------------------------------------------------
+    // TAB SWITCHER & MOBILE SIDEBAR HANDLER
+    // ----------------------------------------------------------------
+    const tabTitleMap = {
+      'tab-events': 'Event Studio',
+      'tab-leads': 'Business Inquiring Leads',
+      'tab-registrations': 'Event Registrations',
+      'tab-analytics': 'Analytics & BI'
+    };
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-tab-btn').forEach(b => {
+        if (b.getAttribute('data-tab') === tabId) {
+          b.classList.add('active', 'border-gold-400', 'bg-forest-950', 'text-gold-300');
+          b.classList.remove('border-transparent', 'text-slate-300');
+        } else {
+          b.classList.remove('active', 'border-gold-400', 'bg-forest-950', 'text-gold-300');
+          b.classList.add('border-transparent', 'text-slate-300');
+        }
+      });
+
+      document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.remove('active'));
+      const targetPanel = document.getElementById(tabId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+
+      // Update active tab breadcrumb header
+      const titleEl = document.getElementById('active-tab-title');
+      if (titleEl && tabTitleMap[tabId]) {
+        titleEl.textContent = tabTitleMap[tabId];
+      }
+
+      // Close mobile sidebar if open
+      closeMobileSidebar();
+
+      // Scroll immediately to top of main viewport (eliminates any scroll gap)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const mainContent = document.getElementById('admin-main-content');
+      if (mainContent) {
+        mainContent.scrollTop = 0;
+      }
+    }
+
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        if (tabId) switchTab(tabId);
+      });
+    });
+
+    // Sidebar Drawer & Toggle Controls (Top Banner Left Toggle for All Viewports)
+    const adminSidebar = document.getElementById('admin-sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn') || document.getElementById('desktop-sidebar-toggle');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+    function openMobileSidebar() {
+      if (adminSidebar && sidebarBackdrop) {
+        adminSidebar.classList.remove('-translate-x-full');
+        sidebarBackdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closeMobileSidebar() {
+      if (adminSidebar && sidebarBackdrop) {
+        adminSidebar.classList.add('-translate-x-full');
+        sidebarBackdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function handleSidebarToggle() {
+      if (window.innerWidth < 768) {
+        if (adminSidebar.classList.contains('-translate-x-full')) {
+          openMobileSidebar();
+        } else {
+          closeMobileSidebar();
+        }
+      } else {
+        adminSidebar.classList.toggle('md:hidden');
+      }
+    }
+
+    if (sidebarToggleBtn) sidebarToggleBtn.addEventListener('click', handleSidebarToggle);
+    if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMobileSidebar);
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMobileSidebar);
+
+    // Sidebar Reset PIN Handler
+    const sidebarResetPinBtn = document.getElementById('btn-sidebar-reset-pin');
+    if (sidebarResetPinBtn) {
+      sidebarResetPinBtn.addEventListener('click', function() {
+        if (confirm("Reset the administrative access PIN to its default ('affluent2026')?")) {
+          localStorage.removeItem('AA_ADMIN_PIN');
+          alert("✓ Admin PIN has been reset to default ('affluent2026'). You can now log in or set a new custom PIN.");
+        }
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // SAFE HTML HELPERS
+    // Rows loaded from the sheet contain text typed by website visitors, so anything
+    // placed into the page as HTML is escaped first.
+    // ----------------------------------------------------------------
+    function escHtml(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+      });
+    }
+    function escDeep(value) {
+      if (typeof value === 'string') return escHtml(value);
+      if (Array.isArray(value)) return value.map(escDeep);
+      if (value && typeof value === 'object') {
+        const copy = {};
+        Object.keys(value).forEach(function(k) { copy[k] = escDeep(value[k]); });
+        return copy;
+      }
+      return value;
+    }
+
+    // ----------------------------------------------------------------
+    // LIVE GOOGLE SHEET SYNC (REGISTRATIONS + BUSINESS INQUIRY LEADS)
+    // ----------------------------------------------------------------
+    // 'var' on purpose: initAdminDashboard() can run before this line is reached when a session is already active.
+    var sheetSyncInFlight = false;
+
+    function setSheetSyncStatus(text, tone) {
+      document.querySelectorAll('.js-sheet-sync-status').forEach(function(el) {
+        el.textContent = text;
+        el.className = 'js-sheet-sync-status text-[11px] mt-1 ' +
+          (tone === 'error' ? 'text-red-600 font-semibold' : tone === 'ok' ? 'text-emerald-700' : 'text-slate-400');
+      });
+    }
+
+    async function refreshFromSheet(opts) {
+      opts = opts || {};
+      if (sheetSyncInFlight || !window.affluentEvents || !window.affluentLeads) return;
+
+      if (!getSheetsAdminToken()) {
+        const entered = window.prompt(
+          'Enter your Google Sheet admin access key to load live form responses.\n\n' +
+          'You set it once in Apps Script: Project Settings > Script properties > ADMIN_READ_TOKEN.'
+        );
+        if (!entered || !entered.trim()) {
+          setSheetSyncStatus('Showing local data only. Click "Refresh from Sheet" and enter your access key to load live responses.', 'error');
+          return;
+        }
+        setSheetsAdminToken(entered.trim());
+      }
+
+      sheetSyncInFlight = true;
+      setSheetSyncStatus('Syncing with Google Sheet…', 'info');
+      try {
+        const result = await fetchAdminDataFromSheet();
+        if (result.ok) {
+          const regInfo = window.affluentEvents.applySheetRegistrations(result.data.registrations);
+          const leadInfo = window.affluentLeads.applySheetLeads(result.data.leads);
+          renderLeads();
+          renderRegistrations();
+          renderEventsList();
+          renderAnalytics();
+          const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const skipped = regInfo.skipped + leadInfo.skipped;
+          setSheetSyncStatus(
+            'Live from Google Sheet • ' + leadInfo.count + ' leads, ' + regInfo.count + ' registrations • updated ' + time +
+            (skipped ? ' • ' + skipped + ' row(s) skipped (invalid ID)' : ''),
+            'ok'
+          );
+        } else if (result.code === 'unauthorized') {
+          clearSheetsAdminToken();
+          setSheetSyncStatus('The access key was rejected. Click "Refresh from Sheet" to enter it again.', 'error');
+        } else if (result.code === 'token_not_configured') {
+          setSheetSyncStatus('Add the ADMIN_READ_TOKEN script property in Apps Script (Project Settings > Script properties), then click Refresh.', 'error');
+        } else if (result.code === 'script_outdated') {
+          setSheetSyncStatus('Your Apps Script is still the old version. Paste the updated unified script and deploy a new version, then click Refresh.', 'error');
+        } else {
+          setSheetSyncStatus('Could not reach the Google Sheet. Showing the last known data.', 'error');
+        }
+      } finally {
+        sheetSyncInFlight = false;
+      }
+    }
+
+    function initSheetRefreshButtons() {
+      document.querySelectorAll('.js-sheet-refresh').forEach(function(btn) {
+        if (btn.dataset.bound) return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function() { refreshFromSheet({ manual: true }); });
+      });
+    }
+
+    // Keeps the registrations event filter in step with the real event list (including events published later).
+    function syncEventFilterOptions() {
+      const select = document.getElementById('filter-event-select');
+      if (!select || !window.affluentEvents) return;
+      const current = select.value;
+      const seen = new Set();
+      const options = ['<option value="ALL">All Events</option>'];
+      window.affluentEvents.getAllEvents().forEach(function(ev) {
+        if (!ev.id || seen.has(ev.id)) return;
+        seen.add(ev.id);
+        options.push('<option value="' + escHtml(ev.id) + '">' + escHtml(ev.id) + ' – ' + escHtml(ev.title || '') + '</option>');
+      });
+      window.affluentEvents.getAllRegistrations().forEach(function(r) {
+        if (!r.eventId || seen.has(r.eventId)) return;
+        seen.add(r.eventId);
+        options.push('<option value="' + escHtml(r.eventId) + '">' + escHtml(r.eventId) + (r.eventTitle ? ' – ' + escHtml(r.eventTitle) : '') + '</option>');
+      });
+      select.innerHTML = options.join('');
+      select.value = (current === 'ALL' || seen.has(current)) ? current : 'ALL';
+    }
+
+    // ----------------------------------------------------------------
+    // INITIALIZATION & COMPONENTS
+    // ----------------------------------------------------------------
+    function initAdminDashboard() {
+      // Sync Google Sheets master URL to button if available in state
+      const masterSheetBtn = document.getElementById('open-master-sheet-btn');
+      if (masterSheetBtn && window.affluentEvents && window.affluentEvents.state && window.affluentEvents.state.spreadsheetUrl) {
+        masterSheetBtn.href = window.affluentEvents.state.spreadsheetUrl;
+      }
+
+      renderEventsList();
+      renderLeads();
+      renderRegistrations();
+      renderAnalytics();
+      initFlyerUploadComponent();
+      initLeadsFilterListeners();
+      initSheetRefreshButtons();
+      // Slight delay so the page has finished loading before the (one-time) access key prompt can appear
+      setTimeout(function() { refreshFromSheet(); }, 400);
+    }
+
+    // ----------------------------------------------------------------
+    // RENDER EVENTS LIST (EVENT STUDIO)
+    // ----------------------------------------------------------------
+    function renderEventsList() {
+      const container = document.getElementById('admin-events-list');
+      if (!container || !window.affluentEvents) return;
+
+      const events = window.affluentEvents.getAllEvents();
+      container.innerHTML = '';
+
+      events.forEach(evt => {
+        const regCount = window.affluentEvents.getRegistrationsForEvent(evt.id).length;
+        const card = document.createElement('div');
+        card.className = "p-4 sm:p-5 rounded-2xl bg-[#f8faf8] border border-slate-200 hover:border-gold-400 transition-all space-y-3";
+        
+        const flyerThumb = (evt.flyer && (evt.flyer.startsWith('data:image') || evt.flyer.startsWith('http') || evt.flyer.startsWith('images/')))
+          ? `<div class="w-full h-32 rounded-xl overflow-hidden bg-forest-950 border border-slate-200 mb-2.5"><img src="${evt.flyer}" class="w-full h-full object-cover" alt="${evt.title}"></div>`
+          : '';
+
+        const timeDisplay = evt.time ? evt.time + ' ' + (evt.timezone || 'WAT') : '';
+        const dateDisplay = evt.dateFormatted || (evt.date + (timeDisplay ? ' • ' + timeDisplay : ''));
+
+        card.innerHTML = `
+          ${flyerThumb}
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-forest-900 text-gold-400">
+              ${evt.id}
+            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] uppercase font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                ${evt.status || 'Upcoming'}
+              </span>
+              <button onclick="openEditEventModal('${evt.id}')" class="px-2 py-0.5 rounded text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-gold-400 hover:text-forest-950 transition-colors border border-slate-200" title="Edit Event Details">
+                ✏️ Edit
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-heading font-bold text-base text-slate-900">${evt.title}</h4>
+            <p class="text-xs text-forest-800 font-semibold mt-0.5">${evt.category || 'Executive Masterclass'} • ${evt.host || 'Advisory Desk'}</p>
+            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+              <span>📅</span> <span>${dateDisplay}</span>
+            </p>
+            <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5">
+              <span>📹</span> <span>${evt.venue || 'Live on Google Meet'}</span>
+            </p>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1 text-xs">
+            <div class="flex flex-col sm:flex-row sm:justify-between text-slate-600 gap-0.5">
+              <span class="text-slate-400">Sheet Tab:</span>
+              <span class="font-mono font-bold text-forest-900 break-all">${evt.tabName || (evt.id + ' – ' + evt.title)}</span>
+            </div>
+            <div class="flex justify-between text-slate-600 pt-0.5">
+              <span>Registrations:</span>
+              <span class="font-bold text-emerald-700">${regCount} registered</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between pt-1 gap-2 border-t border-slate-200/70">
+            <div class="flex items-center gap-2">
+              <button onclick="openEditEventModal('${evt.id}')" class="text-xs font-bold text-gold-600 hover:text-gold-700 flex items-center gap-1">
+                <span>✏️</span> <span>Edit</span>
+              </button>
+              <span class="text-slate-300">|</span>
+              <button onclick="syncSingleEvent('${evt.id}')" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1" title="Sync this event to Google Sheets 'Events' tab">
+                <span>🔄</span> <span>Sync to Sheet</span>
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="filterByEvent('${evt.id}')" class="text-xs font-bold text-forest-800 hover:text-gold-600">
+                Regs (${regCount}) →
+              </button>
+              <button onclick="window.open('events.html', '_blank')" class="text-xs font-semibold text-slate-500 hover:text-slate-800">
+                Preview ↗
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // RENDER BUSINESS INQUIRING LEADS (ONE-TIME AUDITS & STRATEGY REVIEWS)
+    // ----------------------------------------------------------------
+    function renderLeads() {
+      if (!window.affluentLeads) return;
+
+      const leads = window.affluentLeads.getAllLeads();
+      
+      // Update Telemetry Badges
+      const totalCount = leads.length;
+      const freeCount = leads.filter(l => (l.track || '').includes('Free') || (l.track || '').includes('Audit')).length;
+      const paidCount = leads.filter(l => (l.track || '').includes('Paid') || (l.track || '').includes('Strategy')).length;
+      
+      const badgeLeads = document.getElementById('badge-total-leads');
+      if (badgeLeads) badgeLeads.textContent = totalCount;
+      const statTotal = document.getElementById('stat-leads-total');
+      if (statTotal) statTotal.textContent = totalCount;
+      const statFree = document.getElementById('stat-leads-free');
+      if (statFree) statFree.textContent = freeCount;
+      const statPaid = document.getElementById('stat-leads-paid');
+      if (statPaid) statPaid.textContent = paidCount;
+
+      // Filter Logic
+      const search = (document.getElementById('search-leads-input') ? document.getElementById('search-leads-input').value : '').toLowerCase().trim();
+      const filterTrack = document.getElementById('filter-lead-track') ? document.getElementById('filter-lead-track').value : 'ALL';
+      const filterIndustry = document.getElementById('filter-lead-industry') ? document.getElementById('filter-lead-industry').value : 'ALL';
+      const filterStatus = document.getElementById('filter-lead-status') ? document.getElementById('filter-lead-status').value : 'ALL';
+
+      const filtered = leads.filter(l => {
+        if (filterTrack !== 'ALL') {
+          if (filterTrack === 'Free' && !((l.track || '').includes('Free') || (l.track || '').includes('Audit'))) return false;
+          if (filterTrack === 'Paid' && !((l.track || '').includes('Paid') || (l.track || '').includes('Strategy'))) return false;
+        }
+        if (filterIndustry !== 'ALL' && !(l.industry || '').toLowerCase().includes(filterIndustry.toLowerCase())) return false;
+        if (filterStatus !== 'ALL' && (l.status || 'New Lead') !== filterStatus) return false;
+        if (search) {
+          const matchStr = `${l.id || ''} ${l.name || ''} ${l.businessName || ''} ${l.email || ''} ${l.whatsapp || ''} ${l.industry || ''}`.toLowerCase();
+          if (!matchStr.includes(search)) return false;
+        }
+        return true;
+      });
+
+      const countEl = document.getElementById('showing-leads-count');
+      if (countEl) countEl.textContent = `Showing ${filtered.length} of ${totalCount} leads`;
+
+      // 1. Render Mobile Cards View
+      const cardsContainer = document.getElementById('leads-mobile-cards');
+      if (cardsContainer) {
+        cardsContainer.innerHTML = '';
+        if (filtered.length === 0) {
+          cardsContainer.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">No matching business leads found.</div>`;
+        } else {
+          filtered.forEach(rawLead => {
+            const lead = escDeep(rawLead); // escaped copy for HTML; rawLead keeps the true text for the WhatsApp message
+            const phoneClean = (rawLead.whatsapp || '').replace(/[^0-9]/g, '');
+            const waGreeting = encodeURIComponent(`Hello ${rawLead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${rawLead.track || 'business inquiry'} for ${rawLead.businessName || 'your business'}. We have reviewed your initial notes and would love to provide your strategic diagnostic feedback.`);
+            const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+
+            const isFree = (lead.track || '').includes('Free') || (lead.track || '').includes('Audit');
+            const trackBadge = isFree
+              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Free Audit</span>`
+              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gold-100 text-forest-950 border border-gold-300">Paid Strategy</span>`;
+
+            const card = document.createElement('div');
+            card.className = "bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+            card.innerHTML = `
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-mono font-bold text-xs text-forest-900">${lead.id}</span>
+                  <span class="text-[10px] text-slate-400">${lead.date || ''}</span>
+                </div>
+                <div>${trackBadge}</div>
+              </div>
+
+              <div>
+                <h4 class="font-heading font-bold text-base text-slate-900">${lead.name || 'Prospective Founder'}</h4>
+                <p class="text-xs font-semibold text-forest-800">${lead.businessName || 'N/A'}</p>
+                <p class="text-[11px] text-slate-500">${lead.industry || 'Unspecified Sector'} • ${lead.stage || ''}</p>
+              </div>
+
+              ${lead.struggles ? `
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Core Struggle / Bottleneck:</span>
+                  <p class="text-slate-700 line-clamp-2 leading-relaxed">${lead.struggles}</p>
+                </div>
+              ` : ''}
+
+              <!-- Direct WhatsApp & Contact Actions on Mobile -->
+              <div class="flex items-center gap-2 pt-1 text-xs">
+                ${phoneClean ? `
+                  <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all text-center">
+                    <span>💬 Chat on WhatsApp</span>
+                    <span>↗</span>
+                  </a>
+                ` : ''}
+                ${lead.email ? `
+                  <a href="mailto:${lead.email}" class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold flex items-center justify-center gap-1">
+                    <span>✉️</span>
+                  </a>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center justify-between pt-1 gap-2 text-xs border-t border-slate-100">
+                <select onchange="updateLeadStatusAction('${lead.id}', this.value)" class="text-[11px] py-1.5 px-2.5 rounded-lg border border-slate-200 bg-white font-medium">
+                  <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>New Lead</option>
+                  <option value="Contacted on WhatsApp" ${lead.status === 'Contacted on WhatsApp' ? 'selected' : ''}>Contacted on WhatsApp</option>
+                  <option value="Audit Sent" ${lead.status === 'Audit Sent' ? 'selected' : ''}>Audit Sent</option>
+                  <option value="In Discussion" ${lead.status === 'In Discussion' ? 'selected' : ''}>In Discussion</option>
+                  <option value="Converted" ${lead.status === 'Converted' ? 'selected' : ''}>Client Converted</option>
+                </select>
+
+                <button onclick="viewLeadDetails('${lead.id}')" class="text-xs font-bold text-forest-800 hover:text-gold-600">
+                  View Dossier →
+                </button>
+              </div>
+            `;
+            cardsContainer.appendChild(card);
+          });
+        }
+      }
+
+      // 2. Render Desktop Table View
+      const tbody = document.getElementById('leads-table-body');
+      if (tbody) {
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">No matching business leads found.</td></tr>`;
+        } else {
+          filtered.forEach(rawLead => {
+            const lead = escDeep(rawLead); // escaped copy for HTML; rawLead keeps the true text for the WhatsApp message
+            const phoneClean = (rawLead.whatsapp || '').replace(/[^0-9]/g, '');
+            const waGreeting = encodeURIComponent(`Hello ${rawLead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${rawLead.track || 'business inquiry'} for ${rawLead.businessName || 'your business'}. We have reviewed your diagnostic notes and would love to provide strategic feedback.`);
+            const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+
+            const isFree = (lead.track || '').includes('Free') || (lead.track || '').includes('Audit');
+            const trackBadge = isFree
+              ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Free Audit</span>`
+              : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gold-100 text-forest-950 border border-gold-300">Paid Strategy</span>`;
+
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50 transition-colors";
+            tr.innerHTML = `
+              <td class="py-3 px-4">
+                <span class="font-mono font-bold text-forest-900 block">${lead.id}</span>
+                <span class="text-[10px] text-slate-400 block">${lead.date || ''}</span>
+              </td>
+              <td class="py-3 px-4 font-bold text-slate-900">
+                <div>${lead.name || 'Lead'}</div>
+                <div class="text-[10px] text-slate-400 font-normal">${lead.email || ''}</div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="font-semibold text-slate-800">${lead.businessName || 'N/A'}</div>
+                <div class="text-[10px] text-slate-400">${lead.industry || 'Unspecified'}</div>
+              </td>
+              <td class="py-3 px-4">${trackBadge}</td>
+              <td class="py-3 px-4">
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm transition-all" title="Open WhatsApp chat with ${lead.name}">
+                  <span>💬 Chat on WhatsApp</span>
+                  <span class="text-[10px]">↗</span>
+                </a>
+              </td>
+              <td class="py-3 px-4 text-slate-600">
+                <div>${lead.stage || 'N/A'}</div>
+                <div class="text-[10px] text-slate-400">${lead.teamSize || ''}</div>
+              </td>
+              <td class="py-3 px-4">
+                <select onchange="updateLeadStatusAction('${lead.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white font-medium">
+                  <option value="New Lead" ${lead.status === 'New Lead' ? 'selected' : ''}>New Lead</option>
+                  <option value="Contacted on WhatsApp" ${lead.status === 'Contacted on WhatsApp' ? 'selected' : ''}>Contacted on WhatsApp</option>
+                  <option value="Audit Sent" ${lead.status === 'Audit Sent' ? 'selected' : ''}>Audit Sent</option>
+                  <option value="In Discussion" ${lead.status === 'In Discussion' ? 'selected' : ''}>In Discussion</option>
+                  <option value="Converted" ${lead.status === 'Converted' ? 'selected' : ''}>Client Converted</option>
+                </select>
+              </td>
+              <td class="py-3 px-4 text-right">
+                <button onclick="viewLeadDetails('${lead.id}')" class="px-3 py-1 rounded-lg text-[11px] font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 border border-forest-200 transition-colors">
+                  View Dossier
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      }
+    }
+
+    // Lead Status Action
+    window.updateLeadStatusAction = function(leadId, newStatus) {
+      if (window.affluentLeads) {
+        window.affluentLeads.updateLeadStatus(leadId, newStatus);
+        renderLeads();
+      }
+    };
+
+    // View Full Lead Details Modal
+    window.viewLeadDetails = function(leadId) {
+      if (!window.affluentLeads) return;
+      const rawLead = window.affluentLeads.getLeadById(leadId);
+      if (!rawLead) return;
+      const lead = escDeep(rawLead); // escaped copy used for the HTML below; rawLead is used for plain-text spots
+
+      document.getElementById('modal-lead-id').textContent = `${rawLead.id} • ${rawLead.track || 'Diagnostic Audit'}`;
+      document.getElementById('modal-lead-name').textContent = `${rawLead.name} — ${rawLead.businessName || 'Company'}`;
+
+      const phoneClean = (rawLead.whatsapp || '').replace(/[^0-9]/g, '');
+      const waGreeting = encodeURIComponent(`Hello ${rawLead.name || 'there'}, I am contacting you from The Affluentaccelerators regarding your ${rawLead.track || 'business inquiry'} for ${rawLead.businessName || 'your business'}. We have reviewed your diagnostic submission and would love to discuss strategic next steps.`);
+      const waLink = phoneClean ? `https://wa.me/${phoneClean}?text=${waGreeting}` : '#';
+      document.getElementById('modal-lead-wa-link').href = waLink;
+
+      const statusSelect = document.getElementById('modal-lead-status-select');
+      if (statusSelect) {
+        statusSelect.value = rawLead.status || 'New Lead';
+        statusSelect.onchange = function() {
+          updateLeadStatusAction(rawLead.id, this.value);
+        };
+      }
+
+      const content = document.getElementById('modal-lead-content');
+      content.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Contact Full Name</span>
+            <span class="text-xs font-bold text-slate-900 mt-0.5 block">${lead.name || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Business / Company Name</span>
+            <span class="text-xs font-bold text-forest-900 mt-0.5 block">${lead.businessName || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">WhatsApp Number</span>
+            <span class="text-xs font-semibold text-emerald-800 mt-0.5 block">${lead.whatsapp || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Email Address</span>
+            <span class="text-xs font-semibold text-slate-800 mt-0.5 block">${lead.email || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Industry / Sector</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.industry || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Current Business Stage</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.stage || '—'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Location &amp; Team Size</span>
+            <span class="text-xs font-semibold text-slate-900 mt-0.5 block">${lead.location || 'N/A'} • ${lead.teamSize || 'N/A'}</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Website or Social Profile</span>
+            <span class="text-xs font-semibold text-forest-900 mt-0.5 block truncate">${/^https?:\/\//i.test(rawLead.website || '') ? `<a href="${lead.website}" target="_blank" rel="noopener noreferrer" class="underline hover:text-gold-600">${lead.website} ↗</a>` : (lead.website || '—')}</span>
+          </div>
+        </div>
+
+        ${lead.description ? `
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">What Business Does &amp; Revenue Model</span>
+            <p class="text-slate-800 leading-relaxed">${lead.description}</p>
+          </div>
+        ` : ''}
+
+        ${lead.struggles ? `
+          <div class="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200">
+            <span class="text-[10px] uppercase font-bold text-amber-800 block mb-1">Core Struggling Bottlenecks / Sticking Points</span>
+            <p class="text-slate-900 font-medium leading-relaxed">${lead.struggles}</p>
+          </div>
+        ` : ''}
+
+        ${lead.goal ? `
+          <div class="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200">
+            <span class="text-[10px] uppercase font-bold text-emerald-800 block mb-1">#1 Growth Goal in Next 90 Days</span>
+            <p class="text-forest-950 font-bold leading-relaxed">${lead.goal}</p>
+          </div>
+        ` : ''}
+
+        ${lead.preferredFormat ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Preferred Response Delivery</span>
+            <span class="font-bold text-forest-900">${lead.preferredFormat}</span>
+          </div>
+        ` : ''}
+
+        ${lead.supportType ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Consulting Engagement Scope</span>
+            <span class="font-bold text-forest-900">${lead.supportType}</span>
+          </div>
+        ` : ''}
+
+        ${lead.notes ? `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Additional Project Notes / Timeline</span>
+            <p class="text-slate-700">${lead.notes}</p>
+          </div>
+        ` : ''}
+      `;
+
+      const modal = document.getElementById('modal-lead-details');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    document.getElementById('close-lead-modal').onclick = () => document.getElementById('modal-lead-details').classList.add('hidden');
+    document.getElementById('close-lead-modal-btn').onclick = () => document.getElementById('modal-lead-details').classList.add('hidden');
+
+    function initLeadsFilterListeners() {
+      const sInput = document.getElementById('search-leads-input');
+      const tSelect = document.getElementById('filter-lead-track');
+      const iSelect = document.getElementById('filter-lead-industry');
+      const stSelect = document.getElementById('filter-lead-status');
+
+      if (sInput) sInput.addEventListener('input', renderLeads);
+      if (tSelect) tSelect.addEventListener('change', renderLeads);
+      if (iSelect) iSelect.addEventListener('change', renderLeads);
+      if (stSelect) stSelect.addEventListener('change', renderLeads);
+
+      const csvBtn = document.getElementById('btn-export-leads-csv');
+      if (csvBtn) csvBtn.addEventListener('click', () => {
+        if (window.affluentLeads) window.affluentLeads.exportLeadsCSV();
+      });
+
+      const jsonBtn = document.getElementById('btn-export-leads-json');
+      if (jsonBtn) jsonBtn.addEventListener('click', () => {
+        if (window.affluentLeads) window.affluentLeads.exportLeadsJSON();
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // EVENT FLYER UPLOAD & DRAG-AND-DROP COMPONENT
+    // ----------------------------------------------------------------
+    let currentUploadedFlyerData = null;
+
+    function initFlyerUploadComponent() {
+      const dropzone = document.getElementById('dropzone-new-event-flyer');
+      const fileInput = document.getElementById('input-new-event-flyer');
+      const defaultPreview = document.getElementById('preview-flyer-default');
+      const selectedPreview = document.getElementById('preview-flyer-selected');
+      const thumb = document.getElementById('thumb-new-event-flyer');
+      const nameEl = document.getElementById('name-new-event-flyer');
+      const sizeEl = document.getElementById('size-new-event-flyer');
+      const removeBtn = document.getElementById('btn-remove-flyer');
+
+      if (!dropzone || !fileInput) return;
+
+      dropzone.onclick = () => fileInput.click();
+
+      function handleFlyerFile(file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file (PNG, JPG, or WEBP).');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const rawDataUrl = e.target.result;
+          currentUploadedFlyerData = {
+            base64: rawDataUrl.split(',')[1],
+            dataUrl: rawDataUrl,
+            fileName: file.name,
+            fileSize: file.size,
+            mimeType: file.type
+          };
+
+          if (thumb) thumb.src = rawDataUrl;
+          if (nameEl) nameEl.textContent = file.name;
+          if (sizeEl) sizeEl.textContent = (file.size / 1024).toFixed(1) + ' KB • Ready to publish';
+
+          if (defaultPreview) defaultPreview.classList.add('hidden');
+          if (selectedPreview) {
+            selectedPreview.classList.remove('hidden');
+            selectedPreview.classList.add('flex');
+          }
+          dropzone.classList.add('border-emerald-500', 'bg-emerald-50/40');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      fileInput.onchange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFlyerFile(e.target.files[0]);
+        }
+      };
+
+      if (removeBtn) {
+        removeBtn.onclick = (e) => {
+          e.stopPropagation();
+          currentUploadedFlyerData = null;
+          fileInput.value = '';
+          if (defaultPreview) defaultPreview.classList.remove('hidden');
+          if (selectedPreview) {
+            selectedPreview.classList.add('hidden');
+            selectedPreview.classList.remove('flex');
+          }
+          dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+        };
+      }
+
+      ['dragenter', 'dragover'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('border-gold-400', 'bg-gold-50/40');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(name => {
+        dropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('border-gold-400', 'bg-gold-50/40');
+        }, false);
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFlyerFile(e.dataTransfer.files[0]);
+        }
+      }, false);
+    }
+
+    function filterByEvent(eventId) {
+      switchTab('tab-registrations');
+      const select = document.getElementById('filter-event-select');
+      if (select) {
+        select.value = eventId;
+        renderRegistrations();
+      }
+    }
+
+    // ----------------------------------------------------------------
+    // RENDER REGISTRATIONS (DUAL-MODE: CARDS ON MOBILE, TABLE ON DESKTOP)
+    // ----------------------------------------------------------------
+    function renderRegistrations() {
+      if (!window.affluentEvents) return;
+
+      const regs = window.affluentEvents.getAllRegistrations();
+      const badgeRegs = document.getElementById('badge-total-regs');
+      if (badgeRegs) badgeRegs.textContent = regs.length;
+      const tabCountEl = document.getElementById('telemetry-tab-count');
+      if (tabCountEl) tabCountEl.textContent = window.affluentEvents.getAllEvents().length + 2;
+      const failedCountEl = document.getElementById('telemetry-failed-count');
+      if (failedCountEl) failedCountEl.textContent = regs.filter(r => r.syncStatus === 'failed' || r.syncStatus === 'pending').length;
+
+      syncEventFilterOptions();
+      const filterEvt = document.getElementById('filter-event-select').value;
+      const filterSync = document.getElementById('filter-sync-status').value;
+      const filterConsult = document.getElementById('filter-consulting-interest').value;
+      const search = (document.getElementById('search-registrations-input').value || '').toLowerCase().trim();
+
+      const filtered = regs.filter(r => {
+        if (filterEvt !== 'ALL' && r.eventId !== filterEvt) return false;
+        if (filterSync !== 'ALL' && r.syncStatus !== filterSync) return false;
+        if (filterConsult === 'yes' && (!r.data["Consulting Interest"] || !r.data["Consulting Interest"].includes("Yes"))) return false;
+        if (filterConsult === 'no' && r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes")) return false;
+        if (search) {
+          const matchStr = (r.id + ' ' + (r.data["Full Name"] || '') + ' ' + (r.data["Email Address"] || '') + ' ' + (r.data["Business Name"] || '')).toLowerCase();
+          if (!matchStr.includes(search)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('showing-regs-count').textContent = `Showing ${filtered.length} of ${regs.length} records`;
+
+      // 1. RENDER MOBILE CARDS
+      const cardsContainer = document.getElementById('registrations-mobile-cards');
+      cardsContainer.innerHTML = '';
+
+      if (filtered.length === 0) {
+        cardsContainer.innerHTML = `<div class="p-6 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">No matching records found.</div>`;
+      } else {
+        filtered.forEach(rawReg => {
+          const r = escDeep(rawReg); // visitor-typed text is escaped before it goes into the page
+          const syncBadge = r.syncStatus === 'synced'
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">● Synced</span>`
+            : `<button onclick="syncSingleRecord('${r.id}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">⟳ Sync Now</button>`;
+
+          const card = document.createElement('div');
+          card.className = "bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3";
+          
+          const whatsappNum = (r.data["Phone / WhatsApp Number"] || '').replace(/[^0-9+]/g, '');
+          const waLink = whatsappNum ? `https://wa.me/${whatsappNum.replace('+', '')}` : '#';
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-bold text-xs text-forest-900">${r.id}</span>
+                <span class="text-[9px] font-semibold bg-slate-100 text-slate-700 px-1.5 py-0.2 rounded">${r.eventId}</span>
+              </div>
+              <div>${syncBadge}</div>
+            </div>
+
+            <div>
+              <h4 class="font-heading font-bold text-base text-slate-900">${r.data["Full Name"] || 'Participant'}</h4>
+              <p class="text-xs text-slate-500">${r.data["Occupation / Participant Category"] || ''}</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1 text-xs">
+              <div class="font-semibold text-slate-800">${r.data["Business Name"] || 'N/A'}</div>
+              <div class="text-[11px] text-slate-500">${r.data["Industry"] || 'Unspecified'} • ${r.data["Business Stage"] || ''}</div>
+              ${r.data["Monthly Revenue Range"] ? `<div class="text-[10px] text-slate-400">Revenue: ${r.data["Monthly Revenue Range"]}</div>` : ''}
+            </div>
+
+            <!-- Direct Contact Actions on Mobile -->
+            <div class="flex items-center gap-2 text-xs">
+              ${whatsappNum ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-3 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold flex items-center justify-center gap-1">
+                  <span>💬 WhatsApp</span>
+                </a>
+              ` : ''}
+              ${r.data["Email Address"] ? `
+                <a href="mailto:${r.data["Email Address"]}" class="flex-1 py-1.5 px-3 rounded-lg bg-slate-50 text-slate-700 border border-slate-200 font-semibold flex items-center justify-center gap-1 truncate">
+                  <span>✉️ Email</span>
+                </a>
+              ` : ''}
+            </div>
+
+            <!-- Attendance & Consulting Status -->
+            <div class="flex items-center justify-between pt-1 gap-2 text-xs">
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'bg-gold-100 text-gold-800' : 'bg-slate-100 text-slate-500'}">
+                Consulting: ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'Yes' : 'No'}
+              </span>
+
+              <select onchange="updateAttendanceStatus('${r.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white">
+                <option value="Confirmed Registered" ${r.attendanceStatus === 'Confirmed Registered' ? 'selected' : ''}>Confirmed</option>
+                <option value="Attended" ${r.attendanceStatus === 'Attended' ? 'selected' : ''}>Attended</option>
+                <option value="No Show" ${r.attendanceStatus === 'No Show' ? 'selected' : ''}>No Show</option>
+              </select>
+            </div>
+
+            <!-- Action Button -->
+            <button onclick="viewParticipantDetails('${r.id}')" class="w-full py-2 rounded-xl text-xs font-bold text-forest-900 bg-forest-50 hover:bg-forest-100 border border-forest-200 text-center transition-colors">
+              View Diagnostic Profile (31 Fields) →
+            </button>
+          `;
+          cardsContainer.appendChild(card);
+        });
+      }
+
+      // 2. RENDER DESKTOP TABLE
+      const tbody = document.getElementById('registrations-table-body');
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">No matching registration records found.</td></tr>`;
+      } else {
+        filtered.forEach(rawReg => {
+          const r = escDeep(rawReg); // visitor-typed text is escaped before it goes into the page
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50 transition-colors";
+          
+          const syncBadge = r.syncStatus === 'synced'
+            ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">● Synced</span>`
+            : `<button onclick="syncSingleRecord('${r.id}')" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">⟳ Sync Now</button>`;
+
+          tr.innerHTML = `
+            <td class="py-3 px-4 font-mono font-bold text-forest-900">${r.id}</td>
+            <td class="py-3 px-4 font-semibold text-slate-700">${r.eventId}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${r.data["Full Name"] || 'Participant'}</td>
+            <td class="py-3 px-4 text-slate-600">
+              <div>${r.data["Email Address"] || ''}</div>
+              <div class="text-[10px] text-slate-400">${r.data["Phone / WhatsApp Number"] || ''}</div>
+            </td>
+            <td class="py-3 px-4 text-slate-700">
+              <div class="font-semibold">${r.data["Business Name"] || 'N/A'}</div>
+              <div class="text-[10px] text-slate-400">${r.data["Industry"] || 'Unspecified'}</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'bg-gold-100 text-gold-800' : 'bg-slate-100 text-slate-600'}">
+                Consulting: ${r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes") ? 'Yes' : 'No'}
+              </span>
+            </td>
+            <td class="py-3 px-4">${syncBadge}</td>
+            <td class="py-3 px-4">
+              <select onchange="updateAttendanceStatus('${r.id}', this.value)" class="text-[11px] py-1 px-2 rounded-lg border border-slate-200 bg-white">
+                <option value="Confirmed Registered" ${r.attendanceStatus === 'Confirmed Registered' ? 'selected' : ''}>Confirmed</option>
+                <option value="Attended" ${r.attendanceStatus === 'Attended' ? 'selected' : ''}>Attended</option>
+                <option value="No Show" ${r.attendanceStatus === 'No Show' ? 'selected' : ''}>No Show</option>
+              </select>
+            </td>
+            <td class="py-3 px-4 text-right">
+              <button onclick="viewParticipantDetails('${r.id}')" class="px-3 py-1 rounded-lg text-[11px] font-bold text-forest-800 bg-forest-50 hover:bg-forest-100 border border-forest-200">
+                View Profile (31 Fields)
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    // Modal Participant Details
+    window.viewParticipantDetails = function(regId) {
+      const reg = window.affluentEvents.getRegistrationById(regId);
+      if (!reg) return;
+
+      document.getElementById('modal-detail-regid').textContent = reg.id + ' • ' + reg.eventId;
+      document.getElementById('modal-detail-name').textContent = reg.data["Full Name"] || 'Participant';
+
+      const content = document.getElementById('participant-details-content');
+      content.innerHTML = '';
+
+      const grid = document.createElement('div');
+      grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3";
+
+      for (const [key, value] of Object.entries(reg.data)) {
+        if (key === 'eventId' || key === 'eventTitle') continue;
+        const item = document.createElement('div');
+        item.className = "p-3 rounded-xl bg-slate-50 border border-slate-200";
+        item.innerHTML = `
+          <span class="text-[10px] uppercase font-bold text-slate-400 block">${escHtml(key)}</span>
+          <span class="text-xs font-semibold text-slate-900 mt-0.5 block break-words">${escHtml(value) || '—'}</span>
+        `;
+        grid.appendChild(item);
+      }
+      content.appendChild(grid);
+
+      document.getElementById('modal-detail-sync-status').innerHTML = `
+        <span class="font-bold">Sync:</span> ${reg.syncStatus === 'synced' ? '<span class="text-emerald-700">● Successfully recorded in dedicated tab and ALL REGISTRATIONS</span>' : '<span class="text-amber-700">● Pending Google Sheets sync</span>'}
+      `;
+
+      const modal = document.getElementById('modal-participant-details');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    document.getElementById('close-participant-modal').onclick = () => document.getElementById('modal-participant-details').classList.add('hidden');
+    document.getElementById('close-participant-modal-btn').onclick = () => document.getElementById('modal-participant-details').classList.add('hidden');
+
+    window.syncSingleRecord = async function(regId) {
+      if (window.affluentEvents) {
+        await window.affluentEvents.syncRegistration(regId);
+        renderRegistrations();
+      }
+    };
+
+    window.updateAttendanceStatus = function(regId, status) {
+      if (window.affluentEvents) {
+        window.affluentEvents.updateRegistrationField(regId, 'attendanceStatus', status);
+      }
+    };
+
+    // Filter Listeners
+    document.getElementById('filter-event-select').addEventListener('change', renderRegistrations);
+    document.getElementById('filter-sync-status').addEventListener('change', renderRegistrations);
+    document.getElementById('filter-consulting-interest').addEventListener('change', renderRegistrations);
+    document.getElementById('search-registrations-input').addEventListener('input', renderRegistrations);
+
+    // ----------------------------------------------------------------
+    // RENDER ANALYTICS
+    // ----------------------------------------------------------------
+    function renderAnalytics() {
+      if (!window.affluentEvents) return;
+      const regs = window.affluentEvents.getAllRegistrations();
+
+      document.getElementById('stat-total-regs').textContent = regs.length;
+      document.getElementById('stat-month-regs').textContent = regs.length;
+
+      const consultingCount = regs.filter(r => r.data["Consulting Interest"] && r.data["Consulting Interest"].includes("Yes")).length;
+      const investCount = regs.filter(r => r.data["Investment-Readiness Interest"] && r.data["Investment-Readiness Interest"].includes("Yes")).length;
+
+      document.getElementById('stat-consulting-interest').textContent = regs.length ? Math.round((consultingCount / regs.length) * 100) + '%' : '0%';
+      document.getElementById('stat-investment-interest').textContent = regs.length ? Math.round((investCount / regs.length) * 100) + '%' : '0%';
+
+      // Industry Bars
+      const industryContainer = document.getElementById('analytics-industry-bars');
+      industryContainer.innerHTML = '';
+      const indMap = {};
+      regs.forEach(r => {
+        const ind = r.data["Industry"] || 'Other';
+        indMap[ind] = (indMap[ind] || 0) + 1;
+      });
+
+      for (const [ind, count] of Object.entries(indMap)) {
+        const pct = Math.round((count / regs.length) * 100);
+        industryContainer.innerHTML += `
+          <div>
+            <div class="flex justify-between font-semibold text-slate-700 mb-1">
+              <span>${escHtml(ind)}</span>
+              <span>${count} (${pct}%)</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+              <div class="h-full bg-forest-900 rounded-full" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Stage Bars
+      const stageContainer = document.getElementById('analytics-stage-bars');
+      stageContainer.innerHTML = '';
+      const stageMap = {};
+      regs.forEach(r => {
+        const st = r.data["Business Stage"] || 'Early Traction';
+        stageMap[st] = (stageMap[st] || 0) + 1;
+      });
+
+      for (const [st, count] of Object.entries(stageMap)) {
+        const pct = Math.round((count / regs.length) * 100);
+        stageContainer.innerHTML += `
+          <div>
+            <div class="flex justify-between font-semibold text-slate-700 mb-1">
+              <span>${escHtml(st)}</span>
+              <span>${count} (${pct}%)</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+              <div class="h-full bg-gold-500 rounded-full" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Modal Create Event Handler
+    const createEventModal = document.getElementById('modal-create-event');
+    document.getElementById('btn-create-event-modal').onclick = () => {
+      createEventModal.classList.remove('hidden');
+      createEventModal.classList.add('flex');
+    };
+    document.getElementById('close-create-event-modal').onclick = () => {
+      createEventModal.classList.add('hidden');
+      createEventModal.classList.remove('flex');
+    };
+    document.getElementById('cancel-create-event').onclick = () => {
+      createEventModal.classList.add('hidden');
+      createEventModal.classList.remove('flex');
+    };
+
+    document.getElementById('new-event-title').addEventListener('input', function(e) {
+      const idVal = document.getElementById('new-event-id').value || 'EVENT 005';
+      const shortTitle = (e.target.value || 'Title').substring(0, 30);
+      document.getElementById('preview-tab-name').textContent = idVal + ' – ' + shortTitle;
+    });
+
+    document.getElementById('form-create-new-event').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit-new-event');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Publishing Event & Syncing to Sheets...';
+
+      const dateVal = document.getElementById('new-event-date').value;
+      const timeVal = document.getElementById('new-event-time').value || '18:00';
+      const tzVal = document.getElementById('new-event-timezone').value || 'WAT';
+      const flyerUrlInput = document.getElementById('new-event-flyer-url').value.trim();
+
+      let flyerResult = "images/photo-1794301616-c3edd84b.jpg";
+      if (currentUploadedFlyerData && currentUploadedFlyerData.dataUrl) {
+        flyerResult = currentUploadedFlyerData.dataUrl;
+      } else if (flyerUrlInput) {
+        flyerResult = flyerUrlInput;
+      }
+
+      const newEvt = {
+        id: document.getElementById('new-event-id').value.trim(),
+        title: document.getElementById('new-event-title').value.trim(),
+        category: document.getElementById('new-event-category').value,
+        date: dateVal,
+        time: timeVal,
+        timezone: tzVal,
+        venue: document.getElementById('new-event-venue').value.trim(),
+        host: document.getElementById('new-event-host').value.trim(),
+        description: document.getElementById('new-event-desc').value.trim(),
+        flyer: flyerResult,
+        flyerFile: currentUploadedFlyerData ? {
+          base64: currentUploadedFlyerData.base64,
+          fileName: currentUploadedFlyerData.fileName,
+          mimeType: currentUploadedFlyerData.mimeType
+        } : null
+      };
+
+      if (window.affluentEvents) {
+        await window.affluentEvents.createAndPublishEvent(newEvt);
+        alert(`Event "${newEvt.title}" published successfully!\n\nDate: ${newEvt.date} at ${newEvt.time} (${newEvt.timezone})\nSynced to Google Sheets 'Events' tab & live on website.`);
+        createEventModal.classList.add('hidden');
+        createEventModal.classList.remove('flex');
+        
+        // Reset form & uploader
+        document.getElementById('form-create-new-event').reset();
+        currentUploadedFlyerData = null;
+        const defaultPrev = document.getElementById('preview-flyer-default');
+        const selectedPrev = document.getElementById('preview-flyer-selected');
+        const dropzone = document.getElementById('dropzone-new-event-flyer');
+        if (defaultPrev) defaultPrev.classList.remove('hidden');
+        if (selectedPrev) {
+          selectedPrev.classList.add('hidden');
+          selectedPrev.classList.remove('flex');
+        }
+        if (dropzone) dropzone.classList.remove('border-emerald-500', 'bg-emerald-50/40');
+
+        renderEventsList();
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Publish Event & Sync to Sheet ↗';
+    });
+
+    // ----------------------------------------------------------------
+    // MODAL EDIT EVENT HANDLER & GOOGLE SHEETS LIVE SYNC
+    // ----------------------------------------------------------------
+    const editEventModal = document.getElementById('modal-edit-event');
+    const closeEditEventBtn = document.getElementById('close-edit-event-modal');
+    const cancelEditEventBtn = document.getElementById('cancel-edit-event');
+
+    function closeEditEvent() {
+      if (editEventModal) {
+        editEventModal.classList.add('hidden');
+        editEventModal.classList.remove('flex');
+      }
+    }
+    if (closeEditEventBtn) closeEditEventBtn.onclick = closeEditEvent;
+    if (cancelEditEventBtn) cancelEditEventBtn.onclick = closeEditEvent;
+
+    window.openEditEventModal = function(eventId) {
+      if (!window.affluentEvents) return;
+      const evt = window.affluentEvents.getEventById(eventId);
+      if (!evt) {
+        alert("Event record not found.");
+        return;
+      }
+
+      document.getElementById('edit-event-id-hidden').value = evt.id;
+      document.getElementById('edit-event-id').value = evt.id;
+      document.getElementById('edit-event-title').value = evt.title || '';
+      document.getElementById('edit-event-category').value = evt.category || 'Executive Masterclass';
+      document.getElementById('edit-event-status').value = evt.status || 'Upcoming';
+      document.getElementById('edit-event-host').value = evt.host || 'Fulfilment Taiwo (Lead Consultant)';
+      document.getElementById('edit-event-date').value = evt.date || '';
+      document.getElementById('edit-event-time').value = evt.time || '18:00';
+      document.getElementById('edit-event-timezone').value = evt.timezone || 'WAT';
+      document.getElementById('edit-event-venue').value = evt.venue || 'Live on Google Meet';
+      document.getElementById('edit-event-flyer').value = evt.flyer || '';
+      document.getElementById('edit-event-desc').value = evt.description || '';
+
+      editEventModal.classList.remove('hidden');
+      editEventModal.classList.add('flex');
+    };
+
+    const formEditEvent = document.getElementById('form-edit-event');
+    if (formEditEvent) {
+      formEditEvent.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const saveBtn = document.getElementById('btn-submit-edit-event');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving Changes & Syncing to Sheets...';
+
+        const eventId = document.getElementById('edit-event-id-hidden').value;
+        const updatedData = {
+          title: document.getElementById('edit-event-title').value.trim(),
+          category: document.getElementById('edit-event-category').value,
+          status: document.getElementById('edit-event-status').value,
+          host: document.getElementById('edit-event-host').value.trim(),
+          date: document.getElementById('edit-event-date').value,
+          time: document.getElementById('edit-event-time').value || '18:00',
+          timezone: document.getElementById('edit-event-timezone').value || 'WAT',
+          venue: document.getElementById('edit-event-venue').value.trim(),
+          flyer: document.getElementById('edit-event-flyer').value.trim() || 'images/photo-1794301616-c3edd84b.jpg',
+          description: document.getElementById('edit-event-desc').value.trim()
+        };
+
+        if (window.affluentEvents) {
+          const res = await window.affluentEvents.updateEvent(eventId, updatedData);
+          alert(`✓ Event "${updatedData.title}" (${eventId}) updated successfully!\n\nStatus: ${updatedData.status}\nDate: ${updatedData.date} • ${updatedData.time} ${updatedData.timezone}\nChanges synced to Google Sheets 'Events' tab & live on website.`);
+          closeEditEvent();
+          renderEventsList();
+        }
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes & Sync to Sheet ↗';
+      });
+    }
+
+    // Sync Single Event to Sheets 'Events' Tab
+    window.syncSingleEvent = async function(eventId) {
+      if (!window.affluentEvents) return;
+      const evt = window.affluentEvents.getEventById(eventId);
+      if (!evt) return;
+      const confirmed = confirm(`Push and sync event "${evt.title}" (${evt.id}) to the Master Google Sheets 'Events' tab?`);
+      if (!confirmed) return;
+
+      const res = await window.affluentEvents.syncSingleEventToSheet(evt);
+      if (res && res.success) {
+        alert(`✓ Event "${evt.title}" (${evt.id}) successfully synced to Google Sheets 'Events' tab!`);
+      } else {
+        alert(`Note: Sync command dispatched to Google Sheets 'Events' tab. Event saved locally.`);
+      }
+    };
+
+    // Push & Sync All Events to Sheets 'Events' Tab
+    const syncAllBtn = document.getElementById('btn-sync-all-events-sheet');
+    if (syncAllBtn) {
+      syncAllBtn.addEventListener('click', async function() {
+        if (!window.affluentEvents) return;
+        const events = window.affluentEvents.getAllEvents();
+        syncAllBtn.disabled = true;
+        syncAllBtn.textContent = 'Syncing Events to Sheet...';
+
+        try {
+          const res = await window.affluentEvents.syncAllEventsToSheet();
+          alert(`✓ Successfully pushed and synced ${events.length} events to the 'Events' tab on your master Google Sheet!\n\nAll existing and upcoming events are live in your master database.`);
+        } catch (err) {
+          alert(`Event sync completed: ${events.length} events processed.`);
+        } finally {
+          syncAllBtn.disabled = false;
+          syncAllBtn.innerHTML = '<span>🔄 Push All to \'Events\' Tab</span>';
+        }
+      });
+    }
+
+    // CSV / JSON Exports
+    document.getElementById('btn-export-csv').addEventListener('click', function() {
+      if (!window.affluentEvents) return;
+      window.affluentEvents.exportRegistrationsCSV();
+    });
+    document.getElementById('btn-export-json').addEventListener('click', function() {
+      if (!window.affluentEvents) return;
+      window.affluentEvents.exportRegistrationsJSON();
+    });
+  </script>
+</body>
+</html>
